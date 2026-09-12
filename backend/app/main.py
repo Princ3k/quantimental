@@ -11,6 +11,7 @@ features, and their absence degrades the product rather than breaking it.
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import time
@@ -25,6 +26,7 @@ from app.api.routes import market, news, signals
 from app.core.config import get_settings
 from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
 from app.core.source_health import source_health
+from app.core.warmup import warm
 from app.db.session import check_connection, database_available, dispose_engines
 
 settings = get_settings()
@@ -59,7 +61,14 @@ async def lifespan(app: FastAPI):
 
     logger.info("CORS origins: %s", ", ".join(settings.cors_origins))
 
+    # Fire and forget: the app is already serving by the time this runs, and
+    # awaiting it here would delay the healthcheck Railway uses to route
+    # traffic — turning a slow first request into a failed deploy.
+    warmup_task = asyncio.create_task(warm())
+
     yield
+
+    warmup_task.cancel()
 
     await dispose_engines()
     logger.info("Shutdown complete")

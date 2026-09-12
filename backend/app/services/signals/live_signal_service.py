@@ -46,7 +46,17 @@ _TECHNICAL_ONLY = HybridEngine(technical_weight=1.0, sentiment_weight=0.0)
 # How long a single ticker's sentiment fetch may take before we give up and
 # fall back to technicals. Reddit and news APIs are the slowest dependency and
 # should never hold a request open indefinitely.
-SENTIMENT_TIMEOUT_SECONDS = 20.0
+#
+# Lowered from 20s. Observed full-depth analyses run 1-3 seconds, and the worst
+# realistic path — the Reddit gate's 3-second spacing plus two news fetches —
+# lands under 8. A 20-second ceiling was not protecting anything at that scale;
+# it was the difference between a slow response and an abandoned one, and it is
+# the most likely explanation for the 32-second reading measured just after a
+# deploy, when every connection was cold.
+#
+# Sentiment is optional by design: when it times out the signal is still
+# returned, scored on technicals alone and saying so.
+SENTIMENT_TIMEOUT_SECONDS = 12.0
 
 
 class LiveSignalService:
