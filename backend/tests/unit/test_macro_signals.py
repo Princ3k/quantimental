@@ -157,16 +157,30 @@ class TestSectors:
         assert sectors["leaders"][0]["change_percent"] >= sectors["laggards"][0]["change_percent"]
 
 
+@pytest.fixture
+def no_groq(monkeypatch):
+    """
+    Force the no-API-key path.
+
+    Deleting the environment variable is not enough: the key is read through
+    Settings, which loads it from .env without going near os.environ. The
+    setting itself has to be overridden.
+    """
+    from app.core import config
+
+    patched = config.get_settings().model_copy(update={"GROQ_API_KEY": None})
+    monkeypatch.setattr(config, "get_settings", lambda: patched)
+    return patched
+
+
 class TestNarrative:
-    def test_template_is_used_without_an_api_key(self, service, monkeypatch):
-        monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    def test_template_is_used_without_an_api_key(self, service, no_groq):
         result = NarrativeService().generate(service.get_desk())
 
         assert result["source"] == "template"
         assert len(result["text"]) > 30
 
-    def test_template_never_predicts_or_advises(self, service, monkeypatch):
-        monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    def test_template_never_predicts_or_advises(self, service, no_groq):
         text = NarrativeService().generate(service.get_desk())["text"].lower()
 
         for phrase in ("will ", "expect", "should buy", "should sell", "forecast", "poised"):
