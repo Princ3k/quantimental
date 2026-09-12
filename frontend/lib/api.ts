@@ -26,7 +26,7 @@ import type {
  *
  * An empty value means same-origin, which is left alone.
  */
-function normalizeApiBase(raw: string | undefined): string {
+export function normalizeApiBase(raw: string | undefined): string {
   const value = (raw ?? 'http://localhost:8000').trim().replace(/\/+$/, '')
   if (!value) return ''
   if (/^https?:\/\//i.test(value)) return value

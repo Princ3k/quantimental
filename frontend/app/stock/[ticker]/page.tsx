@@ -4,9 +4,19 @@ import { notFound } from 'next/navigation'
 
 import { SiteHeader } from '@/components/site-header'
 import { StockDetail } from '@/components/stock-detail'
+import { normalizeApiBase } from '@/lib/api'
 import { SITE_URL, getSnapshot, getSnapshotStock } from '@/lib/snapshot'
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000').replace(/\/+$/, '')
+/*
+ * Through the shared normaliser, not a local `.replace(/\/+$/, '')`.
+ *
+ * The deployed value is a bare host with no scheme, which Node's fetch cannot
+ * parse as absolute — it threw TypeError on every render, the check failed
+ * open, and /stock/zzzzzz returned 200 in production while 404ing locally.
+ * lib/api.ts had already solved this for the browser; rolling a second,
+ * weaker version here undid it server-side.
+ */
+const API_BASE = normalizeApiBase(process.env.NEXT_PUBLIC_API_URL)
 
 /**
  * One stock, at its own URL.
