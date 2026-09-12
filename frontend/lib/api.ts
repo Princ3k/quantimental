@@ -15,7 +15,28 @@ import type {
   TickerNewsResponse,
 } from './types'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
+/**
+ * Normalise the configured API base into an absolute origin.
+ *
+ * A host pasted without a scheme ("api.example.com") is a relative path to the
+ * browser, so every request silently resolves against the current origin and
+ * 404s — with nothing in the error to suggest the configuration is at fault.
+ * Deployment dashboards make this easy to do, so it is handled here rather
+ * than left as a trap.
+ *
+ * An empty value means same-origin, which is left alone.
+ */
+function normalizeApiBase(raw: string | undefined): string {
+  const value = (raw ?? 'http://localhost:8000').trim().replace(/\/+$/, '')
+  if (!value) return ''
+  if (/^https?:\/\//i.test(value)) return value
+
+  // Bare localhost stays on http; anything else is assumed to be a real host.
+  const scheme = /^(localhost|127\.0\.0\.1)(:\d+)?$/i.test(value) ? 'http' : 'https'
+  return `${scheme}://${value}`
+}
+
+const API_BASE_URL = normalizeApiBase(process.env.NEXT_PUBLIC_API_URL)
 
 /** How long any single request may take before it is abandoned. */
 const REQUEST_TIMEOUT_MS = 30_000
