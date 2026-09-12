@@ -53,6 +53,10 @@ def main() -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(desk, indent=2) + "\n")
 
+    # Deliberately not next to the published JSON: Railway's root directory is
+    # `backend`, so a file at the repository root is not in the deployed image.
+    _append_history(Path(__file__).resolve().parent.parent / "data" / "signal-desk-history.json", desk)
+
     composite = desk["composite"]
     logger.info(
         "Wrote %s — %s %s/100, %d signals, narrative via %s",
@@ -63,6 +67,50 @@ def main() -> int:
         desk["narrative"]["source"],
     )
     return 0
+
+
+def _append_history(path: Path, desk: dict) -> None:
+    """
+    Append a compact daily record of the composite to a rolling history file.
+
+    Kept as an explicit file rather than reconstructed from git history: the
+    deployed API has no working tree to read, and depending on commit
+    archaeology for product data is fragile in ways that only show up later.
+
+    One record per day — the last write of each day wins, so the file grows by
+    roughly 250 entries a year rather than 17,000.
+    """
+    composite = desk["composite"]
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    record = {
+        "date": today,
+        "score": composite["score"],
+        "label": composite["label"],
+        "tone": composite["tone"],
+    }
+
+    history: list[dict] = []
+    if path.exists():
+        try:
+            history = json.loads(path.read_text())
+            if not isinstance(history, list):
+                history = []
+        except (json.JSONDecodeError, OSError) as exc:
+            # A corrupt history should not block today's publish.
+            logger.warning("Could not read history (%s); starting a new one", exc)
+            history = []
+
+    history = [entry for entry in history if entry.get("date") != today]
+    history.append(record)
+    history.sort(key=lambda e: e["date"])
+
+    # Two years is plenty of context for "the most risk-off week since…" and
+    # keeps the file small enough to ship to a browser.
+    history = history[-730:]
+
+    path.write_text(json.dumps(history, indent=2) + "\n")
+    logger.info("History now holds %d days", len(history))
 
 
 if __name__ == "__main__":

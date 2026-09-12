@@ -17,9 +17,11 @@ already uses — one batched request for the whole universe.
 
 from __future__ import annotations
 
+import json
 import logging
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Literal, Optional
 
 import numpy as np
@@ -142,6 +144,7 @@ class MacroSignalService:
 
         payload = {
             "available": True,
+            "context": self._historical_context(composite["score"]),
             "as_of": datetime.now(timezone.utc).isoformat(),
             "lookback_days": LOOKBACK_DAYS,
             "signals": [asdict(s) for s in signals],
@@ -151,6 +154,59 @@ class MacroSignalService:
         }
         _cache.set("desk", payload)
         return payload
+
+    @staticmethod
+    def _historical_context(score: int) -> Optional[str]:
+        """
+        Where today's reading sits against the recorded history.
+
+        "Risk appetite is 23/100" means little on its own. "The most risk-off
+        reading since March" is the same number with the thing a reader
+        actually wants to know attached to it.
+
+        Returns None when there is too little history to say anything honest.
+        """
+        path = Path(__file__).resolve().parents[3] / "data" / "signal-desk-history.json"
+        try:
+            history = json.loads(path.read_text())
+        except (OSError, json.JSONDecodeError):
+            return None
+
+        if not isinstance(history, list) or len(history) < 14:
+            # Under a fortnight, "the lowest since..." is noise dressed as insight.
+            return None
+
+        past = [e for e in history[:-1] if isinstance(e.get("score"), int)]
+        if not past:
+            return None
+
+        scores = [e["score"] for e in past]
+
+        # A record requires being strictly beyond everything recorded. Tying the
+        # previous low is not a new low, and claiming otherwise would fire every
+        # day during a flat stretch.
+        if score < min(scores):
+            return f"The most risk-off reading in {len(past)} days of records."
+        if score > max(scores):
+            return f"The most risk-on reading in {len(past)} days of records."
+
+        # Otherwise: how unusual is today against everything recorded?
+        rank = sum(1 for s in scores if s < score) / len(scores) * 100
+        if rank <= 10:
+            earlier = [e for e in past if e["score"] < score]
+            if earlier:
+                since = max(earlier, key=lambda e: e["date"])
+                return f"More risk-off than most days on record — the lowest since {since['date']}."
+        if rank >= 90:
+            earlier = [e for e in past if e["score"] > score]
+            if earlier:
+                since = max(earlier, key=lambda e: e["date"])
+                return f"More risk-on than most days on record — the highest since {since['date']}."
+
+        recent = past[-14:]
+        avg = sum(e["score"] for e in recent) / len(recent)
+        direction = "calmer" if score > avg + 5 else "more cautious" if score < avg - 5 else "in line"
+        return f"Roughly {direction} with the last two weeks."
 
     # ------------------------------------------------------------------
     # Data

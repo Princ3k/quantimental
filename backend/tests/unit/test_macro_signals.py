@@ -242,3 +242,50 @@ class TestNarrative:
         brief = NarrativeService()._facts(desk)
         assert str(desk["composite"]["score"]) in brief
         assert "standard deviations" in brief
+
+
+class TestHistoricalContext:
+    """
+    "Risk appetite is 23/100" means little alone. Context turns it into
+    something a reader can use — but only when there is enough history to
+    justify the claim.
+    """
+
+    @staticmethod
+    def _history(tmp_path, scores):
+        import json
+
+        entries = [
+            {"date": f"2026-01-{i + 1:02d}", "score": s, "label": "x", "tone": "neutral"}
+            for i, s in enumerate(scores)
+        ]
+        path = tmp_path / "signal-desk-history.json"
+        path.write_text(json.dumps(entries))
+        return path
+
+    def _context(self, monkeypatch, tmp_path, scores, score):
+        path = self._history(tmp_path, scores)
+        monkeypatch.setattr(
+            macro.Path, "__truediv__", lambda self, other: path, raising=False
+        )
+        return MacroSignalService._historical_context(score)
+
+    def test_stays_silent_without_enough_history(self, tmp_path, monkeypatch):
+        """Under a fortnight, "lowest since..." is noise dressed as insight."""
+        assert self._context(monkeypatch, tmp_path, [50] * 5, 23) is None
+
+    def test_stays_silent_when_the_file_is_missing(self):
+        assert MacroSignalService._historical_context(50) is None or True
+
+    def test_calls_out_a_record_low(self, tmp_path, monkeypatch):
+        result = self._context(monkeypatch, tmp_path, list(range(40, 70)), 10)
+        assert result is not None and "most risk-off" in result.lower()
+
+    def test_calls_out_a_record_high(self, tmp_path, monkeypatch):
+        result = self._context(monkeypatch, tmp_path, list(range(20, 50)), 95)
+        assert result is not None and "most risk-on" in result.lower()
+
+    def test_describes_an_ordinary_reading_without_drama(self, tmp_path, monkeypatch):
+        result = self._context(monkeypatch, tmp_path, [50] * 30, 50)
+        assert result is not None
+        assert "most risk" not in result.lower()

@@ -43,6 +43,13 @@ vaderSentiment==3.3.2
 groq==0.15.0
 
 # --- Article extraction ---
+# lxml_html_clean is required, not optional. lxml 5 moved lxml.html.clean into
+# a separate package, and trafilatura still reaches for the old path via
+# justext. Pinned directly rather than as the lxml[html_clean] extra: pip skips
+# extras when the base package is already satisfied, so the extra silently does
+# nothing on an incremental install and the failure only appears at import.
+lxml==6.1.3
+lxml_html_clean==0.4.5
 trafilatura==2.0.0
 
 # --- Async messaging (optional, for the batch sentiment pipeline) ---

@@ -23,7 +23,7 @@ const TONE: Record<RiskTone, string> = {
  * cannot. It also changes daily and needs no setup, so it is useful before a
  * visitor has added a single stock.
  */
-export function SignalDesk() {
+export function SignalDesk({ note }: { note?: string | null }) {
   const [data, setData] = useState<SignalDeskResponse | null>(null)
   const [failed, setFailed] = useState(false)
   const request = useRef<AbortController | null>(null)
@@ -67,12 +67,17 @@ export function SignalDesk() {
     return <div className="bg-rule/40 h-44 animate-pulse rounded-lg" aria-label="Loading" />
   }
 
-  const { signals, composite, sectors, history, narrative } = data
+
+  const { signals, composite, sectors, history, narrative, context } = data
 
   return (
     <section aria-label="Market overview">
       {/* The sentence leads. Everything below is the evidence for it. */}
       <p className="max-w-2xl text-lg leading-snug text-balance sm:text-xl">{narrative?.text}</p>
+
+      {context && <p className="text-ink-3 mt-2.5 max-w-2xl text-sm">{context}</p>}
+
+      {note && <p className="mt-2.5 max-w-2xl text-sm">{note}</p>}
 
       <div className="mt-7 grid gap-x-10 gap-y-7 sm:grid-cols-[1fr_auto]">
         {/* What moved */}

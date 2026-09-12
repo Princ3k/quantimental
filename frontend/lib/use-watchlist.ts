@@ -9,8 +9,8 @@ const STORAGE_KEY = 'quantimental.watchlist'
 /** Shown to a first-time visitor so the dashboard is never empty. */
 export const DEFAULT_WATCHLIST = ['AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'TSLA']
 
-/** A batch fans out to one upstream call per ticker; the backend caps it at 30. */
-export const MAX_WATCHLIST = 30
+/** Matches the backend's batch cap. One upstream call per ticker, run concurrently. */
+export const MAX_WATCHLIST = 60
 
 /**
  * Parse the stored watchlist, tolerating anything.

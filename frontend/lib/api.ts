@@ -175,6 +175,17 @@ export async function analyzeBatch(
   })
 }
 
+/**
+ * Deep analysis of one stock, including news and social sentiment.
+ *
+ * This is the only path that runs the sentiment pipeline. The dashboard uses
+ * `fast` depth for speed, which means the Psych engine — half the product's
+ * thesis — never runs unless something calls this.
+ */
+export async function analyzeDeep(ticker: string, signal?: AbortSignal): Promise<StockSignal> {
+  return analyzeStock(ticker, signal)
+}
+
 /** Search for tickers. An empty query returns curated suggestions. */
 export async function searchTickers(query: string, signal?: AbortSignal): Promise<SearchResponse> {
   return request<SearchResponse>(

@@ -7,10 +7,12 @@ import { MarketSummary } from '@/components/market-summary'
 import { SignalDesk } from '@/components/signal-desk'
 import { SiteHeader } from '@/components/site-header'
 import { StockCard } from '@/components/stock-card'
+import { WhatChanged } from '@/components/what-changed'
 import { TickerSearch } from '@/components/ticker-search'
-import { analyzeBatch, ApiError } from '@/lib/api'
+import { analyzeBatch, ApiError, getSignalDesk } from '@/lib/api'
+import { personalNote } from '@/lib/personalise'
 import { MAX_WATCHLIST, useWatchlist } from '@/lib/use-watchlist'
-import type { SignalFailure, StockSignal } from '@/lib/types'
+import type { SectorSummary, SignalFailure, StockSignal } from '@/lib/types'
 
 const REFRESH_MS = 120_000
 
@@ -35,6 +37,8 @@ export function Dashboard() {
   // which cascades a render on every mount.
   const current = loaded?.key === key ? loaded : null
   const loading = !error && tickers.length > 0 && current === null
+
+  const [sectors, setSectors] = useState<SectorSummary | undefined>()
 
   const request = useRef<AbortController | null>(null)
 
@@ -63,6 +67,30 @@ export function Dashboard() {
 
   useEffect(() => () => request.current?.abort(), [])
 
+  // Sector leadership, used only to connect the market read to what the user
+  // holds. Failing is fine — the note simply does not render.
+  useEffect(() => {
+    const controller = new AbortController()
+    getSignalDesk(controller.signal)
+      .then((desk) => {
+        if (!controller.signal.aborted && desk.available) setSectors(desk.sectors)
+      })
+      .catch(() => undefined)
+    return () => controller.abort()
+  }, [])
+
+  /** Replace one card's data with a full-depth analysis including sentiment. */
+  const applyDeepDive = useCallback((deep: StockSignal) => {
+    setLoaded((previous) =>
+      previous
+        ? {
+            ...previous,
+            signals: previous.signals.map((s) => (s.ticker === deep.ticker ? deep : s)),
+          }
+        : previous,
+    )
+  }, [])
+
   const refresh = useCallback(async () => {
     setRefreshing(true)
     try {
@@ -90,7 +118,7 @@ export function Dashboard() {
         {/* Market read */}
         <section className="py-12 sm:py-16">
           <h1 className="text-ink-3 eyebrow mb-6">Today</h1>
-          <SignalDesk />
+          <SignalDesk note={personalNote(signals, sectors)} />
         </section>
 
         {/* Watchlist */}
@@ -154,6 +182,8 @@ export function Dashboard() {
             </ul>
           )}
 
+          {current && signals.length > 0 && <WhatChanged signals={signals} />}
+
           {loading ? (
             <div className="grid gap-4 md:grid-cols-2" aria-busy="true">
               {Array.from({ length: 4 }).map((_, i) => (
@@ -163,7 +193,12 @@ export function Dashboard() {
           ) : signals.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2">
               {signals.map((signal) => (
-                <StockCard key={signal.ticker} signal={signal} onRemove={remove} />
+                <StockCard
+                  key={signal.ticker}
+                  signal={signal}
+                  onRemove={remove}
+                  onDeepDive={applyDeepDive}
+                />
               ))}
             </div>
           ) : (

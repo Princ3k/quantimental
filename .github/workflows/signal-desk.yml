@@ -53,13 +53,15 @@ jobs:
       - name: Commit if the reading changed
         working-directory: .
         run: |
-          if git diff --quiet -- public/signal-desk.json; then
+          # The history file accumulates one record per day, so it changes even
+          # when the headline reading does not.
+          if git diff --quiet -- public/signal-desk.json backend/data/signal-desk-history.json; then
             echo "No change in the market reading; nothing to commit."
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/signal-desk.json
+          git add public/signal-desk.json backend/data/signal-desk-history.json
           git commit -m "chore: update signal desk [skip ci]"
           git push

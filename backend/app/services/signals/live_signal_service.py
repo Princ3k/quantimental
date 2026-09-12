@@ -174,6 +174,11 @@ class LiveSignalService:
         if not mentions:
             # Zero mentions means the sources returned nothing, not that the
             # market is neutral. Reporting 50/100 here would be a fabrication.
+            #
+            # Carry the per-source counts through anyway: "no coverage found"
+            # and "every source is misconfigured" look identical from outside,
+            # and only one of them is a product problem.
+            unavailable["sources"] = _source_status(data.get("breakdown", {}))
             return unavailable
 
         return {
@@ -184,6 +189,7 @@ class LiveSignalService:
             "reddit_buzz": data.get("reddit_buzz", 0),
             "twitter_buzz": data.get("twitter_buzz", 0),
             "breakdown": data.get("breakdown", {}),
+            "sources": _source_status(data.get("breakdown", {})),
             "reason": None,
         }
 
@@ -261,6 +267,7 @@ class LiveSignalService:
             },
             "sentiment_analysis": {
                 "available": sentiment["available"],
+                "sources": sentiment.get("sources"),
                 "rating": sentiment["rating"],
                 "mentions": sentiment["mentions"],
                 "mention_velocity": sentiment["mention_velocity"],
@@ -311,6 +318,20 @@ class LiveSignalService:
                 signals.append(result)
 
         return signals, failures
+
+
+def _source_status(breakdown: dict[str, Any]) -> dict[str, int]:
+    """
+    How many items each source actually returned.
+
+    Exposed so a deployment can distinguish "this stock has no coverage" from
+    "Reddit is returning 403 and nobody noticed" — which are indistinguishable
+    from a single zero.
+    """
+    return {
+        source: int((breakdown.get(source) or {}).get("mentions", 0))
+        for source in ("reddit", "news", "twitter")
+    }
 
 
 live_signal_service = LiveSignalService()

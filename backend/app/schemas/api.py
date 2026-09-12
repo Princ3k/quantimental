@@ -16,9 +16,11 @@ from pydantic import BaseModel, Field, field_validator
 # Covers ordinary US symbols plus the dot/hyphen classes (BRK.B, RDS-A).
 TICKER_PATTERN = re.compile(r"^[A-Z][A-Z0-9.\-]{0,9}$")
 
-# A batch request fans out to one Yahoo call per ticker. Capping it keeps a
-# single request from being able to trigger a rate-limit ban for everyone.
-MAX_BATCH_SIZE = 30
+# A batch request fans out to one Yahoo call per ticker, run concurrently and
+# served from a 60s cache. Capping it keeps a single request from being able to
+# trigger a rate-limit ban for everyone; 60 covers a serious watchlist while
+# still completing in a couple of seconds cold.
+MAX_BATCH_SIZE = 60
 
 
 def _normalize_ticker(value: str) -> str:

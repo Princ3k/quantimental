@@ -252,6 +252,8 @@ export interface SignalDeskUnavailable {
 export interface SignalDeskData {
   available: true
   as_of: string
+  /** Where today's reading sits against recorded history, or null if too little. */
+  context?: string | null
   lookback_days: number
   signals: MacroSignal[]
   sectors: SectorSummary

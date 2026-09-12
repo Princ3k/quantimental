@@ -172,8 +172,16 @@ class TestBatch:
 
     def test_oversized_batch_is_rejected(self, client):
         """A batch fans out to one upstream call per ticker, so it is capped."""
-        tickers = [f"TCK{i}" for i in range(50)]
+        from app.schemas.api import MAX_BATCH_SIZE
+
+        tickers = [f"TCK{i}" for i in range(MAX_BATCH_SIZE + 1)]
         assert client.post("/api/v1/signals/batch", json={"tickers": tickers}).status_code == 422
+
+    def test_batch_at_the_cap_is_accepted(self, client):
+        from app.schemas.api import MAX_BATCH_SIZE
+
+        tickers = [f"TCK{i}" for i in range(MAX_BATCH_SIZE)]
+        assert client.post("/api/v1/signals/batch", json={"tickers": tickers}).status_code == 200
 
     def test_fast_depth_marks_sentiment_unavailable(self, client):
         signal = client.post(

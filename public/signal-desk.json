@@ -1,6 +1,6 @@
 {
   "available": true,
-  "as_of": "2026-09-12T15:32:00.403300+00:00",
+  "as_of": "2026-09-12T15:57:08.037166+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -192,8 +192,9 @@
     24.1
   ],
   "narrative": {
-    "text": "Government bond yields climbed sharply while corporate debt prices fell, signaling a shift toward caution. Energy stocks led the market higher, whereas health care and materials sectors declined.",
-    "source": "llm"
+    "text": "Investors pulled back from risk this week. The clearest moves: long-term rates climbing and high-yield credit under pressure. Energy led at +1.7%, while Health Care lagged at -3.5%.",
+    "source": "template",
+    "reason": "AuthenticationError: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}"
   },
-  "generated_at": "2026-09-12T15:32:01.008509+00:00"
+  "generated_at": "2026-09-12T15:57:08.413622+00:00"
 }

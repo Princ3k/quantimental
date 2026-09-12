@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { DeepDive } from '@/components/deep-dive'
 import { Sparkline } from '@/components/sparkline'
 import { Confidence, Verdict } from '@/components/verdict'
 import { cn } from '@/lib/utils'
@@ -29,9 +30,12 @@ import type { StockSignal } from '@/lib/types'
 export function StockCard({
   signal,
   onRemove,
+  onDeepDive,
 }: {
   signal: StockSignal
   onRemove?: (ticker: string) => void
+  /** Replaces this card's data with a full-depth analysis including sentiment. */
+  onDeepDive?: (signal: StockSignal) => void
 }) {
   const [open, setOpen] = useState(false)
   const { recommendation: rec, technical_analysis: ta, sentiment_analysis: sentiment } = signal
@@ -105,20 +109,52 @@ export function StockCard({
               in a two-up grid and are ~290px wide on desktop — four columns
               there wraps every label onto two lines. */}
           <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
-            <Figure label="Chart strength" value={`${signal.technical_rating}`} suffix="pctl" />
+            {/* Values are phrased, not abbreviated. An earlier pass rendered
+                this as "35 pctl", which is precisely the bare jargon this
+                product exists to avoid. */}
+            <Figure
+              label="Chart strength"
+              value={`${signal.technical_rating}/100`}
+              note={`Stronger than ${signal.technical_rating}% of readings we've measured`}
+            />
             <Figure
               label="Market mood"
-              value={sentiment.available && sentiment.rating !== null ? `${sentiment.rating}` : '—'}
-              suffix={sentiment.available ? 'of 100' : undefined}
+              value={
+                sentiment.available && sentiment.rating !== null
+                  ? `${sentiment.rating}/100`
+                  : 'Not measured'
+              }
+              note={
+                sentiment.available
+                  ? 'How positive news and social posts have been'
+                  : 'Gathered only for detailed single-stock analysis'
+              }
             />
-            <Figure label="Direction" value={TREND_LABEL[ta.trend]} />
-            <Figure label="Swings" value={VOLATILITY_LABEL[ta.volatility]} />
-            <Figure label="Momentum" value={ta.momentum.label} />
-            <Figure label="Avg volume" value={formatVolume(ta.avg_volume)} />
-            <Figure label="50-day avg" value={formatPrice(ta.sma_50)} />
             <Figure
-              label="200-day avg"
+              label="Direction"
+              value={TREND_LABEL[ta.trend]}
+              note="Where the 20-day average has been heading"
+            />
+            <Figure
+              label="Price swings"
+              value={VOLATILITY_LABEL[ta.volatility]}
+              note="How much it moves on a typical day"
+            />
+            <Figure label="Momentum" value={ta.momentum.label} note={ta.momentum.meaning} />
+            <Figure
+              label="Average volume"
+              value={formatVolume(ta.avg_volume)}
+              note="Shares traded on a typical day"
+            />
+            <Figure
+              label="50-day average"
+              value={formatPrice(ta.sma_50)}
+              note="Average closing price over the last 50 trading days"
+            />
+            <Figure
+              label="200-day average"
               value={ta.sma_200 ? formatPrice(ta.sma_200) : 'Not enough history'}
+              note="The long-term trend line traders watch most"
             />
           </dl>
 
@@ -141,8 +177,34 @@ export function StockCard({
             </ul>
           </div>
 
-          {!sentiment.available && sentiment.reason && (
-            <p className="text-ink-3 text-[0.8125rem] leading-relaxed">{sentiment.reason}</p>
+          {!sentiment.available && (
+            <div className="space-y-1.5">
+              {sentiment.reason && (
+                <p className="text-ink-3 text-[0.8125rem] leading-relaxed">{sentiment.reason}</p>
+              )}
+              {onDeepDive && <DeepDive ticker={signal.ticker} onResult={onDeepDive} />}
+            </div>
+          )}
+
+          {sentiment.available && (
+            <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <Figure
+                label="Mentions"
+                value={sentiment.mentions.toLocaleString()}
+                note="Recent news articles and social posts we read"
+              />
+              <Figure
+                label="Attention"
+                value={
+                  sentiment.mention_velocity === 'rising'
+                    ? 'Picking up'
+                    : sentiment.mention_velocity === 'falling'
+                      ? 'Fading'
+                      : 'Steady'
+                }
+                note="Whether people are talking about it more or less than before"
+              />
+            </dl>
           )}
 
           {!signal.metadata.data_quality.sufficient && (
@@ -157,22 +219,27 @@ export function StockCard({
   )
 }
 
+/**
+ * A labelled figure with its meaning stated underneath.
+ *
+ * The note is always visible rather than hidden behind a tooltip. A reader who
+ * does not know what a 50-day average is will not hover over it to find out —
+ * they will skip it, which defeats the point.
+ */
 function Figure({
   label,
   value,
-  suffix,
+  note,
 }: {
   label: string
   value: string
-  suffix?: string
+  note?: string
 }) {
   return (
     <div>
       <dt className="eyebrow">{label}</dt>
-      <dd className="tnum mt-1 text-[0.9375rem] font-medium">
-        {value}
-        {suffix && <span className="text-ink-3 ml-1 text-xs font-normal">{suffix}</span>}
-      </dd>
+      <dd className="tnum mt-1 text-[0.9375rem] font-medium">{value}</dd>
+      {note && <p className="text-ink-3 mt-1 text-xs leading-snug">{note}</p>}
     </div>
   )
 }
