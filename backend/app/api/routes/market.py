@@ -20,6 +20,7 @@ from app.db.models import NewsArticle, SentimentEvent
 from app.db.session import database_available, get_async_session_factory
 from app.schemas.api import AnalyzeRequest
 from app.services.data.macro_signal_service import macro_signal_service
+from app.services.data.market_data_service import market_data_service
 from app.services.data.narrative_service import narrative_service
 
 logger = logging.getLogger(__name__)
@@ -49,6 +50,54 @@ def _classify(sentiment_score: float, confidence: float) -> tuple[str, str]:
     else:
         impact = "low"
     return direction, impact
+
+
+@router.get("/history/{ticker}")
+async def price_history(
+    ticker: str,
+    range_: str = Query("1y", alias="range", pattern="^(1m|3m|6m|1y)$"),
+) -> dict[str, Any]:
+    """
+    Dated closing prices for one stock.
+
+    Separate from the signal payload on purpose. A year of dated points is
+    around 5KB, which is nothing for one stock and 300KB for a sixty-ticker
+    dashboard batch — so the cards keep their thirty undated closes and only a
+    chart somebody is actually looking at pays for the rest.
+
+    Ranges are served by slicing one cached year rather than re-fetching, so
+    switching between them costs no upstream request.
+    """
+    symbol = ticker.upper().strip()
+
+    try:
+        frame = await asyncio.to_thread(market_data_service.get_historical_data, symbol)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("History fetch failed for %s: %s", symbol, exc)
+        return {"ticker": symbol, "available": False, "reason": "Price history is unavailable."}
+
+    if frame is None or frame.empty or "Close" not in frame:
+        return {
+            "ticker": symbol,
+            "available": False,
+            "reason": f"No price history for {symbol}.",
+        }
+
+    frame = frame.dropna(subset=["Close"])
+
+    # Trading days, not calendar days: a month is ~21 sessions.
+    sessions = {"1m": 21, "3m": 63, "6m": 126, "1y": len(frame)}[range_]
+    window = frame.tail(sessions)
+
+    return {
+        "ticker": symbol,
+        "available": True,
+        "range": range_,
+        "points": [
+            {"d": index.strftime("%Y-%m-%d"), "c": round(float(close), 2)}
+            for index, close in zip(window.index, window["Close"])
+        ],
+    }
 
 
 @router.get("/trending-articles")

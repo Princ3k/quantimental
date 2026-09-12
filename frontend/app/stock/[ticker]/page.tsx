@@ -2,9 +2,11 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
+import { PriceChart } from '@/components/price-chart'
 import { SiteHeader } from '@/components/site-header'
 import { StockDetail } from '@/components/stock-detail'
 import { normalizeApiBase } from '@/lib/api'
+import { slugify } from '@/lib/sectors'
 import { SITE_URL, getSnapshot, getSnapshotStock } from '@/lib/snapshot'
 
 /*
@@ -180,7 +182,17 @@ export default async function StockPage({
           {stock && (
             <p className="text-ink-3 mt-1 text-[0.9375rem]">
               {stock.n}
-              {stock.s && <span className="text-ink-3"> · {stock.s}</span>}
+              {stock.s && (
+                <>
+                  {' · '}
+                  <Link
+                    href={`/sector/${slugify(stock.s)}`}
+                    className="hover:text-ink underline underline-offset-2 transition-colors"
+                  >
+                    {stock.s}
+                  </Link>
+                </>
+              )}
             </p>
           )}
         </header>
@@ -214,9 +226,19 @@ export default async function StockPage({
             )}
 
             {stock.ctx && (
-              <p className="text-ink-2 border-rule-strong mt-5 border-l-2 pl-3.5 text-[0.9375rem] leading-relaxed">
-                {stock.ctx}
-              </p>
+              <div className="border-rule-strong mt-5 border-l-2 pl-3.5">
+                <p className="text-ink-2 text-[0.9375rem] leading-relaxed">{stock.ctx}</p>
+                {stock.s && (
+                  /* The sentence above names the sector as the reason and then
+                     leaves it hanging. This is where that goes. */
+                  <Link
+                    href={`/sector/${slugify(stock.s)}`}
+                    className="text-ink-3 hover:text-ink mt-1.5 inline-block text-[0.8125rem] transition-colors"
+                  >
+                    What happened across {stock.s} <span aria-hidden>→</span>
+                  </Link>
+                )}
+              </div>
             )}
 
             {stock.v !== undefined && (
@@ -235,6 +257,11 @@ export default async function StockPage({
             saved reading for it. We can still analyse it live.
           </p>
         )}
+
+        {/* Its own fetch, so it appears without waiting on the analysis. */}
+        <div className="mt-10">
+          <PriceChart ticker={symbol} />
+        </div>
 
         {/* Everything below needs the API, so it loads client-side. Crawlers
             index the static half above and never hit our server. */}

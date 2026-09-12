@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 
+import { getSectors } from '@/lib/sectors'
 import { SITE_URL, getSnapshot } from '@/lib/snapshot'
 
 /**
@@ -35,13 +36,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ]
 
-  if (!snapshot) return home
+  const sectors = await getSectors()
+  const sectorUrls: MetadataRoute.Sitemap = sectors.map((sector) => ({
+    url: `${SITE_URL}/sector/${sector.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily' as const,
+    priority: 0.6,
+  }))
+
+  if (!snapshot) return [...home, ...sectorUrls]
 
   // The scan runs on a schedule, so every stock page changes when it does.
   const lastModified = snapshot.generated_at ? new Date(snapshot.generated_at) : new Date()
 
   return [
     ...home,
+    ...sectorUrls,
     ...snapshot.stocks.map((stock) => ({
       url: `${SITE_URL}/stock/${stock.t.toLowerCase()}`,
       lastModified,

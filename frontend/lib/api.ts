@@ -216,6 +216,41 @@ export async function checkHealth(signal?: AbortSignal): Promise<boolean> {
   }
 }
 
+export interface PricePoint {
+  /** ISO date, YYYY-MM-DD. */
+  d: string
+  /** Closing price. */
+  c: number
+}
+
+export type PriceRange = '1m' | '3m' | '6m' | '1y'
+
+export interface PriceHistory {
+  ticker: string
+  available: boolean
+  range?: PriceRange
+  points?: PricePoint[]
+  reason?: string
+}
+
+/**
+ * Dated closes for one stock.
+ *
+ * Separate from the signal payload because a year of dated points is ~5KB —
+ * nothing for one stock, 300KB for a sixty-ticker dashboard batch. Only a
+ * chart somebody is looking at pays for it.
+ */
+export async function getPriceHistory(
+  ticker: string,
+  range: PriceRange = '1y',
+  signal?: AbortSignal,
+): Promise<PriceHistory> {
+  return request<PriceHistory>(
+    `/api/v1/market/history/${encodeURIComponent(ticker)}?range=${range}`,
+    { signal },
+  )
+}
+
 /**
  * The market-wide Signal Desk.
  *

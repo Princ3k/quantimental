@@ -125,6 +125,60 @@ class TestHealth:
         assert "X-Process-Time" in client.get("/health").headers
 
 
+class TestPriceHistory:
+    """
+    Dated closes live at their own endpoint rather than in the signal payload.
+    A year of points is ~5KB: nothing for one stock, 300KB for a sixty-ticker
+    dashboard batch.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _stub_history(self, monkeypatch):
+        import pandas as pd
+
+        from app.api.routes import market as market_routes
+
+        index = pd.date_range("2025-09-12", periods=251, freq="B")
+        frame = pd.DataFrame({"Close": np.linspace(100.0, 200.0, len(index))}, index=index)
+
+        def fake(ticker, *args, **kwargs):
+            return None if ticker.upper() == "NOSUCH" else frame
+
+        monkeypatch.setattr(
+            market_routes.market_data_service, "get_historical_data", fake
+        )
+
+    def test_returns_dated_closes(self, client):
+        body = client.get("/api/v1/market/history/AAPL").json()
+
+        assert body["available"] is True
+        assert body["points"]
+        point = body["points"][0]
+        assert set(point) == {"d", "c"}
+        assert len(point["d"]) == 10  # YYYY-MM-DD
+
+    @pytest.mark.parametrize("range_,expected", [("1m", 21), ("3m", 63), ("6m", 126)])
+    def test_ranges_slice_one_cached_year(self, client, range_, expected):
+        # Switching range must not cost an upstream request.
+        body = client.get(f"/api/v1/market/history/AAPL?range={range_}").json()
+        assert len(body["points"]) == expected
+
+    def test_a_full_year_is_the_default(self, client):
+        assert len(client.get("/api/v1/market/history/AAPL").json()["points"]) == 251
+
+    def test_an_unsupported_range_is_rejected(self, client):
+        assert client.get("/api/v1/market/history/AAPL?range=10y").status_code == 422
+
+    def test_an_unknown_symbol_reports_unavailable_rather_than_failing(self, client):
+        body = client.get("/api/v1/market/history/NOSUCH").json()
+        assert body["available"] is False
+        assert "NOSUCH" in body["reason"]
+
+    def test_points_are_chronological(self, client):
+        points = client.get("/api/v1/market/history/AAPL?range=3m").json()["points"]
+        assert [p["d"] for p in points] == sorted(p["d"] for p in points)
+
+
 class TestAnalyze:
     def test_returns_a_complete_signal(self, client):
         response = client.post("/api/v1/signals/analyze", json={"ticker": "AAPL"})

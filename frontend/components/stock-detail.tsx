@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 
 import { DeepDive } from '@/components/deep-dive'
-import { Sparkline } from '@/components/sparkline'
 import { analyzeStock, ApiError } from '@/lib/api'
 import { useHydrated } from '@/lib/use-hydrated'
 import { useWatchlist } from '@/lib/use-watchlist'
@@ -73,13 +72,6 @@ export function StockDetail({ ticker }: { ticker: string }) {
 
       {signal && (
         <>
-          {signal.price_history.length > 1 && (
-            <div>
-              <p className="eyebrow mb-3">Past year</p>
-              <Sparkline data={signal.price_history} height={72} />
-            </div>
-          )}
-
           {signal.situation.notable.length > 0 && (
             <ul className="space-y-2">
               {signal.situation.notable.map((note) => (
