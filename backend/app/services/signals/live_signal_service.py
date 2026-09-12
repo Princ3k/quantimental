@@ -29,6 +29,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 from app.engines.hybrid import HybridEngine, hybrid_engine
+from app.engines.describe import describe
 from app.engines.quant import quant_engine
 from app.services.data.market_data_service import market_data_service
 
@@ -251,6 +252,15 @@ class LiveSignalService:
             "change": round(change, 2),
             "change_percent": round(change_percent, 2),
             "price_history": quote.get("price_history", []),
+            # What is happening, stated as fact. This is what the product leads
+            # with; the verdict below is kept for API compatibility but is no
+            # longer the headline. See app/engines/describe.py for why.
+            "situation": describe(
+                company=quote["company"].get("name", symbol),
+                change_percent=change_percent,
+                indicators=indicators,
+                sentiment=sentiment,
+            ),
             "signal": verdict["signal"],
             "hybrid_score": verdict["hybrid_score"],
             "technical_rating": technical_rating,

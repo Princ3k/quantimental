@@ -3,27 +3,19 @@
 import { useMemo } from 'react'
 
 import { useStoredValue } from './use-local-storage'
-import type { RecommendationAction, StockSignal } from './types'
+import type { Situation, StockSignal } from './types'
 
-const STORAGE_KEY = 'quantimental.lastSeenVerdicts'
+const STORAGE_KEY = 'quantimental.lastSeenStates'
 
-/** What a verdict was, last time this browser looked. */
-type Seen = Record<string, RecommendationAction>
+type State = Situation['state']
 
-export interface VerdictChange {
+/** What each stock was doing, last time this browser looked. */
+type Seen = Record<string, State>
+
+export interface StateChange {
   ticker: string
-  from: RecommendationAction
-  to: RecommendationAction
-  /** True when the move is toward the bullish end of the scale. */
-  improved: boolean
-}
-
-const RANK: Record<RecommendationAction, number> = {
-  strong_sell: 0,
-  sell: 1,
-  hold: 2,
-  buy: 3,
-  strong_buy: 4,
+  from: State
+  to: State
 }
 
 function parseSeen(raw: string | null): Seen {
@@ -36,6 +28,11 @@ function parseSeen(raw: string | null): Seen {
 /**
  * What changed since this browser last looked.
  *
+ * Tracks the *described state* — rising, falling, steady over two weeks — not a
+ * buy/sell verdict. A stock turning from rising to falling is an observable
+ * fact about its price; a stock moving from "hold" to "sell" was a change in
+ * our opinion, which is a much weaker reason to ask for someone's attention.
+ *
  * Deliberately local rather than server-side. "Three stocks changed since
  * yesterday" is the one thing that makes this worth reopening, and it does not
  * need accounts, storage or a push pipeline to deliver — only a record of what
@@ -47,24 +44,24 @@ function parseSeen(raw: string | null): Seen {
 export function useSignalChanges(signals: StockSignal[]) {
   const [seen, setSeen] = useStoredValue<Seen>(STORAGE_KEY, {}, parseSeen)
 
-  const changes = useMemo<VerdictChange[]>(() => {
+  const changes = useMemo<StateChange[]>(() => {
     return signals
       .filter((signal) => {
         const previous = seen[signal.ticker]
-        return previous !== undefined && previous !== signal.recommendation.action
+        return previous !== undefined && previous !== signal.situation.state
       })
-      .map((signal) => {
-        const from = seen[signal.ticker]
-        const to = signal.recommendation.action
-        return { ticker: signal.ticker, from, to, improved: RANK[to] > RANK[from] }
-      })
+      .map((signal) => ({
+        ticker: signal.ticker,
+        from: seen[signal.ticker],
+        to: signal.situation.state,
+      }))
   }, [signals, seen])
 
-  /** Record the current verdicts as seen. Call after showing the changes. */
+  /** Record the current states as seen. Call after showing the changes. */
   const commit = () => {
     if (signals.length === 0) return
     const next: Seen = { ...seen }
-    for (const signal of signals) next[signal.ticker] = signal.recommendation.action
+    for (const signal of signals) next[signal.ticker] = signal.situation.state
     setSeen(next)
   }
 

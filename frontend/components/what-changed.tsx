@@ -5,15 +5,24 @@ import { cn } from '@/lib/utils'
 import type { StockSignal } from '@/lib/types'
 
 const LABEL = {
-  strong_buy: 'Strong buy',
-  buy: 'Buy',
-  hold: 'Hold',
-  sell: 'Sell',
-  strong_sell: 'Strong sell',
+  rising: 'rising',
+  falling: 'falling',
+  steady: 'steady',
+} as const
+
+/* Colour marks direction of price, not approval. Steady is neither. */
+const TONE = {
+  rising: 'text-up',
+  falling: 'text-down',
+  steady: 'text-ink-2',
 } as const
 
 /**
  * What moved since this browser last looked.
+ *
+ * Reports a change in what a stock is *doing* — rising, falling, steady — which
+ * is checkable against its chart. It used to report a change in our verdict,
+ * which asked the reader to care that our opinion had moved.
  *
  * The reason to come back. Renders nothing on a first visit or a quiet day,
  * which is most days — a "nothing changed" banner every load would train
@@ -33,11 +42,9 @@ export function WhatChanged({ signals }: { signals: StockSignal[] }) {
       <ul className="mt-2 space-y-1">
         {changes.map((change) => (
           <li key={change.ticker} className="text-ink-2 text-[0.8125rem]">
-            <span className="text-ink font-mono">{change.ticker}</span>{' '}
-            {LABEL[change.from]} →{' '}
-            <span className={cn(change.improved ? 'text-up' : 'text-down')}>
-              {LABEL[change.to]}
-            </span>
+            <span className="text-ink font-mono">{change.ticker}</span> was{' '}
+            {LABEL[change.from]}, now{' '}
+            <span className={cn(TONE[change.to])}>{LABEL[change.to]}</span>
           </li>
         ))}
       </ul>

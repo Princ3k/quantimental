@@ -4,7 +4,6 @@ import { useState } from 'react'
 
 import { DeepDive } from '@/components/deep-dive'
 import { Sparkline } from '@/components/sparkline'
-import { Confidence, Verdict } from '@/components/verdict'
 import { cn } from '@/lib/utils'
 import {
   TREND_LABEL,
@@ -19,10 +18,15 @@ import type { Headline, StockSignal } from '@/lib/types'
  * One stock.
  *
  * Reading order is the product decision, not a layout preference: identity,
- * price, then **the explanation**, then the verdict. The explanation describes
- * what has already happened and is checkable. The verdict predicts, and a
- * backtest found no significant edge in it — so it sits below the sentence it
- * used to dominate.
+ * price, then **what is happening and why**. Nothing here tells the reader what
+ * to do.
+ *
+ * The five-point buy/sell verdict used to sit under the price. It is gone. A
+ * walk-forward backtest of 1,888 observations found no statistically
+ * significant edge in those calls, and the sentiment half of the score — most
+ * of its weight — was never testable at all for want of a historical archive.
+ * Every line on this card is now a statement about the present or the past that
+ * the reader can check against the chart and headlines beside it.
  *
  * There is one surface, no nested panels. Sections are separated by space and
  * hairlines.
@@ -38,7 +42,11 @@ export function StockCard({
   onDeepDive?: (signal: StockSignal) => void
 }) {
   const [open, setOpen] = useState(false)
-  const { recommendation: rec, technical_analysis: ta, sentiment_analysis: sentiment } = signal
+  const {
+    situation,
+    technical_analysis: ta,
+    sentiment_analysis: sentiment,
+  } = signal
   const up = signal.change >= 0
 
   return (
@@ -77,21 +85,39 @@ export function StockCard({
         </div>
       </div>
 
-      {/* The explanation — the product */}
-      <p className="mt-5 text-[0.9375rem] leading-relaxed text-balance">{rec.summary}</p>
+      {/* What is happening — the product */}
+      <p className="mt-5 text-[0.9375rem] leading-relaxed text-balance">{situation.headline}</p>
 
-      {rec.pattern && (
-        <p className="text-ink-2 border-rule-strong mt-3 border-l-2 pl-3 text-[0.8125rem] leading-relaxed">
-          <span className="text-ink font-medium">{rec.pattern.name}.</span>{' '}
-          {rec.pattern.description}
+      {situation.notable.length > 0 && (
+        <ul className="mt-3 space-y-1.5">
+          {situation.notable.map((note) => (
+            <li
+              key={note}
+              className="text-ink-2 border-rule-strong border-l-2 pl-3 text-[0.8125rem] leading-relaxed"
+            >
+              {note}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {situation.attention && (
+        <p className="text-ink-3 mt-3 text-[0.8125rem] leading-relaxed">
+          {situation.attention.summary}
         </p>
       )}
 
-      {/* The verdict — present, secondary */}
-      <div className="rule-t mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 pt-4">
-        <Verdict action={rec.action} />
-        <Confidence value={rec.confidence} />
-      </div>
+      {/* The why. Headlines are the explanation in a descriptive product, so
+          they sit with the description rather than behind the numbers. */}
+      {sentiment.available ? (
+        <Headlines items={sentiment.headlines} className="mt-4" />
+      ) : (
+        onDeepDive && (
+          <div className="mt-3">
+            <DeepDive ticker={signal.ticker} onResult={onDeepDive} />
+          </div>
+        )
+      )}
 
       <button
         type="button"
@@ -158,32 +184,21 @@ export function StockCard({
             />
           </dl>
 
-          {(ta.golden_cross || ta.death_cross) && (
-            <p className={cn('text-[0.8125rem]', ta.golden_cross ? 'text-up' : 'text-down')}>
-              {ta.golden_cross
-                ? 'The 50-day average just crossed above the 200-day — a widely watched bullish marker.'
-                : 'The 50-day average just crossed below the 200-day — a widely watched bearish marker.'}
-            </p>
+          {ta.notes.length > 0 && (
+            <div>
+              <p className="eyebrow mb-2.5">What the chart shows</p>
+              <ul className="space-y-2">
+                {ta.notes.map((note) => (
+                  <li key={note} className="text-ink-2 text-[0.8125rem] leading-relaxed">
+                    {note}
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
 
-          <div>
-            <p className="eyebrow mb-2.5">Why</p>
-            <ul className="space-y-2">
-              {rec.reasons.map((reason) => (
-                <li key={reason} className="text-ink-2 text-[0.8125rem] leading-relaxed">
-                  {reason}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {!sentiment.available && (
-            <div className="space-y-1.5">
-              {sentiment.reason && (
-                <p className="text-ink-3 text-[0.8125rem] leading-relaxed">{sentiment.reason}</p>
-              )}
-              {onDeepDive && <DeepDive ticker={signal.ticker} onResult={onDeepDive} />}
-            </div>
+          {!sentiment.available && sentiment.reason && (
+            <p className="text-ink-3 text-[0.8125rem] leading-relaxed">{sentiment.reason}</p>
           )}
 
           {sentiment.available && (
@@ -207,7 +222,6 @@ export function StockCard({
                 />
               </dl>
 
-              <Headlines items={sentiment.headlines} />
             </>
           )}
 
@@ -230,11 +244,11 @@ export function StockCard({
  * checked. This is the part of the card a newer investor can actually act on,
  * so the titles are the content and the score is the summary of them.
  */
-function Headlines({ items }: { items?: Headline[] }) {
+function Headlines({ items, className }: { items?: Headline[]; className?: string }) {
   if (!items?.length) return null
 
   return (
-    <div>
+    <div className={className}>
       <p className="eyebrow mb-2.5">What we read</p>
       <ul className="space-y-2.5">
         {items.map((item) => (

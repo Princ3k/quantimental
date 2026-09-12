@@ -74,6 +74,33 @@ export interface TechnicalAnalysis {
   notes: string[]
 }
 
+/** Today's move, and how it sits against this stock's own daily range. */
+export interface SituationMove {
+  direction: 'up' | 'down' | 'flat'
+  percent: number
+  /** True when the move is large relative to this stock's typical daily range. */
+  unusual?: boolean
+  label?: string
+}
+
+/**
+ * What is happening to this stock, stated as fact.
+ *
+ * This is what the product leads with. Every field is checkable against the
+ * chart or the headlines on the same screen — nothing here forecasts.
+ */
+export interface Situation {
+  /** One sentence, ready to render. */
+  headline: string
+  state: 'rising' | 'falling' | 'steady'
+  today: SituationMove
+  period: SituationMove
+  /** Facts worth flagging, most significant first. Empty when nothing is. */
+  notable: string[]
+  /** Null when sentiment could not be gathered — not the same as zero. */
+  attention: { mentions: number; velocity: string; summary: string } | null
+}
+
 export interface Headline {
   title: string
   url: string
@@ -131,6 +158,8 @@ export interface StockSignal {
   change_percent: number
   /** Recent closes, oldest first. Powers the sparkline. */
   price_history: number[]
+  /** What is happening, stated as fact. The product leads with this. */
+  situation: Situation
   signal: SignalDirection
   hybrid_score: number
   technical_rating: number
