@@ -107,7 +107,10 @@ class LiveSignalService:
         technical_notes = quant_engine.explain(indicators)
 
         sentiment = await self._get_sentiment(
-            symbol, depth, company_name=quote.get("company_name")
+            # The quote nests this under "company"; a flat quote["company_name"]
+            # silently reads as None and the news relevance filter then has
+            # nothing but the ticker to match on.
+            symbol, depth, company_name=(quote.get("company") or {}).get("name")
         )
 
         if sentiment["available"]:
