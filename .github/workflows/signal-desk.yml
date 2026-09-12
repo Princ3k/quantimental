@@ -1,0 +1,65 @@
+name: Publish Signal Desk
+
+# Recomputes the market read and commits it as a static JSON file, which the
+# portfolio fetches directly from raw.githubusercontent.com.
+#
+# The payload is identical for every viewer and changes slowly, so it is a file
+# rather than a request. This costs nothing, never cold-starts, and stays up
+# even when nothing else is running.
+
+on:
+  schedule:
+    # Every 30 minutes during US market hours (13:00-21:59 UTC), weekdays.
+    # GitHub may delay scheduled runs under load; a few minutes of drift is
+    # immaterial for a five-day lookback.
+    - cron: '*/30 13-21 * * 1-5'
+  workflow_dispatch:
+
+# Only this workflow may write, and only to push the generated file.
+permissions:
+  contents: write
+
+concurrency:
+  group: signal-desk
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        # Production deps only — no test runner needed to generate a file.
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate the Signal Desk
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python scripts/publish_signal_desk.py ../public/signal-desk.json
+
+      - name: Commit if the reading changed
+        working-directory: .
+        run: |
+          if git diff --quiet -- public/signal-desk.json; then
+            echo "No change in the market reading; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/signal-desk.json
+          git commit -m "chore: update signal desk [skip ci]"
+          git push

@@ -1,0 +1,199 @@
+{
+  "available": true,
+  "as_of": "2026-09-12T14:54:28.590946+00:00",
+  "lookback_days": 5,
+  "signals": [
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates climbing",
+      "direction": "up",
+      "delta": "+2.0\u03c3",
+      "change_percent": 3.99,
+      "z_score": 2.0,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-1.7\u03c3",
+      "change_percent": -0.71,
+      "z_score": -1.74,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit softening",
+      "direction": "down",
+      "delta": "-1.6\u03c3",
+      "change_percent": -1.1,
+      "z_score": -1.59,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude pushing higher",
+      "direction": "up",
+      "delta": "+9.4%",
+      "change_percent": 9.37,
+      "z_score": 1.08,
+      "risk_tone": "neutral",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility rising \u2014 more uncertainty priced in",
+      "direction": "up",
+      "delta": "15.8",
+      "change_percent": 9.02,
+      "z_score": 0.58,
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-1.4%",
+      "change_percent": -1.44,
+      "z_score": -0.49,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "US dollar index little changed",
+      "direction": "flat",
+      "delta": "-0.0%",
+      "change_percent": -0.04,
+      "z_score": -0.1,
+      "risk_tone": "neutral",
+      "notable": false
+    }
+  ],
+  "sectors": {
+    "available": true,
+    "leaders": [
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": 1.69,
+        "z_score": 0.27
+      },
+      {
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": 0.51,
+        "z_score": 0.29
+      },
+      {
+        "symbol": "XLK",
+        "name": "Technology",
+        "change_percent": 0.21,
+        "z_score": -0.14
+      }
+    ],
+    "laggards": [
+      {
+        "symbol": "XLV",
+        "name": "Health Care",
+        "change_percent": -3.55,
+        "z_score": -1.79
+      },
+      {
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": -2.84,
+        "z_score": -1.31
+      },
+      {
+        "symbol": "XLY",
+        "name": "Consumer Discretionary",
+        "change_percent": -1.7,
+        "z_score": -0.65
+      }
+    ],
+    "breadth": 30,
+    "advancing": 3,
+    "total": 10
+  },
+  "composite": {
+    "score": 23,
+    "label": "Risk-off",
+    "tone": "risk_off",
+    "contributions": [
+      {
+        "name": "10-year Treasury yield",
+        "effect": -12.0,
+        "tone": "risk_off"
+      },
+      {
+        "name": "Credit complex",
+        "effect": -10.0,
+        "tone": "risk_off"
+      },
+      {
+        "name": "Sector breadth",
+        "effect": -4.0,
+        "tone": "risk_off"
+      },
+      {
+        "name": "Volatility index",
+        "effect": -3.5,
+        "tone": "risk_off"
+      },
+      {
+        "name": "Gold",
+        "effect": 2.9,
+        "tone": "risk_on"
+      }
+    ]
+  },
+  "history": [
+    73.0,
+    71.9,
+    75.2,
+    60.7,
+    65.3,
+    49.9,
+    35.6,
+    39.0,
+    65.3,
+    54.9,
+    48.8,
+    50.8,
+    64.5,
+    39.1,
+    39.1,
+    55.9,
+    63.8,
+    42.8,
+    56.5,
+    52.6,
+    50.0,
+    28.3,
+    34.8,
+    48.6,
+    48.5,
+    52.6,
+    59.5,
+    45.1,
+    14.9,
+    24.1
+  ],
+  "narrative": {
+    "text": "Government bond yields climbed sharply while corporate debt prices fell. Energy stocks led the market, but health care and materials lagged as overall risk appetite dropped.",
+    "source": "llm"
+  },
+  "generated_at": "2026-09-12T14:54:28.916754+00:00"
+}
