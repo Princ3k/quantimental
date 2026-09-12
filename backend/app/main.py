@@ -131,7 +131,17 @@ async def health_check() -> dict:
         "subsystems": {
             "market_data": True,
             "database": await check_connection(),
-            "sentiment": bool(settings.GROQ_API_KEY or settings.MARKETAUX_API_KEY),
+            # Reported per provider rather than as one flag. A single combined
+            # boolean says "some credential is present", which is useless when
+            # the question is which one is missing — and that is exactly the
+            # question a deploy raises. Booleans only: never echo a key.
+            "sentiment": {
+                "groq": bool(settings.GROQ_API_KEY),
+                "groq_model": settings.GROQ_MODEL if settings.GROQ_API_KEY else None,
+                "marketaux": bool(settings.MARKETAUX_API_KEY),
+                "reddit": bool(settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET),
+                "twitter": bool(settings.TWITTER_API_KEY),
+            },
         },
     }
 

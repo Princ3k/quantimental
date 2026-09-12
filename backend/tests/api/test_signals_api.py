@@ -71,6 +71,23 @@ class TestHealth:
         assert body["status"] == "healthy"
         assert "market_data" in body["subsystems"]
 
+    def test_health_reports_each_sentiment_provider(self, client):
+        """
+        A single combined flag cannot answer "which credential is missing",
+        which is the only question worth asking after a deploy.
+        """
+        sentiment = client.get("/health").json()["subsystems"]["sentiment"]
+
+        for provider in ("groq", "marketaux", "reddit", "twitter"):
+            assert provider in sentiment
+            assert isinstance(sentiment[provider], bool)
+
+    def test_health_never_leaks_a_credential(self, client):
+        """Booleans and a model name only — never the key itself."""
+        raw = client.get("/health").text
+        for marker in ("gsk_", "sk-", "Bearer "):
+            assert marker not in raw
+
     def test_root_points_at_docs(self, client):
         assert client.get("/").json()["docs"] == "/docs"
 
