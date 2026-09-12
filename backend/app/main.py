@@ -24,6 +24,7 @@ from fastapi.responses import JSONResponse
 from app.api.routes import market, news, signals
 from app.core.config import get_settings
 from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
+from app.core.source_health import source_health
 from app.db.session import check_connection, database_available, dispose_engines
 
 settings = get_settings()
@@ -197,17 +198,24 @@ async def health_check() -> dict:
         "subsystems": {
             "market_data": True,
             "database": await check_connection(),
-            # Reported per provider rather than as one flag. A single combined
-            # boolean says "some credential is present", which is useless when
-            # the question is which one is missing — and that is exactly the
-            # question a deploy raises. Booleans only: never echo a key.
+            # Two facts per source, kept apart: whether credentials are set,
+            # and what the source actually did the last time anything asked
+            # it. Reporting only the first was wrong in both directions —
+            # twitter:true while every request 401'd, and reddit:false while
+            # Reddit was working fine over its keyless RSS path. `working` is
+            # null until something has actually tried. Never echo a key.
             "sentiment": {
-                "groq": bool(settings.GROQ_API_KEY),
                 "groq_model": settings.GROQ_MODEL if settings.GROQ_API_KEY else None,
-                "marketaux": bool(settings.MARKETAUX_API_KEY),
-                "alpha_vantage": bool(settings.ALPHA_VANTAGE_API_KEY),
-                "reddit": bool(settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET),
-                "twitter": bool(settings.TWITTER_API_KEY),
+                "groq": source_health.describe("groq", bool(settings.GROQ_API_KEY)),
+                "yahoo_finance": source_health.describe("yahoo_finance", True),
+                "marketaux": source_health.describe(
+                    "marketaux", bool(settings.MARKETAUX_API_KEY)
+                ),
+                "reddit": source_health.describe(
+                    "reddit",
+                    bool(settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET),
+                ),
+                "twitter": source_health.describe("twitter", bool(settings.TWITTER_API_KEY)),
             },
         },
     }

@@ -37,6 +37,7 @@ import httpx
 import trafilatura
 
 from app.core.config import get_settings
+from app.core.source_health import source_health
 from app.utils.ttl_cache import TTLCache as _TTLCache
 
 logger = logging.getLogger(__name__)
@@ -144,6 +145,31 @@ class SourceOutcome:
     @property
     def count(self) -> int:
         return len(self.items)
+
+
+# Query parameters whose values are credentials. MarketAux takes its key as
+# `api_token` in the URL, and httpx puts the full URL in some exception
+# messages — which would otherwise travel into `source_status.detail` and out
+# through the public API response.
+_SECRET_PARAM_RE = re.compile(
+    r"\b(api_token|api_key|apikey|access_token|token|key)=([^&\s\"\']+)",
+    re.IGNORECASE,
+)
+_SECRET_PREFIX_RE = re.compile(r"\b(gsk_|sk-|Bearer\s+)\S+", re.IGNORECASE)
+
+
+def _safe_detail(exc: Exception) -> str:
+    """
+    Describe a failure without quoting anything secret.
+
+    Source details are published on every analyse response, so an exception
+    message that happens to contain the request URL would put a live API key
+    into a public payload. Truncated as well: a provider stack trace is not
+    something to broadcast either.
+    """
+    detail = f"{type(exc).__name__}: {exc}"[:200]
+    detail = _SECRET_PARAM_RE.sub(r"\1=***", detail)
+    return _SECRET_PREFIX_RE.sub(r"\1***", detail)
 
 
 def _strip_html(raw: str) -> str:
@@ -266,7 +292,7 @@ async def _reddit_authenticated(ticker: str, limit: int, token: str) -> SourceOu
         return SourceOutcome([], "error", f"HTTP {exc.response.status_code}")
     except Exception as exc:  # noqa: BLE001
         logger.warning("Reddit OAuth search failed for %s: %s", ticker, exc)
-        return SourceOutcome([], "error", f"{type(exc).__name__}: {exc}")
+        return SourceOutcome([], "error", _safe_detail(exc))
 
     if not posts:
         return SourceOutcome([], "empty", "no posts in the last week")
@@ -367,7 +393,7 @@ async def _reddit_anonymous(ticker: str, limit: int) -> SourceOutcome:
         return SourceOutcome([], "error", f"unparseable feed ({exc})")
     except Exception as exc:  # noqa: BLE001 - a bad source must not break the request
         logger.warning("Reddit failed for %s: %s", ticker, exc)
-        return SourceOutcome([], "error", f"{type(exc).__name__}: {exc}")
+        return SourceOutcome([], "error", _safe_detail(exc))
 
     posts: list[dict] = []
     for entry in root.findall("a:entry", ATOM_NS):
@@ -497,7 +523,7 @@ async def _fetch_yahoo_news(
         raw = await loop.run_in_executor(None, _yahoo_news_blocking, ticker)
     except Exception as exc:  # noqa: BLE001
         logger.warning("Yahoo news failed for %s: %s", ticker, exc)
-        return SourceOutcome([], "error", f"{type(exc).__name__}: {exc}")
+        return SourceOutcome([], "error", _safe_detail(exc))
 
     articles = [a for a in (_normalise_yahoo_article(r) for r in raw) if a]
     if not articles:
@@ -680,7 +706,7 @@ async def _fetch_marketaux(
             return SourceOutcome([], "error", "request timed out")
         except Exception as exc:  # noqa: BLE001
             logger.error("Unexpected MarketAux error for %s: %s", ticker, exc)
-            return SourceOutcome([], "error", f"{type(exc).__name__}: {exc}")
+            return SourceOutcome([], "error", _safe_detail(exc))
 
 
 async def fetch_marketaux_news(
@@ -764,7 +790,7 @@ async def _fetch_twitter(ticker: str, limit: int = 20) -> SourceOutcome:
             return SourceOutcome([], "error", detail)
         except Exception as exc:  # noqa: BLE001
             logger.error("Error fetching tweets for %s: %s", ticker, exc)
-            return SourceOutcome([], "error", f"{type(exc).__name__}: {exc}")
+            return SourceOutcome([], "error", _safe_detail(exc))
 
 
 async def fetch_twitter_posts(ticker: str, limit: int = 20, min_followers: int = 50) -> list[dict]:
@@ -809,7 +835,9 @@ async def fetch_all_sentiment_sources(
     for name, result in zip(names, results):
         if isinstance(result, BaseException):
             logger.error("%s fetch raised for %s: %s", name, ticker, result)
-            outcomes[name] = SourceOutcome([], "error", f"{type(result).__name__}: {result}")
+            outcomes[name] = SourceOutcome(
+                [], "error", _safe_detail(result if isinstance(result, Exception) else Exception(str(result)))
+            )
         else:
             outcomes[name] = result
 
@@ -835,6 +863,10 @@ async def fetch_all_sentiment_sources(
         }
         for name, outcome in outcomes.items()
     }
+
+    # Remember what actually happened, so /health can report observed reality
+    # rather than inferring it from which keys are set.
+    source_health.record_all(source_status)
 
     result = {
         "ticker": ticker,

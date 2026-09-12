@@ -68,6 +68,13 @@ Bad: "Rates are spiking, which could pressure equities going forward."
 SHORT_MAX_CHARS = 100
 
 
+def _record_groq(status: str, detail: str | None = None) -> None:
+    """Report to /health what the LLM actually did, not whether a key is set."""
+    from app.core.source_health import source_health
+
+    source_health.record("groq", status, detail)
+
+
 class NarrativeService:
     """Generates the Signal Desk narrative."""
 
@@ -152,9 +159,9 @@ class NarrativeService:
                 reason = "predictive_language_rejected"
             else:
                 short, short_source = self._choose_short(headline, text, template_short)
-                result = {"text": text, "short": short, "source": "llm",
-                          "short_source": short_source}
-                return result
+                _record_groq("ok")
+                return {"text": text, "short": short, "source": "llm",
+                        "short_source": short_source}
 
             logger.info("Rejected LLM narrative (%s), falling back to template", reason)
             return {
@@ -166,12 +173,14 @@ class NarrativeService:
             }
         except Exception as exc:
             logger.warning("Narrative generation failed (%s); using template", exc)
+            reason = self._safe_error(exc)
+            _record_groq("error", reason)
             return {
                 "text": template,
                 "short": template_short,
                 "source": "template",
                 "short_source": "template",
-                "reason": self._safe_error(exc),
+                "reason": reason,
             }
 
     @staticmethod

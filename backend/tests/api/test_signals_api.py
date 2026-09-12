@@ -78,9 +78,39 @@ class TestHealth:
         """
         sentiment = client.get("/health").json()["subsystems"]["sentiment"]
 
-        for provider in ("groq", "marketaux", "reddit", "twitter"):
+        for provider in ("groq", "marketaux", "reddit", "twitter", "yahoo_finance"):
             assert provider in sentiment
-            assert isinstance(sentiment[provider], bool)
+            assert set(sentiment[provider]) >= {"configured", "working", "last_result"}
+
+    def test_health_separates_being_configured_from_working(self, client):
+        """
+        The bug this replaced: `working` was inferred from whether a key was
+        set, and got both directions wrong at once — Twitter reported healthy
+        while every request 401'd, Reddit reported broken while it served posts
+        over a keyless path.
+        """
+        from app.core.source_health import source_health
+
+        source_health.record("twitter", "error", "HTTP 401 — key rejected")
+        source_health.record("reddit", "ok")
+        try:
+            sentiment = client.get("/health").json()["subsystems"]["sentiment"]
+
+            assert sentiment["twitter"]["working"] is False
+            assert sentiment["reddit"]["working"] is True
+            # And the two facts stay distinguishable.
+            assert "configured" in sentiment["twitter"]
+        finally:
+            source_health.reset()
+
+    def test_an_unobserved_provider_is_unknown_not_guessed(self, client):
+        from app.core.source_health import source_health
+
+        source_health.reset()
+        sentiment = client.get("/health").json()["subsystems"]["sentiment"]
+
+        assert sentiment["marketaux"]["working"] is None
+        assert sentiment["marketaux"]["last_result"] is None
 
     def test_health_never_leaks_a_credential(self, client):
         """Booleans and a model name only — never the key itself."""
