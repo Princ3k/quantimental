@@ -119,18 +119,16 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
       <SiteHeader />
 
       <main className="mx-auto max-w-5xl px-5 sm:px-8">
-        {/* Market read */}
+        {/*
+         * Reading order, deliberately: your stocks, then the market.
+         *
+         * The market read used to open the page, which put two screens of
+         * context a returning visitor did not ask for in front of the only
+         * thing they came back for. The context is still here, and still the
+         * reason to open this on a day your own holdings did nothing — it is
+         * just below the answer rather than in front of the question.
+         */}
         <section className="py-12 sm:py-16">
-          <Link href="/" className="text-ink-3 eyebrow hover:text-ink mb-6 block transition-colors">
-            Today
-          </Link>
-          <SignalDesk note={personalNote(signals, sectors)} />
-        </section>
-
-        <SectorStrip sectors={sectorRows} />
-
-        {/* Watchlist */}
-        <section className="rule-t py-10 sm:py-12">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Your stocks</h2>
@@ -217,10 +215,25 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
             )
           )}
 
-          {/* Why the app is worth opening on a day your own stocks did nothing.
-              Placed below the watchlist: someone who came to check their own
-              holdings should see those first. */}
-          <div className="mt-12">
+        </section>
+
+        {/*
+         * One section, not three. "Today", "Sectors" and "Unusual" each
+         * answered "what is going on out there?" under its own heading, which
+         * implied a distinction that does not exist.
+         */}
+        <section className="rule-t py-10 sm:py-12">
+          <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Market today</h2>
+
+          <div className="mt-6">
+            <SignalDesk note={personalNote(signals, sectors)} />
+          </div>
+
+          <div className="rule-t mt-8 pt-8">
+            <SectorStrip sectors={sectorRows} compact />
+          </div>
+
+          <div className="mt-8">
             <UnusualFeed onPick={isFull ? undefined : add} />
           </div>
 

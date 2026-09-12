@@ -6,11 +6,16 @@ import { cn } from '@/lib/utils'
 import type { SectorSummaryRow } from '@/lib/sectors'
 
 /**
- * Every sector, ranked, on the dashboard.
+ * Every sector, ranked.
  *
- * The desk above already says "30% of sectors rising, Energy leading" and then
+ * The desk already says "30% of sectors rising, Energy leading" and then
  * leaves the obvious question — *which* sectors? — unanswered. This is the
  * answer, and it is also the route into the sector pages.
+ *
+ * `compact` shows only the strongest and weakest three. On the dashboard,
+ * eleven rows of medians is reference data competing with the thing the
+ * reader actually came for; the full list belongs on the sector pages, where
+ * someone has already chosen to look.
  *
  * Bars are scaled to the largest move on the day rather than a fixed
  * percentage, so the shape shows relative strength on *this* day instead of
@@ -18,28 +23,41 @@ import type { SectorSummaryRow } from '@/lib/sectors'
  * axis, no ticks, just enough length to rank at a glance before the number
  * beside them gives the exact figure.
  */
-export function SectorStrip({ sectors }: { sectors: SectorSummaryRow[] }) {
+export function SectorStrip({
+  sectors,
+  compact = false,
+}: {
+  sectors: SectorSummaryRow[]
+  /** Show only the extremes. Eleven medians is reference data, not a glance. */
+  compact?: boolean
+}) {
   if (sectors.length === 0) return null
 
+  // Scaled against the full set even when only the extremes are shown, so a
+  // bar means the same thing in both modes.
   const widest = Math.max(...sectors.map((s) => Math.abs(s.change_percent)), 0.1)
 
+  const ENDS = 3
+  const trimmed = compact && sectors.length > ENDS * 2
+  const shown = trimmed
+    ? [...sectors.slice(0, ENDS), ...sectors.slice(-ENDS)]
+    : sectors
+  const hidden = sectors.length - shown.length
+
   return (
-    <section className="rule-t py-10 sm:py-12">
-      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Sectors</h2>
-          <p className="text-ink-3 mt-1.5 text-[0.8125rem] leading-relaxed">
-            Median move of each sector&rsquo;s companies this session, and how many
-            of them rose.
-          </p>
-        </div>
+    <section className={compact ? '' : 'rule-t py-10 sm:py-12'}>
+      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <p className="eyebrow">{compact ? 'Sectors' : 'All sectors'}</p>
+        <p className="text-ink-3 text-[0.8125rem]">
+          median move · how many rose
+        </p>
       </div>
 
       {/* Two columns only once there is room for a full sector name beside
           its bar and figures. At the `sm` breakpoint each column was ~280px
           and "Consumer Discretionary" truncated to "Consumer Discreti...". */}
       <ul className="grid gap-x-10 gap-y-1 lg:grid-cols-2">
-        {sectors.map((sector) => (
+        {shown.map((sector) => (
           <li key={sector.slug}>
             <Link
               href={`/sector/${sector.slug}`}
@@ -79,6 +97,12 @@ export function SectorStrip({ sectors }: { sectors: SectorSummaryRow[] }) {
           </li>
         ))}
       </ul>
+
+      {trimmed && (
+        <p className="text-ink-3 mt-3 text-[0.8125rem]">
+          {hidden} more between them, all on their own pages.
+        </p>
+      )}
     </section>
   )
 }
