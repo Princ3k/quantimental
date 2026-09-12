@@ -120,15 +120,32 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
 
       <main className="mx-auto max-w-5xl px-5 sm:px-8">
         {/*
-         * Reading order, deliberately: your stocks, then the market.
+         * One section, not three. "Today", "Sectors" and "Unusual" each
+         * answered "what is going on out there?" under its own heading, which
+         * implied a distinction that does not exist — so they are one section
+         * with one heading, and the sector list is trimmed to its extremes.
          *
-         * The market read used to open the page, which put two screens of
-         * context a returning visitor did not ask for in front of the only
-         * thing they came back for. The context is still here, and still the
-         * reason to open this on a day your own holdings did nothing — it is
-         * just below the answer rather than in front of the question.
+         * It opens the page: the daily read is the framing the whole product
+         * is built around, and it is short now rather than two screens.
          */}
         <section className="py-12 sm:py-16">
+          <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Market today</h2>
+
+          <div className="mt-6">
+            <SignalDesk note={personalNote(signals, sectors)} />
+          </div>
+
+          <div className="rule-t mt-8 pt-8">
+            <SectorStrip sectors={sectorRows} compact />
+          </div>
+
+          <div className="mt-8">
+            <UnusualFeed onPick={isFull ? undefined : add} />
+          </div>
+
+        </section>
+
+        <section className="rule-t py-10 sm:py-12">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Your stocks</h2>
@@ -215,28 +232,7 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
             )
           )}
 
-        </section>
-
-        {/*
-         * One section, not three. "Today", "Sectors" and "Unusual" each
-         * answered "what is going on out there?" under its own heading, which
-         * implied a distinction that does not exist.
-         */}
-        <section className="rule-t py-10 sm:py-12">
-          <h2 className="text-xl font-medium tracking-tight sm:text-2xl">Market today</h2>
-
-          <div className="mt-6">
-            <SignalDesk note={personalNote(signals, sectors)} />
-          </div>
-
-          <div className="rule-t mt-8 pt-8">
-            <SectorStrip sectors={sectorRows} compact />
-          </div>
-
-          <div className="mt-8">
-            <UnusualFeed onPick={isFull ? undefined : add} />
-          </div>
-
+        
           <div className="mt-10">
             <HowToRead />
           </div>
