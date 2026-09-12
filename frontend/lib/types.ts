@@ -74,6 +74,22 @@ export interface TechnicalAnalysis {
   notes: string[]
 }
 
+export interface Headline {
+  title: string
+  url: string
+  /** Publisher name, e.g. "Reuters". Empty when the feed omitted it. */
+  source: string
+  published_at: string
+}
+
+/** What one upstream source returned, and why. */
+export interface SourceStatus {
+  /** `disabled` means no credentials, which is a choice, not a fault. */
+  status: 'ok' | 'empty' | 'disabled' | 'error'
+  count: number
+  detail: string | null
+}
+
 export interface SentimentAnalysis {
   /** False when sentiment could not be gathered. Check before reading `rating`. */
   available: boolean
@@ -83,6 +99,10 @@ export interface SentimentAnalysis {
   mention_velocity: MentionVelocity
   reddit_buzz: number
   twitter_buzz: number
+  /** The stories the score was computed from, so a reader can check it. */
+  headlines?: Headline[]
+  /** Per-source outcome; absent on older responses. */
+  sources?: Record<string, SourceStatus> | null
   /** Explains why sentiment is missing, when it is. */
   reason: string | null
 }

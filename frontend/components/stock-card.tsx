@@ -13,7 +13,7 @@ import {
   formatPrice,
   formatVolume,
 } from '@/lib/presentation'
-import type { StockSignal } from '@/lib/types'
+import type { Headline, StockSignal } from '@/lib/types'
 
 /*
  * One stock.
@@ -187,24 +187,28 @@ export function StockCard({
           )}
 
           {sentiment.available && (
-            <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
-              <Figure
-                label="Mentions"
-                value={sentiment.mentions.toLocaleString()}
-                note="Recent news articles and social posts we read"
-              />
-              <Figure
-                label="Attention"
-                value={
-                  sentiment.mention_velocity === 'rising'
-                    ? 'Picking up'
-                    : sentiment.mention_velocity === 'falling'
-                      ? 'Fading'
-                      : 'Steady'
-                }
-                note="Whether people are talking about it more or less than before"
-              />
-            </dl>
+            <>
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-4">
+                <Figure
+                  label="Mentions"
+                  value={sentiment.mentions.toLocaleString()}
+                  note="Recent news articles and social posts we read"
+                />
+                <Figure
+                  label="Attention"
+                  value={
+                    sentiment.mention_velocity === 'rising'
+                      ? 'Picking up'
+                      : sentiment.mention_velocity === 'falling'
+                        ? 'Fading'
+                        : 'Steady'
+                  }
+                  note="Whether people are talking about it more or less than before"
+                />
+              </dl>
+
+              <Headlines items={sentiment.headlines} />
+            </>
           )}
 
           {!signal.metadata.data_quality.sufficient && (
@@ -216,6 +220,42 @@ export function StockCard({
         </div>
       )}
     </article>
+  )
+}
+
+/**
+ * The stories the sentiment score was computed from.
+ *
+ * A score on its own asks to be believed; the headlines behind it can be
+ * checked. This is the part of the card a newer investor can actually act on,
+ * so the titles are the content and the score is the summary of them.
+ */
+function Headlines({ items }: { items?: Headline[] }) {
+  if (!items?.length) return null
+
+  return (
+    <div>
+      <p className="eyebrow mb-2.5">What we read</p>
+      <ul className="space-y-2.5">
+        {items.map((item) => (
+          <li key={item.url || item.title}>
+            {item.url ? (
+              <a
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-ink-2 hover:text-ink text-[0.8125rem] leading-relaxed transition-colors"
+              >
+                {item.title}
+              </a>
+            ) : (
+              <span className="text-ink-2 text-[0.8125rem] leading-relaxed">{item.title}</span>
+            )}
+            {item.source && <span className="text-ink-3 ml-1.5 text-[0.75rem]">{item.source}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 

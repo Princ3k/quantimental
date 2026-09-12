@@ -47,11 +47,56 @@ dashboard and the single-stock view can never disagree.
    that NaN propagates through every indicator.
 3. **Score** the chart via `QuantEngine` → indicators, a 0-100 rating, notes.
 4. **Score** the mood via the sentiment pipeline — but only at `full` depth,
-   and only if it returns actual mentions.
+   and only if it returns actual mentions. See [Sentiment sources](#sentiment-sources).
 5. **Combine** via `HybridEngine`. With no sentiment the weighting falls back
    to 100% technical rather than blending against a fabricated neutral 50,
    which would drag every score toward the middle.
 6. **Assemble** the JSON contract the frontend consumes.
+
+### Sentiment sources
+
+Sentiment works with **no API keys**. Yahoo Finance headlines are the default
+source and cover every market `yfinance` does, including non-US listings like
+`RACE.MI` and `SHOP.TO`. Keys add sources; they are never required.
+
+| Source | Needs a key | Notes |
+| --- | --- | --- |
+| Yahoo Finance | no | Default. ~10 stories/ticker, cached 5 min. |
+| Reddit | recommended | See below. |
+| MarketAux | yes | Adds publisher-scored sentiment. Free tier: 100 req/day. |
+| Twitter/X | yes | Via ScrapeBadger. |
+
+Two decisions here are worth knowing about, because both were arrived at the
+expensive way.
+
+**Reddit needs credentials to be dependable.** Reddit's `/search.json` endpoint
+now returns HTTP 403 to unauthenticated clients regardless of User-Agent. The
+`.rss` feeds still work and are what we use without credentials, but anonymous
+access is limited to roughly *one request per minute* — measured by probing it,
+not guessed. Under any real traffic most calls are refused, so the source backs
+off for five minutes after a 429 rather than digging the hole deeper. Setting
+`REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET` (a free "script" app at
+<https://www.reddit.com/prefs/apps>) switches to the OAuth API: ~100 requests a
+minute, and post scores, which RSS omits.
+
+**A source that fails says so.** Every fetcher used to swallow its errors into
+an empty list, so "MarketAux rejected our API key" and "this company had a quiet
+week" produced byte-identical output — the app told users a stock had no
+coverage when the truth was that our own credentials were being refused. Each
+source now reports `ok` / `empty` / `disabled` / `error` with a detail string,
+surfaced on `sentiment_analysis.sources`:
+
+```json
+"sources": {
+  "yahoo_finance": { "status": "ok",       "count": 10, "detail": null },
+  "reddit":        { "status": "error",    "count": 0,  "detail": "HTTP 429 — rate limited by Reddit; ..." },
+  "marketaux":     { "status": "disabled", "count": 0,  "detail": "MARKETAUX_API_KEY is not set" }
+}
+```
+
+`disabled` is a choice, not a fault — it means no key was configured. Only
+`error` indicates something is wrong, and the UI distinguishes the two rather
+than blaming the stock.
 
 ### Two depths
 

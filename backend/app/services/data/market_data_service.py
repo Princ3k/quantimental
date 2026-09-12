@@ -28,6 +28,7 @@ import pandas as pd
 import yfinance as yf
 
 from app.engines.quant import quant_engine
+from app.utils.ttl_cache import TTLCache
 
 logger = logging.getLogger(__name__)
 
@@ -42,32 +43,8 @@ QUOTE_TTL_SECONDS = 60
 PROFILE_TTL_SECONDS = 24 * 60 * 60
 
 
-class _TTLCache:
-    """Minimal thread-safe TTL cache. Small enough not to warrant a dependency."""
-
-    def __init__(self, ttl_seconds: float) -> None:
-        self._ttl = ttl_seconds
-        self._entries: dict[str, tuple[float, Any]] = {}
-        self._lock = threading.Lock()
-
-    def get(self, key: str) -> Optional[Any]:
-        with self._lock:
-            entry = self._entries.get(key)
-            if entry is None:
-                return None
-            expires_at, value = entry
-            if time.monotonic() > expires_at:
-                del self._entries[key]
-                return None
-            return value
-
-    def set(self, key: str, value: Any) -> None:
-        with self._lock:
-            self._entries[key] = (time.monotonic() + self._ttl, value)
-
-    def clear(self) -> None:
-        with self._lock:
-            self._entries.clear()
+# Kept as a module-level alias so existing references still resolve.
+_TTLCache = TTLCache
 
 
 class MarketDataService:

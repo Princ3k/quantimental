@@ -32,12 +32,16 @@ class RealTimeSentimentService:
             logger.error(f"Failed to initialize sentiment models: {e}")
             self.sentiment_model = None
 
-    async def get_sentiment_for_ticker(self, ticker: str) -> Dict[str, Any]:
+    async def get_sentiment_for_ticker(
+        self, ticker: str, company_name: str | None = None
+    ) -> Dict[str, Any]:
         """
         Get real-time sentiment analysis for a ticker.
 
         Args:
             ticker: Stock symbol (e.g., "AAPL", "TSLA")
+            company_name: Used to tell stories about this company apart from
+                general market stories in the same feed.
 
         Returns:
             Dictionary with sentiment metrics:
@@ -54,12 +58,14 @@ class RealTimeSentimentService:
             logger.info(f"Fetching sentiment data for {ticker}")
             sentiment_data = await fetch_all_sentiment_sources(
                 ticker,
-                skip_full_text=True  # Fast mode for real-time analysis
+                skip_full_text=True,  # Fast mode for real-time analysis
+                company_name=company_name,
             )
 
             reddit_posts = sentiment_data.get("reddit_posts", [])
-            news_articles = sentiment_data.get("marketaux_news", [])
+            news_articles = sentiment_data.get("news_articles", [])
             tweets = sentiment_data.get("twitter_posts", [])
+            source_status = sentiment_data.get("source_status", {})
 
             # Analyze sentiment if model is available, otherwise use fallback
             if self.sentiment_model:
@@ -76,6 +82,8 @@ class RealTimeSentimentService:
             aggregated = self._aggregate_sentiment(
                 reddit_sentiment, news_sentiment, twitter_sentiment
             )
+            aggregated["source_status"] = source_status
+            aggregated["headlines"] = self._headlines(news_articles)
 
             return aggregated
 
@@ -93,8 +101,38 @@ class RealTimeSentimentService:
                     "reddit": {"score": 50, "mentions": 0},
                     "news": {"score": 50, "mentions": 0},
                     "twitter": {"score": 50, "mentions": 0}
-                }
+                },
+                "headlines": [],
+                "source_status": {
+                    "pipeline": {
+                        "status": "error",
+                        "count": 0,
+                        "detail": f"{type(e).__name__}: {e}",
+                    }
+                },
             }
+
+    @staticmethod
+    def _headlines(articles: list, limit: int = 5) -> list:
+        """
+        The stories behind the score.
+
+        A sentiment number on its own asks to be trusted. The headlines it was
+        computed from can be checked, which is the whole premise of the product,
+        so they are carried to the UI rather than discarded after scoring.
+        """
+        headlines = []
+        for article in articles[:limit]:
+            title = (article.get("title") or "").strip()
+            if not title:
+                continue
+            headlines.append({
+                "title": title,
+                "url": article.get("url") or "",
+                "source": article.get("news_source") or "",
+                "published_at": article.get("published_at") or "",
+            })
+        return headlines
 
     def _analyze_reddit_with_ml(self, posts: list) -> Dict[str, Any]:
         """Analyze Reddit posts using Llama 3 via Groq."""
@@ -197,13 +235,25 @@ class RealTimeSentimentService:
         return {"score": 50, "mentions": len(posts), "sentiment": 0.5}
 
     def _simple_news_analysis(self, articles: list) -> Dict[str, Any]:
-        """Fallback news analysis without ML."""
-        # Use MarketAux sentiment if available
-        if articles:
-            avg_sent = sum(a.get('sentiment_score', 0) for a in articles) / len(articles)
-            score = int((avg_sent + 1) * 50)  # Convert from -1/1 to 0/100
-            return {"score": score, "mentions": len(articles), "sentiment": (avg_sent + 1) / 2}
-        return {"score": 50, "mentions": 0, "sentiment": 0.5}
+        """
+        Fallback news analysis without ML.
+
+        Only MarketAux scores its own articles; Yahoo articles arrive with
+        sentiment_score None. Counting those as 0.0 would be a vote for
+        "neutral" that no one actually cast, and with Yahoo supplying most of
+        the volume it would drag every stock toward 50. So unscored articles
+        are counted as mentions but excluded from the average.
+        """
+        scored = [
+            a["sentiment_score"] for a in articles
+            if a.get("sentiment_score") is not None
+        ]
+        if not scored:
+            return {"score": 50, "mentions": len(articles), "sentiment": 0.5}
+
+        avg_sent = sum(scored) / len(scored)
+        score = int((avg_sent + 1) * 50)  # Convert from -1/1 to 0/100
+        return {"score": score, "mentions": len(articles), "sentiment": (avg_sent + 1) / 2}
 
     def _simple_twitter_analysis(self, tweets: list) -> Dict[str, Any]:
         """Fallback Twitter analysis without ML."""

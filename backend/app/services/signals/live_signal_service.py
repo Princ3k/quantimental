@@ -106,7 +106,9 @@ class LiveSignalService:
         technical_rating = quant_engine.strength_percentile(technical_raw)
         technical_notes = quant_engine.explain(indicators)
 
-        sentiment = await self._get_sentiment(symbol, depth)
+        sentiment = await self._get_sentiment(
+            symbol, depth, company_name=quote.get("company_name")
+        )
 
         if sentiment["available"]:
             engine = hybrid_engine
@@ -127,7 +129,9 @@ class LiveSignalService:
         return self._assemble(symbol, quote, indicators, technical_rating,
                               technical_raw, technical_notes, sentiment, verdict, depth)
 
-    async def _get_sentiment(self, symbol: str, depth: str) -> dict[str, Any]:
+    async def _get_sentiment(
+        self, symbol: str, depth: str, company_name: str | None = None
+    ) -> dict[str, Any]:
         """
         Fetch sentiment, or return an explicit 'unavailable' record.
 
@@ -159,7 +163,7 @@ class LiveSignalService:
 
         try:
             data = await asyncio.wait_for(
-                service.get_sentiment_for_ticker(symbol),
+                service.get_sentiment_for_ticker(symbol, company_name=company_name),
                 timeout=SENTIMENT_TIMEOUT_SECONDS,
             )
         except asyncio.TimeoutError:
@@ -178,7 +182,16 @@ class LiveSignalService:
             # Carry the per-source counts through anyway: "no coverage found"
             # and "every source is misconfigured" look identical from outside,
             # and only one of them is a product problem.
-            unavailable["sources"] = _source_status(data.get("breakdown", {}))
+            status = _source_status(data)
+            unavailable["sources"] = status
+            broken = _broken_sources(status)
+            if broken:
+                # Do not tell the user this stock has no coverage when the real
+                # answer is that our own sources refused us.
+                unavailable["reason"] = (
+                    "Sentiment sources are temporarily unavailable "
+                    f"({', '.join(broken)})."
+                )
             return unavailable
 
         return {
@@ -189,7 +202,8 @@ class LiveSignalService:
             "reddit_buzz": data.get("reddit_buzz", 0),
             "twitter_buzz": data.get("twitter_buzz", 0),
             "breakdown": data.get("breakdown", {}),
-            "sources": _source_status(data.get("breakdown", {})),
+            "sources": _source_status(data),
+            "headlines": data.get("headlines", []),
             "reason": None,
         }
 
@@ -219,7 +233,11 @@ class LiveSignalService:
 
         sources = ["yahoo_finance"]
         if sentiment["available"]:
-            sources += ["reddit", "marketaux", "twitter"]
+            contributing = [
+                name for name, info in (sentiment.get("sources") or {}).items()
+                if isinstance(info, dict) and info.get("count")
+            ]
+            sources += [s for s in contributing if s not in sources]
 
         return {
             "ticker": symbol,
@@ -273,6 +291,7 @@ class LiveSignalService:
                 "mention_velocity": sentiment["mention_velocity"],
                 "reddit_buzz": sentiment["reddit_buzz"],
                 "twitter_buzz": sentiment["twitter_buzz"],
+                "headlines": sentiment.get("headlines", []),
                 "reason": sentiment.get("reason"),
             },
             "weights": verdict["weights"],
@@ -320,18 +339,36 @@ class LiveSignalService:
         return signals, failures
 
 
-def _source_status(breakdown: dict[str, Any]) -> dict[str, int]:
+def _source_status(data: dict[str, Any]) -> dict[str, Any]:
     """
-    How many items each source actually returned.
+    What each source returned, and why.
 
     Exposed so a deployment can distinguish "this stock has no coverage" from
     "Reddit is returning 403 and nobody noticed" — which are indistinguishable
-    from a single zero.
+    from a single zero. Falls back to per-source counts for callers that
+    predate the richer status.
     """
+    status = data.get("source_status")
+    if isinstance(status, dict) and status:
+        return status
+
+    breakdown = data.get("breakdown") or {}
     return {
-        source: int((breakdown.get(source) or {}).get("mentions", 0))
+        source: {
+            "status": "ok" if (breakdown.get(source) or {}).get("mentions") else "empty",
+            "count": int((breakdown.get(source) or {}).get("mentions", 0)),
+            "detail": None,
+        }
         for source in ("reddit", "news", "twitter")
     }
+
+
+def _broken_sources(status: dict[str, Any]) -> list[str]:
+    """Names of sources that were asked and failed, ignoring ones we skipped."""
+    return sorted(
+        name for name, info in status.items()
+        if isinstance(info, dict) and info.get("status") == "error"
+    )
 
 
 live_signal_service = LiveSignalService()
