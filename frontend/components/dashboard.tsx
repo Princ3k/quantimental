@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { HowToRead } from '@/components/how-to-read'
 import { MarketSummary } from '@/components/market-summary'
 import { SignalDesk } from '@/components/signal-desk'
+import { SectorStrip } from '@/components/sector-strip'
 import { SiteHeader } from '@/components/site-header'
 import { StockCard } from '@/components/stock-card'
 import { WhatChanged } from '@/components/what-changed'
@@ -13,6 +14,7 @@ import { TickerSearch } from '@/components/ticker-search'
 import { UnusualFeed } from '@/components/unusual-feed'
 import { analyzeBatch, ApiError, getSignalDesk } from '@/lib/api'
 import { personalNote } from '@/lib/personalise'
+import type { SectorSummaryRow } from '@/lib/sectors'
 import { MAX_WATCHLIST, useWatchlist } from '@/lib/use-watchlist'
 import type { SectorSummary, SignalFailure, StockSignal } from '@/lib/types'
 
@@ -25,7 +27,7 @@ interface Loaded {
   at: Date
 }
 
-export function Dashboard() {
+export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
   const { tickers, add, remove, isFull } = useWatchlist()
 
   const [loaded, setLoaded] = useState<Loaded | null>(null)
@@ -119,9 +121,13 @@ export function Dashboard() {
       <main className="mx-auto max-w-5xl px-5 sm:px-8">
         {/* Market read */}
         <section className="py-12 sm:py-16">
-          <h1 className="text-ink-3 eyebrow mb-6">Today</h1>
+          <Link href="/" className="text-ink-3 eyebrow hover:text-ink mb-6 block transition-colors">
+            Today
+          </Link>
           <SignalDesk note={personalNote(signals, sectors)} />
         </section>
+
+        <SectorStrip sectors={sectorRows} />
 
         {/* Watchlist */}
         <section className="rule-t py-10 sm:py-12">

@@ -73,6 +73,34 @@ export async function getSectors(): Promise<Sector[]> {
   return sectors.sort((a, b) => b.change_percent - a.change_percent)
 }
 
+/**
+ * The light fields only, for the dashboard strip.
+ *
+ * `Sector` carries every member, so eleven of them is the entire 503-row
+ * snapshot — fine on a sector page that lists them, and absurd to serialise
+ * into the dashboard's payload just to draw eleven bars.
+ */
+export interface SectorSummaryRow {
+  name: string
+  slug: string
+  change_percent: number
+  members: number
+  rising: number
+  falling: number
+}
+
+export async function getSectorSummaries(): Promise<SectorSummaryRow[]> {
+  const sectors = await getSectors()
+  return sectors.map((sector) => ({
+    name: sector.name,
+    slug: sector.slug,
+    change_percent: sector.change_percent,
+    members: sector.members.length,
+    rising: sector.rising,
+    falling: sector.falling,
+  }))
+}
+
 export async function getSector(slug: string): Promise<Sector | null> {
   const sectors = await getSectors()
   return sectors.find((s) => s.slug === slug.toLowerCase()) ?? null
