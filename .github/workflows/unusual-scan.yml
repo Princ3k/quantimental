@@ -27,6 +27,10 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # The attention sweep paces itself to stay under Yahoo's limiter, so the
+    # post-close run is minutes rather than seconds. Bounded so a hung request
+    # cannot hold the runner open.
+    timeout-minutes: 30
     defaults:
       run:
         working-directory: backend
@@ -46,21 +50,30 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # The news sweep takes about nine minutes and the archive keeps one
+      # observation per trading day, so the eight hourly runs would spend the
+      # same Yahoo budget overwriting the same row — and sweeping nine times a
+      # day is how you get rate limited. Only the post-close run measures it.
       - name: Scan for unusual moves
+        if: github.event.schedule != '30 21 * * 1-5'
         run: python scripts/publish_unusual.py ../public/unusual.json
+
+      - name: Scan, and measure attention
+        if: github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch'
+        run: python scripts/publish_unusual.py ../public/unusual.json --attention
 
       - name: Commit if the scan changed
         working-directory: .
         run: |
           # snapshot.json carries every measured ticker and backs the per-stock
           # pages, so it changes on almost every run even when the feed does not.
-          if git diff --quiet -- public/unusual.json public/snapshot.json; then
+          if git diff --quiet -- public/unusual.json public/snapshot.json backend/data/attention-history.json; then
             echo "No change in the scan; nothing to commit."
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/unusual.json public/snapshot.json
+          git add public/unusual.json public/snapshot.json backend/data/attention-history.json
           git commit -m "chore: update unusual moves [skip ci]"
           git push

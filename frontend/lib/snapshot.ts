@@ -49,6 +49,14 @@ export interface SnapshotStock {
   h: string
   /** Two-week direction. */
   st: 'rising' | 'falling' | 'steady'
+  /** News articles per day. Absent when coverage could not be measured. */
+  v?: number
+  /**
+   * Multiple of this stock's own normal coverage. Absent until the attention
+   * archive holds enough history to say — which is the honest answer for its
+   * first weeks, and better than a number computed from four observations.
+   */
+  vx?: number
 }
 
 export interface Snapshot {

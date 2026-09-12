@@ -76,6 +76,24 @@ export async function generateMetadata({
   }
 }
 
+/**
+ * Coverage as a phrase rather than a rate.
+ *
+ * "29.5 articles/day" is a number nobody asked for; "30 times a day" is how a
+ * person would say it. Below one a day the rate stops being the useful unit
+ * and the gap between stories is.
+ */
+function formatCoverage(perDay: number): string {
+  // Returns the whole phrase, including its own hedge, because the hedge
+  // differs by magnitude. The sentence that consumes it must not end in
+  // "about" either: "written about about once every 4 days" was the first two
+  // attempts at this.
+  if (perDay >= 1.5) return `roughly ${Math.round(perDay)} times a day`
+  if (perDay >= 0.8) return 'about once a day'
+  if (perDay >= 0.2) return `about once every ${Math.round(1 / perDay)} days`
+  return 'rarely — less than once a week'
+}
+
 export default async function StockPage({
   params,
 }: {
@@ -134,6 +152,16 @@ export default async function StockPage({
               {stock.d.toFixed(1)}% daily move
               {stock.x >= 2 ? ' — an unusually large day for it.' : '.'}
             </p>
+
+            {stock.v !== undefined && (
+              <p className="text-ink-3 mt-1.5 text-[0.875rem] leading-relaxed">
+                New stories about it appear{' '}
+                <span className="text-ink-2">{formatCoverage(stock.v)}</span>
+                {stock.vx !== undefined &&
+                  ` — ${stock.vx.toFixed(1)}× its own normal coverage`}
+                .
+              </p>
+            )}
           </>
         ) : (
           <p className="text-ink-2 mt-7 text-lg leading-relaxed">
