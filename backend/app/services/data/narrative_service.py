@@ -18,7 +18,6 @@ what the market did.
 from __future__ import annotations
 
 import logging
-import os
 from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
@@ -57,7 +56,12 @@ class NarrativeService:
     def client(self) -> Any:
         """Groq client, or False when unavailable. Built on first use."""
         if self._client is None:
-            api_key = os.getenv("GROQ_API_KEY")
+            # Read through Settings, not os.getenv: pydantic-settings loads
+            # .env into the Settings object without ever touching os.environ,
+            # so os.getenv returns None for a key that is configured correctly.
+            from app.core.config import get_settings
+
+            api_key = get_settings().GROQ_API_KEY
             if not api_key:
                 self._client = False
             else:

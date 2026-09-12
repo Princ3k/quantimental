@@ -114,7 +114,10 @@ class SentimentModel:
     def groq(self) -> Any:
         """Groq client, or False when no API key is configured."""
         if self._groq is None:
-            api_key = os.getenv("GROQ_API_KEY")
+            # Settings, not os.getenv — see the note in narrative_service.
+            from app.core.config import get_settings
+
+            api_key = get_settings().GROQ_API_KEY
             if not api_key:
                 logger.info("GROQ_API_KEY is not set; discussion analysis will use VADER")
                 self._groq = False
@@ -270,9 +273,11 @@ class SentimentModel:
         Reads the private fields directly so a health check does not cause a
         multi-hundred-megabyte model download as a side effect.
         """
+        from app.core.config import get_settings
+
         return {
             "vader": True,
             "finbert": self._news_pipe not in (None, False),
             "twitter_roberta": self._social_pipe not in (None, False),
-            "groq": bool(os.getenv("GROQ_API_KEY")),
+            "groq": bool(get_settings().GROQ_API_KEY),
         }
