@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/site-header'
 import { StockCard } from '@/components/stock-card'
 import { WhatChanged } from '@/components/what-changed'
 import { TickerSearch } from '@/components/ticker-search'
+import { UnusualFeed } from '@/components/unusual-feed'
 import { analyzeBatch, ApiError, getSignalDesk } from '@/lib/api'
 import { personalNote } from '@/lib/personalise'
 import { MAX_WATCHLIST, useWatchlist } from '@/lib/use-watchlist'
@@ -208,6 +209,13 @@ export function Dashboard() {
               </p>
             )
           )}
+
+          {/* Why the app is worth opening on a day your own stocks did nothing.
+              Placed below the watchlist: someone who came to check their own
+              holdings should see those first. */}
+          <div className="mt-12">
+            <UnusualFeed onPick={isFull ? undefined : add} />
+          </div>
 
           <div className="mt-10">
             <HowToRead />

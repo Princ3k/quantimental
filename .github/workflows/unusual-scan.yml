@@ -1,0 +1,64 @@
+name: Publish Unusual Moves
+
+# Scans the S&P 500 for stocks having unusual days and commits the result as a
+# static JSON file, which the frontend fetches directly.
+#
+# Same reasoning as the Signal Desk workflow: the payload is identical for
+# every viewer, so it is a file rather than a request. It also keeps a
+# 503-ticker download off the critical path of somebody opening the page.
+
+on:
+  schedule:
+    # Hourly during US market hours, plus once after the close, on weekdays.
+    # The post-close run is the one that matters — it is the only scan of the
+    # day that reads a completed session.
+    - cron: '0 14-21 * * 1-5'
+    - cron: '30 21 * * 1-5'
+  workflow_dispatch:
+
+# Only this workflow may write, and only to push the generated file.
+permissions:
+  contents: write
+
+concurrency:
+  group: unusual-scan
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        # Production deps only — no test runner needed to generate a file.
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Scan for unusual moves
+        run: python scripts/publish_unusual.py ../public/unusual.json
+
+      - name: Commit if the scan changed
+        working-directory: .
+        run: |
+          if git diff --quiet -- public/unusual.json; then
+            echo "No change in the scan; nothing to commit."
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/unusual.json
+          git commit -m "chore: update unusual moves [skip ci]"
+          git push

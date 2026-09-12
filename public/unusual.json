@@ -1,0 +1,182 @@
+{
+  "available": true,
+  "generated_at": "2026-09-12T21:29:34.171901+00:00",
+  "as_of": "2026-09-11",
+  "scanned": 503,
+  "universe": 503,
+  "unusual_count": 5,
+  "rising": 5,
+  "falling": 0,
+  "movers": [
+    {
+      "ticker": "ON",
+      "price": 76.14,
+      "change_percent": 8.51,
+      "typical_percent": 3.41,
+      "multiple": 2.5,
+      "direction": "up",
+      "period_percent": 1.79,
+      "volume": 11285100,
+      "company": "ON Semiconductor",
+      "sector": "Information Technology",
+      "headline": "ON Semiconductor is up 8.5% today, 2.5x its typical 3.4% daily move."
+    },
+    {
+      "ticker": "CSCO",
+      "price": 112.13,
+      "change_percent": 4.37,
+      "typical_percent": 1.8,
+      "multiple": 2.4,
+      "direction": "up",
+      "period_percent": -0.02,
+      "volume": 14156800,
+      "company": "Cisco",
+      "sector": "Information Technology",
+      "headline": "Cisco is up 4.4% today, 2.4x its typical 1.8% daily move."
+    },
+    {
+      "ticker": "HPE",
+      "price": 62.09,
+      "change_percent": 12.44,
+      "typical_percent": 5.64,
+      "multiple": 2.2,
+      "direction": "up",
+      "period_percent": 14.12,
+      "volume": 38992100,
+      "company": "Hewlett Packard Enterprise",
+      "sector": "Information Technology",
+      "headline": "Hewlett Packard Enterprise is up 12.4% today, 2.2x its typical 5.6% daily move."
+    },
+    {
+      "ticker": "GRMN",
+      "price": 282.67,
+      "change_percent": 4.25,
+      "typical_percent": 2.06,
+      "multiple": 2.1,
+      "direction": "up",
+      "period_percent": -2.11,
+      "volume": 756900,
+      "company": "Garmin",
+      "sector": "Consumer Discretionary",
+      "headline": "Garmin is up 4.2% today, 2.1x its typical 2.1% daily move."
+    },
+    {
+      "ticker": "DELL",
+      "price": 567.29,
+      "change_percent": 11.98,
+      "typical_percent": 5.85,
+      "multiple": 2.0,
+      "direction": "up",
+      "period_percent": 20.12,
+      "volume": 14385700,
+      "company": "Dell Technologies",
+      "sector": "Information Technology",
+      "headline": "Dell Technologies is up 12.0% today, 2.0x its typical 5.8% daily move."
+    }
+  ],
+  "biggest": [
+    {
+      "ticker": "HPE",
+      "price": 62.09,
+      "change_percent": 12.44,
+      "typical_percent": 5.64,
+      "multiple": 2.2,
+      "direction": "up",
+      "period_percent": 14.12,
+      "volume": 38992100,
+      "company": "Hewlett Packard Enterprise",
+      "sector": "Information Technology",
+      "headline": "Hewlett Packard Enterprise is up 12.4% today, 2.2x its typical 5.6% daily move."
+    },
+    {
+      "ticker": "DELL",
+      "price": 567.29,
+      "change_percent": 11.98,
+      "typical_percent": 5.85,
+      "multiple": 2.0,
+      "direction": "up",
+      "period_percent": 20.12,
+      "volume": 14385700,
+      "company": "Dell Technologies",
+      "sector": "Information Technology",
+      "headline": "Dell Technologies is up 12.0% today, 2.0x its typical 5.8% daily move."
+    },
+    {
+      "ticker": "NTAP",
+      "price": 199.28,
+      "change_percent": 8.54,
+      "typical_percent": 4.42,
+      "multiple": 1.9,
+      "direction": "up",
+      "period_percent": 4.53,
+      "volume": 2608900,
+      "company": "NetApp",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "ON",
+      "price": 76.14,
+      "change_percent": 8.51,
+      "typical_percent": 3.41,
+      "multiple": 2.5,
+      "direction": "up",
+      "period_percent": 1.79,
+      "volume": 11285100,
+      "company": "ON Semiconductor",
+      "sector": "Information Technology",
+      "headline": "ON Semiconductor is up 8.5% today, 2.5x its typical 3.4% daily move."
+    },
+    {
+      "ticker": "HPQ",
+      "price": 35.48,
+      "change_percent": 8.4,
+      "typical_percent": 4.82,
+      "multiple": 1.7,
+      "direction": "up",
+      "period_percent": 20.91,
+      "volume": 26522500,
+      "company": "HP Inc.",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "CDW",
+      "price": 153.79,
+      "change_percent": 7.85,
+      "typical_percent": 4.77,
+      "multiple": 1.6,
+      "direction": "up",
+      "period_percent": 3.24,
+      "volume": 1774600,
+      "company": "CDW Corporation",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "SMCI",
+      "price": 40.1,
+      "change_percent": 7.28,
+      "typical_percent": 5.6,
+      "multiple": 1.3,
+      "direction": "up",
+      "period_percent": 4.26,
+      "volume": 46402900,
+      "company": "Supermicro",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "FLEX",
+      "price": 115.78,
+      "change_percent": 7.19,
+      "typical_percent": 3.99,
+      "multiple": 1.8,
+      "direction": "up",
+      "period_percent": 0.42,
+      "volume": 3033300,
+      "company": "Flex Ltd.",
+      "sector": "Information Technology"
+    }
+  ],
+  "threshold": {
+    "multiple": 2.0,
+    "min_move_percent": 1.5
+  }
+}
