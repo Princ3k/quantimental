@@ -1,6 +1,7 @@
 {
   "available": true,
-  "as_of": "2026-09-12T15:57:08.037166+00:00",
+  "context": null,
+  "as_of": "2026-09-12T21:50:40.301064+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -192,9 +193,10 @@
     24.1
   ],
   "narrative": {
-    "text": "Investors pulled back from risk this week. The clearest moves: long-term rates climbing and high-yield credit under pressure. Energy led at +1.7%, while Health Care lagged at -3.5%.",
-    "source": "template",
-    "reason": "AuthenticationError: Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}"
+    "text": "Long-term rates climbed and credit markets sold off. Energy was the strongest sector, while health care and materials fell the most.",
+    "short": "Long-term rates climbed and credit markets sold off as uncertainty rose.",
+    "source": "llm",
+    "short_source": "llm"
   },
-  "generated_at": "2026-09-12T15:57:08.413622+00:00"
+  "generated_at": "2026-09-12T21:50:40.788234+00:00"
 }
