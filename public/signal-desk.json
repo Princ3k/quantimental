@@ -1,6 +1,6 @@
 {
   "available": true,
-  "as_of": "2026-09-12T14:54:28.590946+00:00",
+  "as_of": "2026-09-12T15:16:18.521318+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -192,8 +192,8 @@
     24.1
   ],
   "narrative": {
-    "text": "Government bond yields climbed sharply while corporate debt prices fell. Energy stocks led the market, but health care and materials lagged as overall risk appetite dropped.",
-    "source": "llm"
+    "text": "Investors pulled back from risk this week. The clearest moves: long-term rates climbing and high-yield credit under pressure. Energy led at +1.7%, while Health Care lagged at -3.5%.",
+    "source": "template"
   },
-  "generated_at": "2026-09-12T14:54:28.916754+00:00"
+  "generated_at": "2026-09-12T15:16:18.634999+00:00"
 }
