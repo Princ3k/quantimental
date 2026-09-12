@@ -202,6 +202,16 @@ export const GLOSSARY: Record<string, { term: string; plain: string }> = {
     plain:
       'Our 0-100 summary of how people are talking about this stock in news articles and social posts.',
   },
+  sigma: {
+    term: 'Sigma (σ)',
+    plain:
+      'How unusual a move is for that particular market, measured against its own typical week. Around 1σ is a big week; 2σ or more is genuinely rare. It lets you compare a move in oil against one in bonds, which normally swing by very different amounts.',
+  },
+  riskAppetite: {
+    term: 'Risk appetite',
+    plain:
+      'Our 0-100 read on whether investors are leaning into risk or backing away from it, where 50 is neutral. It combines government bond yields, corporate debt, the dollar, volatility and how broadly sectors are rising.',
+  },
   overallScore: {
     term: 'Overall score',
     plain:

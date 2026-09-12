@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { HowToRead } from '@/components/how-to-read'
 import { MarketSummary } from '@/components/market-summary'
+import { SignalDesk } from '@/components/signal-desk'
 import { SiteHeader } from '@/components/site-header'
 import { StockCard } from '@/components/stock-card'
 import { TickerSearch } from '@/components/ticker-search'
@@ -110,11 +111,22 @@ export function Dashboard() {
         <main className="mx-auto max-w-6xl space-y-6 px-4 py-8">
           <section className="space-y-2">
             <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-              Your stocks, explained
+              What the market is doing today
             </h1>
             <p className="text-muted-foreground max-w-2xl">
-              We read the price chart and what people are saying, then tell you what it adds up
-              to — in ordinary words, with the reasoning shown.
+              We read price action across rates, credit, currencies, commodities and sectors —
+              then explain what it adds up to, in ordinary words.
+            </p>
+          </section>
+
+          {/* The market-wide read comes first: it changes daily and needs no
+              setup, so it is useful before a visitor has added a single stock. */}
+          <SignalDesk />
+
+          <section className="space-y-1 pt-2">
+            <h2 className="text-xl font-semibold tracking-tight">Your stocks</h2>
+            <p className="text-muted-foreground text-sm">
+              And here is what all of that means for the companies you follow.
             </p>
           </section>
 

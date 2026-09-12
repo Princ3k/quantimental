@@ -10,6 +10,7 @@ import type {
   AnalyzeResponse,
   BatchResponse,
   SearchResponse,
+  SignalDeskResponse,
   StockSignal,
   TickerNewsResponse,
 } from './types'
@@ -170,4 +171,15 @@ export async function checkHealth(signal?: AbortSignal): Promise<boolean> {
   } catch {
     return false
   }
+}
+
+/**
+ * The market-wide Signal Desk.
+ *
+ * Needs no ticker — it reads a fixed basket of rates, credit, currency,
+ * commodity, volatility and sector instruments and reports the state of the
+ * market as a whole.
+ */
+export async function getSignalDesk(signal?: AbortSignal): Promise<SignalDeskResponse> {
+  return request<SignalDeskResponse>('/api/v1/market/signal-desk', { signal })
 }

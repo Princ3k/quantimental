@@ -8,6 +8,7 @@ empty result with an explanation rather than failing the page.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Any
 from urllib.parse import urlparse
@@ -18,6 +19,8 @@ from sqlalchemy import desc, select
 from app.db.models import NewsArticle, SentimentEvent
 from app.db.session import database_available, get_async_session_factory
 from app.schemas.api import AnalyzeRequest
+from app.services.data.macro_signal_service import macro_signal_service
+from app.services.data.narrative_service import narrative_service
 
 logger = logging.getLogger(__name__)
 
@@ -192,3 +195,26 @@ async def trigger_ingestion(ticker: str, background_tasks: BackgroundTasks) -> d
 
     background_tasks.add_task(_run)
     return {"ticker": symbol, "status": "started", "message": f"Sentiment ingestion started for {symbol}."}
+
+
+@router.get("/signal-desk")
+async def get_signal_desk() -> dict[str, Any]:
+    """
+    The market-wide Signal Desk: what moved, how unusual it was, and what it
+    adds up to in plain English.
+
+    Unlike the per-stock endpoints this needs no ticker — it reads a fixed
+    basket of rates, credit, currency, commodity, volatility and sector
+    instruments and reports the state of the market as a whole.
+
+    Everything here describes what has *already* happened. Nothing forecasts.
+    """
+    # Both calls are blocking (network, then optionally an LLM), so keep them
+    # off the event loop.
+    desk = await asyncio.to_thread(macro_signal_service.get_desk)
+
+    if not desk.get("available"):
+        return desk
+
+    desk["narrative"] = await asyncio.to_thread(narrative_service.generate, desk)
+    return desk

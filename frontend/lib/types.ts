@@ -175,3 +175,90 @@ export interface TickerNewsResponse {
   available: boolean
   reason?: string
 }
+
+// ---------------------------------------------------------------------------
+// Signal Desk — market-wide readings, not per-stock
+// ---------------------------------------------------------------------------
+
+export type RiskTone = 'risk_on' | 'risk_off' | 'neutral'
+
+export type SignalCategory =
+  | 'RATES'
+  | 'CREDIT'
+  | 'FX'
+  | 'COMMODITIES'
+  | 'VOL'
+  | 'SOCIAL'
+
+export interface MacroSignal {
+  category: SignalCategory
+  name: string
+  /** Plain-English description of the move. */
+  text: string
+  direction: 'up' | 'down' | 'flat'
+  /** Pre-formatted magnitude: "+2.0σ", "+9.4%", or a level. */
+  delta: string
+  change_percent: number
+  /** Standard deviations from this instrument's own normal weekly move. */
+  z_score: number
+  risk_tone: RiskTone
+  /** True when the move clears the threshold for being worth surfacing. */
+  notable: boolean
+}
+
+export interface SectorReading {
+  symbol: string
+  name: string
+  change_percent: number
+  z_score: number
+}
+
+export interface SectorSummary {
+  available: boolean
+  leaders: SectorReading[]
+  laggards: SectorReading[]
+  /** Percentage of sectors advancing. */
+  breadth: number | null
+  advancing?: number
+  total?: number
+}
+
+export interface CompositeContribution {
+  name: string
+  effect: number
+  tone: RiskTone
+}
+
+export interface Composite {
+  /** 0-100, where 50 is neutral. */
+  score: number
+  label: string
+  tone: RiskTone
+  contributions: CompositeContribution[]
+}
+
+export interface Narrative {
+  text: string
+  /** Whether an LLM or the deterministic template produced this. */
+  source: 'llm' | 'template' | 'none'
+}
+
+export interface SignalDeskUnavailable {
+  available: false
+  reason: string
+  as_of: string
+}
+
+export interface SignalDeskData {
+  available: true
+  as_of: string
+  lookback_days: number
+  signals: MacroSignal[]
+  sectors: SectorSummary
+  composite: Composite
+  /** Trace for the composite sparkline, oldest first. */
+  history: number[]
+  narrative?: Narrative
+}
+
+export type SignalDeskResponse = SignalDeskData | SignalDeskUnavailable
