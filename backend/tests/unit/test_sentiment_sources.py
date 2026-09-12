@@ -253,6 +253,109 @@ class TestRedditBackoff:
         assert "REDDIT_CLIENT_ID" in second.detail
 
 
+class TestTwitterProviders:
+    """
+    Two resellers, non-interchangeable keys, and a bare 401 either way.
+
+    The code called scrapebadger.com while env.example told you to sign up at
+    twitterapi.io, so a key obtained by following the documentation was
+    guaranteed to be rejected — and the error said only "HTTP 401".
+    """
+
+    @pytest.mark.asyncio
+    async def test_each_provider_is_called_at_its_own_host(self, monkeypatch):
+        seen: list[str] = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            seen.append(request.url.host)
+            return httpx.Response(200, json={"data": [], "tweets": []})
+
+        _patch_httpx(monkeypatch, handler)
+
+        for provider, host in [
+            ("twitterapi.io", "api.twitterapi.io"),
+            ("scrapebadger", "scrapebadger.com"),
+        ]:
+            seen.clear()
+            _patch_settings(monkeypatch, twitter="k", twitter_provider=provider)
+            await fetcher._fetch_twitter("AAPL")
+            assert seen == [host]
+
+    @pytest.mark.asyncio
+    async def test_each_provider_gets_its_own_header_and_param_spelling(self, monkeypatch):
+        captured: dict[str, httpx.Request] = {}
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            captured["r"] = request
+            return httpx.Response(200, json={"data": [], "tweets": []})
+
+        _patch_httpx(monkeypatch, handler)
+
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="twitterapi.io")
+        await fetcher._fetch_twitter("AAPL")
+        assert captured["r"].headers.get("x-api-key") == "k"
+        assert "queryType" in str(captured["r"].url)
+
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="scrapebadger")
+        await fetcher._fetch_twitter("AAPL")
+        assert "query_type" in str(captured["r"].url)
+
+    @pytest.mark.asyncio
+    async def test_a_401_names_the_host_and_the_alternative(self, monkeypatch):
+        # The fix for the original bug: the error has to make the provider
+        # mismatch visible, since that is the likeliest cause.
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="scrapebadger")
+        _patch_httpx(monkeypatch, lambda r: httpx.Response(401, json={"detail": "nope"}))
+
+        outcome = await fetcher._fetch_twitter("AAPL")
+
+        assert outcome.status == "error"
+        assert "scrapebadger.com rejected this key" in outcome.detail
+        assert "twitterapi.io" in outcome.detail
+        assert "TWITTER_API_PROVIDER" in outcome.detail
+
+    @pytest.mark.asyncio
+    async def test_an_unknown_provider_falls_back_rather_than_crashing(self, monkeypatch):
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="not-a-provider")
+        _patch_httpx(monkeypatch, lambda r: httpx.Response(200, json={"tweets": []}))
+
+        outcome = await fetcher._fetch_twitter("AAPL")
+        assert outcome.status == "empty"
+
+    @pytest.mark.asyncio
+    async def test_tweets_normalise_from_either_field_spelling(self, monkeypatch):
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="twitterapi.io")
+        _patch_httpx(monkeypatch, lambda r: httpx.Response(200, json={
+            "tweets": [{
+                "id": "123",
+                "text": "AAPL looks interesting",
+                "createdAt": "2026-09-12",
+                "author": {"userName": "someone"},
+                "likeCount": 5,
+            }]
+        }))
+
+        outcome = await fetcher._fetch_twitter("AAPL")
+
+        assert outcome.status == "ok"
+        tweet = outcome.items[0]
+        assert tweet["author"] == "someone"
+        assert tweet["likes"] == 5
+        assert tweet["url"] == "https://twitter.com/someone/status/123"
+
+    @pytest.mark.asyncio
+    async def test_retweets_are_skipped_under_either_spelling(self, monkeypatch):
+        _patch_settings(monkeypatch, twitter="k", twitter_provider="twitterapi.io")
+        _patch_httpx(monkeypatch, lambda r: httpx.Response(200, json={
+            "tweets": [
+                {"id": "1", "text": "rt", "isRetweet": True},
+                {"id": "2", "text": "rt", "is_retweet": True},
+            ]
+        }))
+
+        assert (await fetcher._fetch_twitter("AAPL")).status == "empty"
+
+
 class TestMarketaux:
     @pytest.mark.asyncio
     async def test_missing_key_is_disabled_not_error(self, monkeypatch):
@@ -421,10 +524,13 @@ def _patch_httpx(monkeypatch, handler) -> None:
     monkeypatch.setattr(fetcher.httpx, "AsyncClient", factory)
 
 
-def _patch_settings(monkeypatch, *, marketaux=None, twitter=None, reddit=(None, None)) -> None:
+def _patch_settings(
+    monkeypatch, *, marketaux=None, twitter=None, reddit=(None, None), twitter_provider=None
+) -> None:
     class _Stub:
         MARKETAUX_API_KEY = marketaux
         TWITTER_API_KEY = twitter
+        TWITTER_API_PROVIDER = twitter_provider
         REDDIT_CLIENT_ID = reddit[0]
         REDDIT_CLIENT_SECRET = reddit[1]
 

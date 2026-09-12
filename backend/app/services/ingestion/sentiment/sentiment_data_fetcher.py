@@ -54,7 +54,35 @@ REDDIT_MULTI = "+".join(REDDIT_TARGET_SUBREDDITS)
 ATOM_NS = {"a": "http://www.w3.org/2005/Atom"}
 
 MARKETAUX_BASE_URL = "https://api.marketaux.com/v1/news/all"
-TWITTER_BASE_URL = "https://scrapebadger.com/api/v1/twitter/tweets/advanced_search"
+# Two providers resell Twitter/X search, and this project has referred to both:
+# the code called ScrapeBadger while env.example told you to sign up at
+# twitterapi.io. A key from one is rejected by the other, which presents as a
+# flat 401 with nothing to suggest the provider is the problem — so both are
+# supported and `TWITTER_API_PROVIDER` picks one.
+#
+# They differ in host, header casing, the query-type parameter name, and the
+# key the tweet list arrives under. All four are captured here rather than
+# branching through the fetch.
+TWITTER_PROVIDERS: dict[str, dict[str, str]] = {
+    "scrapebadger": {
+        "host": "scrapebadger.com",
+        "url": "https://scrapebadger.com/api/v1/twitter/tweets/advanced_search",
+        "header": "x-api-key",
+        "query_type_param": "query_type",
+        "results_key": "data",
+    },
+    "twitterapi.io": {
+        "host": "api.twitterapi.io",
+        "url": "https://api.twitterapi.io/twitter/tweet/advanced_search",
+        "header": "X-API-Key",
+        "query_type_param": "queryType",
+        "results_key": "tweets",
+    },
+}
+DEFAULT_TWITTER_PROVIDER = "twitterapi.io"
+
+# Kept for callers that imported it directly.
+TWITTER_BASE_URL = TWITTER_PROVIDERS[DEFAULT_TWITTER_PROVIDER]["url"]
 
 # HTTP configuration
 DEFAULT_TIMEOUT = 30.0
@@ -724,8 +752,47 @@ async def fetch_marketaux_news(
 # Twitter / X
 # ---------------------------------------------------------------------------
 
+def _twitter_provider() -> dict[str, str]:
+    """The configured provider, falling back to the documented default."""
+    name = (get_settings().TWITTER_API_PROVIDER or DEFAULT_TWITTER_PROVIDER).strip().lower()
+    provider = TWITTER_PROVIDERS.get(name)
+    if provider is None:
+        logger.warning(
+            "Unknown TWITTER_API_PROVIDER %r; using %s. Valid: %s",
+            name, DEFAULT_TWITTER_PROVIDER, ", ".join(TWITTER_PROVIDERS),
+        )
+        return TWITTER_PROVIDERS[DEFAULT_TWITTER_PROVIDER]
+    return provider
+
+
+def _normalise_tweet(tweet: dict) -> dict:
+    """
+    Flatten one tweet from either provider.
+
+    The two disagree on field names, so both spellings are tried. Reading a
+    missing field as 0 is fine here — engagement counts are used for weighting,
+    not reported as facts.
+    """
+    username = tweet.get("username") or (tweet.get("author") or {}).get("userName", "")
+    tweet_id = str(tweet.get("id") or tweet.get("id_str") or "")
+
+    return {
+        "source": "twitter",
+        "tweet_id": tweet_id,
+        "text": tweet.get("full_text") or tweet.get("text", ""),
+        "created_at": tweet.get("created_at") or tweet.get("createdAt", ""),
+        "author": username,
+        "followers": 0,  # Not provided in search results by either provider.
+        "likes": tweet.get("favorite_count") or tweet.get("likeCount", 0),
+        "retweets": tweet.get("retweet_count") or tweet.get("retweetCount", 0),
+        "replies": tweet.get("reply_count") or tweet.get("replyCount", 0),
+        "views": tweet.get("view_count") or tweet.get("viewCount", 0),
+        "url": f"https://twitter.com/{username or 'i'}/status/{tweet_id}",
+    }
+
+
 async def _fetch_twitter(ticker: str, limit: int = 20) -> SourceOutcome:
-    """Fetch recent tweets about a ticker using ScrapeBadger."""
+    """Fetch recent tweets about a ticker from the configured provider."""
     ticker = ticker.upper().strip()
     cashtag = f"${ticker}"
     api_key = get_settings().TWITTER_API_KEY
@@ -733,64 +800,64 @@ async def _fetch_twitter(ticker: str, limit: int = 20) -> SourceOutcome:
     if not api_key:
         return SourceOutcome([], "disabled", "TWITTER_API_KEY is not set")
 
+    provider = _twitter_provider()
+    url = provider["url"]
+    params = {"query": f"{cashtag} lang:en", provider["query_type_param"]: "Latest"}
+    headers = {provider["header"]: api_key}
+
     async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
         try:
-            params = {"query": f"{cashtag} lang:en", "query_type": "Latest"}
-            headers = {"x-api-key": api_key}
-
-            response = await client.get(TWITTER_BASE_URL, params=params, headers=headers)
+            response = await client.get(url, params=params, headers=headers)
 
             if response.status_code == 429:
                 retry_after = int(response.headers.get("Retry-After", 15))
                 logger.warning("Twitter 429 for %s — waiting %ss then retrying", ticker, retry_after)
                 await asyncio.sleep(retry_after)
-                response = await client.get(TWITTER_BASE_URL, params=params, headers=headers)
+                response = await client.get(url, params=params, headers=headers)
 
             response.raise_for_status()
             data = response.json()
 
-            tweets = data.get("data", [])
+            tweets = data.get(provider["results_key"]) or []
             normalized: list[dict] = []
 
             for tweet in tweets:
-                if tweet.get("is_retweet"):
+                if tweet.get("is_retweet") or tweet.get("isRetweet"):
                     continue
-
-                normalized.append({
-                    "source": "twitter",
-                    "tweet_id": tweet.get("id", ""),
-                    "text": tweet.get("full_text") or tweet.get("text", ""),
-                    "created_at": tweet.get("created_at", ""),
-                    "author": tweet.get("username", ""),
-                    "followers": 0,  # Not provided in search results
-                    "likes": tweet.get("favorite_count", 0),
-                    "retweets": tweet.get("retweet_count", 0),
-                    "replies": tweet.get("reply_count", 0),
-                    "views": tweet.get("view_count", 0),
-                    "url": f"https://twitter.com/{tweet.get('username', 'i')}/status/{tweet.get('id', '')}",
-                })
-
+                normalized.append(_normalise_tweet(tweet))
                 if len(normalized) >= limit:
                     break
 
             if not normalized:
                 return SourceOutcome([], "empty", "no matching tweets")
 
-            logger.info("Twitter: %d tweets for %s", len(normalized), ticker)
+            logger.info("Twitter: %d tweets for %s via %s", len(normalized), ticker, provider["host"])
             return SourceOutcome(normalized, "ok")
 
         except httpx.HTTPStatusError as exc:
             code = exc.response.status_code
             detail = f"HTTP {code}"
             if code in (401, 403):
-                detail += " — key rejected by ScrapeBadger"
+                # Naming the host is the whole point: a key bought from the
+                # other provider produces this exact error, and without the
+                # host there is nothing to suggest that is what happened.
+                others = [n for n in TWITTER_PROVIDERS if n != _provider_name()]
+                detail += (
+                    f" — {provider['host']} rejected this key. If you signed up with "
+                    f"{' or '.join(others)}, set TWITTER_API_PROVIDER to it."
+                )
             elif code == 429:
-                detail += " — rate limited"
+                detail += f" — rate limited by {provider['host']}"
             logger.warning("Twitter failed for %s: %s", ticker, detail)
             return SourceOutcome([], "error", detail)
         except Exception as exc:  # noqa: BLE001
             logger.error("Error fetching tweets for %s: %s", ticker, exc)
             return SourceOutcome([], "error", _safe_detail(exc))
+
+
+def _provider_name() -> str:
+    name = (get_settings().TWITTER_API_PROVIDER or DEFAULT_TWITTER_PROVIDER).strip().lower()
+    return name if name in TWITTER_PROVIDERS else DEFAULT_TWITTER_PROVIDER
 
 
 async def fetch_twitter_posts(ticker: str, limit: int = 20, min_followers: int = 50) -> list[dict]:

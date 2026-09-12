@@ -64,7 +64,7 @@ source and cover every market `yfinance` does, including non-US listings like
 | Yahoo Finance | no | Default. ~10 stories/ticker, cached 5 min. |
 | Reddit | recommended | See below. |
 | MarketAux | yes | Adds publisher-scored sentiment. Free tier: 100 req/day. |
-| Twitter/X | yes | Via ScrapeBadger. |
+| Twitter/X | yes | Two resellers supported; set `TWITTER_API_PROVIDER`. See below. |
 
 Two decisions here are worth knowing about, because both were arrived at the
 expensive way.
@@ -78,6 +78,14 @@ off for five minutes after a 429 rather than digging the hole deeper. Setting
 `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET` (a free "script" app at
 <https://www.reddit.com/prefs/apps>) switches to the OAuth API: ~100 requests a
 minute, and post scores, which RSS omits.
+
+**Twitter needs its provider named.** Two companies resell Twitter/X search —
+twitterapi.io and ScrapeBadger — and their keys are not interchangeable. Each
+rejects the other's with a bare HTTP 401, and nothing in that response suggests
+the provider is the problem. This repo previously hard-coded ScrapeBadger while
+`env.example` told you to sign up at twitterapi.io, which guaranteed a 401 for
+anyone who followed the documentation. Set `TWITTER_API_PROVIDER` to wherever
+the key actually came from; the 401 now names the host it was sent to.
 
 **A source that fails says so.** Every fetcher used to swallow its errors into
 an empty list, so "MarketAux rejected our API key" and "this company had a quiet

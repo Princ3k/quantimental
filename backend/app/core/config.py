@@ -60,6 +60,10 @@ class Settings(BaseSettings):
     ALPHA_VANTAGE_API_KEY: Optional[str] = None
     MARKETAUX_API_KEY: Optional[str] = None
     TWITTER_API_KEY: Optional[str] = None
+    # Which reseller the key came from: "twitterapi.io" or "scrapebadger".
+    # They are different companies, and each rejects the other's keys with a
+    # bare 401. See TWITTER_PROVIDERS in the sentiment fetcher.
+    TWITTER_API_PROVIDER: Optional[str] = None
     HF_TOKEN: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
     # Groq retires hosted models fairly often (llama-3.1-8b-instant, which this
