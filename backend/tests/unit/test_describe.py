@@ -69,6 +69,43 @@ class TestHeadline:
                 assert word not in text, f"forecast language {word!r} in: {text}"
 
 
+class TestNoForecastAnywhere:
+    """
+    The no-forecast rule has to cover every engine that writes copy, not just
+    this one. It did not: `quant.explain()` shipped "so expect a bumpier ride"
+    on every stock page, in a product whose central claim is that it does not
+    forecast — while describe.py's own test passed.
+    """
+
+    FORECAST_WORDS = (
+        "expect", "likely", "should ", "will ", "poised", "set to",
+        "predict", "forecast", "upside", "downside", "tend to", "tended to",
+    )
+
+    def test_technical_notes_never_forecast(self):
+        import numpy as np
+
+        from app.engines.quant import quant_engine
+
+        rng = np.random.default_rng(7)
+        for drift, vol in [(0.6, 0.5), (-0.6, 0.5), (0.0, 3.0), (0.0, 0.1)]:
+            closes = 100 + np.cumsum(rng.normal(drift, vol, 260))
+            indicators = quant_engine.calculate_indicators(closes, closes + 1, closes - 1)
+
+            text = " ".join(quant_engine.explain(indicators)).lower()
+            for word in self.FORECAST_WORDS:
+                assert word not in text, f"forecast language {word!r} in: {text}"
+
+    def test_momentum_descriptions_never_forecast(self):
+        from app.engines.quant import quant_engine
+
+        for rsi in (5.0, 25.0, 50.0, 75.0, 95.0):
+            reading = quant_engine.describe_momentum(rsi)
+            text = f"{reading['label']} {reading['meaning']}".lower()
+            for word in self.FORECAST_WORDS:
+                assert word not in text, f"forecast language {word!r} in: {text}"
+
+
 class TestUnusualMoves:
     def test_a_move_is_unusual_relative_to_this_stock_not_in_absolute_percent(self):
         # 3% is a big day for a utility and an ordinary one for a volatile

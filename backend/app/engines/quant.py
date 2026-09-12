@@ -466,13 +466,16 @@ class QuantEngine:
         if upper > lower:
             position = (price - lower) / (upper - lower)
             if position > 0.9:
-                notes.append("Price is at the top of its recent range, where it has tended to stall.")
+                notes.append("Price is at the top of the range it has traded in recently.")
             elif position < 0.1:
-                notes.append("Price is at the bottom of its recent range, where it has tended to find support.")
+                notes.append("Price is at the bottom of the range it has traded in recently.")
 
         volatility = ind.get("volatility", "moderate")
         if volatility == "high":
-            notes.append("Day-to-day swings are larger than usual, so expect a bumpier ride.")
+            notes.append(
+                "Day-to-day swings have been larger than usual — this stock has been "
+                "moving more in both directions."
+            )
         elif volatility == "low":
             notes.append("Day-to-day swings are small — price action has been calm.")
 

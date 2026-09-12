@@ -148,13 +148,19 @@ def explain(
     if not attribution["diverged"]:
         return f"{context}, so this move tracked the market rather than anything specific to {company}."
 
-    # Opposite directions is the sharper observation, and worth saying plainly.
     stock_up = change_percent > FLAT_THRESHOLD_PCT
     stock_down = change_percent < -FLAT_THRESHOLD_PCT
     sector_up = sector_pct > FLAT_THRESHOLD_PCT
     sector_down = sector_pct < -FLAT_THRESHOLD_PCT
 
+    # Opposite directions is the sharper observation, and worth saying plainly.
     if (stock_up and sector_down) or (stock_down and sector_up):
         return f"{context} — so {company} moved against its sector."
+
+    # A stock that stayed put while its sector moved is the case the generic
+    # wording got wrong: "most of this was specific to Nvidia" is nonsense
+    # about a 0.03% day. Not participating is the story, so say that.
+    if not stock_up and not stock_down and (sector_up or sector_down):
+        return f"{context} — so {company} did not follow its sector."
 
     return f"{context}, so most of this was specific to {company}."

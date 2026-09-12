@@ -103,6 +103,17 @@ class TestExplain:
         sentence = explain("Nvidia", -8.0, self._attribution(gap=-4.9, diverged=True))
         assert "most of this was specific to Nvidia" in sentence
 
+    def test_a_flat_stock_in_a_moving_sector_is_described_as_not_following(self):
+        # The generic wording got this wrong live: "most of this was specific
+        # to Nvidia" about a 0.03% day. Not participating is the story.
+        sentence = explain(
+            "Nvidia", -0.03,
+            self._attribution(market_percent=0.5, sector_percent=1.9, gap=-1.93, diverged=True),
+        )
+
+        assert "did not follow its sector" in sentence
+        assert "most of this was specific" not in sentence
+
     def test_moving_against_the_sector_is_called_out(self):
         sentence = explain(
             "Nvidia", 3.0,

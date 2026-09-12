@@ -201,11 +201,17 @@ export default async function StockPage({
                 is what a crawler indexes and a shared link previews. */}
             <p className="mt-7 text-lg leading-relaxed text-balance">{stock.h}</p>
 
-            <p className="text-ink-3 mt-3 text-[0.875rem] leading-relaxed">
-              That is {stock.x.toFixed(1)}× this stock&rsquo;s typical{' '}
-              {stock.d.toFixed(1)}% daily move
-              {stock.x >= 2 ? ' — an unusually large day for it.' : '.'}
-            </p>
+            {/* Suppressed for a flat day: "that is 0.0x this stock's typical
+                3.5% daily move" is arithmetically true and tells nobody
+                anything. The comparison only earns its place once there is a
+                move to compare. */}
+            {Math.abs(stock.c) >= 0.5 && (
+              <p className="text-ink-3 mt-3 text-[0.875rem] leading-relaxed">
+                That is {stock.x.toFixed(1)}× this stock&rsquo;s typical{' '}
+                {stock.d.toFixed(1)}% daily move
+                {stock.x >= 2 ? ' — an unusually large day for it.' : '.'}
+              </p>
+            )}
 
             {stock.ctx && (
               <p className="text-ink-2 border-rule-strong mt-5 border-l-2 pl-3.5 text-[0.9375rem] leading-relaxed">
