@@ -1,0 +1,173 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Palette
+ * -------
+ * A calm, high-contrast neutral base with one indigo accent. The previous
+ * theme used saturated purple for the background, cards, borders and accent
+ * all at once, which left very little tonal separation between surfaces and
+ * made long sessions tiring.
+ *
+ * Colour is never the only carrier of meaning: every green/red element is
+ * paired with a word or an icon, so the app stays readable for the ~8% of men
+ * and ~0.5% of women with a colour vision deficiency.
+ */
+
+:root {
+  /* Surfaces — three distinct levels: page, card, raised */
+  --background: oklch(0.985 0.002 250);
+  --foreground: oklch(0.21 0.015 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.015 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.015 260);
+
+  --muted: oklch(0.965 0.004 250);
+  --muted-foreground: oklch(0.51 0.015 258);
+
+  /* Single accent */
+  --primary: oklch(0.54 0.17 268);
+  --primary-foreground: oklch(0.99 0.002 250);
+  --accent: oklch(0.95 0.02 268);
+  --accent-foreground: oklch(0.42 0.16 268);
+
+  --secondary: oklch(0.96 0.004 250);
+  --secondary-foreground: oklch(0.28 0.015 260);
+
+  /* Semantic — direction and severity */
+  --positive: oklch(0.56 0.14 152);
+  --positive-foreground: oklch(0.99 0.002 250);
+  --positive-subtle: oklch(0.95 0.035 152);
+
+  --negative: oklch(0.55 0.2 25);
+  --negative-foreground: oklch(0.99 0.002 250);
+  --negative-subtle: oklch(0.955 0.03 25);
+
+  --caution: oklch(0.68 0.14 75);
+  --caution-foreground: oklch(0.22 0.02 75);
+  --caution-subtle: oklch(0.96 0.045 85);
+
+  --destructive: var(--negative);
+  --destructive-foreground: var(--negative-foreground);
+
+  --border: oklch(0.9 0.005 255);
+  --input: oklch(0.9 0.005 255);
+  --ring: oklch(0.54 0.17 268);
+
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: oklch(0.17 0.012 265);
+  --foreground: oklch(0.95 0.004 250);
+  --card: oklch(0.215 0.014 265);
+  --card-foreground: oklch(0.95 0.004 250);
+  --popover: oklch(0.235 0.014 265);
+  --popover-foreground: oklch(0.95 0.004 250);
+
+  --muted: oklch(0.26 0.014 265);
+  --muted-foreground: oklch(0.71 0.012 258);
+
+  --primary: oklch(0.68 0.15 268);
+  --primary-foreground: oklch(0.16 0.012 265);
+  --accent: oklch(0.3 0.04 268);
+  --accent-foreground: oklch(0.84 0.1 268);
+
+  --secondary: oklch(0.27 0.014 265);
+  --secondary-foreground: oklch(0.93 0.004 250);
+
+  /* Lifted and slightly desaturated so they read on a dark ground */
+  --positive: oklch(0.72 0.15 152);
+  --positive-foreground: oklch(0.16 0.012 265);
+  --positive-subtle: oklch(0.29 0.05 152);
+
+  --negative: oklch(0.68 0.17 25);
+  --negative-foreground: oklch(0.16 0.012 265);
+  --negative-subtle: oklch(0.3 0.06 25);
+
+  --caution: oklch(0.79 0.13 80);
+  --caution-foreground: oklch(0.18 0.02 80);
+  --caution-subtle: oklch(0.31 0.05 80);
+
+  --destructive: var(--negative);
+  --destructive-foreground: var(--negative-foreground);
+
+  --border: oklch(0.31 0.012 265);
+  --input: oklch(0.33 0.012 265);
+  --ring: oklch(0.68 0.15 268);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-positive: var(--positive);
+  --color-positive-foreground: var(--positive-foreground);
+  --color-positive-subtle: var(--positive-subtle);
+  --color-negative: var(--negative);
+  --color-negative-foreground: var(--negative-foreground);
+  --color-negative-subtle: var(--negative-subtle);
+  --color-caution: var(--caution);
+  --color-caution-foreground: var(--caution-foreground);
+  --color-caution-subtle: var(--caution-subtle);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    /* Slightly looser than default: this app is read, not skimmed. */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A visible, consistent focus ring for keyboard users on every control. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Tabular figures stop prices and percentages jittering as they update. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

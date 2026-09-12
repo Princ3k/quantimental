@@ -1,0 +1,57 @@
+# Optional local infrastructure.
+#
+# The API runs without any of this — live signals come straight from market
+# data. Start these services only when you want the database-backed features:
+# the news archive, Reddit caching, and the batch sentiment pipeline.
+#
+#   docker compose up -d
+#
+# Then set DATABASE_URL in backend/.env to:
+#   postgresql://postgres:password@127.0.0.1:5433/quantimental
+
+services:
+  db:
+    image: timescale/timescaledb:latest-pg16
+    container_name: quantimental-db
+    environment:
+      POSTGRES_USER: postgres
+      # Local development only. Production credentials come from the host's
+      # secret store, never from a file in the repository.
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: quantimental
+    ports:
+      # 5433 on the host so it cannot collide with a local Postgres on 5432.
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Kafka is only needed for the asynchronous sentiment pipeline.
+  # Start it with:  docker compose --profile pipeline up -d
+  kafka:
+    image: confluentinc/cp-kafka:7.7.1
+    container_name: quantimental-kafka
+    profiles: [pipeline]
+    ports:
+      - '9092:9092'
+    environment:
+      # KRaft mode — no ZooKeeper container required.
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:29093
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      CLUSTER_ID: quantimental-local-cluster
+
+volumes:
+  postgres_data:

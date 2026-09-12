@@ -1,0 +1,57 @@
+# ---------------------------------------------------------------------------
+# Quantimental backend dependencies
+#
+# Everything here installs with a plain `pip install -r requirements.txt` on
+# macOS, Linux and Windows. There is deliberately no TA-Lib: it needs a C
+# library installed out-of-band, which made the project impossible to set up
+# on a clean machine. Indicators are implemented in app/engines/indicators.py.
+# ---------------------------------------------------------------------------
+
+# --- Web framework ---
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# --- Configuration ---
+pydantic==2.10.4
+pydantic-settings==2.7.0
+python-dotenv==1.0.1
+
+# --- Market data & numerics ---
+yfinance==1.7.0
+pandas==2.2.3
+numpy==2.2.1
+
+# --- Database (optional at runtime; the API starts without it) ---
+sqlalchemy==2.0.36
+alembic==1.14.0
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+
+# --- HTTP client ---
+httpx==0.28.1
+
+# --- Sentiment: lexicon-based (always available, no model download) ---
+vaderSentiment==3.3.2
+
+# --- Sentiment: ML models (optional, large) ---
+# Install with `pip install -r requirements-ml.txt` when you want FinBERT and
+# the Twitter RoBERTa classifier. Torch alone is ~800MB, so it is kept out of
+# the default install to make CI and cold deploys fast.
+
+# --- Sentiment: cloud LLM ---
+groq==0.15.0
+
+# --- Article extraction ---
+trafilatura==2.0.0
+
+# --- Async messaging (optional, for the batch sentiment pipeline) ---
+aiokafka==0.12.0
+
+# --- Utilities ---
+python-dateutil==2.9.0.post0
+pytz==2024.2
+
+# --- Testing ---
+pytest==8.3.4
+pytest-asyncio==0.25.0

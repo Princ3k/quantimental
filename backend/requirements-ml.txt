@@ -1,0 +1,17 @@
+# ---------------------------------------------------------------------------
+# Optional ML sentiment models.
+#
+#   pip install -r requirements.txt -r requirements-ml.txt
+#
+# Only needed for local transformer inference (FinBERT for news, Twitter
+# RoBERTa for social posts). Without these, sentiment falls back to VADER and
+# the Groq-hosted LLM, both of which work fine — see
+# app/services/enrichment/sentiment/model.py for the degradation path.
+#
+# Note: this pulls in PyTorch, roughly 800MB. Excluded from the default install
+# so CI runs and cold deploys stay fast.
+# ---------------------------------------------------------------------------
+
+torch==2.5.1
+transformers==4.47.1
+huggingface_hub==0.27.0
