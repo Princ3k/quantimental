@@ -94,3 +94,9 @@ venv.bak/
 
 # Alembic
 *.pyc
+
+# The attention archive is the one asset here that cannot be rebuilt from
+# public sources, so it lives in a private store rather than this repository.
+# See app/services/scan/attention_archive.py. A local copy is for development
+# only; CI points ATTENTION_ARCHIVE_PATH at the private checkout.
+data/attention-history.json

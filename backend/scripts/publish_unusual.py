@@ -170,6 +170,7 @@ def _record_attention(rows: list[dict], as_of: str | None) -> dict[str, dict]:
         logger.error("Attention measurement failed: %s", exc)
         return {}
 
+    logger.info("Attention archive: %s", attention_archive.ARCHIVE_PATH)
     try:
         archive = attention_archive.record(measurements, on=as_of)
     except Exception as exc:  # noqa: BLE001

@@ -38,6 +38,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The attention archive lives in a private repository. It is the only
+      # thing here that cannot be rebuilt from public sources, and a public git
+      # log would publish it daily — permanently, since history cannot be
+      # un-shared. Only the derived figures reach snapshot.json.
+      #
+      # continue-on-error: a missing or expired token must not stop the price
+      # scan, which is the actual product. The step below degrades to a scan
+      # without attention.
+      - name: Check out the private data store
+        id: data_store
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          repository: Princ3k/quantimental-data
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: data-store
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -59,21 +76,51 @@ jobs:
         run: python scripts/publish_unusual.py ../public/unusual.json
 
       - name: Scan, and measure attention
-        if: github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch'
+        if: |
+          (github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          && steps.data_store.outcome == 'success'
+        env:
+          ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
         run: python scripts/publish_unusual.py ../public/unusual.json --attention
+
+      # The data store was unreachable — usually an expired token. Scan anyway;
+      # coverage figures carry forward from the last successful sweep.
+      - name: Scan without attention (data store unavailable)
+        if: |
+          (github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          && steps.data_store.outcome != 'success'
+        run: |
+          echo "::warning::Private data store unreachable; skipping the attention sweep."
+          python scripts/publish_unusual.py ../public/unusual.json
+
+      - name: Commit the archive to its private store
+        if: steps.data_store.outcome == 'success'
+        working-directory: data-store
+        run: |
+          if git diff --quiet -- attention-history.json 2>/dev/null && \
+             [ -z "$(git status --porcelain attention-history.json)" ]; then
+            echo "Archive unchanged."
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add attention-history.json
+          git commit -m "chore: attention readings for $(date -u +%Y-%m-%d)"
+          git push
 
       - name: Commit if the scan changed
         working-directory: .
         run: |
           # snapshot.json carries every measured ticker and backs the per-stock
           # pages, so it changes on almost every run even when the feed does not.
-          if git diff --quiet -- public/unusual.json public/snapshot.json backend/data/attention-history.json; then
+          if git diff --quiet -- public/unusual.json public/snapshot.json; then
             echo "No change in the scan; nothing to commit."
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/unusual.json public/snapshot.json backend/data/attention-history.json
+          git add public/unusual.json public/snapshot.json
           git commit -m "chore: update unusual moves [skip ci]"
           git push

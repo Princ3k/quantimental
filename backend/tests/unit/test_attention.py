@@ -138,6 +138,43 @@ class TestBaseline:
         assert baseline(arc, "NOSUCH") is None
 
 
+class TestArchiveLocation:
+    """
+    The archive is the only asset here that cannot be rebuilt from public
+    sources, so it must not be written into the public repository — where git
+    history would publish it permanently, even after a later move.
+    """
+
+    def test_the_path_is_configurable(self, monkeypatch, tmp_path):
+        import importlib
+
+        target = tmp_path / "elsewhere" / "attention-history.json"
+        monkeypatch.setenv("ATTENTION_ARCHIVE_PATH", str(target))
+
+        reloaded = importlib.reload(archive_mod)
+        try:
+            assert reloaded.ARCHIVE_PATH == target
+        finally:
+            monkeypatch.delenv("ATTENTION_ARCHIVE_PATH")
+            importlib.reload(archive_mod)
+
+    def test_it_falls_back_to_a_local_path_for_development(self, monkeypatch):
+        import importlib
+
+        monkeypatch.delenv("ATTENTION_ARCHIVE_PATH", raising=False)
+        reloaded = importlib.reload(archive_mod)
+
+        assert reloaded.ARCHIVE_PATH.name == "attention-history.json"
+
+    def test_the_local_copy_is_gitignored(self):
+        # The fallback path is a development convenience. If it were ever
+        # committed, the whole point of the move would be undone.
+        from pathlib import Path
+
+        ignore = (Path(__file__).resolve().parents[2] / ".gitignore").read_text()
+        assert "data/attention-history.json" in ignore
+
+
 class TestRotation:
     def test_the_sweep_starts_somewhere_different_each_day(self):
         universe = [f"T{i}" for i in range(10)]

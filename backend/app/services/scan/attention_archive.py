@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import statistics
 from datetime import date
 from pathlib import Path
@@ -36,7 +37,20 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
-ARCHIVE_PATH = Path(__file__).resolve().parents[3] / "data" / "attention-history.json"
+# The archive lives outside this repository.
+#
+# It is the one asset here that cannot be reconstructed from public sources —
+# nobody sells historical news volume — so publishing it daily to a public git
+# log would hand away the thing it exists to accumulate. Worse, git history is
+# permanent: every day it stayed public would stay public even after a move.
+#
+# So it is written to a private store, and only the *derived* figures (`v` and
+# `vx` in snapshot.json) are published. ATTENTION_ARCHIVE_PATH points at the
+# checkout in CI; the local default is gitignored for development.
+ARCHIVE_PATH = Path(
+    os.environ.get("ATTENTION_ARCHIVE_PATH")
+    or Path(__file__).resolve().parents[3] / "data" / "attention-history.json"
+)
 
 # Six months. Long enough that a median means something across earnings cycles,
 # short enough that the file stays small and a company that changed character a

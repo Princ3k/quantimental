@@ -87,6 +87,19 @@ the provider is the problem. This repo previously hard-coded ScrapeBadger while
 anyone who followed the documentation. Set `TWITTER_API_PROVIDER` to wherever
 the key actually came from; the 401 now names the host it was sent to.
 
+**The attention archive lives in a private repository.** Everything else this
+project reads is public and reconstructable — anyone can backfill a year of
+prices from Yahoo for nothing. A record of how much coverage each stock was
+getting, each day, cannot be bought or backfilled, so it is the one asset worth
+keeping. Publishing it to a public git log would hand it away daily, and
+permanently: history cannot be un-shared after the fact.
+
+So the scan writes it to `Princ3k/quantimental-data` (private) via
+`ATTENTION_ARCHIVE_PATH`, and only the *derived* figures — `v` (articles per
+day) and `vx` (multiple of this stock's normal) — are published in
+`snapshot.json`. A missing or expired `DATA_REPO_TOKEN` degrades to a scan
+without attention rather than failing the run.
+
 **A source that fails says so.** Every fetcher used to swallow its errors into
 an empty list, so "MarketAux rejected our API key" and "this company had a quiet
 week" produced byte-identical output — the app told users a stock had no
