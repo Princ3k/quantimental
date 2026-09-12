@@ -68,8 +68,10 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
       throw new ApiError('The request took too long. Please try again.', 0, true)
     }
 
+    // Deliberately not "check the backend is running" — that is advice for a
+    // developer on localhost, and meaningless to someone visiting the site.
     throw new ApiError(
-      'Could not reach the server. Check that the backend is running.',
+      "We couldn't reach our servers. Check your connection and try again.",
       0,
       true,
     )
