@@ -288,8 +288,16 @@ export interface Composite {
 
 export interface Narrative {
   text: string
+  /**
+   * Under 100 characters, for surfaces with no room to scroll — a home-screen
+   * widget, a notification, an email subject. Always a complete sentence,
+   * never a substring of `text`.
+   */
+  short?: string
   /** Whether an LLM or the deterministic template produced this. */
   source: 'llm' | 'template' | 'none'
+  /** The short form can fall back independently of the long one. */
+  short_source?: 'llm' | 'first_sentence' | 'template' | 'none'
 }
 
 export interface SignalDeskUnavailable {

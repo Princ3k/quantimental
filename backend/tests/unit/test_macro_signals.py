@@ -13,7 +13,7 @@ import pytest
 
 from app.services.data import macro_signal_service as macro
 from app.services.data.macro_signal_service import MacroSignalService
-from app.services.data.narrative_service import NarrativeService
+from app.services.data.narrative_service import SHORT_MAX_CHARS, NarrativeService
 
 
 def _series(start: float, drift: float, n: int = 260, seed: int = 0) -> np.ndarray:
@@ -236,6 +236,172 @@ class TestNarrative:
     def test_unavailable_desk_yields_no_narrative(self):
         result = NarrativeService().generate({"available": False})
         assert result["source"] == "none"
+        # Constrained surfaces read `short` unconditionally; omitting it here
+        # would put a KeyError in a widget.
+        assert result["short"] == result["text"]
+
+
+def _llm_client(reply: str):
+    """A stand-in Groq client that returns one fixed completion."""
+
+    class _Message:
+        content = reply
+
+    class _Choice:
+        message = _Message()
+
+    class _Completion:
+        choices = [_Choice()]
+
+    class _Client:
+        class chat:
+            class completions:
+                @staticmethod
+                def create(**_):
+                    return _Completion()
+
+    return _Client()
+
+
+class TestShortNarrative:
+    """
+    The short form feeds surfaces with no room to scroll — a home-screen
+    widget, a notification, an email subject. Two properties matter: it always
+    fits, and it is always a complete sentence. A substring cut at 100
+    characters satisfies the first and fails the second, which is why none of
+    the fallbacks below truncate.
+    """
+
+    def test_the_models_headline_is_used_when_it_obeys_the_limit(self, service, monkeypatch):
+        svc = NarrativeService()
+        monkeypatch.setattr(type(svc), "client", property(lambda self: _llm_client(
+            "HEADLINE: Bond yields climbed and corporate debt fell.\n"
+            "SUMMARY: Government bond yields climbed while corporate debt prices fell. "
+            "Energy was the only sector with real strength."
+        )))
+
+        result = svc.generate(service.get_desk())
+
+        assert result["source"] == "llm"
+        assert result["short_source"] == "llm"
+        assert result["short"] == "Bond yields climbed and corporate debt fell."
+
+    def test_an_overlong_headline_falls_back_to_the_first_sentence(self, service, monkeypatch):
+        svc = NarrativeService()
+        monkeypatch.setattr(type(svc), "client", property(lambda self: _llm_client(
+            f"HEADLINE: {'x' * 140}\n"
+            "SUMMARY: Bond yields climbed. Energy led the market."
+        )))
+
+        result = svc.generate(service.get_desk())
+
+        # A whole sentence from the summary, not the headline cut down.
+        assert result["short"] == "Bond yields climbed."
+        assert result["short_source"] == "first_sentence"
+
+    def test_an_unlabelled_reply_still_yields_both(self, service, monkeypatch):
+        # A formatting slip should not cost us a perfectly good narrative.
+        svc = NarrativeService()
+        monkeypatch.setattr(type(svc), "client", property(lambda self: _llm_client(
+            "Bond yields climbed sharply. Energy was the only sector with strength."
+        )))
+
+        result = svc.generate(service.get_desk())
+
+        assert result["source"] == "llm"
+        assert result["text"].startswith("Bond yields climbed sharply.")
+        assert result["short"] == "Bond yields climbed sharply."
+
+    def test_a_predictive_headline_is_rejected_on_its_own(self, service, monkeypatch):
+        # The headline is shown alone, so it needs the guard applied to it
+        # directly — a clean summary does not vouch for it.
+        svc = NarrativeService()
+        monkeypatch.setattr(type(svc), "client", property(lambda self: _llm_client(
+            "HEADLINE: Energy is poised to outperform from here.\n"
+            "SUMMARY: Bond yields climbed. Energy led the market."
+        )))
+
+        result = svc.generate(service.get_desk())
+
+        assert result["source"] == "llm"  # the summary itself was fine
+        assert result["short_source"] == "first_sentence"
+        assert "poised" not in result["short"]
+
+    def test_the_short_form_always_fits(self, service, no_groq):
+        result = NarrativeService().generate(service.get_desk())
+        assert len(result["short"]) <= SHORT_MAX_CHARS
+        assert result["short"].endswith(".")
+
+    def test_the_template_short_fits_for_every_tone(self, service):
+        desk = service.get_desk()
+        for tone in ("risk_on", "risk_off", "neutral"):
+            desk["composite"]["tone"] = tone
+            short = NarrativeService._template_short(desk)
+            assert len(short) <= SHORT_MAX_CHARS
+            assert short.endswith(".")
+
+    def test_the_template_short_survives_a_desk_with_nothing_notable(self, service):
+        desk = service.get_desk()
+        for signal in desk["signals"]:
+            signal["notable"] = False
+        desk["sectors"]["leaders"] = []
+
+        short = NarrativeService._template_short(desk)
+
+        assert len(short) <= SHORT_MAX_CHARS
+        assert short.endswith(".")
+
+    def test_an_overlong_notable_move_is_dropped_not_trimmed(self):
+        desk = {
+            "composite": {"tone": "risk_off"},
+            "signals": [{"notable": True, "text": "S" + "o" * 120 + " long"}],
+            "sectors": {"available": False},
+        }
+
+        short = NarrativeService._template_short(desk)
+
+        assert len(short) <= SHORT_MAX_CHARS
+        assert "ooo" not in short  # the clause was skipped entirely
+
+
+class TestSentenceSplitting:
+    def test_returns_the_first_complete_sentence(self):
+        assert NarrativeService._first_sentence("One. Two. Three.") == "One."
+
+    def test_text_with_no_sentence_break_is_not_a_candidate(self):
+        # Returning the whole paragraph would hand the caller something that
+        # cannot fit, defeating the length check it is about to do.
+        assert NarrativeService._first_sentence("no full stop here") == ""
+
+    def test_handles_question_and_exclamation_marks(self):
+        assert NarrativeService._first_sentence("Did yields climb? Yes.") == "Did yields climb?"
+
+
+class TestReplyParsing:
+    def test_splits_labelled_lines(self):
+        headline, summary = NarrativeService._parse(
+            "HEADLINE: Yields climbed.\nSUMMARY: Yields climbed and credit fell."
+        )
+        assert headline == "Yields climbed."
+        assert summary == "Yields climbed and credit fell."
+
+    def test_rejoins_a_wrapped_summary(self):
+        _, summary = NarrativeService._parse(
+            "HEADLINE: Yields climbed.\nSUMMARY: Yields climbed\nand credit fell."
+        )
+        assert summary == "Yields climbed and credit fell."
+
+    def test_unlabelled_output_becomes_the_summary(self):
+        headline, summary = NarrativeService._parse("Yields climbed and credit fell.")
+        assert headline == ""
+        assert summary == "Yields climbed and credit fell."
+
+    def test_strips_quotes_the_model_wraps_around_its_answer(self):
+        headline, summary = NarrativeService._parse(
+            'HEADLINE: "Yields climbed."\nSUMMARY: "Yields climbed and credit fell."'
+        )
+        assert headline == "Yields climbed."
+        assert summary == "Yields climbed and credit fell."
 
     def test_facts_brief_contains_only_given_numbers(self, service):
         desk = service.get_desk()
