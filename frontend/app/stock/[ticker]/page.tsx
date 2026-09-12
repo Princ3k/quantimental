@@ -86,18 +86,26 @@ export async function generateMetadata({
  * resolve to `true` on purpose: an upstream outage should not start returning
  * 404s for real companies, which is the more damaging error of the two.
  */
-async function tickerExists(symbol: string): Promise<boolean> {
+async function tickerExists(symbol: string): Promise<{ exists: boolean; why: string }> {
+  if (!API_BASE || API_BASE.includes('localhost')) {
+    // No API configured for this environment. Failing open is right, but
+    // silently doing so is how /stock/zzzzzz kept returning 200 while the same
+    // code 404'd locally — so the reason travels with the answer.
+    return { exists: true, why: 'no-api-configured' }
+  }
+
   try {
     const response = await fetch(
       `${API_BASE}/api/v1/signals/search?q=${encodeURIComponent(symbol)}`,
       { next: { revalidate: 86_400 } },
     )
-    if (!response.ok) return true
+    if (!response.ok) return { exists: true, why: `search-http-${response.status}` }
 
     const payload = (await response.json()) as { results?: { ticker: string }[] }
-    return (payload.results ?? []).some((r) => r.ticker.toUpperCase() === symbol)
-  } catch {
-    return true
+    const matched = (payload.results ?? []).some((r) => r.ticker.toUpperCase() === symbol)
+    return { exists: matched, why: matched ? 'found' : 'not-found' }
+  } catch (error) {
+    return { exists: true, why: `search-failed-${(error as Error).name}` }
   }
 }
 
@@ -137,7 +145,8 @@ export default async function StockPage({
   // provider is a 404, not a thin page. Returning 200 for /stock/zzzzzz is a
   // soft 404: search engines index the shell, and a mistyped link looks like a
   // working page with nothing on it.
-  if (!stock && !(await tickerExists(symbol))) notFound()
+  const existence = stock ? { exists: true, why: 'in-snapshot' } : await tickerExists(symbol)
+  if (!existence.exists) notFound()
 
   const up = (stock?.c ?? 0) >= 0
 
@@ -146,6 +155,9 @@ export default async function StockPage({
       <SiteHeader />
 
       <main className="mx-auto max-w-3xl px-5 py-12 sm:px-8 sm:py-16">
+        {/* Why this page rendered at all, for diagnosing the case where an
+            unknown ticker should have 404'd and did not. */}
+        <span hidden data-existence={existence.why} />
         <Link
           href="/"
           className="text-ink-3 hover:text-ink text-[0.8125rem] transition-colors"
