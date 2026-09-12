@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { DeepDive } from '@/components/deep-dive'
 import { Sparkline } from '@/components/sparkline'
 import { analyzeStock, ApiError } from '@/lib/api'
+import { useHydrated } from '@/lib/use-hydrated'
 import { useWatchlist } from '@/lib/use-watchlist'
 import type { StockSignal } from '@/lib/types'
 
@@ -23,7 +24,6 @@ import type { StockSignal } from '@/lib/types'
 export function StockDetail({ ticker }: { ticker: string }) {
   const [signal, setSignal] = useState<StockSignal | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [hydrated, setHydrated] = useState(false)
   const { tickers, add, isFull } = useWatchlist()
 
   // The watchlist lives in localStorage, which the server cannot read — so
@@ -31,7 +31,7 @@ export function StockDetail({ ticker }: { ticker: string }) {
   // would bake "You're following AAPL" into static HTML served to everyone,
   // including people who follow nothing. The follow control stays absent until
   // the browser can answer the question.
-  useEffect(() => setHydrated(true), [])
+  const hydrated = useHydrated()
 
   const following = hydrated && tickers.includes(ticker)
 

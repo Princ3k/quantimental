@@ -11,9 +11,11 @@ features, and their absence degrades the product rather than breaking it.
 
 from __future__ import annotations
 
+import json
 import logging
 import time
 from contextlib import asynccontextmanager
+from typing import Any
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -21,6 +23,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.routes import market, news, signals
 from app.core.config import get_settings
+from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
 from app.db.session import check_connection, database_available, dispose_engines
 
 settings = get_settings()
@@ -94,6 +97,69 @@ async def add_process_time_header(request: Request, call_next):
     elapsed_ms = (time.perf_counter() - started) * 1000
     response.headers["X-Process-Time"] = f"{elapsed_ms:.1f}ms"
     return response
+
+
+@app.middleware("http")
+async def rate_limit(request: Request, call_next):
+    """
+    Charge every API call against the caller's budget.
+
+    Cost is proportional to work, not to request count: a 60-ticker batch costs
+    sixty, a full-depth analyse costs twenty-five. See app/core/rate_limit.py
+    for why a token bucket rather than a fixed window.
+    """
+    path = request.url.path
+
+    if request.method == "OPTIONS" or is_exempt(path):
+        return await call_next(request)
+
+    # Pricing a batch needs its ticker count, which is in the body. Reading the
+    # body here consumes the stream, so it is put back for the route handler —
+    # without this, every POST downstream sees an empty body.
+    ticker_count = 1
+    if request.method == "POST" and path.endswith("/batch"):
+        body = await request.body()
+
+        async def receive() -> dict[str, Any]:
+            return {"type": "http.request", "body": body, "more_body": False}
+
+        request._receive = receive  # noqa: SLF001 - the documented way to rewind
+
+        try:
+            payload = json.loads(body or b"{}")
+            tickers = payload.get("tickers")
+            if isinstance(tickers, list):
+                ticker_count = len(tickers)
+        except (ValueError, AttributeError):
+            # Malformed JSON is the route's problem to report, not ours. Charge
+            # the default and let it produce a proper 422.
+            ticker_count = 1
+
+    key = client_key(
+        request.headers.get("x-forwarded-for"),
+        request.headers.get("x-real-ip"),
+        request.client.host if request.client else None,
+    )
+    allowed, retry_after = rate_limiter.check(key, request_cost(path, ticker_count))
+
+    if not allowed:
+        seconds = max(1, int(retry_after) + 1)
+        logger.warning("Rate limited %s on %s (retry in %ss)", key, path, seconds)
+        return JSONResponse(
+            status_code=429,
+            content={
+                "error": "Too Many Requests",
+                # Said in the app's own voice: this is shown to a person if it
+                # ever reaches one, and "quota exceeded" explains nothing.
+                "detail": (
+                    "You are loading stocks faster than we can fetch them. "
+                    f"Try again in about {seconds} seconds."
+                ),
+            },
+            headers={"Retry-After": str(seconds)},
+        )
+
+    return await call_next(request)
 
 
 @app.exception_handler(Exception)

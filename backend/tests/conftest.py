@@ -44,3 +44,19 @@ def ohlc(rising_prices):
     """(highs, lows, closes) derived from a close series."""
     closes = rising_prices
     return closes + 1.0, closes - 1.0, closes
+
+
+@pytest.fixture(autouse=True)
+def _reset_rate_limiter():
+    """
+    Give every test a full budget.
+
+    The limiter keys on client address, and every test shares one, so without
+    this a test that sends a 60-ticker batch quietly drains the budget for
+    whatever runs next — and the failure surfaces as an unrelated 429.
+    """
+    from app.core.rate_limit import rate_limiter
+
+    rate_limiter.reset()
+    yield
+    rate_limiter.reset()
