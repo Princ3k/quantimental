@@ -108,9 +108,18 @@ function extractMessage(body: unknown, status: number): string {
     }
   }
 
-  if (status === 404) return 'We could not find that stock.'
-  if (status >= 500) return 'The server had a problem. Please try again shortly.'
-  return 'Something went wrong.'
+  // Past this point the response carried no body we recognise, which means it
+  // did not come from our API — it came from a proxy, an edge, or a host
+  // standing in for a service that is not running.
+  //
+  // That distinction matters for 404 especially. Our API returns 404 with a
+  // `detail` when a ticker has no data, and it is handled above. A bare 404
+  // means the request never reached the application, so telling someone "we
+  // could not find that stock" would blame their input for our outage.
+  if (status >= 500 || status === 404 || status === 502 || status === 503) {
+    return 'Our market data service is temporarily unavailable. Please try again shortly.'
+  }
+  return 'Something went wrong. Please try again.'
 }
 
 /** Analyze one stock in depth, including news and social sentiment. Slow. */
