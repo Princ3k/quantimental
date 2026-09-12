@@ -172,6 +172,62 @@ class TestScan:
         assert [m["ticker"] for m in result["biggest"]] == ["BIG", "ODD"]
 
 
+class TestSnapshot:
+    """
+    The snapshot carries every measured ticker, not only the notable ones.
+    It is what the per-stock pages and any widget read, so a stock having an
+    ordinary day must still appear.
+    """
+
+    def test_every_measured_ticker_is_included(self, monkeypatch):
+        frames = {
+            "CALM": _frame([100.0] * 30 + [104.0], span_pct=1.0),
+            "DULL": _frame([100.0] * 30 + [100.1], span_pct=1.0),
+        }
+        combined = pd.concat(frames, axis=1)
+        combined.index = pd.date_range("2026-08-01", periods=31)
+        monkeypatch.setattr(unusual_service.yf, "download", lambda *a, **k: combined)
+
+        result = scan([
+            {"ticker": "CALM", "name": "Calm Co", "sector": "Utilities"},
+            {"ticker": "DULL", "name": "Dull Inc", "sector": "Staples"},
+        ])
+
+        tickers = {row["t"] for row in result["snapshot"]}
+        assert tickers == {"CALM", "DULL"}
+        # DULL did nothing and is absent from `movers`; it still needs a page.
+        assert "DULL" not in {m["ticker"] for m in result["movers"]}
+
+    def test_each_row_carries_a_ready_to_render_sentence(self, monkeypatch):
+        frames = {"CALM": _frame([100.0] * 30 + [104.0], span_pct=1.0)}
+        combined = pd.concat(frames, axis=1)
+        combined.index = pd.date_range("2026-08-01", periods=31)
+        monkeypatch.setattr(unusual_service.yf, "download", lambda *a, **k: combined)
+
+        result = scan([{"ticker": "CALM", "name": "Calm Co", "sector": "Utilities"}])
+        row = result["snapshot"][0]
+
+        # Written by app/engines/describe.py, so the wording on a stock page is
+        # the same wording as on a dashboard card rather than a second
+        # implementation that drifts.
+        assert row["h"].startswith("Calm Co is up 4.0% today")
+        # Flat for 30 sessions then +4% leaves the two-week change positive.
+        assert row["st"] == "rising"
+        assert row["n"] == "Calm Co"
+        assert row["s"] == "Utilities"
+
+    def test_rows_stay_compact(self, monkeypatch):
+        # 503 of these ship to every client; long keys are pure overhead.
+        frames = {"CALM": _frame([100.0] * 30 + [104.0], span_pct=1.0)}
+        combined = pd.concat(frames, axis=1)
+        combined.index = pd.date_range("2026-08-01", periods=31)
+        monkeypatch.setattr(unusual_service.yf, "download", lambda *a, **k: combined)
+
+        row = scan([{"ticker": "CALM", "name": "Calm Co", "sector": "U"}])["snapshot"][0]
+
+        assert set(row) == {"t", "n", "s", "p", "c", "x", "d", "w", "h", "st"}
+
+
 class TestUniverse:
     def test_the_shipped_universe_is_usable(self):
         constituents = load_universe()

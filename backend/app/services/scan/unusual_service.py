@@ -45,6 +45,8 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+from app.engines.describe import describe
+
 logger = logging.getLogger(__name__)
 
 UNIVERSE_PATH = Path(__file__).resolve().parents[3] / "data" / "universe.json"
@@ -236,6 +238,8 @@ def scan(universe: Optional[list[dict[str, str]]] = None) -> dict[str, Any]:
         move.setdefault("company", names.get(move["ticker"], move["ticker"]))
         move.setdefault("sector", sectors.get(move["ticker"], ""))
 
+    snapshot = [_snapshot_row(m, names, sectors) for m in measurements]
+
     as_of = _latest_session(raw)
 
     return {
@@ -249,10 +253,59 @@ def scan(universe: Optional[list[dict[str, str]]] = None) -> dict[str, Any]:
         "falling": sum(1 for m in movers if m["direction"] == "down"),
         "movers": movers[:MAX_RESULTS],
         "biggest": biggest[:BIGGEST_COUNT],
+        # Every measured ticker, compactly. Split into its own file by the
+        # publisher; see _snapshot_row for why it exists.
+        "snapshot": snapshot,
         "threshold": {
             "multiple": UNUSUAL_MULTIPLE,
             "min_move_percent": MIN_ABSOLUTE_MOVE_PCT,
         },
+    }
+
+
+def _snapshot_row(
+    move: dict[str, Any],
+    names: dict[str, str],
+    sectors: dict[str, str],
+) -> dict[str, Any]:
+    """
+    One ticker, reduced to what a page or a widget needs to render it.
+
+    Short keys because this carries all 503 rows and is fetched by clients on
+    metered connections; the schema lives in the published file's own `fields`
+    block rather than in the key names.
+
+    The headline is generated here rather than client-side so there is exactly
+    one implementation of how a move is described. A second one, however small,
+    drifts from app/engines/describe.py the first time either changes.
+    """
+    ticker = move["ticker"]
+    company = names.get(ticker, ticker)
+
+    described = describe(
+        company=company,
+        change_percent=move["change_percent"],
+        indicators={
+            "price_change_10d": move["period_percent"],
+            "atr_percent": move["typical_percent"],
+            # The scan does not compute a trend; this only affects the wording
+            # when today and the fortnight are both flat, where "sideways" is
+            # what the data actually shows.
+            "trend": "sideways",
+        },
+    )
+
+    return {
+        "t": ticker,
+        "n": company,
+        "s": sectors.get(ticker, ""),
+        "p": move["price"],
+        "c": move["change_percent"],
+        "x": move["multiple"],
+        "d": move["typical_percent"],
+        "w": move["period_percent"],
+        "h": described["headline"],
+        "st": described["state"],
     }
 
 

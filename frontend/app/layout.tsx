@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next'
+
+import { SITE_URL } from '@/lib/snapshot'
 import { Inter_Tight, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
@@ -26,9 +28,21 @@ const mono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Quantimental',
+  // Required for the per-stock pages to emit absolute og:image and canonical
+  // URLs. Without it Next warns and emits relative ones, which most link
+  // previewers silently refuse to resolve.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Quantimental',
+    // Stock pages supply their own name; this keeps the brand on the end.
+    template: '%s · Quantimental',
+  },
   description:
     'What the market is doing today, and what it means for the stocks you follow — in plain English.',
+  openGraph: {
+    siteName: 'Quantimental',
+    type: 'website',
+  },
 }
 
 export const viewport: Viewport = {

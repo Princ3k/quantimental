@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState } from 'react'
 
 import { DeepDive } from '@/components/deep-dive'
@@ -54,7 +55,14 @@ export function StockCard({
       {/* Identity */}
       <div className="flex items-baseline justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="font-mono text-[0.9375rem] font-medium tracking-tight">{signal.ticker}</h3>
+          <h3 className="font-mono text-[0.9375rem] font-medium tracking-tight">
+            <Link
+              href={`/stock/${signal.ticker.toLowerCase()}`}
+              className="hover:text-ink-2 transition-colors"
+            >
+              {signal.ticker}
+            </Link>
+          </h3>
           <p className="text-ink-3 mt-0.5 truncate text-[0.8125rem]">{signal.company_name}</p>
         </div>
         {onRemove && (

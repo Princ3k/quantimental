@@ -12,6 +12,12 @@ Serving it statically costs nothing, never cold-starts, and does not put a
 503-ticker download on the critical path of somebody opening the page.
 
     python scripts/publish_unusual.py public/unusual.json
+
+Writes a second file beside it — `snapshot.json` — carrying every measured
+ticker rather than only the notable ones. That is what the per-stock pages and
+any home-screen widget read: a page for AAPL needs AAPL's numbers whether or
+not AAPL had an interesting day, and fetching them per visitor would put an
+unauthenticated API call behind every page view and every widget refresh.
 """
 
 from __future__ import annotations
@@ -55,9 +61,31 @@ def main() -> int:
         )
         return 1
 
+    # The snapshot is an order of magnitude larger than the feed and is read by
+    # different clients, so it ships as its own file. Anything fetching the
+    # feed for five headlines should not pay for 503 rows.
+    snapshot_rows = result.pop("snapshot", [])
+
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2) + "\n")
 
+    snapshot_path = output.parent / "snapshot.json"
+    snapshot_path.write_text(json.dumps({
+        "as_of": result["as_of"],
+        "generated_at": result["generated_at"],
+        "count": len(snapshot_rows),
+        # Short keys keep this small; this block is the schema.
+        "fields": {
+            "t": "ticker", "n": "company name", "s": "sector",
+            "p": "price", "c": "change percent today",
+            "x": "multiple of this stock's typical daily move",
+            "d": "typical daily move percent", "w": "change percent over two weeks",
+            "h": "one-sentence description", "st": "rising | falling | steady",
+        },
+        "stocks": snapshot_rows,
+    }, separators=(",", ":")) + "\n")
+
+    logger.info("Wrote %s — %d tickers", snapshot_path, len(snapshot_rows))
     logger.info(
         "Scanned %d tickers for %s: %d unusual (%d up, %d down)",
         result["scanned"], result["as_of"],

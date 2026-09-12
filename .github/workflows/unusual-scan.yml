@@ -52,13 +52,15 @@ jobs:
       - name: Commit if the scan changed
         working-directory: .
         run: |
-          if git diff --quiet -- public/unusual.json; then
+          # snapshot.json carries every measured ticker and backs the per-stock
+          # pages, so it changes on almost every run even when the feed does not.
+          if git diff --quiet -- public/unusual.json public/snapshot.json; then
             echo "No change in the scan; nothing to commit."
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/unusual.json
+          git add public/unusual.json public/snapshot.json
           git commit -m "chore: update unusual moves [skip ci]"
           git push
