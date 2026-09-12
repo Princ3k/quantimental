@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import { useStoredValue } from '@/lib/use-local-storage'
 
 const STORAGE_KEY = 'quantimental.howToRead.open'
@@ -46,11 +48,15 @@ export function HowToRead() {
             stock&rsquo;s typical daily range rather than to every other stock.
           </p>
           <p className="text-ink-3">
-            We do not tell you what to buy. We tried: an earlier version scored every stock on a
-            five-point buy-to-sell scale, and a backtest over 1,888 readings across five years
-            found none of those calls beat simply holding by more than statistical noise — the
-            more bullish ones did slightly worse. So the scale is gone. What is left describes
-            the present, which we can stand behind. None of this is financial advice.
+            We do not tell you what to buy. We tried: an earlier version scored every stock on
+            a five-point buy-to-sell scale, and testing it over 3,792 readings found it was
+            backwards — the stocks it called strong buys underperformed, and its directional
+            calls were right 48.5% of the time, worse than a coin flip. So the scale is gone.{' '}
+            <Link href="/method" className="text-ink underline underline-offset-2">
+              The numbers are here
+            </Link>
+            . What is left describes the present, which we can stand behind. None of this is
+            financial advice.
           </p>
         </div>
       )}

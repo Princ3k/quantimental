@@ -6,6 +6,8 @@ import { SiteHeader } from '@/components/site-header'
 import { StockDetail } from '@/components/stock-detail'
 import { SITE_URL, getSnapshot, getSnapshotStock } from '@/lib/snapshot'
 
+const API_BASE = (process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000').replace(/\/+$/, '')
+
 /**
  * One stock, at its own URL.
  *
@@ -77,6 +79,29 @@ export async function generateMetadata({
 }
 
 /**
+ * Does this symbol exist at all?
+ *
+ * Only consulted for tickers outside the scanned universe, which is a small
+ * fraction of requests — the 503 pre-rendered pages never reach it. Failures
+ * resolve to `true` on purpose: an upstream outage should not start returning
+ * 404s for real companies, which is the more damaging error of the two.
+ */
+async function tickerExists(symbol: string): Promise<boolean> {
+  try {
+    const response = await fetch(
+      `${API_BASE}/api/v1/signals/search?q=${encodeURIComponent(symbol)}`,
+      { next: { revalidate: 86_400 } },
+    )
+    if (!response.ok) return true
+
+    const payload = (await response.json()) as { results?: { ticker: string }[] }
+    return (payload.results ?? []).some((r) => r.ticker.toUpperCase() === symbol)
+  } catch {
+    return true
+  }
+}
+
+/**
  * Coverage as a phrase rather than a rate.
  *
  * "29.5 articles/day" is a number nobody asked for; "30 times a day" is how a
@@ -107,6 +132,13 @@ export default async function StockPage({
   if (!/^[A-Z0-9.\-^]{1,12}$/.test(symbol)) notFound()
 
   const stock = await getSnapshotStock(symbol)
+
+  // A symbol that is neither in the scan nor recognised by the market data
+  // provider is a 404, not a thin page. Returning 200 for /stock/zzzzzz is a
+  // soft 404: search engines index the shell, and a mistyped link looks like a
+  // working page with nothing on it.
+  if (!stock && !(await tickerExists(symbol))) notFound()
+
   const up = (stock?.c ?? 0) >= 0
 
   return (
@@ -182,8 +214,12 @@ export default async function StockPage({
 
         <p className="text-ink-3 rule-t mt-12 pt-6 text-[0.8125rem] leading-relaxed">
           Quantimental describes moves that have already happened, using public
-          price data and public news. It cannot predict the future, does not know
-          your circumstances, and can be wrong. This is not financial advice.
+          price data and public news. It does not predict, and{' '}
+          <Link href="/method" className="hover:text-ink underline underline-offset-2">
+            we measured why
+          </Link>
+          . It does not know your circumstances, and it can be wrong. This is not
+          financial advice.
         </p>
       </main>
     </div>

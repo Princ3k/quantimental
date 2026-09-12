@@ -1,0 +1,94 @@
+{
+  "generated_at": "2026-09-12T22:41:29.490224+00:00",
+  "universe": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "GOOGL",
+    "AMZN",
+    "TSLA",
+    "META",
+    "JPM",
+    "V",
+    "JNJ",
+    "WMT",
+    "PG",
+    "XOM",
+    "KO",
+    "DIS",
+    "INTC"
+  ],
+  "period": {
+    "start": "2021-12-07",
+    "end": "2026-08-21"
+  },
+  "observations": 3792,
+  "horizon_days": 10,
+  "rebalance_days": 5,
+  "baseline_return": 0.784,
+  "directional_accuracy": 48.5,
+  "buckets": [
+    {
+      "action": "strong_buy",
+      "count": 275,
+      "mean_return": -0.142,
+      "median_return": 0.219,
+      "hit_rate": 51.3,
+      "edge_vs_baseline": -0.925,
+      "std_error": 0.458,
+      "significant": true,
+      "t_stat": -2.02
+    },
+    {
+      "action": "buy",
+      "count": 896,
+      "mean_return": 0.442,
+      "median_return": 0.462,
+      "hit_rate": 53.5,
+      "edge_vs_baseline": -0.341,
+      "std_error": 0.224,
+      "significant": false,
+      "t_stat": -1.52
+    },
+    {
+      "action": "hold",
+      "count": 1770,
+      "mean_return": 0.867,
+      "median_return": 0.762,
+      "hit_rate": null,
+      "edge_vs_baseline": 0.083,
+      "std_error": 0.164,
+      "significant": false,
+      "t_stat": 0.51
+    },
+    {
+      "action": "sell",
+      "count": 733,
+      "mean_return": 1.073,
+      "median_return": 0.847,
+      "hit_rate": 44.1,
+      "edge_vs_baseline": 0.29,
+      "std_error": 0.282,
+      "significant": false,
+      "t_stat": 1.03
+    },
+    {
+      "action": "strong_sell",
+      "count": 118,
+      "mean_return": 2.481,
+      "median_return": 2.213,
+      "hit_rate": 32.2,
+      "edge_vs_baseline": 1.698,
+      "std_error": 0.69,
+      "significant": true,
+      "t_stat": 2.46
+    }
+  ],
+  "any_significant": true,
+  "limitations": [
+    "Sentiment is excluded. No historical archive existed when this ran, so this measures the technical signal alone \u2014 while the live engine weighted sentiment at 55%.",
+    "Survivorship bias. These tickers were chosen today, so every one of them survived the period. Real portfolios include the ones that did not.",
+    "No costs. Spreads, commissions and slippage are ignored, and they fall hardest on the most active strategies.",
+    "Overlapping windows are avoided by spacing signals, but the sample is still small enough that the significance test is a sanity filter rather than a formal result."
+  ]
+}

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { HowToRead } from '@/components/how-to-read'
@@ -228,6 +229,25 @@ export function Dashboard() {
             posts. It cannot predict the future, it does not know your circumstances, and it can be
             wrong. This is not financial advice.
           </p>
+          <nav className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/method" className="hover:text-ink transition-colors">
+              Why we don&rsquo;t predict
+            </Link>
+            <Link href="/privacy" className="hover:text-ink transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-ink transition-colors">
+              Terms
+            </Link>
+            <a
+              href="https://github.com/Princ3k/quantimental"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink transition-colors"
+            >
+              Source
+            </a>
+          </nav>
           {current && (
             <p className="tnum mt-3">
               Updated {current.at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -21,6 +21,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 1,
     },
+    {
+      url: `${SITE_URL}/method`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.8,
+    },
+    ...(['privacy', 'terms'] as const).map((slug) => ({
+      url: `${SITE_URL}/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as const,
+      priority: 0.2,
+    })),
   ]
 
   if (!snapshot) return home

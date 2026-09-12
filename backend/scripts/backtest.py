@@ -5,6 +5,11 @@ Score the signal engine against history.
     python scripts/backtest.py                          # default universe, 2y
     python scripts/backtest.py --tickers AAPL MSFT NVDA
     python scripts/backtest.py --years 5 --horizon 20
+    python scripts/backtest.py --json ../public/backtest.json
+
+`--json` writes the result where the site can read it. The findings here are
+the reason the product no longer publishes buy/sell verdicts, and a claim like
+that is worth nothing if the numbers behind it live only in one terminal.
 
 Answers one question: when the engine said "Buy", did that stock go on to beat
 simply holding? Read the caveats printed at the end before drawing conclusions.
@@ -13,6 +18,7 @@ simply holding? Read the caveats printed at the end before drawing conclusions.
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 from pathlib import Path
@@ -51,6 +57,61 @@ def fetch(tickers: list[str], years: int) -> dict[str, pd.DataFrame]:
         except (KeyError, TypeError):
             logging.warning("No data for %s", ticker)
     return data
+
+
+def to_json(report: BacktestReport) -> dict:
+    """
+    The report as data, for publishing.
+
+    Carries the caveats alongside the numbers rather than leaving them to
+    whoever renders it. A backtest quoted without its limits is how a null
+    result turns into a marketing claim on its way to a web page.
+    """
+    return {
+        "generated_at": pd.Timestamp.utcnow().isoformat(),
+        "universe": report.tickers,
+        "period": {
+            "start": report.start.strftime("%Y-%m-%d") if report.start is not None else None,
+            "end": report.end.strftime("%Y-%m-%d") if report.end is not None else None,
+        },
+        "observations": report.observations,
+        "horizon_days": report.horizon_days,
+        "rebalance_days": report.rebalance_days,
+        "baseline_return": round(report.baseline_return, 3),
+        "directional_accuracy": (
+            round(report.directional_accuracy, 1)
+            if report.directional_accuracy is not None
+            else None
+        ),
+        "buckets": [
+            {
+                "action": b.action,
+                "count": b.count,
+                "mean_return": round(b.mean_return, 3),
+                "median_return": round(b.median_return, 3),
+                "hit_rate": None if b.hit_rate != b.hit_rate else round(b.hit_rate, 1),
+                "edge_vs_baseline": round(b.edge_vs_baseline, 3),
+                "std_error": round(b.std_error, 3),
+                "significant": b.significant,
+                # The figure a reader needs to judge the edge for themselves.
+                "t_stat": round(b.edge_vs_baseline / b.std_error, 2) if b.std_error else None,
+            }
+            for b in report.buckets
+        ],
+        "any_significant": any(b.significant for b in report.buckets),
+        "limitations": [
+            "Sentiment is excluded. No historical archive existed when this ran, "
+            "so this measures the technical signal alone — while the live engine "
+            "weighted sentiment at 55%.",
+            "Survivorship bias. These tickers were chosen today, so every one of "
+            "them survived the period. Real portfolios include the ones that did not.",
+            "No costs. Spreads, commissions and slippage are ignored, and they fall "
+            "hardest on the most active strategies.",
+            "Overlapping windows are avoided by spacing signals, but the sample is "
+            "still small enough that the significance test is a sanity filter "
+            "rather than a formal result.",
+        ],
+    }
 
 
 def render(report: BacktestReport) -> None:
@@ -138,6 +199,8 @@ def main() -> int:
                         help="trading days over which a verdict is judged")
     parser.add_argument("--rebalance", type=int, default=5,
                         help="trading days between signals")
+    parser.add_argument("--json", metavar="PATH",
+                        help="also write the result as JSON, for publishing")
     args = parser.parse_args()
 
     print(f"Fetching {len(args.tickers)} tickers over {args.years}y…", file=sys.stderr)
@@ -154,6 +217,13 @@ def main() -> int:
         return 1
 
     render(report)
+
+    if args.json:
+        destination = Path(args.json)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_text(json.dumps(to_json(report), indent=2) + "\n")
+        print(f"\nWrote {destination}", file=sys.stderr)
+
     return 0
 
 
