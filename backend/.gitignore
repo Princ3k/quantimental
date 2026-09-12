@@ -61,7 +61,10 @@ target/
 .ipynb_checkpoints
 
 # pyenv
-.python-version
+# NOTE: .python-version is deliberately NOT ignored. It pins the interpreter
+# for deploys (Railway's default floats, and numpy/pandas ship version-specific
+# wheels), so it has to be committed.
+# .python-version
 
 # celery beat schedule file
 celerybeat-schedule
