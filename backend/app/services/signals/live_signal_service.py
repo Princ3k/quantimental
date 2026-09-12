@@ -97,7 +97,13 @@ class LiveSignalService:
             }
 
         indicators = quote["indicators"]
-        technical_rating = quant_engine.calculate_technical_rating(indicators)
+
+        # The raw rating is a weighted blend that clusters near the middle, so
+        # scoring on it directly makes most of the scale unreachable. The
+        # percentile of the measured distribution is what gets scored; the raw
+        # value is carried through for transparency.
+        technical_raw = quant_engine.calculate_technical_rating(indicators)
+        technical_rating = quant_engine.strength_percentile(technical_raw)
         technical_notes = quant_engine.explain(indicators)
 
         sentiment = await self._get_sentiment(symbol, depth)
@@ -119,7 +125,7 @@ class LiveSignalService:
         )
 
         return self._assemble(symbol, quote, indicators, technical_rating,
-                              technical_notes, sentiment, verdict, depth)
+                              technical_raw, technical_notes, sentiment, verdict, depth)
 
     async def _get_sentiment(self, symbol: str, depth: str) -> dict[str, Any]:
         """
@@ -187,6 +193,7 @@ class LiveSignalService:
         quote: dict[str, Any],
         indicators: dict[str, Any],
         technical_rating: int,
+        technical_raw: int,
         technical_notes: list[str],
         sentiment: dict[str, Any],
         verdict: dict[str, Any],
@@ -220,6 +227,7 @@ class LiveSignalService:
             "signal": verdict["signal"],
             "hybrid_score": verdict["hybrid_score"],
             "technical_rating": technical_rating,
+            "technical_raw": technical_raw,
             "sentiment_rating": sentiment["rating"],
             "recommendation": {
                 "action": verdict["recommendation"],

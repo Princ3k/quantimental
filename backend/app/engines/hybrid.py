@@ -93,9 +93,9 @@ class HybridEngine:
         )
         hybrid_score = max(0, min(100, hybrid_score))
 
-        if hybrid_score >= 70:
+        if hybrid_score >= 75:
             signal = "bullish"
-        elif hybrid_score <= 40:
+        elif hybrid_score <= 25:
             signal = "bearish"
         else:
             signal = "neutral"
@@ -139,14 +139,30 @@ class HybridEngine:
 
     @staticmethod
     def _classify(hybrid_score: int) -> SignalType:
-        """Map a 0-100 score onto a five-point recommendation scale."""
-        if hybrid_score >= 80:
+        """
+        Map a 0-100 percentile onto the five-point scale.
+
+        The input is a percentile of the measured distribution, not a raw
+        score, so these cuts describe how unusual a reading is:
+
+            top 5%      strong_buy
+            next 20%    buy
+            middle 50%  hold
+            next 20%    sell
+            bottom 5%   strong_sell
+
+        Half of all readings land in "hold" by construction, which is the
+        honest shape for a market that mostly does nothing worth acting on.
+        The previous cuts (80/65/40/25) were applied to a raw rating that never
+        left 41-79, so three of these five outcomes could never occur.
+        """
+        if hybrid_score >= 95:
             return SignalType.STRONG_BUY
-        if hybrid_score >= 65:
+        if hybrid_score >= 75:
             return SignalType.BUY
-        if hybrid_score >= 40:
-            return SignalType.HOLD
         if hybrid_score >= 25:
+            return SignalType.HOLD
+        if hybrid_score >= 5:
             return SignalType.SELL
         return SignalType.STRONG_SELL
 

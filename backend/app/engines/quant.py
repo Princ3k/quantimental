@@ -40,6 +40,73 @@ STRONG_TREND_SLOPE_PCT = 2.5
 SLOPE_WINDOW = 20
 
 
+# ---------------------------------------------------------------------------
+# Rating calibration
+#
+# The raw technical rating is a weighted average of six bounded components, and
+# averaging bounded components concentrates the result near the middle. Measured
+# across 11,472 readings spanning 48 instruments and five years (2021-2026), it
+# never left 41-79, with mean 58.7 and standard deviation 6.5.
+#
+# That made three of the five verdicts unreachable: the thresholds for
+# strong_sell, sell and strong_buy sat outside the range the rating can occupy,
+# so the engine emitted only "hold" (80.5%) and "buy" (19.5%) — and could never
+# tell anyone to sell.
+#
+# Mapping the raw rating through its own empirical distribution fixes that. A
+# percentile is uniform by construction, so every band is reachable and each one
+# means something statable: "stronger than 85% of readings we have measured".
+#
+# The trade-off is that this is *relative*, not absolute. In a falling market
+# the best available reading still lands in the top percentile, so a high score
+# means "better than most right now", never "good in absolute terms". The UI
+# has to say so.
+# ---------------------------------------------------------------------------
+
+# (raw rating, percentile) pairs from the measured distribution.
+RATING_DISTRIBUTION: tuple[tuple[float, float], ...] = (
+    (41.0, 0.0),
+    (46.0, 1.0),
+    (48.0, 5.0),
+    (50.0, 10.0),
+    (53.0, 20.0),
+    (55.0, 30.0),
+    (57.0, 40.0),
+    (58.0, 50.0),
+    (60.0, 60.0),
+    (62.0, 70.0),
+    (64.0, 80.0),
+    (68.0, 90.0),
+    (69.0, 95.0),
+    (73.0, 99.0),
+    (79.0, 100.0),
+)
+
+
+def rating_to_percentile(rating: float) -> float:
+    """
+    Map a raw technical rating onto its percentile in the measured distribution.
+
+    Linear interpolation between breakpoints; clamped at both ends so a reading
+    outside the observed range saturates rather than extrapolating into nonsense.
+    """
+    points = RATING_DISTRIBUTION
+    if rating <= points[0][0]:
+        return 0.0
+    if rating >= points[-1][0]:
+        return 100.0
+
+    for (low_rating, low_pct), (high_rating, high_pct) in zip(points, points[1:]):
+        if low_rating <= rating <= high_rating:
+            span = high_rating - low_rating
+            if span <= 0:
+                return low_pct
+            position = (rating - low_rating) / span
+            return low_pct + position * (high_pct - low_pct)
+
+    return 50.0
+
+
 class QuantEngine:
     """Calculates technical indicators and a technical rating from price data."""
 
@@ -342,6 +409,17 @@ class QuantEngine:
                 "Stretches like this often bounce."
             ),
         }
+
+    @staticmethod
+    def strength_percentile(rating: int) -> int:
+        """
+        The rating expressed as a percentile of readings we have measured.
+
+        This is what the signal engine scores on. The raw rating is retained
+        because it is the interpretable weighted blend; the percentile is what
+        makes a five-point scale usable.
+        """
+        return int(round(rating_to_percentile(float(rating))))
 
     def explain(self, ind: dict[str, Any]) -> list[str]:
         """

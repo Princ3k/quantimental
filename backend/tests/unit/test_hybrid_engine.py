@@ -50,21 +50,41 @@ class TestWeighting:
 
 class TestClassification:
     @pytest.mark.parametrize(
-        "score,expected",
+        "percentile,expected",
         [
+            (100, SignalType.STRONG_BUY),
             (95, SignalType.STRONG_BUY),
-            (80, SignalType.STRONG_BUY),
-            (70, SignalType.BUY),
-            (65, SignalType.BUY),
+            (94, SignalType.BUY),
+            (75, SignalType.BUY),
+            (74, SignalType.HOLD),
             (50, SignalType.HOLD),
-            (40, SignalType.HOLD),
-            (30, SignalType.SELL),
-            (25, SignalType.SELL),
-            (10, SignalType.STRONG_SELL),
+            (25, SignalType.HOLD),
+            (24, SignalType.SELL),
+            (5, SignalType.SELL),
+            (4, SignalType.STRONG_SELL),
+            (0, SignalType.STRONG_SELL),
         ],
     )
-    def test_score_maps_to_recommendation(self, engine, score, expected):
-        assert engine._classify(score) is expected
+    def test_percentile_maps_to_recommendation(self, engine, percentile, expected):
+        """The input is a percentile of the measured distribution, not a raw score."""
+        assert engine._classify(percentile) is expected
+
+    def test_every_verdict_is_reachable(self, engine):
+        """
+        Regression test.
+
+        The old cuts (80/65/40/25) were applied to a raw rating that never left
+        41-79 in 11,472 measured readings, so strong_sell, sell and strong_buy
+        could never occur — the app was structurally unable to tell anyone to
+        sell. Every band must be reachable from some input.
+        """
+        produced = {engine._classify(p).value for p in range(0, 101)}
+        assert produced == {"strong_buy", "buy", "hold", "sell", "strong_sell"}
+
+    def test_half_of_all_readings_are_hold(self, engine):
+        """A percentile scale puts the middle 50% in hold by construction."""
+        holds = sum(1 for p in range(0, 101) if engine._classify(p).value == "hold")
+        assert 48 <= holds <= 53
 
     def test_signal_direction_matches_recommendation(self, engine):
         bullish = engine.synthesize(90, 90)

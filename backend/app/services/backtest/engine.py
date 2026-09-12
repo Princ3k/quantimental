@@ -175,7 +175,8 @@ class Backtester:
             if not indicators.get("data_quality", {}).get("sufficient", True):
                 continue
 
-            rating = quant_engine.calculate_technical_rating(indicators)
+            raw = quant_engine.calculate_technical_rating(indicators)
+            rating = quant_engine.strength_percentile(raw)
             verdict = _TECHNICAL_ONLY.synthesize(
                 technical_rating=rating,
                 sentiment_rating=rating,
