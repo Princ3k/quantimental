@@ -226,8 +226,10 @@ class SentimentModel:
             return self._vader_fallback(text)
 
         try:
+            from app.core.config import get_settings
+
             completion = client.chat.completions.create(
-                model="llama-3.1-8b-instant",
+                model=get_settings().GROQ_MODEL,
                 messages=[
                     {
                         "role": "system",

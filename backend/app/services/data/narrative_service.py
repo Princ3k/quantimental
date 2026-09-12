@@ -23,7 +23,11 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
-MODEL = "llama-3.1-8b-instant"
+def _model() -> str:
+    """The chat model to use, from settings."""
+    from app.core.config import get_settings
+
+    return get_settings().GROQ_MODEL
 
 SYSTEM_PROMPT = """You write one short market summary for a first-time investor.
 
@@ -84,7 +88,7 @@ class NarrativeService:
 
         try:
             completion = client.chat.completions.create(
-                model=MODEL,
+                model=_model(),
                 messages=[
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user", "content": self._facts(desk)},

@@ -61,6 +61,11 @@ class Settings(BaseSettings):
     TWITTER_API_KEY: Optional[str] = None
     HF_TOKEN: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
+    # Groq retires hosted models fairly often (llama-3.1-8b-instant, which this
+    # project originally pinned, has already gone). Keeping it in config means
+    # the next retirement is an environment change, not a code change.
+    # Check the current catalogue at https://console.groq.com/docs/models
+    GROQ_MODEL: str = "qwen/qwen3.8-27b"
 
     # ---- Tuning ---------------------------------------------------------
     TECHNICAL_WEIGHT: float = Field(0.45, ge=0.0, le=1.0)
