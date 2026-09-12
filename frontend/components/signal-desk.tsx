@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { RiskExplainer } from '@/components/risk-explainer'
 import { Sparkline } from '@/components/sparkline'
 import { cn } from '@/lib/utils'
 import { getSignalDesk } from '@/lib/api'
@@ -110,6 +111,12 @@ export function SignalDesk({ note }: { note?: string | null }) {
             </p>
           )}
         </div>
+      </div>
+
+      {/* Full width below both columns: the breakdown is a list of figures and
+          needs the room, not the 11rem the score sits in. */}
+      <div className="mt-5">
+        <RiskExplainer composite={composite} sectors={sectors} />
       </div>
 
       <p className="text-ink-3 mt-6 text-xs leading-relaxed">
