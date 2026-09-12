@@ -49,6 +49,15 @@ export interface SnapshotStock {
   h: string
   /** Two-week direction. */
   st: 'rising' | 'falling' | 'steady'
+  /**
+   * How this move compares to its sector and the market — the difference
+   * between "your stock fell" and "everything fell".
+   */
+  ctx?: string
+  /** The market's move today, as the median of the scanned universe. */
+  mkt?: number
+  /** This sector's move today, as the median of its members. */
+  sec?: number
   /** News articles per day. Absent when coverage could not be measured. */
   v?: number
   /**

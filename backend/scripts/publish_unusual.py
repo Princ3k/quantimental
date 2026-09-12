@@ -110,6 +110,9 @@ def main() -> int:
             "x": "multiple of this stock's typical daily move",
             "d": "typical daily move percent", "w": "change percent over two weeks",
             "h": "one-sentence description", "st": "rising | falling | steady",
+            "ctx": "how this move compares to its sector and the market",
+            "mkt": "the market's move today (median of the universe)",
+            "sec": "this sector's move today (median of its members)",
             "v": "news articles per day",
             "vx": "multiple of this stock's normal coverage (absent until "
                   "there is enough history to say)",

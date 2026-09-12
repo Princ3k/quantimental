@@ -45,6 +45,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+from app.engines.attribution import decompose, explain as explain_move
 from app.engines.describe import describe
 
 logger = logging.getLogger(__name__)
@@ -238,7 +239,22 @@ def scan(universe: Optional[list[dict[str, str]]] = None) -> dict[str, Any]:
         move.setdefault("company", names.get(move["ticker"], move["ticker"]))
         move.setdefault("sector", sectors.get(move["ticker"], ""))
 
-    snapshot = [_snapshot_row(m, names, sectors) for m in measurements]
+    # Attribution needs every stock's move, so it runs once over the whole
+    # sweep rather than per ticker.
+    attribution = decompose(measurements, sectors)
+
+    snapshot = [_snapshot_row(m, names, sectors, attribution) for m in measurements]
+
+    # The feed's own rows carry it too — "it fell with its sector" is often the
+    # most useful thing to say about a stock having an unusual day.
+    for move in movers + biggest:
+        context = explain_move(
+            move.get("company", move["ticker"]),
+            move["change_percent"],
+            attribution.get(move["ticker"]),
+        )
+        if context:
+            move["context"] = context
 
     as_of = _latest_session(raw)
 
@@ -267,6 +283,7 @@ def _snapshot_row(
     move: dict[str, Any],
     names: dict[str, str],
     sectors: dict[str, str],
+    attribution: Optional[dict[str, dict[str, Any]]] = None,
 ) -> dict[str, Any]:
     """
     One ticker, reduced to what a page or a widget needs to render it.
@@ -295,7 +312,7 @@ def _snapshot_row(
         },
     )
 
-    return {
+    row = {
         "t": ticker,
         "n": company,
         "s": sectors.get(ticker, ""),
@@ -307,6 +324,16 @@ def _snapshot_row(
         "h": described["headline"],
         "st": described["state"],
     }
+
+    context = (attribution or {}).get(ticker)
+    if context:
+        sentence = explain_move(company, move["change_percent"], context)
+        if sentence:
+            row["ctx"] = sentence
+        row["mkt"] = context["market_percent"]
+        row["sec"] = context["sector_percent"]
+
+    return row
 
 
 def _latest_session(raw: pd.DataFrame) -> Optional[str]:

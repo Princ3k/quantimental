@@ -153,6 +153,12 @@ export default async function StockPage({
               {stock.x >= 2 ? ' — an unusually large day for it.' : '.'}
             </p>
 
+            {stock.ctx && (
+              <p className="text-ink-2 border-rule-strong mt-5 border-l-2 pl-3.5 text-[0.9375rem] leading-relaxed">
+                {stock.ctx}
+              </p>
+            )}
+
             {stock.v !== undefined && (
               <p className="text-ink-3 mt-1.5 text-[0.875rem] leading-relaxed">
                 New stories about it appear{' '}
