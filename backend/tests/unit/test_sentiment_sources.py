@@ -457,6 +457,51 @@ class TestYahooNews:
         assert all("RACE" in a["title"] for a in kept)
 
 
+class TestNewsDeduplication:
+    @pytest.mark.asyncio
+    async def test_a_syndicated_story_is_not_listed_twice(self, monkeypatch):
+        """
+        The same piece reaches us from both providers at different URLs — one
+        credited "Insider Monkey", the other "insidermonkey.com" — so a
+        URL-only key let it through and the card stacked the identical
+        headline on itself.
+        """
+        title = "Nvidia's 2 GW Australia AI Push Could Deepen Its Advantage"
+
+        async def yahoo(*args, **kwargs):
+            return SourceOutcome(
+                [{"title": title, "url": "https://finance.yahoo.com/a", "source": "yahoo_finance"}],
+                "ok",
+            )
+
+        async def marketaux(*args, **kwargs):
+            return SourceOutcome(
+                [{"title": title, "url": "https://insidermonkey.com/b", "source": "marketaux"}],
+                "ok",
+            )
+
+        async def empty(*args, **kwargs):
+            return SourceOutcome([], "empty")
+
+        monkeypatch.setattr(fetcher, "_fetch_yahoo_news", yahoo)
+        monkeypatch.setattr(fetcher, "_fetch_marketaux", marketaux)
+        monkeypatch.setattr(fetcher, "_fetch_reddit", empty)
+        monkeypatch.setattr(fetcher, "_fetch_twitter", empty)
+
+        result = await fetcher.fetch_all_sentiment_sources("NVDA")
+
+        assert len(result["news_articles"]) == 1
+
+    def test_titles_match_across_publisher_punctuation(self):
+        # Syndicators reformat quotes and dashes; the story is the same.
+        assert fetcher._title_key("Nvidia’s “Big” Push — Explained") == fetcher._title_key(
+            "Nvidia's \"Big\" Push - Explained"
+        )
+
+    def test_distinct_headlines_are_kept(self):
+        assert fetcher._title_key("Apple rises") != fetcher._title_key("Apple falls")
+
+
 class TestSourceStatusReporting:
     def test_prefers_the_detailed_status_when_present(self):
         data = {"source_status": {"reddit": {"status": "error", "count": 0, "detail": "HTTP 403"}}}

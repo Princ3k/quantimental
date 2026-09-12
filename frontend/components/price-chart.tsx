@@ -142,8 +142,22 @@ export function PriceChart({ ticker }: { ticker: string }) {
   return (
     <section>
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <p className="eyebrow">Price</p>
-        <div className="flex gap-1" role="group" aria-label="Chart range">
+        <div className="flex min-w-0 items-baseline gap-3">
+          <p className="eyebrow">Price</p>
+          {/* Shares the header row with the eyebrow rather than floating above
+              the chart, where it collided with the range buttons. Fixed width
+              so the buttons do not shift as the value changes under the
+              cursor. */}
+          <p className="tnum min-w-0 font-mono text-[0.8125rem]">
+            {shown && (
+              <>
+                <span className="text-ink">${shown.c.toFixed(2)}</span>
+                <span className="text-ink-3 ml-2 hidden sm:inline">{formatDate(shown.d)}</span>
+              </>
+            )}
+          </p>
+        </div>
+        <div className="flex shrink-0 gap-1" role="group" aria-label="Chart range">
           {RANGES.map((option) => (
             <button
               key={option.value}
@@ -175,18 +189,6 @@ export function PriceChart({ ticker }: { ticker: string }) {
 
         {geometry && points && (
           <>
-            {/* The readout sits above the chart rather than following the
-                cursor: a tooltip that moves is harder to read than a figure
-                that stays still, and it never clips at the edges. */}
-            <div className="tnum absolute -top-7 right-0 font-mono text-[0.8125rem]">
-              {shown && (
-                <>
-                  <span className="text-ink">${shown.c.toFixed(2)}</span>
-                  <span className="text-ink-3 ml-2">{formatDate(shown.d)}</span>
-                </>
-              )}
-            </div>
-
             <svg
               ref={svgRef}
               viewBox={`0 0 1000 ${HEIGHT}`}

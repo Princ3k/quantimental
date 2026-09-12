@@ -200,6 +200,17 @@ def _safe_detail(exc: Exception) -> str:
     return _SECRET_PREFIX_RE.sub(r"\1***", detail)
 
 
+def _title_key(title: str) -> str:
+    """
+    A headline reduced to something comparable across publishers.
+
+    Syndicators reformat punctuation and spacing, so the same story arrives
+    with curly quotes from one and straight from another. Letters and digits
+    only, which is crude and exactly enough to catch a republished headline.
+    """
+    return re.sub(r"[^a-z0-9]+", "", (title or "").lower())
+
+
 def _strip_html(raw: str) -> str:
     """
     Reduce a fragment of feed HTML to readable text.
@@ -912,13 +923,22 @@ async def fetch_all_sentiment_sources(
     # analysers treat them as one pool. Newest first, and deduplicated by URL
     # because the two providers do syndicate the same stories.
     news: list[dict] = []
-    seen_urls: set[str] = set()
+    seen: set[str] = set()
     for article in outcomes["yahoo_finance"].items + outcomes["marketaux"].items:
-        key = (article.get("url") or article.get("title", "")).strip().lower()
-        if key and key in seen_urls:
+        # Deduplicated on URL *and* title. A syndicated story reaches us from
+        # both providers at different URLs — the same Insider Monkey piece
+        # arrived as "Insider Monkey" from one and "insidermonkey.com" from the
+        # other — so a URL-only key let it through twice and the card showed
+        # the identical headline stacked on itself.
+        url = (article.get("url") or "").strip().lower()
+        title = _title_key(article.get("title", ""))
+
+        if (url and url in seen) or (title and title in seen):
             continue
-        if key:
-            seen_urls.add(key)
+        if url:
+            seen.add(url)
+        if title:
+            seen.add(title)
         news.append(article)
     news.sort(key=lambda a: a.get("published_at") or "", reverse=True)
 
