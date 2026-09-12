@@ -78,8 +78,11 @@ class NarrativeService:
         """
         Build the narrative for a Signal Desk payload.
 
-        Returns ``{"text": ..., "source": "llm"|"template"}`` so the UI can be
-        honest about where the sentence came from.
+        Returns ``{"text": ..., "source": "llm"|"template", "reason": ...}``.
+        ``reason`` is set only when the LLM path was skipped or refused, so a
+        deployed instance can explain a silent downgrade without anyone needing
+        to read its logs — which is exactly the position a fallback leaves you
+        in otherwise.
         """
         if not desk.get("available"):
             return {"text": "Market data is temporarily unavailable.", "source": "none"}
@@ -88,7 +91,11 @@ class NarrativeService:
 
         client = self.client
         if not client:
-            return {"text": template, "source": "template"}
+            return {
+                "text": template,
+                "source": "template",
+                "reason": "no_api_key",
+            }
 
         try:
             completion = client.chat.completions.create(
@@ -103,14 +110,38 @@ class NarrativeService:
             text = (completion.choices[0].message.content or "").strip().strip('"')
 
             # A model that ignores the brief is worse than the template.
-            if not text or len(text) > 320 or self._looks_predictive(text):
-                logger.info("Rejected LLM narrative, falling back to template")
-                return {"text": template, "source": "template"}
+            if not text:
+                reason = "empty_response"
+            elif len(text) > 320:
+                reason = "too_long"
+            elif self._looks_predictive(text):
+                reason = "predictive_language_rejected"
+            else:
+                return {"text": text, "source": "llm"}
 
-            return {"text": text, "source": "llm"}
+            logger.info("Rejected LLM narrative (%s), falling back to template", reason)
+            return {"text": template, "source": "template", "reason": reason}
         except Exception as exc:
             logger.warning("Narrative generation failed (%s); using template", exc)
-            return {"text": template, "source": "template"}
+            return {
+                "text": template,
+                "source": "template",
+                "reason": self._safe_error(exc),
+            }
+
+    @staticmethod
+    def _safe_error(exc: Exception) -> str:
+        """
+        Summarise a failure without echoing anything sensitive.
+
+        Provider errors quote request context, so the message is truncated and
+        scrubbed of anything shaped like a credential before it goes into a
+        public API response.
+        """
+        import re
+
+        detail = f"{type(exc).__name__}: {exc}"[:200]
+        return re.sub(r"(gsk_|sk-|Bearer\s+)\S+", r"\1***", detail)
 
     @staticmethod
     def _looks_predictive(text: str) -> bool:

@@ -192,6 +192,47 @@ class TestNarrative:
         assert svc._looks_predictive("Energy is poised to outperform.")
         assert not svc._looks_predictive("Government bond yields rose and credit sold off.")
 
+    def test_fallback_explains_itself(self, service, no_groq):
+        """
+        A silent downgrade leaves you reading logs you may not have access to.
+        The payload says why it fell back.
+        """
+        result = NarrativeService().generate(service.get_desk())
+        assert result["reason"] == "no_api_key"
+
+    def test_rejected_output_names_the_reason(self, service, monkeypatch):
+        svc = NarrativeService()
+
+        class _Message:
+            content = "Rates are poised to push equities lower going forward."
+
+        class _Choice:
+            message = _Message()
+
+        class _Completion:
+            choices = [_Choice()]
+
+        class _Client:
+            class chat:
+                class completions:
+                    @staticmethod
+                    def create(**_):
+                        return _Completion()
+
+        monkeypatch.setattr(type(svc), "client", property(lambda self: _Client()))
+        result = svc.generate(service.get_desk())
+
+        assert result["source"] == "template"
+        assert result["reason"] == "predictive_language_rejected"
+
+    def test_failure_reason_never_echoes_a_credential(self):
+        redacted = NarrativeService._safe_error(
+            RuntimeError("401 unauthorized for key gsk_abcdef123456 on Bearer gsk_zzz")
+        )
+        assert "gsk_abcdef123456" not in redacted
+        assert "gsk_zzz" not in redacted
+        assert "gsk_***" in redacted
+
     def test_unavailable_desk_yields_no_narrative(self):
         result = NarrativeService().generate({"available": False})
         assert result["source"] == "none"

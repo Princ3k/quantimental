@@ -57,6 +57,7 @@ class Settings(BaseSettings):
     REDDIT_CLIENT_SECRET: Optional[str] = None
     REDDIT_USERNAME: Optional[str] = None
     REDDIT_PASSWORD: Optional[str] = None
+    ALPHA_VANTAGE_API_KEY: Optional[str] = None
     MARKETAUX_API_KEY: Optional[str] = None
     TWITTER_API_KEY: Optional[str] = None
     HF_TOKEN: Optional[str] = None

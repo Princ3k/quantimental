@@ -139,6 +139,7 @@ async def health_check() -> dict:
                 "groq": bool(settings.GROQ_API_KEY),
                 "groq_model": settings.GROQ_MODEL if settings.GROQ_API_KEY else None,
                 "marketaux": bool(settings.MARKETAUX_API_KEY),
+                "alpha_vantage": bool(settings.ALPHA_VANTAGE_API_KEY),
                 "reddit": bool(settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET),
                 "twitter": bool(settings.TWITTER_API_KEY),
             },
