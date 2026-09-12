@@ -7,13 +7,15 @@ social posts, combines the two into a single verdict, and explains the
 reasoning in ordinary English — for people who have never heard of an RSI.
 
 ```
-Buy · Moderate confidence (47%)
-The overall picture leans positive, with some caveats.
+Government bond yields climbed sharply while corporate debt prices fell,
+signaling a shift toward caution. Energy stocks led the market, while
+health care and materials lagged behind.
 
-Why:
-  • Price has been drifting upward over the past two weeks.
-  • Slightly more buying than selling pressure recently. Momentum reads 63 out of 100.
-  • Day-to-day swings are small — price action has been calm.
+↑ RATES    Long-term rates climbing            +2.0σ
+↓ CREDIT   High-yield credit under pressure    −1.7σ
+↑ COMMOD   Crude pushing higher                +9.4%
+
+Risk appetite  23 / 100 · Risk-off
 ```
 
 ---
@@ -80,6 +82,13 @@ and presents it as a measurement. `sentiment_rating` is `null`, not `50`.
 
 **2. Identical inputs give identical outputs.** Confidence is derived from how
 much the evidence agrees. There is no randomness anywhere in the scoring path.
+
+**2b. The verdict is scored, and it did not do well.** A walk-forward backtest
+over 1,888 readings across five years found no verdict that beat simply holding
+by more than statistical noise — and a monotonic inversion, where the more
+bullish calls performed slightly *worse*. So the product leads with the
+explanation, which describes the present and is checkable, and presents the
+verdict quietly. `backend/scripts/backtest.py` reproduces this.
 
 **3. No bare jargon on screen.** Terms like RSI and ADX appear only next to a
 plain-English definition. The wording for a given reading is defined once, in

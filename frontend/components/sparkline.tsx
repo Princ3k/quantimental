@@ -2,68 +2,59 @@
 
 import { useId } from 'react'
 
-interface SparklineProps {
-  /** Closing prices, oldest first. */
-  data: number[]
-  className?: string
-  height?: number
-}
-
 /**
- * A small price trend line.
+ * A price trend line.
  *
- * Purely decorative context for the numbers beside it, so it is marked
- * aria-hidden — a screen reader gets the price and change from the card text
- * rather than an unreadable path.
+ * Decorative context for the figures beside it, so it is aria-hidden — the
+ * price and change are already in the text. Drawn as a hairline with no fill
+ * beyond a faint wash, so a grid of these reads as texture rather than noise.
  */
-export function Sparkline({ data, className, height = 40 }: SparklineProps) {
+export function Sparkline({
+  data,
+  height = 38,
+  className,
+}: {
+  data: number[]
+  height?: number
+  className?: string
+}) {
   const gradientId = useId()
-
   if (data.length < 2) return null
 
-  const width = 120
+  const width = 100
   const min = Math.min(...data)
   const max = Math.max(...data)
   const range = max - min
 
-  // A perfectly flat series would divide by zero; draw it down the middle.
-  const yFor = (value: number) =>
+  const y = (value: number) =>
     range === 0 ? height / 2 : height - ((value - min) / range) * (height - 4) - 2
 
-  const points = data.map((value, index) => ({
-    x: (index / (data.length - 1)) * width,
-    y: yFor(value),
-  }))
-
-  const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
-  const area = `${line} L${width},${height} L0,${height} Z`
-
-  const isPositive = data[data.length - 1] >= data[0]
-  const stroke = isPositive ? 'var(--positive)' : 'var(--negative)'
+  const points = data.map((value, i) => [(i / (data.length - 1)) * width, y(value)] as const)
+  const line = points.map(([x, py], i) => `${i ? 'L' : 'M'}${x.toFixed(1)},${py.toFixed(1)}`).join('')
+  const up = data[data.length - 1] >= data[0]
+  const stroke = up ? 'var(--up)' : 'var(--down)'
 
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
-      width="100%"
-      height={height}
       preserveAspectRatio="none"
       className={className}
+      style={{ width: '100%', height }}
       aria-hidden
       focusable="false"
     >
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={stroke} stopOpacity="0.22" />
+          <stop offset="0%" stopColor={stroke} stopOpacity="0.14" />
           <stop offset="100%" stopColor={stroke} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <path d={area} fill={`url(#${gradientId})`} />
+      <path d={`${line} L${width},${height} L0,${height} Z`} fill={`url(#${gradientId})`} />
       <path
         d={line}
         fill="none"
         stroke={stroke}
-        strokeWidth="1.75"
-        strokeLinecap="round"
+        strokeWidth="1.25"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
       />

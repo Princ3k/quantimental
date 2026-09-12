@@ -1,173 +1,153 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
+
+/*
+ * Design system
+ * -------------
+ * Near-monochrome, typographic hierarchy, almost no chrome.
+ *
+ * The previous theme had the tells of a generated UI: an indigo accent applied
+ * to everything, every element wrapped in a bordered rounded card, progress
+ * bars standing in for values, and uniform visual weight so nothing led.
+ *
+ * The rules here:
+ *
+ *   1. Colour carries meaning or it is absent. There is no decorative accent.
+ *      Green and red mean direction; everything else is ink on paper.
+ *   2. Hierarchy comes from type size and weight, not from boxes. Sections are
+ *      separated by space and hairlines.
+ *   3. Numbers are monospaced and large. They are what people came for.
+ *   4. One idea per surface. No cards inside cards.
+ */
 
 @custom-variant dark (&:is(.dark *));
 
-/*
- * Palette
- * -------
- * A calm, high-contrast neutral base with one indigo accent. The previous
- * theme used saturated purple for the background, cards, borders and accent
- * all at once, which left very little tonal separation between surfaces and
- * made long sessions tiring.
- *
- * Colour is never the only carrier of meaning: every green/red element is
- * paired with a word or an icon, so the app stays readable for the ~8% of men
- * and ~0.5% of women with a colour vision deficiency.
- */
-
 :root {
-  /* Surfaces — three distinct levels: page, card, raised */
-  --background: oklch(0.985 0.002 250);
-  --foreground: oklch(0.21 0.015 260);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.015 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.015 260);
+  /* Paper and ink. Warm-neutral rather than blue-grey, which reads softer. */
+  --bg: oklch(0.985 0.002 85);
+  --surface: oklch(1 0 0);
+  --ink: oklch(0.18 0.004 60);
+  --ink-2: oklch(0.44 0.006 70);
+  --ink-3: oklch(0.62 0.006 75);
 
-  --muted: oklch(0.965 0.004 250);
-  --muted-foreground: oklch(0.51 0.015 258);
+  /* Hairlines, not borders. */
+  --rule: oklch(0.90 0.004 75);
+  --rule-strong: oklch(0.82 0.005 75);
 
-  /* Single accent */
-  --primary: oklch(0.54 0.17 268);
-  --primary-foreground: oklch(0.99 0.002 250);
-  --accent: oklch(0.95 0.02 268);
-  --accent-foreground: oklch(0.42 0.16 268);
+  /* Direction only. Desaturated so a screen of them is not a carnival. */
+  --up: oklch(0.52 0.115 155);
+  --down: oklch(0.53 0.155 27);
+  --up-wash: oklch(0.95 0.03 155);
+  --down-wash: oklch(0.955 0.028 27);
 
-  --secondary: oklch(0.96 0.004 250);
-  --secondary-foreground: oklch(0.28 0.015 260);
+  /* Used once or twice per screen, never decoratively. */
+  --mark: oklch(0.28 0.02 60);
 
-  /* Semantic — direction and severity */
-  --positive: oklch(0.56 0.14 152);
-  --positive-foreground: oklch(0.99 0.002 250);
-  --positive-subtle: oklch(0.95 0.035 152);
-
-  --negative: oklch(0.55 0.2 25);
-  --negative-foreground: oklch(0.99 0.002 250);
-  --negative-subtle: oklch(0.955 0.03 25);
-
-  --caution: oklch(0.68 0.14 75);
-  --caution-foreground: oklch(0.22 0.02 75);
-  --caution-subtle: oklch(0.96 0.045 85);
-
-  --destructive: var(--negative);
-  --destructive-foreground: var(--negative-foreground);
-
-  --border: oklch(0.9 0.005 255);
-  --input: oklch(0.9 0.005 255);
-  --ring: oklch(0.54 0.17 268);
-
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 }
 
 .dark {
-  --background: oklch(0.17 0.012 265);
-  --foreground: oklch(0.95 0.004 250);
-  --card: oklch(0.215 0.014 265);
-  --card-foreground: oklch(0.95 0.004 250);
-  --popover: oklch(0.235 0.014 265);
-  --popover-foreground: oklch(0.95 0.004 250);
+  --bg: oklch(0.155 0.003 75);
+  --surface: oklch(0.195 0.004 75);
+  --ink: oklch(0.96 0.002 85);
+  --ink-2: oklch(0.70 0.005 78);
+  --ink-3: oklch(0.53 0.006 78);
 
-  --muted: oklch(0.26 0.014 265);
-  --muted-foreground: oklch(0.71 0.012 258);
+  --rule: oklch(0.28 0.004 75);
+  --rule-strong: oklch(0.36 0.005 75);
 
-  --primary: oklch(0.68 0.15 268);
-  --primary-foreground: oklch(0.16 0.012 265);
-  --accent: oklch(0.3 0.04 268);
-  --accent-foreground: oklch(0.84 0.1 268);
+  --up: oklch(0.74 0.135 158);
+  --down: oklch(0.68 0.16 27);
+  --up-wash: oklch(0.26 0.04 158);
+  --down-wash: oklch(0.26 0.05 27);
 
-  --secondary: oklch(0.27 0.014 265);
-  --secondary-foreground: oklch(0.93 0.004 250);
-
-  /* Lifted and slightly desaturated so they read on a dark ground */
-  --positive: oklch(0.72 0.15 152);
-  --positive-foreground: oklch(0.16 0.012 265);
-  --positive-subtle: oklch(0.29 0.05 152);
-
-  --negative: oklch(0.68 0.17 25);
-  --negative-foreground: oklch(0.16 0.012 265);
-  --negative-subtle: oklch(0.3 0.06 25);
-
-  --caution: oklch(0.79 0.13 80);
-  --caution-foreground: oklch(0.18 0.02 80);
-  --caution-subtle: oklch(0.31 0.05 80);
-
-  --destructive: var(--negative);
-  --destructive-foreground: var(--negative-foreground);
-
-  --border: oklch(0.31 0.012 265);
-  --input: oklch(0.33 0.012 265);
-  --ring: oklch(0.68 0.15 268);
+  --mark: oklch(0.88 0.01 80);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-positive: var(--positive);
-  --color-positive-foreground: var(--positive-foreground);
-  --color-positive-subtle: var(--positive-subtle);
-  --color-negative: var(--negative);
-  --color-negative-foreground: var(--negative-foreground);
-  --color-negative-subtle: var(--negative-subtle);
-  --color-caution: var(--caution);
-  --color-caution-foreground: var(--caution-foreground);
-  --color-caution-subtle: var(--caution-subtle);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-up-wash: var(--up-wash);
+  --color-down-wash: var(--down-wash);
+  --color-mark: var(--mark);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
 }
 
 @layer base {
   * {
-    border-color: var(--border);
+    border-color: var(--rule);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--background);
-    color: var(--foreground);
-    /* Slightly looser than default: this app is read, not skimmed. */
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-feature-settings: 'cv11', 'ss01';
   }
 
-  /* A visible, consistent focus ring for keyboard users on every control. */
+  /* Headings are tight and dark; the size jump does the work, not weight. */
+  h1, h2, h3 {
+    letter-spacing: -0.022em;
+  }
+
+  h1 {
+    letter-spacing: -0.032em;
+  }
+
   :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
+    outline: 2px solid var(--mark);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
-  /* Tabular figures stop prices and percentages jittering as they update. */
-  .tabular {
+  ::selection {
+    background: var(--ink);
+    color: var(--bg);
+  }
+}
+
+@layer utilities {
+  /* Figures that do not jitter as they update. */
+  .tnum {
     font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
+
+  /* The small structural label: uppercase, wide, quiet. Used for section
+     headers where a full heading would be too loud. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .rule-t {
+    border-top: 1px solid var(--rule);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

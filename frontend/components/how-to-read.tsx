@@ -1,83 +1,57 @@
 'use client'
 
-import { ChevronDown, GraduationCap } from 'lucide-react'
-
-import { Card } from '@/components/ui/card'
-import { Verdict } from '@/components/verdict'
-import { cn } from '@/lib/utils'
-import { ACTION_MEANING } from '@/lib/presentation'
 import { useStoredValue } from '@/lib/use-local-storage'
-import type { RecommendationAction } from '@/lib/types'
 
 const STORAGE_KEY = 'quantimental.howToRead.open'
 
-const LEGEND: Array<{ action: RecommendationAction; label: string }> = [
-  { action: 'strong_buy', label: 'Strong Buy' },
-  { action: 'buy', label: 'Buy' },
-  { action: 'hold', label: 'Hold' },
-  { action: 'sell', label: 'Sell' },
-  { action: 'strong_sell', label: 'Strong Sell' },
-]
-
-/** Open on a first visit; collapsed once the reader closes it. */
 function parseOpen(raw: string | null): boolean {
   return raw === null ? true : raw === 'true'
 }
 
 /**
- * A first-run explainer of what the five verdicts mean.
+ * A short note on what the verdicts mean and what they are worth.
  *
- * Open by default for a new visitor, because the whole product rests on
- * understanding this scale, and collapsed once dismissed so it does not nag a
- * returning user.
+ * It states the backtest result plainly. An investing tool that shows a "Buy"
+ * without saying whether its buys have ever worked is asking for trust it has
+ * not earned.
  */
 export function HowToRead() {
   const [open, setOpen] = useStoredValue(STORAGE_KEY, true, parseOpen)
 
   return (
-    <Card className="gap-0 overflow-hidden py-0">
+    <div className="rule-t pt-5">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="hover:bg-muted/50 flex w-full items-center gap-3 px-4 py-3 text-left transition-colors"
+        className="text-ink-3 hover:text-ink text-[0.8125rem] transition-colors"
       >
-        <GraduationCap className="text-primary size-4 shrink-0" aria-hidden />
-        <span className="flex-1 text-sm font-medium">New here? How to read these cards</span>
-        <ChevronDown
-          className={cn('text-muted-foreground size-4 transition-transform', open && 'rotate-180')}
-          aria-hidden
-        />
+        How to read this
+        <span aria-hidden className="ml-1">{open ? '↑' : '↓'}</span>
       </button>
 
       {open && (
-        <div className="border-border space-y-4 border-t px-4 py-4">
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            Each card gives one stock a verdict on a five-point scale. The verdict combines two
-            things: what the <strong className="text-foreground">price chart</strong> has been
-            doing, and the <strong className="text-foreground">mood</strong> in news and social
-            posts about it. Underneath, you can always open the reasoning.
+        <div className="text-ink-2 mt-4 max-w-2xl space-y-3 text-[0.8125rem] leading-relaxed">
+          <p>
+            Each stock gets a one-line description of what its chart and the news around it are
+            doing. That part describes the present, and you can check it.
           </p>
-
-          <dl className="space-y-2.5">
-            {LEGEND.map(({ action, label }) => (
-              <div key={action} className="flex flex-col gap-1 sm:flex-row sm:items-start sm:gap-3">
-                <dt className="sm:w-32 sm:shrink-0">
-                  <Verdict action={action} label={label} />
-                </dt>
-                <dd className="text-muted-foreground text-sm leading-relaxed">
-                  {ACTION_MEANING[action]}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <p className="text-muted-foreground border-border border-t pt-3 text-xs leading-relaxed">
-            A verdict describes what the signals currently show — it is not a recommendation to
-            trade, and none of it accounts for your own goals, timeline, or risk tolerance.
+          <p>
+            Each also gets a verdict on a five-point scale, scored against how unusual the
+            reading is: the strongest 5% of readings we have measured are{' '}
+            <span className="text-ink">strong buy</span>, the weakest 5%{' '}
+            <span className="text-ink">strong sell</span>, and the middle half{' '}
+            <span className="text-ink">hold</span>. It is relative — in a falling market the
+            best available reading still scores highly.
+          </p>
+          <p className="text-ink-3">
+            We backtested those verdicts over 1,888 readings across five years. None beat simply
+            holding by more than statistical noise, and the more bullish calls did slightly
+            worse. Treat the verdict as a label on a measurement, not a recommendation — and
+            none of this is financial advice.
           </p>
         </div>
       )}
-    </Card>
+    </div>
   )
 }

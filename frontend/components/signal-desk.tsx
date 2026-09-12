@@ -1,57 +1,51 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AlertTriangle } from 'lucide-react'
 
-import { InfoTip } from '@/components/info-tip'
 import { Sparkline } from '@/components/sparkline'
 import { cn } from '@/lib/utils'
 import { getSignalDesk } from '@/lib/api'
 import type { MacroSignal, RiskTone, SignalDeskResponse } from '@/lib/types'
 
-/** Macro moves slowly and the reading is identical for everyone. */
 const REFRESH_MS = 5 * 60 * 1000
 
-const TONE_TEXT: Record<RiskTone, string> = {
-  risk_on: 'text-positive',
-  risk_off: 'text-negative',
-  neutral: 'text-muted-foreground',
+const TONE: Record<RiskTone, string> = {
+  risk_on: 'text-up',
+  risk_off: 'text-down',
+  neutral: 'text-ink-3',
 }
 
 /**
- * The Signal Desk: what moved across the whole market, how unusual it was,
- * and what it adds up to in one sentence.
+ * The market-wide read: what moved, how unusual it was, what it adds up to.
  *
- * This is the front door of the product. A per-stock verdict answers "what
- * should I do", which requires being right about the future. This answers
- * "what is happening", which requires only being accurate about the present —
- * and it changes daily, so there is a reason to come back.
+ * This is the front door. It describes what has already happened, which the
+ * engine can do accurately, rather than predicting, which a backtest says it
+ * cannot. It also changes daily and needs no setup, so it is useful before a
+ * visitor has added a single stock.
  */
 export function SignalDesk() {
   const [data, setData] = useState<SignalDeskResponse | null>(null)
   const [failed, setFailed] = useState(false)
-  const requestRef = useRef<AbortController | null>(null)
+  const request = useRef<AbortController | null>(null)
 
   const load = useCallback(async () => {
-    requestRef.current?.abort()
+    request.current?.abort()
     const controller = new AbortController()
-    requestRef.current = controller
-
+    request.current = controller
     try {
       const response = await getSignalDesk(controller.signal)
       if (controller.signal.aborted) return
       setData(response)
       setFailed(false)
     } catch {
-      if (controller.signal.aborted) return
-      setFailed(true)
+      if (!controller.signal.aborted) setFailed(true)
     }
   }, [])
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void load()
-    return () => requestRef.current?.abort()
+    return () => request.current?.abort()
   }, [load])
 
   useEffect(() => {
@@ -63,132 +57,80 @@ export function SignalDesk() {
 
   if (failed || (data && !data.available)) {
     return (
-      <section className="border-border bg-card rounded-xl border p-4">
-        <p className="text-muted-foreground flex items-center gap-2 text-sm">
-          <AlertTriangle className="size-4 shrink-0" aria-hidden />
-          {data && !data.available ? data.reason : 'Could not load market signals.'}
-        </p>
-      </section>
+      <p className="text-ink-3 text-sm">
+        {data && !data.available ? data.reason : 'Market signals are unavailable right now.'}
+      </p>
     )
   }
 
-  if (!data) return <DeskSkeleton />
+  if (!data) {
+    return <div className="bg-rule/40 h-44 animate-pulse rounded-lg" aria-label="Loading" />
+  }
 
-  const { signals, composite, sectors, history, narrative, lookback_days: lookback } = data
+  const { signals, composite, sectors, history, narrative } = data
 
   return (
-    <section
-      aria-label="Market signal desk"
-      className="border-border bg-card overflow-hidden rounded-xl border"
-    >
-      <header className="border-border flex items-center justify-between border-b px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex size-2" aria-hidden>
-            <span className="bg-positive absolute inline-flex size-full animate-ping rounded-full opacity-60" />
-            <span className="bg-positive relative inline-flex size-2 rounded-full" />
-          </span>
-          <h2 className="font-mono text-[11px] tracking-[0.2em] uppercase">Signal Desk</h2>
-        </div>
-        <span className="text-muted-foreground tabular font-mono text-[11px]">
-          last {lookback} sessions
-        </span>
-      </header>
+    <section aria-label="Market overview">
+      {/* The sentence leads. Everything below is the evidence for it. */}
+      <p className="max-w-2xl text-lg leading-snug text-balance sm:text-xl">{narrative?.text}</p>
 
-      <div className="grid lg:grid-cols-[1.15fr_1fr]">
-        {/* Incoming signals */}
-        <div className="border-border border-b p-4 lg:border-r lg:border-b-0">
-          <p className="text-muted-foreground mb-3 flex items-center gap-1.5 font-mono text-[10px] tracking-[0.24em] uppercase">
-            Incoming signals
-            <InfoTip entry="sigma" />
-          </p>
-          <ul className="space-y-2.5">
-            {signals.slice(0, 6).map((signal) => (
-              <SignalRow key={signal.name} signal={signal} />
+      <div className="mt-7 grid gap-x-10 gap-y-7 sm:grid-cols-[1fr_auto]">
+        {/* What moved */}
+        <div>
+          <p className="eyebrow mb-3">What moved this week</p>
+          <ul className="space-y-2">
+            {signals.slice(0, 5).map((signal) => (
+              <Row key={signal.name} signal={signal} />
             ))}
           </ul>
         </div>
 
-        {/* Composite + narrative */}
-        <div className="flex flex-col p-4">
-          <div className="flex items-baseline justify-between">
-            <p className="text-muted-foreground flex items-center gap-1.5 font-mono text-[10px] tracking-[0.24em] uppercase">
-              Risk appetite
-              <InfoTip entry="riskAppetite" />
-            </p>
-            <span className={cn('tabular font-mono text-xs font-semibold', TONE_TEXT[composite.tone])}>
-              {composite.label} · {composite.score}/100
-            </span>
-          </div>
-
+        {/* Risk appetite */}
+        <div className="sm:w-44">
+          <p className="eyebrow mb-3">Risk appetite</p>
+          <p className={cn('tnum font-mono text-2xl leading-none font-medium', TONE[composite.tone])}>
+            {composite.score}
+            <span className="text-ink-3 text-sm font-normal"> / 100</span>
+          </p>
+          <p className="text-ink-2 mt-1.5 text-[0.8125rem]">{composite.label}</p>
           {history.length > 1 && (
-            <div className="mt-3 h-16">
-              <Sparkline data={history} height={64} />
+            <div className="mt-3">
+              <Sparkline data={history} height={34} />
             </div>
           )}
-
           {sectors.available && sectors.breadth !== null && (
-            <p className="text-muted-foreground mt-3 text-xs">
-              <span className="text-foreground font-medium">{sectors.breadth}%</span> of sectors
-              advancing
-              {sectors.leaders[0] && (
-                <>
-                  {' · '}
-                  {sectors.leaders[0].name} leading
-                </>
-              )}
+            <p className="text-ink-3 tnum mt-3 text-[0.8125rem] leading-relaxed">
+              {sectors.breadth}% of sectors rising
+              {sectors.leaders[0] && <>, {sectors.leaders[0].name} leading</>}
             </p>
-          )}
-
-          {narrative && (
-            <div className="border-border mt-4 border-t pt-4">
-              <p className="text-muted-foreground mb-2 font-mono text-[10px] tracking-[0.24em] uppercase">
-                What it adds up to
-              </p>
-              <p className="text-sm leading-relaxed">{narrative.text}</p>
-            </div>
           )}
         </div>
       </div>
 
-      <footer className="border-border border-t px-4 py-2">
-        <p className="text-muted-foreground font-mono text-[10px]">
-          Describes market moves that have already happened. Not a forecast, not advice.
-        </p>
-      </footer>
+      <p className="text-ink-3 mt-6 text-xs leading-relaxed">
+        Describes moves that have already happened. Not a forecast, not advice.
+      </p>
     </section>
   )
 }
 
-const MARKS = { up: '▲', down: '▼', flat: '◆' } as const
+const MARK = { up: '↑', down: '↓', flat: '·' } as const
 
-function SignalRow({ signal }: { signal: MacroSignal }) {
+function Row({ signal }: { signal: MacroSignal }) {
   return (
-    <li className="flex items-center gap-3 font-mono text-xs">
-      <span className={cn('shrink-0', TONE_TEXT[signal.risk_tone])} aria-hidden>
-        {MARKS[signal.direction]}
+    <li className="flex items-baseline gap-3 text-sm">
+      <span className={cn('w-3 shrink-0 font-mono', TONE[signal.risk_tone])} aria-hidden>
+        {MARK[signal.direction]}
       </span>
-      <span className="text-muted-foreground w-20 shrink-0 tracking-wide">{signal.category}</span>
-      <span className="text-foreground/90 flex-1 truncate font-sans" title={signal.text}>
-        {signal.text}
-      </span>
+      <span className="text-ink-2 flex-1 leading-snug">{signal.text}</span>
       <span
         className={cn(
-          'tabular shrink-0',
-          signal.notable ? 'text-foreground font-semibold' : 'text-muted-foreground',
+          'tnum shrink-0 font-mono text-[0.8125rem]',
+          signal.notable ? 'text-ink' : 'text-ink-3',
         )}
       >
         {signal.delta}
       </span>
     </li>
-  )
-}
-
-function DeskSkeleton() {
-  return (
-    <section
-      className="border-border bg-card h-64 animate-pulse rounded-xl border"
-      aria-busy="true"
-      aria-label="Loading market signals"
-    />
   )
 }
