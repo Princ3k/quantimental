@@ -38,3 +38,7 @@ npm-debug.log*
 
 # Local tooling
 .claude/
+
+# EDGAR submissions cached by scripts/measure_filing_coincidence.py — 80MB of
+# other people's filings, re-fetchable in a minute.
+.cache/

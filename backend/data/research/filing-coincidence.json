@@ -1,0 +1,50 @@
+{
+  "measured_at": "2026-09-13T06:24:51.062846+00:00",
+  "period": "2y",
+  "companies": 503,
+  "ticker_days": 240579,
+  "counts": {
+    "tracked_market": 170595,
+    "all": 240579,
+    "company_specific": 49208,
+    "did_not_follow": 6509,
+    "against_sector": 14267
+  },
+  "filed": {
+    "company_specific": 4215,
+    "all": 12307,
+    "tracked_market": 6438,
+    "against_sector": 1360,
+    "did_not_follow": 294
+  },
+  "base_rate_percent": 5.116,
+  "company_specific_rate_percent": 8.566,
+  "enrichment": 1.674,
+  "unusual": {
+    "days": 4811,
+    "base_rate_percent": 35.731,
+    "company_specific_rate_percent": 35.282
+  },
+  "items_on_company_specific": {
+    "9.01": 3810,
+    "2.02": 2329,
+    "7.01": 1144,
+    "8.01": 911,
+    "5.02": 605,
+    "1.01": 296,
+    "2.03": 180,
+    "5.07": 173,
+    "5.03": 95,
+    "3.02": 45,
+    "1.02": 39,
+    "2.05": 26,
+    "2.01": 26,
+    "3.03": 20,
+    "2.06": 13,
+    "3.01": 8,
+    "2.04": 5,
+    "1.04": 3,
+    "5.04": 2,
+    "4.01": 2
+  }
+}
