@@ -71,6 +71,12 @@ class Settings(BaseSettings):
     # whoever is generating the traffic, and throttles what it cannot trace.
     # Not a credential — it is published with every request we make.
     SEC_CONTACT_EMAIL: Optional[str] = None
+
+    # Error reporting. No DSN means the SDK never starts, which is what keeps
+    # local runs and the test suite from reporting anywhere.
+    SENTRY_DSN: Optional[str] = None
+    SENTRY_ENVIRONMENT: str = "production"
+    SENTRY_TRACES_SAMPLE_RATE: float = Field(0.0, ge=0.0, le=1.0)
     # Groq retires hosted models fairly often (llama-3.1-8b-instant, which this
     # project originally pinned, has already gone). Keeping it in config means
     # the next retirement is an environment change, not a code change.

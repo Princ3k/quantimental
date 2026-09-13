@@ -37,6 +37,7 @@ import httpx
 import trafilatura
 
 from app.core.config import get_settings
+from app.core.redaction import safe_detail
 from app.core.source_health import source_health
 from app.utils.ttl_cache import TTLCache as _TTLCache
 
@@ -179,13 +180,6 @@ class SourceOutcome:
 # `api_token` in the URL, and httpx puts the full URL in some exception
 # messages — which would otherwise travel into `source_status.detail` and out
 # through the public API response.
-_SECRET_PARAM_RE = re.compile(
-    r"\b(api_token|api_key|apikey|access_token|token|key)=([^&\s\"\']+)",
-    re.IGNORECASE,
-)
-_SECRET_PREFIX_RE = re.compile(r"\b(gsk_|sk-|Bearer\s+)\S+", re.IGNORECASE)
-
-
 def _safe_detail(exc: Exception) -> str:
     """
     Describe a failure without quoting anything secret.
@@ -195,9 +189,7 @@ def _safe_detail(exc: Exception) -> str:
     into a public payload. Truncated as well: a provider stack trace is not
     something to broadcast either.
     """
-    detail = f"{type(exc).__name__}: {exc}"[:200]
-    detail = _SECRET_PARAM_RE.sub(r"\1=***", detail)
-    return _SECRET_PREFIX_RE.sub(r"\1***", detail)
+    return safe_detail(exc)
 
 
 def _title_key(title: str) -> str:

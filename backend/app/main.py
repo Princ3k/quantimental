@@ -23,6 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.routes import explain, market, news, signals
+from app.core.observability import init_sentry
 from app.core.config import get_settings
 from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
 from app.core.source_health import source_health
@@ -36,6 +37,10 @@ logging.basicConfig(
     format="%(asctime)s %(levelname)-8s %(name)s: %(message)s",
 )
 logger = logging.getLogger(__name__)
+
+# Before the app is built, so an error raised while wiring routes or warming
+# caches is reported rather than only printed into a container log nobody reads.
+init_sentry()
 
 
 @asynccontextmanager
