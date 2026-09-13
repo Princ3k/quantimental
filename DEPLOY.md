@@ -67,7 +67,7 @@ it.
 Set `CORS_ORIGINS` on Railway to the Vercel domain(s), comma-separated:
 
 ```
-https://quantimental.vercel.app,https://your-custom-domain.com
+https://www.thequantimental.com,https://thequantimental.com
 ```
 
 Vercel preview deployments (`*.vercel.app`) are already matched by a pattern in

@@ -129,6 +129,14 @@ export async function getSnapshotStock(ticker: string): Promise<SnapshotStock | 
   return snapshot.stocks.find((s) => s.t.toUpperCase() === wanted) ?? null
 }
 
-/** The canonical origin, used for absolute URLs in metadata and the sitemap. */
+/**
+ * The canonical origin, used for absolute URLs in metadata and the sitemap.
+ *
+ * The default is the real domain rather than the Vercel one on purpose. This
+ * value ends up in `metadataBase`, every canonical tag, every OG url and all
+ * 518 sitemap entries — so an unset env var in any build context would quietly
+ * publish a second, competing copy of the whole site at the vercel.app origin.
+ * That is the kind of mistake nothing reports and search engines do notice.
+ */
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quantimental-sooty.vercel.app'
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.thequantimental.com'
