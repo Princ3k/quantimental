@@ -30,7 +30,7 @@ TICKER_MAP_URL = "https://www.sec.gov/files/company_tickers.json"
 
 CACHE_PATH = Path(
     os.environ.get("SEC_CIK_CACHE_PATH")
-    or Path(__file__).resolve().parents[5] / "data" / "cik-map.json"
+    or Path(__file__).resolve().parents[4] / "data" / "cik-map.json"
 )
 
 # Companies are added and renamed, not hourly. A month is frequent enough to
