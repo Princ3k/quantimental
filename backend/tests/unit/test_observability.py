@@ -108,3 +108,45 @@ class TestInit:
         })()
         monkeypatch.setattr(observability, "get_settings", lambda: settings)
         assert observability.init_sentry() is False
+
+
+class TestHealthReport:
+    def test_a_set_dsn_that_never_started_is_reported_honestly(self, monkeypatch):
+        # The case this exists for: a malformed DSN or a missing package leaves
+        # you believing you have error reporting when you have none.
+        monkeypatch.setattr(observability, "_started", False)
+        monkeypatch.setattr(
+            observability, "get_settings",
+            lambda: type("S", (), {
+                "SENTRY_DSN": "https://k@o1.ingest.sentry.io/1",
+                "SENTRY_ENVIRONMENT": "production",
+            })(),
+        )
+        report = observability.describe()
+
+        assert report["configured"] is True
+        assert report["started"] is False
+        assert report["environment"] is None
+
+    def test_nothing_configured_reads_as_nothing(self, monkeypatch):
+        monkeypatch.setattr(observability, "_started", False)
+        monkeypatch.setattr(
+            observability, "get_settings",
+            lambda: type("S", (), {"SENTRY_DSN": None, "SENTRY_ENVIRONMENT": "production"})(),
+        )
+        assert observability.describe() == {
+            "configured": False, "started": False, "environment": None,
+        }
+
+    def test_the_report_never_echoes_the_dsn(self, monkeypatch):
+        # A DSN is not a password, but it is a write key for your project and
+        # /health is public.
+        monkeypatch.setattr(observability, "_started", True)
+        monkeypatch.setattr(
+            observability, "get_settings",
+            lambda: type("S", (), {
+                "SENTRY_DSN": "https://SECRETKEY@o1.ingest.sentry.io/1",
+                "SENTRY_ENVIRONMENT": "production",
+            })(),
+        )
+        assert "SECRETKEY" not in repr(observability.describe())

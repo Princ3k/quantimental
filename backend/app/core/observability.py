@@ -26,6 +26,12 @@ from app.core.redaction import redact
 
 logger = logging.getLogger(__name__)
 
+# What `init_sentry` actually did, so /health can report it. A DSN being set
+# and the SDK having started are different facts, and the gap between them —
+# a malformed DSN, a missing package — is exactly the case where you would
+# otherwise believe you had error reporting and not have it.
+_started = False
+
 # Errors are the point. Tracing on every request would spend the free tier on
 # performance data nobody is reading yet; turn it up when there is a reason.
 DEFAULT_TRACES_SAMPLE_RATE = 0.0
@@ -80,6 +86,8 @@ def init_sentry() -> bool:
     Never raises. Observability failing to start is not a reason for the API
     not to.
     """
+    global _started
+
     settings = get_settings()
     dsn = (settings.SENTRY_DSN or "").strip()
     if not dsn:
@@ -114,5 +122,16 @@ def init_sentry() -> bool:
         logger.warning("Could not start error reporting: %s", exc)
         return False
 
+    _started = True
     logger.info("Error reporting on (%s)", settings.SENTRY_ENVIRONMENT)
     return True
+
+
+def describe() -> dict[str, Any]:
+    """What /health says about error reporting."""
+    settings = get_settings()
+    return {
+        "configured": bool((settings.SENTRY_DSN or "").strip()),
+        "started": _started,
+        "environment": settings.SENTRY_ENVIRONMENT if _started else None,
+    }

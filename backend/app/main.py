@@ -23,6 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.api.routes import explain, market, news, signals
+from app.core import observability
 from app.core.observability import init_sentry
 from app.core.config import get_settings
 from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
@@ -222,6 +223,11 @@ async def health_check() -> dict:
         "subsystems": {
             "market_data": True,
             "database": await check_connection(),
+            # Same split as the sources below, for the same reason: a DSN
+            # being set is not the same as the SDK having started, and
+            # believing you have error reporting when you do not is worse
+            # than knowing you have none.
+            "error_reporting": observability.describe(),
             # Two facts per source, kept apart: whether credentials are set,
             # and what the source actually did the last time anything asked
             # it. Reporting only the first was wrong in both directions —
