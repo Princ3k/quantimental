@@ -18,6 +18,7 @@ import pytest
 from app.services.scan import attention_archive as archive_mod
 from app.services.scan.attention_service import _rotate
 from app.services.scan.attention_archive import (
+    BASELINE_WINDOW_DAYS,
     MIN_HISTORY_FOR_BASELINE,
     attention_multiple,
     baseline,
@@ -28,7 +29,16 @@ from app.services.scan.attention_archive import (
 
 @pytest.fixture
 def archive_path(tmp_path):
+    # Still the pre-shard filename: it is what ATTENTION_ARCHIVE_PATH points
+    # at, and the directory around it is what actually holds the shards.
     return tmp_path / "attention-history.json"
+
+
+@pytest.fixture
+def shard(archive_path):
+    def _shard(year=2026):
+        return archive_path.parent / f"attention-{year}.json"
+    return _shard
 
 
 def _reading(velocity: float) -> dict:
@@ -36,12 +46,12 @@ def _reading(velocity: float) -> dict:
 
 
 class TestRecording:
-    def test_first_run_creates_the_archive(self, archive_path):
+    def test_first_run_creates_the_archive(self, archive_path, shard):
         result = record({"AAPL": _reading(5.0)}, on="2026-09-10", path=archive_path)
 
         assert result["dates"] == ["2026-09-10"]
         assert result["velocity"]["AAPL"] == [5.0]
-        assert archive_path.exists()
+        assert shard(2026).exists()
 
     def test_a_same_day_rerun_replaces_rather_than_appends(self, archive_path):
         # The scan runs several times a session; the archive holds one
@@ -73,15 +83,93 @@ class TestRecording:
         assert result["velocity"]["NEWCO"] == [None, 1.0]
         assert len(result["velocity"]["NEWCO"]) == len(result["dates"])
 
-    def test_history_is_capped(self, archive_path, monkeypatch):
-        monkeypatch.setattr(archive_mod, "MAX_DAYS", 3)
-
+    def test_history_is_never_discarded(self, archive_path):
+        # This used to be test_history_is_capped. Dropping the oldest day was
+        # free when the archive fed a feature; it is not free now that the
+        # archive is the asset, because news volume cannot be backfilled from
+        # anywhere at any price.
         for day in range(1, 6):
             record({"AAPL": _reading(float(day))}, on=f"2026-09-0{day}", path=archive_path)
 
         result = load(archive_path)
-        assert result["dates"] == ["2026-09-03", "2026-09-04", "2026-09-05"]
-        assert result["velocity"]["AAPL"] == [3.0, 4.0, 5.0]
+        assert result["dates"] == [f"2026-09-0{d}" for d in range(1, 6)]
+        assert result["velocity"]["AAPL"] == [1.0, 2.0, 3.0, 4.0, 5.0]
+
+    def test_a_window_narrows_the_read_without_touching_the_store(self, archive_path):
+        for day in range(1, 6):
+            record({"AAPL": _reading(float(day))}, on=f"2026-09-0{day}", path=archive_path)
+
+        assert load(archive_path, window=2)["velocity"]["AAPL"] == [4.0, 5.0]
+        assert len(load(archive_path)["dates"]) == 5
+
+    def test_a_baseline_only_reads_the_recent_window(self, archive_path, monkeypatch):
+        monkeypatch.setattr(archive_mod, "BASELINE_WINDOW_DAYS", 30)
+        monkeypatch.setattr(archive_mod, "MIN_HISTORY_FOR_BASELINE", 5)
+
+        # A year of heavy coverage, then a quiet month. The median should
+        # describe the company as it is now, not as it was.
+        archive = {
+            "dates": [f"d{i}" for i in range(400)],
+            "velocity": {"AAPL": [100.0] * 370 + [2.0] * 30},
+        }
+        assert baseline(archive, "AAPL") == 2.0
+
+    def test_readings_are_split_into_year_shards(self, archive_path):
+        record({"AAPL": _reading(1.0)}, on="2026-12-31", path=archive_path)
+        record({"AAPL": _reading(2.0)}, on="2027-01-02", path=archive_path)
+
+        written = sorted(f.name for f in archive_path.parent.iterdir())
+        assert written == ["attention-2026.json", "attention-2027.json"]
+
+    def test_a_new_year_still_sees_the_old_one(self, archive_path):
+        # The January trap: a year shard read on its own holds a handful of
+        # days, and every baseline would vanish for a month each New Year.
+        record({"AAPL": _reading(1.0)}, on="2026-12-31", path=archive_path)
+        result = record({"AAPL": _reading(2.0)}, on="2027-01-02", path=archive_path)
+
+        assert result["dates"] == ["2026-12-31", "2027-01-02"]
+        assert result["velocity"]["AAPL"] == [1.0, 2.0]
+
+    def test_a_ticker_absent_from_an_older_shard_stays_aligned(self, archive_path):
+        record({"AAPL": _reading(1.0)}, on="2026-12-31", path=archive_path)
+        result = record(
+            {"AAPL": _reading(2.0), "NEWCO": _reading(9.0)},
+            on="2027-01-02",
+            path=archive_path,
+        )
+
+        # Position must still mean day across a shard boundary.
+        assert result["velocity"]["NEWCO"] == [None, 9.0]
+        assert len(result["velocity"]["NEWCO"]) == len(result["dates"])
+
+    def test_a_single_file_archive_is_migrated_into_shards(self, archive_path):
+        # What the store already holds on the day this ships.
+        archive_path.write_text(json.dumps({
+            "dates": ["2026-09-11", "2026-09-12"],
+            "velocity": {"AAPL": [4.0, 5.0]},
+        }))
+
+        result = record({"AAPL": _reading(6.0)}, on="2026-09-13", path=archive_path)
+
+        assert not archive_path.exists()
+        assert (archive_path.parent / "attention-2026.json").exists()
+        assert result["velocity"]["AAPL"] == [4.0, 5.0, 6.0]
+
+    def test_migration_does_not_run_twice(self, archive_path):
+        # A migration that wrote its shards and died before unlinking must not
+        # run again and overwrite readings collected since.
+        archive_path.write_text(json.dumps({
+            "dates": ["2026-09-11"], "velocity": {"AAPL": [4.0]},
+        }))
+        record({"AAPL": _reading(5.0)}, on="2026-09-12", path=archive_path)
+
+        archive_path.write_text(json.dumps({
+            "dates": ["2026-09-11"], "velocity": {"AAPL": [999.0]},
+        }))
+        result = record({"AAPL": _reading(6.0)}, on="2026-09-13", path=archive_path)
+
+        assert 999.0 not in result["velocity"]["AAPL"]
+        assert result["velocity"]["AAPL"] == [4.0, 5.0, 6.0]
 
     def test_a_corrupt_archive_raises_rather_than_starting_over(self, archive_path):
         # Silently overwriting would destroy the only copy of data that cannot
@@ -109,20 +197,31 @@ class TestRecording:
         # Yesterday's reading, whole and still readable.
         assert load(archive_path)["velocity"]["AAPL"] == [5.0]
 
-    def test_the_staging_file_does_not_survive_a_write(self, archive_path):
-        # The archive is committed with `git add -A`, so anything left beside
-        # it gets pushed to the data store.
+    def test_the_staging_file_does_not_survive_a_write(self, archive_path, shard):
+        # The store is committed with `git add -A`, which takes dotfiles too,
+        # so a staging file left beside the shard would be pushed.
         record({"AAPL": _reading(5.0)}, on="2026-09-10", path=archive_path)
 
-        assert [f.name for f in archive_path.parent.iterdir()] == [archive_path.name]
+        assert [f.name for f in archive_path.parent.iterdir()] == [shard(2026).name]
 
-    def test_the_file_stays_compact(self, archive_path):
+    def test_a_stale_staging_file_is_swept_up(self, archive_path, shard):
+        # Left by a process killed mid-write on an earlier run.
+        archive_path.parent.mkdir(parents=True, exist_ok=True)
+        (archive_path.parent / ".attention-2026.json.tmp").write_text("{truncated")
+
+        record({"AAPL": _reading(5.0)}, on="2026-09-10", path=archive_path)
+
+        assert [f.name for f in archive_path.parent.iterdir()] == [shard(2026).name]
+
+    def test_the_file_stays_compact(self, archive_path, shard):
         record({f"T{i}": _reading(1.23) for i in range(503)}, on="2026-09-10", path=archive_path)
-        payload = json.loads(archive_path.read_text())
+        payload = json.loads(shard(2026).read_text())
 
         assert len(payload["velocity"]) == 503
-        # 503 tickers x 180 days must stay a file, not a database.
-        assert archive_path.stat().st_size < 20_000
+        # A year of 503 tickers must stay a file, not a database. One day is
+        # mostly ticker names; each further day adds about 3.5KB, so a full
+        # year lands under a megabyte and the whole point of sharding holds.
+        assert shard(2026).stat().st_size < 20_000
 
 
 class TestBaseline:

@@ -135,7 +135,12 @@ def main() -> int:
 def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
     """Fill each row's velocity from the most recent archived reading."""
     try:
-        archive = attention_archive.load()
+        # Only enough history to compute a baseline. This runs hourly and the
+        # store is kept forever, so reading every shard would mean parsing
+        # years of readings to answer a question about the last six months.
+        archive = attention_archive.load(
+            window=attention_archive.BASELINE_WINDOW_DAYS
+        )
     except Exception as exc:  # noqa: BLE001
         logger.warning("Could not read the attention archive: %s", exc)
         return
