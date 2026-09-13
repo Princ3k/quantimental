@@ -131,7 +131,17 @@ def record(
             velocity[ticker] = velocity[ticker][excess:]
 
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(archive, separators=(",", ":")) + "\n")
+    # Write to a sibling and rename. A runner killed part-way through the write
+    # — the job's timeout, an OOM — would otherwise leave a truncated file for
+    # the commit step to push, and `load` deliberately refuses to start over
+    # from a corrupt archive, so the sweep would stay down until someone
+    # restored from git history. os.replace is atomic within a filesystem, so
+    # the archive on disk is always either the whole old file or the whole new
+    # one. The temporary lands beside it to keep that guarantee — a different
+    # filesystem would turn the rename into a copy.
+    staged = path.with_name(f".{path.name}.tmp")
+    staged.write_text(json.dumps(archive, separators=(",", ":")) + "\n")
+    os.replace(staged, path)
 
     logger.info(
         "Archive now holds %d days for %d tickers",

@@ -91,6 +91,31 @@ class TestRecording:
         with pytest.raises(RuntimeError, match="unreadable"):
             load(archive_path)
 
+    def test_an_interrupted_write_leaves_the_previous_archive_intact(
+        self, archive_path, monkeypatch
+    ):
+        # The pair to the test above. `load` refusing to start over only helps
+        # if a half-finished write cannot produce the corrupt file in the first
+        # place — otherwise the runner dying mid-write costs a restore from git.
+        record({"AAPL": _reading(5.0)}, on="2026-09-10", path=archive_path)
+
+        def die(*_args, **_kwargs):
+            raise OSError("runner killed mid-write")
+
+        monkeypatch.setattr(archive_mod.os, "replace", die)
+        with pytest.raises(OSError):
+            record({"AAPL": _reading(9.0)}, on="2026-09-11", path=archive_path)
+
+        # Yesterday's reading, whole and still readable.
+        assert load(archive_path)["velocity"]["AAPL"] == [5.0]
+
+    def test_the_staging_file_does_not_survive_a_write(self, archive_path):
+        # The archive is committed with `git add -A`, so anything left beside
+        # it gets pushed to the data store.
+        record({"AAPL": _reading(5.0)}, on="2026-09-10", path=archive_path)
+
+        assert [f.name for f in archive_path.parent.iterdir()] == [archive_path.name]
+
     def test_the_file_stays_compact(self, archive_path):
         record({f"T{i}": _reading(1.23) for i in range(503)}, on="2026-09-10", path=archive_path)
         payload = json.loads(archive_path.read_text())

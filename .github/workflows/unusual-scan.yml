@@ -174,3 +174,20 @@ jobs:
           git add public/unusual.json public/snapshot.json
           git commit -m "chore: update unusual moves [skip ci]"
           git push
+
+      # The sweep degrades quietly on purpose: a dead token must not take the
+      # price scan down with it. But a green check and a `::warning::` nobody
+      # reads is how the archive stops growing for a month without anyone
+      # noticing, and it needs twenty unbroken trading days before it can say
+      # anything. So the run publishes first and fails afterwards — the product
+      # stays up, and GitHub sends the mail it only sends on failure.
+      - name: Fail if the post-close run skipped the sweep
+        if: |
+          (github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          && steps.data_store.outcome != 'success'
+          && steps.data_store_init.outcome != 'success'
+        run: |
+          echo "::error::The attention sweep did not run: the private data store was unreachable."
+          echo "Usually DATA_REPO_TOKEN has expired. The scan published without attention;"
+          echo "coverage figures on the site are carrying forward from the last good sweep."
+          exit 1
