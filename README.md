@@ -1,22 +1,45 @@
 # Quantimental
 
-**Market signals that make sense to humans.**
+**Why stocks moved today, described rather than predicted.**
 
-Quantimental reads a stock's price chart and the mood around it in news and
-social posts, combines the two into a single verdict, and explains the
-reasoning in ordinary English — for people who have never heard of an RSI.
+<https://www.thequantimental.com>
+
+Quantimental reads price action, news volume and SEC filings, and says what
+happened in one sentence a reader can check against the chart. It does not
+rate stocks, score them, or tell you what to do — for a measured reason, below.
 
 ```
-Government bond yields climbed sharply while corporate debt prices fell,
-signaling a shift toward caution. Energy stocks led the market, while
-health care and materials lagged behind.
+Oracle Corporation is down 1.7% today, and down 1.1% over the past two weeks.
 
-↑ RATES    Long-term rates climbing            +2.0σ
-↓ CREDIT   High-yield credit under pressure    −1.7σ
-↑ COMMOD   Crude pushing higher                +9.4%
-
-Risk appetite  23 / 100 · Risk-off
+The market rose 0.5% today and Information Technology rose 1.9%
+ — so Oracle did not follow its sector.
+It filed an 8-K with the SEC reporting quarterly results after the previous close.
+New stories about it appear roughly 41 times a day.
 ```
+
+---
+
+## Why there are no buy and sell ratings
+
+There used to be. Five levels, a confidence figure, the lot.
+
+Then they were backtested, walk-forward, over five years and **3,792
+observations**:
+
+| | |
+| --- | --- |
+| Directional accuracy | **48.5%** — worse than a coin flip |
+| `strong_buy` | **−0.93pp** against baseline — statistically significant |
+| `strong_sell` | **+1.70pp** against baseline — statistically significant |
+
+The only two significant results pointed the **wrong way**. So the ratings were
+deleted rather than tuned, and the test that killed them is published at
+[/method](https://www.thequantimental.com/method) instead of buried.
+`backend/scripts/backtest.py` reproduces it.
+
+What survived is description: what moved, how unusual that was for this
+particular stock, whether its sector moved too, and what the company told the
+SEC that day.
 
 ---
 
@@ -50,24 +73,34 @@ Open <http://localhost:3000>. API docs are at <http://localhost:8000/docs>.
 
 | Path | What it is |
 | --- | --- |
-| `backend/` | FastAPI service: market data, indicators, scoring, explanations |
-| `frontend/` | Next.js app: the dashboard people actually look at |
+| `backend/` | FastAPI service: market data, indicators, description, attribution |
+| `frontend/` | Next.js app: the dashboard, 503 stock pages, 11 sector pages |
+| `.github/workflows/` | Scheduled scans that publish static JSON the site reads |
 | `docker-compose.yml` | Optional Postgres and Kafka for the archive and batch pipeline |
 
-### The three engines
+### How a sentence gets built
 
-**Quant** (`backend/app/engines/quant.py`) — *"What does the math say?"*
-Turns a year of daily bars into RSI, MACD, Bollinger Bands, Stochastic, ADX,
-ATR and moving averages, then into a 0-100 chart score plus plain-English
-observations.
+**Describe** (`backend/app/engines/describe.py`) — *"What happened?"*
+Today's move and the fortnight behind it, with "unusual" judged against this
+stock's own typical day rather than a fixed percentage. A mega-cap moving 3%
+is news; a small-cap moving 3% is Tuesday.
 
-**Psych** (`backend/app/engines/psych.py`) — *"What does the crowd feel?"*
-Scores news articles, Reddit posts and tweets for sentiment, using VADER by
-default and transformer models when they are installed.
+**Attribution** (`backend/app/engines/attribution.py`) — *"Was it this company?"*
+Medians, not a factor model. Both the market's move and the sector's are
+printed so the reader can do the subtraction. Measured across two years:
+**70.9%** of moves track the market, **20.5%** are company-specific, **5.9%**
+go against their own sector.
 
-**Hybrid** (`backend/app/engines/hybrid.py`) — *"So what should I do?"*
-Weighs the two (45% chart, 55% mood by default) into one verdict, a derived
-confidence figure, and the sentence a beginner actually reads.
+**Attention** (`backend/app/services/scan/attention_archive.py`) — *"Is anyone watching?"*
+A daily record of how much news coverage each company gets. Nobody sells
+historical news volume, so this exists only because it has been written down
+since day one — and the baseline needs 20 trading days before it will claim
+anything is unusual.
+
+**Filings** (`backend/app/services/ingestion/filings/`) — *"What did they say?"*
+SEC 8-K item codes, which are structured data, so naming a catalyst needs no
+language model and cannot invent anything. A filing on the same day is
+adjacency, never cause, and the copy never joins the two in one sentence.
 
 ---
 
@@ -77,33 +110,29 @@ These are the constraints the code is written to hold. They are worth knowing
 before changing anything.
 
 **1. Nothing is invented.** If a stock has no news coverage, the app says so
-and scores it on price action alone. It never substitutes a neutral placeholder
-and presents it as a measurement. `sentiment_rating` is `null`, not `50`.
+and describes it on price action alone. It never substitutes a neutral
+placeholder and presents it as a measurement. Missing readings are `null`,
+never `0`.
 
-**2. Identical inputs give identical outputs.** Confidence is derived from how
-much the evidence agrees. There is no randomness anywhere in the scoring path.
+**2. Identical inputs give identical outputs.** No randomness anywhere in the
+path from market data to sentence.
 
-**2b. The verdict is scored, and it did not do well.** A walk-forward backtest
-over 1,888 readings across five years found no verdict that beat simply holding
-by more than statistical noise — and a monotonic inversion, where the more
-bullish calls performed slightly *worse*. So the product leads with the
-explanation, which describes the present and is checkable, and presents the
-verdict quietly. `backend/scripts/backtest.py` reproduces this.
+**3. It describes, it does not forecast.** A test bans forecast verbs across
+the generated copy. It has caught two real leaks, so it stays.
 
-**3. No bare jargon on screen.** Terms like RSI and ADX appear only next to a
-plain-English definition. The wording for a given reading is defined once, in
-the backend, and the frontend renders it — so a card can never contradict
-itself.
+**4. No bare jargon on screen.** Terms appear only beside a plain-English
+definition, worded once in the backend so two surfaces cannot contradict
+each other.
 
-**4. Missing infrastructure degrades, it does not break.** No database, no API
-keys, no Kafka: the API still starts and still serves signals. `/health`
-reports which subsystems are live.
+**5. Missing infrastructure degrades, it does not break.** No database, no API
+keys, no Kafka: the API still starts and still serves. `/health` reports which
+subsystems are live — and what each source *actually did*, not merely whether
+a key is set.
 
-**5. No native dependencies.** Indicators are implemented in
-`backend/app/engines/indicators.py` with NumPy and pandas rather than calling
-TA-Lib, which needs a C library installed out-of-band and made the project
-impossible to set up on a clean machine. They are verified against TA-Lib's
-output in the test suite.
+**6. No native dependencies.** Indicators are implemented in
+`backend/app/engines/indicators.py` with NumPy and pandas rather than TA-Lib,
+which needs a C library installed out-of-band. They are verified against
+TA-Lib's output in the test suite.
 
 ---
 
@@ -112,7 +141,30 @@ output in the test suite.
 Each of these is off until you configure it.
 
 <details>
-<summary><strong>News archive and Reddit caching</strong> (needs Postgres)</summary>
+<summary><strong>Live sentiment</strong> (needs API keys)</summary>
+
+Add any of `MARKETAUX_API_KEY`, `TWITTER_API_KEY`, or `GROQ_API_KEY` to
+`backend/.env`. Reddit works with no credentials at all over its RSS endpoints.
+Sources you do not configure are skipped, and the response says which ones it
+used.
+</details>
+
+<details>
+<summary><strong>SEC filings</strong> (needs a contact address, not a key)</summary>
+
+Set `SEC_CONTACT_EMAIL`. EDGAR is free and public domain, but it asks for a
+contact in the User-Agent and throttles traffic it cannot trace.
+</details>
+
+<details>
+<summary><strong>Error reporting</strong></summary>
+
+Set `SENTRY_DSN`. Every event is scrubbed through `app/core/redaction.py`
+before it leaves the process. Leave it blank and the SDK never starts.
+</details>
+
+<details>
+<summary><strong>News archive and caching</strong> (needs Postgres)</summary>
 
 ```bash
 docker compose up -d
@@ -120,16 +172,6 @@ cd backend
 cp env.example .env          # then uncomment DATABASE_URL
 PYTHONPATH=$(pwd) alembic upgrade head
 ```
-</details>
-
-<details>
-<summary><strong>Live sentiment</strong> (needs API keys)</summary>
-
-Add any of `MARKETAUX_API_KEY`, `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET`,
-`TWITTER_API_KEY`, or `GROQ_API_KEY` to `backend/.env`. Sources you do not
-configure are simply skipped, and the signal says which ones it used.
-
-Then request the deep path: `POST /api/v1/signals/analyze`.
 </details>
 
 <details>
@@ -143,54 +185,60 @@ Adds FinBERT for news and Twitter RoBERTa for social posts. Without them,
 sentiment falls back to VADER and the Groq-hosted LLM.
 </details>
 
-<details>
-<summary><strong>Batch pipeline</strong> (needs Kafka)</summary>
-
-```bash
-docker compose --profile pipeline up -d
-```
-</details>
-
 ---
 
 ## API
 
 | Method | Endpoint | What it does |
 | --- | --- | --- |
-| `POST` | `/api/v1/signals/analyze` | Full analysis of one stock, including sentiment. Slow. |
-| `POST` | `/api/v1/signals/batch?depth=fast` | Several stocks at once. `fast` skips sentiment. |
+| `GET` | `/api/v1/explain/{ticker}` | One stock, described. The embeddable one. |
+| `GET` | `/api/v1/explain?tickers=` | The same for a watchlist, up to 100. |
 | `GET` | `/api/v1/signals/search?q=` | Find tickers by symbol or company name. |
-| `GET` | `/api/v1/news/ticker/{ticker}` | Recent news with sentiment. Needs a database. |
-| `GET` | `/health` | Status, plus which subsystems are live. |
+| `POST` | `/api/v1/signals/analyze` | Deep analysis of one stock, including sentiment. Slow. |
+| `GET` | `/api/v1/market/signal-desk` | Rates, credit, FX, commodities and volatility. |
+| `GET` | `/health` | Status, and what each subsystem actually did. |
 
-A batch of 15 tickers at `fast` depth returns in roughly a second.
+`/api/v1/explain` is the one meant to be depended on by other people's code:
+narrow on purpose, no field whose meaning could drift between releases, and a
+`disclosure` string carried on every response so the caveat travels with the
+text wherever it is rendered.
+
+```bash
+curl https://api.thequantimental.com/api/v1/explain/NVDA
+```
+
+Requests are rate limited by work rather than by count — a batch costs what it
+reads.
 
 ---
 
 ## Tests
 
 ```bash
-cd backend && PYTHONPATH=$(pwd) python -m pytest     # 114 tests
+cd backend && PYTHONPATH=$(pwd) python -m pytest     # 400 tests
 cd frontend && npm run check                         # types + lint
 ```
 
-The indicator tests are the load-bearing ones: they verify the pure-Python
-implementations against closed-form expectations and known mathematical
-properties, since they replaced a C library.
+The load-bearing ones are the indicator tests, which verify the pure-Python
+implementations that replaced a C library, and the copy guards, which assert
+that nothing generated forecasts or claims causation.
 
 ---
 
 ## Deploying
 
 **Backend** — Railway, Render, Fly, or any container host. `backend/railway.json`
-is set up for Railway. Set `CORS_ORIGINS` to your frontend's URL.
+is set up for Railway. Set `CORS_ORIGINS` to your frontend's origin.
 
 **Frontend** — Vercel or any Next.js host. Set `NEXT_PUBLIC_API_URL` to your
-deployed backend.
+deployed backend and `NEXT_PUBLIC_SITE_URL` to your own origin.
+
+Scheduled scans run in GitHub Actions and commit static JSON the frontend
+fetches directly, so opening a page never waits on a 503-ticker download.
 
 ---
 
 ## This is not financial advice
 
-Quantimental summarises public data. It cannot predict the future, it does not
+Quantimental describes public data. It does not predict the future, it does not
 know your circumstances, and it can be wrong. Do your own research.
