@@ -2,9 +2,9 @@
 
 import { useCallback, useSyncExternalStore } from 'react'
 
-type Theme = 'light' | 'dark'
+import { THEME_STORAGE_KEY } from '@/lib/theme'
 
-export const THEME_STORAGE_KEY = 'quantimental.theme'
+type Theme = 'light' | 'dark'
 
 const listeners = new Set<() => void>()
 

@@ -4,7 +4,8 @@ import { SITE_URL } from '@/lib/snapshot'
 import { Inter_Tight, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 
-import { ThemeProvider, THEME_STORAGE_KEY } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/theme-provider'
+import { THEME_STORAGE_KEY } from '@/lib/theme'
 import './globals.css'
 
 /*
@@ -53,6 +54,18 @@ export const viewport: Viewport = {
 }
 
 /* Runs before first paint so there is no flash of the wrong theme. */
+
+// This shipped broken once: the key was imported from a client module, Next
+// swapped it for a throwing stub on the server, and the template literal
+// stringified the stub into the script without anything complaining. TypeScript
+// cannot catch that — the declared type is still `string`. So check the value.
+if (typeof THEME_STORAGE_KEY !== 'string') {
+  throw new Error(
+    'THEME_STORAGE_KEY must be a plain string at render time. Getting anything ' +
+      'else means it is being read across the server/client boundary again.',
+  )
+}
+
 const themeScript = `
 (function() {
   try {
