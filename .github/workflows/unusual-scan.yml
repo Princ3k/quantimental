@@ -55,6 +55,53 @@ jobs:
           token: ${{ secrets.DATA_REPO_TOKEN }}
           path: data-store
 
+      # A freshly created repository has no commits, so no refs/heads/main for
+      # checkout to fetch — it fails with "couldn't find remote ref". That is a
+      # state the store is guaranteed to be in exactly once, on the first run,
+      # and requiring someone to hand-commit a README first is a setup step
+      # nobody will remember. So the first run creates the branch itself.
+      - name: Initialise the data store if it is empty
+        id: data_store_init
+        if: steps.data_store.outcome != 'success'
+        continue-on-error: true
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${DATA_REPO_TOKEN}" ]; then
+            echo "::warning::DATA_REPO_TOKEN is not set; skipping the attention sweep."
+            exit 1
+          fi
+
+          mkdir -p data-store
+          cd data-store
+          git init -q -b main
+          git remote add origin \
+            "https://x-access-token:${DATA_REPO_TOKEN}@github.com/Princ3k/quantimental-data.git"
+
+          # An existing branch means checkout failed for some other reason —
+          # a revoked token, a renamed repo — and quietly force-initialising
+          # over real data would destroy the one thing this store holds.
+          if git ls-remote --exit-code --heads origin main >/dev/null 2>&1; then
+            echo "::error::Data store has a main branch but checkout failed. Not overwriting."
+            exit 1
+          fi
+
+          cat > README.md <<'EOF'
+          # quantimental-data
+
+          The attention archive for [Quantimental](https://github.com/Princ3k/quantimental):
+          a daily record of how much news coverage each S&P 500 company was getting.
+
+          Private because it is the one input that cannot be rebuilt from public
+          sources — nobody sells historical news volume — and a public git log
+          would republish it every day, permanently.
+
+          Written by the `Publish Unusual Moves` workflow. Do not edit by hand.
+          EOF
+
+          echo "Initialised an empty data store."
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -78,7 +125,7 @@ jobs:
       - name: Scan, and measure attention
         if: |
           (github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch')
-          && steps.data_store.outcome == 'success'
+          && (steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success')
         env:
           ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
         run: python scripts/publish_unusual.py ../public/unusual.json --attention
@@ -89,25 +136,28 @@ jobs:
         if: |
           (github.event.schedule == '30 21 * * 1-5' || github.event_name == 'workflow_dispatch')
           && steps.data_store.outcome != 'success'
+          && steps.data_store_init.outcome != 'success'
         run: |
           echo "::warning::Private data store unreachable; skipping the attention sweep."
           python scripts/publish_unusual.py ../public/unusual.json
 
       - name: Commit the archive to its private store
-        if: steps.data_store.outcome == 'success'
+        if: steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success'
         working-directory: data-store
         run: |
-          if git diff --quiet -- attention-history.json 2>/dev/null && \
-             [ -z "$(git status --porcelain attention-history.json)" ]; then
+          set -euo pipefail
+
+          if [ -z "$(git status --porcelain)" ]; then
             echo "Archive unchanged."
             exit 0
           fi
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add attention-history.json
+          git add -A
           git commit -m "chore: attention readings for $(date -u +%Y-%m-%d)"
-          git push
+          # -u so the very first push creates main and sets its upstream.
+          git push -u origin main
 
       - name: Commit if the scan changed
         working-directory: .
