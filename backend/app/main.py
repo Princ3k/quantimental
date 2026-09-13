@@ -22,7 +22,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.api.routes import market, news, signals
+from app.api.routes import explain, market, news, signals
 from app.core.config import get_settings
 from app.core.rate_limit import client_key, is_exempt, rate_limiter, request_cost
 from app.core.source_health import source_health
@@ -145,6 +145,13 @@ async def rate_limit(request: Request, call_next):
             # the default and let it produce a proper 422.
             ticker_count = 1
 
+    # /explain takes its list on the query string, so there is no body to
+    # rewind — but an uncounted hundred-ticker call would be charged as one.
+    if "/explain" in path:
+        requested = request.query_params.get("tickers")
+        if requested:
+            ticker_count = max(1, len([t for t in requested.split(",") if t.strip()]))
+
     key = client_key(
         request.headers.get("x-forwarded-for"),
         request.headers.get("x-real-ip"),
@@ -188,6 +195,9 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 
 
 app.include_router(signals.router, prefix="/api/v1/signals", tags=["Signals"])
+# The embeddable one. Narrower than /signals on purpose: it is the only part of
+# the API meant to be depended on by somebody else's code.
+app.include_router(explain.router, prefix="/api/v1/explain", tags=["Explain"])
 app.include_router(news.router, prefix="/api/v1/news", tags=["News"])
 app.include_router(market.router, prefix="/api/v1/market", tags=["Market"])
 

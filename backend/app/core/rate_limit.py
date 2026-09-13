@@ -188,6 +188,11 @@ def request_cost(path: str, ticker_count: int = 1) -> float:
         return COST_DEEP_ANALYSIS
     if path.endswith("/batch"):
         return max(COST_PER_TICKER, ticker_count * COST_PER_TICKER)
+    if "/explain" in path:
+        # Served from the cached snapshot, so a lookup costs no upstream call —
+        # but a hundred-ticker batch is still a hundred rows out the door, and
+        # this is the endpoint most likely to be called in a loop.
+        return max(COST_DEFAULT, ticker_count * COST_PER_TICKER * 0.2)
     return COST_DEFAULT
 
 
