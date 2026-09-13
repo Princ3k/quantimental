@@ -27,6 +27,7 @@ from app.schemas.explain import (
     Coverage,
     Explanation,
     ExplanationBatch,
+    Filing,
     Movement,
 )
 from app.services.data import snapshot_service
@@ -71,6 +72,19 @@ def _explanation(row: dict[str, Any], snapshot: snapshot_service.Snapshot) -> Ex
             articles_per_day=row.get("v"),
             multiple_of_normal=row.get("vx"),
         ),
+        filing=_filing(row.get("f")),
+    )
+
+
+def _filing(raw: Optional[dict[str, Any]]) -> Optional[Filing]:
+    """The snapshot's compact filing block, spelled out."""
+    if not raw or not raw.get("p"):
+        return None
+    return Filing(
+        items=raw.get("i") or [],
+        reported=raw.get("p"),
+        accepted_at=raw.get("a"),
+        url=raw.get("u"),
     )
 
 

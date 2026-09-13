@@ -38,6 +38,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.services.scan import attention_archive  # noqa: E402
 from app.services.scan.attention_service import measure_attention  # noqa: E402
+from app.services.ingestion.filings import filing_fetcher  # noqa: E402
 from app.services.scan.unusual_service import scan  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -52,6 +53,7 @@ def main() -> int:
 
     output = Path(args[0]) if args else DEFAULT_OUTPUT
     with_attention = "--attention" in flags
+    with_filings = "--filings" in flags
 
     result = scan()
 
@@ -98,6 +100,14 @@ def main() -> int:
         # attention data appear and disappear through the day.
         _carry_forward_attention(snapshot_rows, result["as_of"])
 
+    # Filings are decoration on the price scan, never a reason it fails to
+    # publish. Phase 0 measured a filing on 35.7% of moves worth 2x a stock's
+    # typical day against 5.1% of days overall, which is why this is attached
+    # to every row rather than computed as a signal of its own: the scan
+    # already knows which moves were unusual.
+    if with_filings:
+        _attach_filings(snapshot_rows, result["as_of"])
+
     snapshot_path = output.parent / "snapshot.json"
     snapshot_path.write_text(json.dumps({
         "as_of": result["as_of"],
@@ -116,6 +126,9 @@ def main() -> int:
             "v": "news articles per day",
             "vx": "multiple of this stock's normal coverage (absent until "
                   "there is enough history to say)",
+            "f": "the 8-K this company filed for this session, if any: "
+                 "{i: item codes, p: what it reported, a: when EDGAR accepted "
+                 "it}. A filing on the same day is adjacency, not cause.",
         },
         "stocks": snapshot_rows,
     }, separators=(",", ":")) + "\n")
@@ -130,6 +143,36 @@ def main() -> int:
         logger.info("  %s", move["headline"])
 
     return 0
+
+
+def _attach_filings(rows: list[dict], as_of: str | None) -> None:
+    """
+    Hang each company's 8-K for this session on its row.
+
+    Nothing here says a filing caused a move, and the wording downstream must
+    not either — the two happened on the same day, which the reader can see and
+    judge. What this adds is the fact that a reader would otherwise have to go
+    to EDGAR for.
+    """
+    if not as_of:
+        return
+
+    try:
+        filings = filing_fetcher.filings_for_session([row["t"] for row in rows], as_of)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Could not read filings: %s", exc)
+        return
+
+    attached = 0
+    for row in rows:
+        filing = filings.get(row["t"])
+        # A filing whose only items were exhibit housekeeping has nothing to
+        # say, so it is left off rather than rendered as an empty explanation.
+        if filing and filing.phrase:
+            row["f"] = filing.as_row()
+            attached += 1
+
+    logger.info("Attached %d filings to the snapshot", attached)
 
 
 def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:

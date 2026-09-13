@@ -66,6 +66,24 @@ export interface SnapshotStock {
    * first weeks, and better than a number computed from four observations.
    */
   vx?: number
+  /**
+   * The 8-K this company filed for this session, if it filed one.
+   *
+   * Present on roughly twenty rows a day. It is a fact about a document, not
+   * an explanation of the move — the two happened on the same day, and the
+   * reader is shown both and left to judge. Anything that renders this must
+   * keep that separation.
+   */
+  f?: {
+    /** SEC Form 8-K item codes, most notable first. */
+    i: string[]
+    /** What the filing reported, in plain English. */
+    p: string
+    /** When EDGAR accepted it (UTC, ISO 8601). */
+    a: string
+    /** The filing on EDGAR. Item 8.01 says nothing on its own; this does. */
+    u?: string | null
+  }
 }
 
 export interface Snapshot {

@@ -31,6 +31,10 @@ jobs:
     # post-close run is minutes rather than seconds. Bounded so a hung request
     # cannot hold the runner open.
     timeout-minutes: 30
+    env:
+      # EDGAR asks for a contact in the User-Agent and throttles traffic it
+      # cannot trace. Not a secret — it is published with every request.
+      SEC_CONTACT_EMAIL: ${{ vars.SEC_CONTACT_EMAIL }}
     defaults:
       run:
         working-directory: backend
@@ -120,7 +124,7 @@ jobs:
       # day is how you get rate limited. Only the post-close run measures it.
       - name: Scan for unusual moves
         if: github.event.schedule != '30 21 * * 1-5'
-        run: python scripts/publish_unusual.py ../public/unusual.json
+        run: python scripts/publish_unusual.py ../public/unusual.json --filings
 
       - name: Scan, and measure attention
         if: |
@@ -128,7 +132,7 @@ jobs:
           && (steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success')
         env:
           ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
-        run: python scripts/publish_unusual.py ../public/unusual.json --attention
+        run: python scripts/publish_unusual.py ../public/unusual.json --attention --filings
 
       # The data store was unreachable — usually an expired token. Scan anyway;
       # coverage figures carry forward from the last successful sweep.
@@ -139,7 +143,7 @@ jobs:
           && steps.data_store_init.outcome != 'success'
         run: |
           echo "::warning::Private data store unreachable; skipping the attention sweep."
-          python scripts/publish_unusual.py ../public/unusual.json
+          python scripts/publish_unusual.py ../public/unusual.json --filings
 
       - name: Commit the archive to its private store
         if: steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success'

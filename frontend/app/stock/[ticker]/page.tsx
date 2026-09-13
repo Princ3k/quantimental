@@ -139,6 +139,26 @@ function formatCoverage(perDay: number): string {
   return 'rarely — less than once a week'
 }
 
+/**
+ * When the filing landed, relative to the session it is shown against.
+ *
+ * Filings accepted after the 4pm close are counted against the next session,
+ * so the timestamp routinely belongs to the previous calendar day. Saying
+ * "after the previous close" is the difference between a reader trusting the
+ * date and thinking we mismatched it.
+ */
+function filingTiming(acceptedAt: string): string {
+  const accepted = new Date(acceptedAt)
+  if (Number.isNaN(accepted.getTime())) return ''
+
+  // EDGAR stamps UTC; the close is 4pm in New York.
+  const easternHour = (accepted.getUTCHours() + 24 - 4) % 24
+  if (easternHour >= 16) return ' after the previous close'
+  if (easternHour < 9) return ' before the open'
+  return ' during the session'
+}
+
+
 export default async function StockPage({
   params,
 }: {
@@ -239,6 +259,28 @@ export default async function StockPage({
                   </Link>
                 )}
               </div>
+            )}
+
+            {stock.f?.p && (
+              <p className="text-ink-3 mt-1.5 text-[0.875rem] leading-relaxed">
+                {/* Deliberately a separate sentence from the move. Putting the
+                    two in one sentence would imply the filing caused it; they
+                    share a day, which is all anyone can say. */}
+                It filed an 8-K with the SEC{' '}
+                {stock.f.u ? (
+                  <a
+                    href={stock.f.u}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink-2 hover:text-ink underline decoration-dotted underline-offset-2 transition-colors"
+                  >
+                    {stock.f.p}
+                  </a>
+                ) : (
+                  <span className="text-ink-2">{stock.f.p}</span>
+                )}
+                {filingTiming(stock.f.a)}.
+              </p>
             )}
 
             {stock.v !== undefined && (

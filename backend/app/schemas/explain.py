@@ -52,6 +52,32 @@ class Coverage(BaseModel):
     )
 
 
+class Filing(BaseModel):
+    """An 8-K this company filed for the session being described."""
+
+    items: list[str] = Field(
+        default_factory=list,
+        description="SEC Form 8-K item codes, most notable first (e.g. 2.02).",
+    )
+    reported: Optional[str] = Field(
+        None, description="What the filing reported, in plain English."
+    )
+    accepted_at: Optional[str] = Field(
+        None, description="When EDGAR accepted it (UTC, ISO 8601)."
+    )
+    url: Optional[str] = Field(
+        None, description="The filing on EDGAR, so the wording can be checked."
+    )
+    note: str = Field(
+        "Filed on the same session. Same-day is adjacency, not cause.",
+        description=(
+            "Carried so the caveat travels with the fact. The filing and the "
+            "move happened on the same day; nothing here claims one produced "
+            "the other."
+        ),
+    )
+
+
 class Movement(BaseModel):
     """The move itself."""
 
@@ -84,6 +110,9 @@ class Explanation(BaseModel):
     movement: Movement
     attribution: Attribution
     coverage: Coverage
+    filing: Optional[Filing] = Field(
+        None, description="The 8-K filed for this session, when there was one."
+    )
     disclosure: str = DISCLOSURE
 
 
