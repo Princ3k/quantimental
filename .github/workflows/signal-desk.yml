@@ -12,7 +12,9 @@ on:
     # Every 30 minutes during US market hours (13:00-21:59 UTC), weekdays.
     # GitHub may delay scheduled runs under load; a few minutes of drift is
     # immaterial for a five-day lookback.
-    - cron: '*/30 13-21 * * 1-5'
+    # Off the hour and the half hour on purpose — see unusual-scan.yml. A
+    # scheduled run GitHub drops is not retried, it is simply missing.
+    - cron: '7,37 13-21 * * 1-5'
   workflow_dispatch:
 
 # Only this workflow may write, and only to push the generated file.
