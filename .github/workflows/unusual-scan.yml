@@ -22,6 +22,17 @@ on:
     - cron: '13 14-21 * * 1-5'
     - cron: '43 21 * * 1-5'
   workflow_dispatch:
+    inputs:
+      sweep_attention:
+        description: >-
+          Measure news coverage and write it to the archive. The sweep paces
+          itself around Yahoo's limiter and takes about nine minutes, and the
+          archive keeps one reading per trading day — so this belongs on the
+          post-close run and nowhere else. A dispatch used to do it every time,
+          which would have meant eight sweeps a day once the scans were
+          triggered hourly from outside GitHub.
+        type: boolean
+        default: false
 
 # Only this workflow may write, and only to push the generated file.
 permissions:
@@ -130,12 +141,12 @@ jobs:
       # same Yahoo budget overwriting the same row — and sweeping nine times a
       # day is how you get rate limited. Only the post-close run measures it.
       - name: Scan for unusual moves
-        if: github.event.schedule != '43 21 * * 1-5'
+        if: ${{ !(github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention) }}
         run: python scripts/publish_unusual.py ../public/unusual.json --filings
 
       - name: Scan, and measure attention
         if: |
-          (github.event.schedule == '43 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          (github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention)
           && (steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success')
         env:
           ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
@@ -145,7 +156,7 @@ jobs:
       # coverage figures carry forward from the last successful sweep.
       - name: Scan without attention (data store unavailable)
         if: |
-          (github.event.schedule == '43 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          (github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention)
           && steps.data_store.outcome != 'success'
           && steps.data_store_init.outcome != 'success'
         run: |
@@ -213,7 +224,7 @@ jobs:
       # stays up, and GitHub sends the mail it only sends on failure.
       - name: Fail if the post-close run skipped the sweep
         if: |
-          (github.event.schedule == '43 21 * * 1-5' || github.event_name == 'workflow_dispatch')
+          (github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention)
           && steps.data_store.outcome != 'success'
           && steps.data_store_init.outcome != 'success'
         run: |

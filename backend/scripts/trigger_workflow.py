@@ -26,6 +26,8 @@ import logging
 import os
 import sys
 
+from typing import Any, Optional
+
 import httpx
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -70,19 +72,32 @@ def already_running(client: httpx.Client, repo: str, workflow: str) -> bool:
     return False
 
 
-def dispatch(repo: str, workflow: str, ref: str, token: str) -> int:
+def dispatch(
+    repo: str,
+    workflow: str,
+    ref: str,
+    token: str,
+    inputs: Optional[dict[str, str]] = None,
+) -> int:
     with httpx.Client(headers=_headers(token), timeout=TIMEOUT_SECONDS) as client:
         if already_running(client, repo, workflow):
             logger.info("Nothing to do.")
             return 0
 
+        body: dict[str, Any] = {"ref": ref}
+        if inputs:
+            body["inputs"] = inputs
+
         response = client.post(
             f"{API}/repos/{repo}/actions/workflows/{workflow}/dispatches",
-            json={"ref": ref},
+            json=body,
         )
 
         if response.status_code == 204:
-            logger.info("Dispatched %s on %s.", workflow, ref)
+            logger.info(
+                "Dispatched %s on %s%s.", workflow, ref,
+                f" with {inputs}" if inputs else "",
+            )
             return 0
 
         # 404 here is usually the token rather than the workflow: a fine-grained
@@ -108,6 +123,15 @@ def main() -> int:
     )
     parser.add_argument("--repo", default=os.environ.get("GITHUB_REPOSITORY", DEFAULT_REPO))
     parser.add_argument("--ref", default=os.environ.get("GITHUB_REF_NAME", DEFAULT_REF))
+    parser.add_argument(
+        "--sweep-attention",
+        action="store_true",
+        help=(
+            "Ask the scan to measure news coverage and archive it. Belongs on "
+            "the post-close run only: it takes about nine minutes and the "
+            "archive keeps one reading per trading day."
+        ),
+    )
     args = parser.parse_args()
 
     token = (os.environ.get("GITHUB_DISPATCH_TOKEN") or "").strip()
@@ -118,7 +142,8 @@ def main() -> int:
         )
         return 1
 
-    return dispatch(args.repo, args.workflow, args.ref, token)
+    inputs = {"sweep_attention": "true"} if args.sweep_attention else None
+    return dispatch(args.repo, args.workflow, args.ref, token, inputs)
 
 
 if __name__ == "__main__":

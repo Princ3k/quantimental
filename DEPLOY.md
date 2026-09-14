@@ -119,30 +119,32 @@ says a run it cannot start in time is dropped rather than deferred.
 
 So the scans are triggered from Railway instead.
 
-**A Railway cron service**, pointed at this repository, with:
+Three Railway cron services, all pointed at this repository, all with:
 
 ```
 Root directory   backend
 Build            pip install -r requirements.txt
-Start            python scripts/trigger_workflow.py unusual-scan.yml
-Cron schedule    13 14-21 * * 1-5
 ```
 
-and a second one for the desk:
+| Service | Start command | Cron (UTC) |
+| --- | --- | --- |
+| `trigger-scan` | `python scripts/trigger_workflow.py unusual-scan.yml` | `13 14-21 * * 1-5` |
+| `trigger-desk` | `python scripts/trigger_workflow.py signal-desk.yml` | `7,37 13-21 * * 1-5` |
+| `trigger-close` | `python scripts/trigger_workflow.py unusual-scan.yml --sweep-attention` | `43 21 * * 1-5` |
 
-```
-Start            python scripts/trigger_workflow.py signal-desk.yml
-Cron schedule    7,37 13-21 * * 1-5
-```
+`--sweep-attention` is the difference that matters. The sweep paces itself
+around Yahoo's limiter, takes about nine minutes, and the archive keeps one
+reading per trading day — so it belongs on the post-close run and nowhere else.
+Without the flag the hourly runs publish prices and leave the archive alone.
 
-Both need `GITHUB_DISPATCH_TOKEN` — a fine-grained PAT scoped to **Actions:
-write on `Princ3k/quantimental`** and nothing else. Do not put it on the API
-service: nothing there dispatches anything, and a repository-write token has no
-business in a public-facing process.
+All three need `GITHUB_DISPATCH_TOKEN` — a fine-grained PAT scoped to
+**Actions: write on `Princ3k/quantimental`** and nothing else. Do not put it on
+the API service: nothing there dispatches anything, and a repository-write
+token has no business in a public-facing process.
 
-The post-close run is the one that matters, because it is the only one that
-sweeps attention into the archive and that reading cannot be backfilled. Give
-it its own schedule: `43 21 * * 1-5`.
+`trigger-close` is the one to watch. It is the only run that writes to the
+attention archive, and that reading cannot be backfilled from anywhere at any
+price — a day missed is gone.
 
 The cron blocks in `.github/workflows/*.yml` are left in place. They cost
 nothing while dormant, and if GitHub ever starts honouring them the trigger
