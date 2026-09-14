@@ -102,3 +102,49 @@ Trigger it manually once from the **Actions** tab to confirm it works.
 Free alternatives to Railway all sleep: Render's free tier spins down after 15
 minutes with a 30–60 second cold start, and Fly.io discontinued its free tier
 in 2024. For a user-facing app that cold start is the whole first impression.
+
+---
+
+## Keeping the scans running
+
+GitHub Actions `schedule` has never fired for this repository. The workflows
+are active, the cron parses, the repository is public and is not a fork, and
+GitHub Actions reports operational — but across two cron configurations, and a
+schedule that sat unchanged for thirty-five hours, not one scheduled run
+started. Push and `workflow_dispatch` work every time.
+
+That difference is the whole story. Push and dispatch are events somebody
+sends; `schedule` is a queue GitHub sweeps best-effort, and their documentation
+says a run it cannot start in time is dropped rather than deferred.
+
+So the scans are triggered from Railway instead.
+
+**A Railway cron service**, pointed at this repository, with:
+
+```
+Root directory   backend
+Build            pip install -r requirements.txt
+Start            python scripts/trigger_workflow.py unusual-scan.yml
+Cron schedule    13 14-21 * * 1-5
+```
+
+and a second one for the desk:
+
+```
+Start            python scripts/trigger_workflow.py signal-desk.yml
+Cron schedule    7,37 13-21 * * 1-5
+```
+
+Both need `GITHUB_DISPATCH_TOKEN` — a fine-grained PAT scoped to **Actions:
+write on `Princ3k/quantimental`** and nothing else. Do not put it on the API
+service: nothing there dispatches anything, and a repository-write token has no
+business in a public-facing process.
+
+The post-close run is the one that matters, because it is the only one that
+sweeps attention into the archive and that reading cannot be backfilled. Give
+it its own schedule: `43 21 * * 1-5`.
+
+The cron blocks in `.github/workflows/*.yml` are left in place. They cost
+nothing while dormant, and if GitHub ever starts honouring them the trigger
+script skips any dispatch that would land on a run already in flight.
+
