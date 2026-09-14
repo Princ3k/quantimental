@@ -7,6 +7,7 @@ import { SiteHeader } from '@/components/site-header'
 import { StockDetail } from '@/components/stock-detail'
 import { normalizeApiBase } from '@/lib/api'
 import { slugify } from '@/lib/sectors'
+import { isCurrentSession, sessionLabel } from '@/lib/session'
 import { SITE_URL, getSnapshot, getSnapshotStock } from '@/lib/snapshot'
 
 /*
@@ -172,6 +173,7 @@ export default async function StockPage({
   if (!/^[A-Z0-9.\-^]{1,12}$/.test(symbol)) notFound()
 
   const stock = await getSnapshotStock(symbol)
+  const session = (await getSnapshot())?.as_of ?? null
 
   // A symbol that is neither in the scan nor recognised by the market data
   // provider is a 404, not a thin page. Returning 200 for /stock/zzzzzz is a
@@ -228,6 +230,17 @@ export default async function StockPage({
                 <span className="text-ink-3"> today</span>
               </p>
             </div>
+
+            {/* Which day "today" means. The scan publishes after the close and
+                is read until the next afternoon, so for part of every day —
+                and all weekend — these figures are the previous session's.
+                Saying "today" without saying which day is how this page came
+                to report Nvidia as little changed while it was down 2.65%. */}
+            {session && !isCurrentSession(session) && (
+              <p className="text-ink-3 mt-2 text-[0.8125rem]">
+                Figures from {sessionLabel(session)}, the last completed session.
+              </p>
+            )}
 
             {/* The sentence. Present in the HTML before any script runs, which
                 is what a crawler indexes and a shared link previews. */}

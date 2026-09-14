@@ -66,4 +66,23 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/signal-desk.json backend/data/signal-desk-history.json
           git commit -m "chore: update signal desk [skip ci]"
-          git push
+
+          # Two workflows publish to this branch on overlapping schedules, so
+          # whichever finishes second is pushing onto a main that moved while
+          # it was scanning. That is exactly what happened the first time both
+          # were triggered together: the scan, the sweep and the archive all
+          # succeeded, and only this push was rejected — losing a run's output
+          # to a race rather than to anything being wrong.
+          #
+          # Rebase and retry. The two workflows write different files, so there
+          # is nothing to conflict over; the loser just needs a newer base.
+          for attempt in 1 2 3; do
+            if git push; then
+              exit 0
+            fi
+            echo "::notice::Push rejected (attempt $attempt); rebasing onto origin/main."
+            git pull --rebase origin main
+          done
+
+          echo "::error::Could not push after 3 attempts."
+          exit 1

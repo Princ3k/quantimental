@@ -3,8 +3,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { SiteHeader } from '@/components/site-header'
+import { isCurrentSession, sessionLabel } from '@/lib/session'
 import { describeSector, getSector, getSectors } from '@/lib/sectors'
-import { SITE_URL, type SnapshotStock } from '@/lib/snapshot'
+import { SITE_URL, getSnapshot, type SnapshotStock } from '@/lib/snapshot'
 import { cn } from '@/lib/utils'
 
 /**
@@ -51,6 +52,7 @@ export default async function SectorPage({
 }) {
   const { slug } = await params
   const sector = await getSector(slug)
+  const session = (await getSnapshot())?.as_of ?? null
   if (!sector) notFound()
 
   const up = sector.change_percent >= 0
@@ -78,6 +80,14 @@ export default async function SectorPage({
           </p>
           <p className="text-ink-3 pb-1 text-[0.875rem]">median, today</p>
         </div>
+
+        {/* Same reason as the stock page: the scan publishes after the close,
+            so "today" means the last completed session for much of each day. */}
+        {session && !isCurrentSession(session) && (
+          <p className="text-ink-3 mt-2 text-[0.8125rem]">
+            Figures from {sessionLabel(session)}, the last completed session.
+          </p>
+        )}
 
         <p className="mt-6 text-[0.9375rem] leading-relaxed text-balance">
           {describeSector(sector)}
