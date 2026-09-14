@@ -136,6 +136,12 @@ config sets no start command at all — so the dashboard's applies — no
 healthcheck, and a restart policy of `NEVER`, which is what a job that exits on
 purpose wants.
 
+It also pins no builder, deliberately. `railway.json` pins `NIXPACKS`, which is
+what the API was created with and still builds fine, but Railway's default for
+new services has moved on to Railpack. Either resolves a Python project from
+`requirements.txt`, so there is nothing to gain by naming one and something to
+lose by naming the one that gets retired first.
+
 | Service | Start command | Cron (UTC) |
 | --- | --- | --- |
 | `trigger-scan` | `python scripts/trigger_workflow.py unusual-scan.yml` | `13 14-21 * * 1-5` |
