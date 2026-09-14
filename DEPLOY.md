@@ -122,9 +122,19 @@ So the scans are triggered from Railway instead.
 Three Railway cron services, all pointed at this repository, all with:
 
 ```
-Root directory   backend
-Build            pip install -r requirements.txt
+Root directory      backend
+Config-as-code path railway-trigger.json
+Healthcheck path    (empty)
 ```
+
+**`railway-trigger.json` is not optional.** A service rooted at `backend/`
+picks up `railway.json` by default, and that file is the API's: it would start
+uvicorn instead of the trigger, fail a healthcheck a cron job cannot answer
+because it serves nothing, and retry ten times on failure. Config-as-code beats
+the dashboard, so setting a start command would not save you. The trigger
+config sets no start command at all — so the dashboard's applies — no
+healthcheck, and a restart policy of `NEVER`, which is what a job that exits on
+purpose wants.
 
 | Service | Start command | Cron (UTC) |
 | --- | --- | --- |
