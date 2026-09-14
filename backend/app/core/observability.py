@@ -43,6 +43,23 @@ IGNORED_ERRORS = (
     "ConnectionResetError",
 )
 
+# Third-party loggers whose ERROR lines are not our errors.
+#
+# Sentry turns any logging.error() in the process into an issue, so a library
+# that complains loudly about a condition we already handle will fill the feed
+# with things nobody can act on — and a feed nobody reads is worse than none.
+#
+# yfinance is the observed case. It logs "$GOOGL: possibly delisted; no price
+# data found" at ERROR for any empty download, including the transient ones it
+# then recovers from. The request that produced that line returned 200 with all
+# four signals on it.
+#
+# Nothing is lost by dropping these, because a real Yahoo outage is caught by
+# instruments that actually measure it: /health reports what each source did
+# rather than what is configured, and the scan refuses to publish at all when
+# fewer than half the tickers return data.
+NOISY_LOGGERS = ("yfinance",)
+
 
 def _scrub(value: Any) -> Any:
     """Walk an event and redact every string in it."""
@@ -97,6 +114,7 @@ def init_sentry() -> bool:
     try:
         import sentry_sdk
         from sentry_sdk.integrations.fastapi import FastApiIntegration
+        from sentry_sdk.integrations.logging import ignore_logger
         from sentry_sdk.integrations.starlette import StarletteIntegration
     except ImportError:
         logger.warning("SENTRY_DSN is set but sentry-sdk is not installed.")
@@ -122,8 +140,14 @@ def init_sentry() -> bool:
         logger.warning("Could not start error reporting: %s", exc)
         return False
 
+    for name in NOISY_LOGGERS:
+        ignore_logger(name)
+
     _started = True
-    logger.info("Error reporting on (%s)", settings.SENTRY_ENVIRONMENT)
+    logger.info(
+        "Error reporting on (%s), ignoring %s", settings.SENTRY_ENVIRONMENT,
+        ", ".join(NOISY_LOGGERS),
+    )
     return True
 
 

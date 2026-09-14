@@ -150,3 +150,33 @@ class TestHealthReport:
             })(),
         )
         assert "SECRETKEY" not in repr(observability.describe())
+
+
+class TestNoisyLoggers:
+    def test_yfinance_is_ignored(self):
+        # Observed in production: yfinance logs "$GOOGL: possibly delisted; no
+        # price data found" at ERROR for any empty download, including the
+        # transient ones it recovers from. Sentry turns every logging.error()
+        # into an issue, so that became a tracked error on a request that
+        # returned 200 with all four signals on it.
+        assert "yfinance" in observability.NOISY_LOGGERS
+
+    def test_our_own_loggers_are_not_ignored(self):
+        # The suppression is per-logger and must never reach app code.
+        assert not any(name.startswith("app") for name in observability.NOISY_LOGGERS)
+
+    def test_init_ignores_them(self, monkeypatch):
+        ignored = []
+        settings = type("S", (), {
+            "SENTRY_DSN": "https://k@o1.ingest.sentry.io/1",
+            "SENTRY_ENVIRONMENT": "test",
+            "SENTRY_TRACES_SAMPLE_RATE": 0.0,
+            "VERSION": "1.0.0",
+        })()
+        monkeypatch.setattr(observability, "get_settings", lambda: settings)
+
+        import sentry_sdk.integrations.logging as sentry_logging
+        monkeypatch.setattr(sentry_logging, "ignore_logger", ignored.append)
+
+        assert observability.init_sentry() is True
+        assert ignored == list(observability.NOISY_LOGGERS)
