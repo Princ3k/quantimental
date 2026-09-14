@@ -153,3 +153,47 @@ class TestFilingRow:
     def test_a_filing_with_no_primary_document_has_no_url(self):
         recent = {"accessionNumber": ["0001193125-26-389400"], "primaryDocument": [""]}
         assert filing_fetcher._document_url(1571996, recent, 0) is None
+
+
+class TestMissingIndex:
+    def test_an_unpublished_index_is_not_a_block(self, monkeypatch):
+        # EDGAR answers 403, not 404, for a dated index file that does not
+        # exist — and the current day's is never published while that day is
+        # still accepting filings. Treating that as "we are blocked" aborted
+        # the whole sweep, including the previous day where the after-close
+        # filings actually are. That is why the first real run attached zero.
+        def refuse(*a, **k):
+            raise filing_fetcher.EdgarBlocked("EDGAR refused ...")
+
+        monkeypatch.setattr(filing_fetcher, "get_text", refuse)
+        assert filing_fetcher.filers_on(date(2026, 9, 14)) == set()
+
+    def test_a_flagged_ticker_is_checked_with_no_index_at_all(self, monkeypatch):
+        # The gap the index cannot cover: a company filing for the first time
+        # today, on a day whose index does not exist yet.
+        monkeypatch.setattr(filing_fetcher, "get_text",
+                            lambda *a, **k: (_ for _ in ()).throw(RuntimeError("no index")))
+        monkeypatch.setattr(filing_fetcher.cik_map, "ciks_for", lambda t: {"DELL": 1571996})
+
+        looked_up = []
+
+        def fake_company(ticker, cik, session, client):
+            looked_up.append(ticker)
+            return filing_fetcher.Filing(
+                ticker=ticker, items=["8.01"], phrase="reporting another event",
+                accepted_at="2026-09-14T12:00:00.000Z", session=session.isoformat(),
+            )
+
+        monkeypatch.setattr(filing_fetcher, "_filings_for_company", fake_company)
+        found = filing_fetcher.filings_for_session(
+            ["DELL"], "2026-09-14", always_check=["DELL"]
+        )
+
+        assert looked_up == ["DELL"]
+        assert "DELL" in found
+
+    def test_nothing_indexed_and_nothing_flagged_is_simply_empty(self, monkeypatch):
+        monkeypatch.setattr(filing_fetcher, "get_text",
+                            lambda *a, **k: (_ for _ in ()).throw(RuntimeError("no index")))
+        monkeypatch.setattr(filing_fetcher.cik_map, "ciks_for", lambda t: {"DELL": 1571996})
+        assert filing_fetcher.filings_for_session(["DELL"], "2026-09-14") == {}

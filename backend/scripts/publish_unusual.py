@@ -39,7 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from app.services.scan import attention_archive  # noqa: E402
 from app.services.scan.attention_service import measure_attention  # noqa: E402
 from app.services.ingestion.filings import filing_fetcher  # noqa: E402
-from app.services.scan.unusual_service import scan  # noqa: E402
+from app.services.scan.unusual_service import UNUSUAL_MULTIPLE, scan  # noqa: E402
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 logger = logging.getLogger("publish_unusual")
@@ -157,8 +157,15 @@ def _attach_filings(rows: list[dict], as_of: str | None) -> None:
     if not as_of:
         return
 
+    # A stock that moved unusually is checked even when no index lists it —
+    # the intraday index does not exist yet, and those are the rows where a
+    # filing is most likely and most worth having.
+    flagged = [row["t"] for row in rows if (row.get("x") or 0) >= UNUSUAL_MULTIPLE]
+
     try:
-        filings = filing_fetcher.filings_for_session([row["t"] for row in rows], as_of)
+        filings = filing_fetcher.filings_for_session(
+            [row["t"] for row in rows], as_of, always_check=flagged
+        )
     except Exception as exc:  # noqa: BLE001
         logger.warning("Could not read filings: %s", exc)
         return

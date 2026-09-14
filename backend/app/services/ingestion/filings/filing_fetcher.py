@@ -102,7 +102,19 @@ def filers_on(day: date, client: Optional[httpx.Client] = None) -> set[int]:
     try:
         body = get_text(_index_url(day), client=client)
     except EdgarBlocked:
-        raise
+        # EDGAR answers 403, not 404, for an index file that does not exist —
+        # and the index for a day is not published while that day is still
+        # accepting filings. So on any intraday run the current date is always
+        # a 403, and treating that as "we are blocked" aborted the sweep before
+        # it could read the previous day, where the after-close filings that
+        # belong to this session actually are. That is why the first real run
+        # of this feature attached nothing at all.
+        #
+        # For one dated archive file, absent is overwhelmingly more likely than
+        # forbidden. A genuine block would reject the submissions calls too,
+        # and those still raise.
+        logger.info("No daily index published for %s yet.", day)
+        return set()
     except Exception as exc:  # noqa: BLE001
         logger.debug("No daily index for %s (%s)", day, exc)
         return set()
@@ -198,9 +210,27 @@ def _document_url(cik: int, recent: dict[str, Any], index: int) -> Optional[str]
     )
 
 
-def filings_for_session(tickers: list[str], session: str) -> dict[str, Filing]:
+def filings_for_session(
+    tickers: list[str],
+    session: str,
+    always_check: Optional[list[str]] = None,
+) -> dict[str, Filing]:
     """
     Every 8-K our universe filed for one session, keyed by ticker.
+
+    Candidates come from the daily index, which is cheap — one request narrows
+    10,400 possible filers to the handful in our universe. But the index for a
+    day is not published while that day is still accepting filings, so on an
+    intraday run only the previous day's is readable. That catches the filings
+    that matter most, since a company reporting results files after the close
+    and lands in the previous day's index, but it misses anything filed for the
+    first time today.
+
+    `always_check` closes that gap where it counts: pass the tickers whose
+    price moved unusually and they are looked up regardless of any index.
+    Filings coincide with the size of a move — 35.7% of moves worth twice a
+    stock's typical day carry one, against a 5.1% base rate — so those are
+    exactly the companies worth spending a request on.
 
     Returns what it managed to read. EDGAR being unreachable means a scan with
     no filings on it, never a scan that does not publish — the price data is
@@ -222,18 +252,23 @@ def filings_for_session(tickers: list[str], session: str) -> dict[str, Filing]:
     found: dict[str, Filing] = {}
 
     with new_client() as client:
-        try:
-            candidates = filers_on(day, client=client)
-            previous_day, previous_filers = _previous_trading_day(day, client=client)
-            if previous_day:
-                candidates |= previous_filers
-        except EdgarBlocked as exc:
-            logger.error("%s", exc)
-            return {}
+        candidates = filers_on(day, client=client)
+        previous_day, previous_filers = _previous_trading_day(day, client=client)
+        if previous_day:
+            candidates |= previous_filers
 
         ours = candidates & set(by_cik)
+
+        # Looked up whether or not an index mentions them.
+        forced = {ciks[t] for t in (always_check or []) if t in ciks}
+        ours |= forced
+
+        if not ours:
+            logger.warning("Nothing to check for %s: no index, no flagged tickers.", session)
+            return {}
         logger.info(
-            "EDGAR: %d 8-K filers for %s, %d of them ours", len(candidates), session, len(ours)
+            "EDGAR: %d 8-K filers indexed for %s, %d of them ours, %d more flagged by price",
+            len(candidates), session, len(candidates & set(by_cik)), len(forced - candidates),
         )
 
         for cik in sorted(ours):
