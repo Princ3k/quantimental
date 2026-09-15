@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-09-15T21:46:48.681007+00:00",
+  "generated_at": "2026-09-15T23:41:02.754304+00:00",
   "as_of": "2026-09-15",
   "scanned": 503,
   "universe": 503,
@@ -34,7 +34,7 @@
       "company": "Sysco",
       "sector": "Consumer Staples",
       "headline": "Sysco is down 4.7% today, 2.6x its typical 1.8% daily move.",
-      "context": "The market fell 0.6% today and Consumer Staples fell 0.7%, so most of this was specific to Sysco."
+      "context": "The market fell 0.6% today and Consumer Staples fell 0.8%, so most of this was specific to Sysco."
     },
     {
       "ticker": "JKHY",
@@ -186,7 +186,7 @@
       "volume": 806130,
       "company": "Casey's",
       "sector": "Consumer Staples",
-      "context": "The market fell 0.6% today and Consumer Staples fell 0.7%, so most of this was specific to Casey's."
+      "context": "The market fell 0.6% today and Consumer Staples fell 0.8%, so most of this was specific to Casey's."
     }
   ],
   "threshold": {
