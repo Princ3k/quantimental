@@ -241,9 +241,16 @@ async def health_check() -> dict:
                 "marketaux": source_health.describe(
                     "marketaux", bool(settings.MARKETAUX_API_KEY)
                 ),
-                "reddit": source_health.describe(
-                    "reddit",
-                    bool(settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET),
+                # Always configured, because Reddit needs nothing configured.
+                # The working path is the public RSS feed, and credentials only
+                # raise the rate limit — they are an upgrade, not a
+                # requirement. Asking `bool(CLIENT_ID and CLIENT_SECRET)` is
+                # asking "do you have OAuth", when the question /health answers
+                # is "can this source run". It reported Reddit as unconfigured
+                # for months while Reddit was returning posts on every request.
+                "reddit": source_health.describe("reddit", True),
+                "reddit_credentials": bool(
+                    settings.REDDIT_CLIENT_ID and settings.REDDIT_CLIENT_SECRET
                 ),
                 "twitter": source_health.describe("twitter", bool(settings.TWITTER_API_KEY)),
             },

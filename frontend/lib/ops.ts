@@ -93,9 +93,12 @@ export async function getOps(): Promise<Ops> {
           status: (health.status as string) ?? 'unknown',
           errorReporting:
             (subsystems.error_reporting as ErrorReporting | undefined) ?? null,
+          // Only the per-source records. `sentiment` also carries scalars
+          // like `groq_model` and `reddit_credentials`, which are facts about
+          // a source rather than sources themselves.
           sources: Object.fromEntries(
             Object.entries(sentiment).filter(
-              ([, v]) => v && typeof v === 'object' && 'configured' in (v as object),
+              ([, v]) => v && typeof v === 'object' && 'working' in (v as object),
             ) as [string, { configured: boolean; working: boolean | null }][],
           ),
         }
