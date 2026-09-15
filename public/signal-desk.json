@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-15T18:39:58.756215+00:00",
+  "as_of": "2026-09-15T19:09:19.993667+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -11,7 +11,7 @@
       "direction": "down",
       "delta": "-2.1\u03c3",
       "change_percent": -0.88,
-      "z_score": -2.08,
+      "z_score": -2.09,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -27,17 +27,6 @@
       "notable": true
     },
     {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit softening",
-      "direction": "down",
-      "delta": "-1.7\u03c3",
-      "change_percent": -1.17,
-      "z_score": -1.67,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude pushing higher",
@@ -49,13 +38,24 @@
       "notable": true
     },
     {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit softening",
+      "direction": "down",
+      "delta": "-1.6\u03c3",
+      "change_percent": -1.1,
+      "z_score": -1.57,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
       "category": "FX",
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.78,
-      "z_score": 0.95,
+      "change_percent": 0.79,
+      "z_score": 0.96,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -65,10 +65,10 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "17.5",
-      "change_percent": 11.32,
-      "z_score": 0.74,
+      "change_percent": 11.45,
+      "z_score": 0.75,
       "risk_tone": "risk_off",
-      "notable": false
+      "notable": true
     },
     {
       "category": "COMMODITIES",
@@ -76,8 +76,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-2.1%",
-      "change_percent": -2.12,
-      "z_score": -0.66,
+      "change_percent": -2.07,
+      "z_score": -0.64,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.39,
-        "z_score": 1.23
+        "change_percent": 2.43,
+        "z_score": 1.25
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 1.74,
-        "z_score": 0.29
+        "change_percent": 1.58,
+        "z_score": 0.24
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.32,
-        "z_score": -0.06
+        "change_percent": 0.21,
+        "z_score": -0.11
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -4.65,
-        "z_score": -2.27
+        "change_percent": -4.56,
+        "z_score": -2.23
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -2.95,
-        "z_score": -1.56
+        "change_percent": -3.08,
+        "z_score": -1.63
       },
       {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": -2.58,
-        "z_score": -0.99
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": -2.69,
+        "z_score": -1.23
       }
     ],
     "breadth": 30,
@@ -140,23 +140,23 @@
       },
       {
         "name": "Credit complex",
-        "effect": -11.2,
+        "effect": -11.0,
         "tone": "risk_off"
       },
       {
         "name": "US dollar index",
-        "effect": -5.7,
+        "effect": -5.8,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": -4.4,
+        "effect": -4.5,
         "tone": "risk_off"
       },
       {
-        "name": "Gold",
-        "effect": 4.0,
-        "tone": "risk_on"
+        "name": "Sector breadth",
+        "effect": -4.0,
+        "tone": "risk_off"
       }
     ]
   },
@@ -193,10 +193,10 @@
     16.5
   ],
   "narrative": {
-    "text": "Long-term borrowing costs climbed and risky debt prices dropped. Energy and communications stocks gained, while utilities and industrials lost value.",
-    "short": "Long-term borrowing costs rose and risky debt fell as investors fled to safety.",
+    "text": "Long-term rates climbed and risky debt sold off. Crude oil surged, while utilities and industrials led sector losses.",
+    "short": "Long-term rates climbed and risky debt sold off as oil surged.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-15T18:39:59.282028+00:00"
+  "generated_at": "2026-09-15T19:09:20.621497+00:00"
 }
