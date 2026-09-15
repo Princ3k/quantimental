@@ -324,3 +324,35 @@ class TestRotation:
 
     def test_handles_an_empty_universe(self):
         assert _rotate([], "2026-09-10") == []
+
+
+class TestViewer:
+    """The archive is stored for the scan to read; this is the human view."""
+
+    def test_a_missing_reading_is_a_dash_not_a_zero(self):
+        from scripts.show_attention import _fmt
+
+        # The whole archive rests on null and 0.0 being different facts: one
+        # means we failed to measure, the other that nobody wrote about it.
+        # A view that renders them the same undoes that distinction by eye.
+        assert _fmt(None).strip() == "—"
+        assert _fmt(0.0).strip() == "0.00"
+
+    def test_csv_is_long_format_and_skips_nulls(self, archive_path, tmp_path):
+        import csv as csvlib
+
+        from scripts.show_attention import to_csv
+
+        record({"AAPL": _reading(5.0), "MSFT": _reading(3.0)}, on="2026-09-10", path=archive_path)
+        record({"AAPL": _reading(6.0)}, on="2026-09-11", path=archive_path)
+
+        out = tmp_path / "out.csv"
+        to_csv(load(archive_path), out)
+        rows = list(csvlib.DictReader(out.open()))
+
+        # One row per ticker per session it was actually measured in — three,
+        # not four: MSFT has no reading on the 11th and gets no row.
+        assert len(rows) == 3
+        assert {(r["session"], r["ticker"]) for r in rows} == {
+            ("2026-09-10", "AAPL"), ("2026-09-10", "MSFT"), ("2026-09-11", "AAPL"),
+        }
