@@ -193,24 +193,43 @@ jobs:
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/unusual.json public/snapshot.json
-          git commit -m "chore: update unusual moves [skip ci]"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Two workflows publish to this branch on overlapping schedules, so
-          # whichever finishes second is pushing onto a main that moved while
-          # it was scanning. That is exactly what happened the first time both
-          # were triggered together: the scan, the sweep and the archive all
-          # succeeded, and only this push was rejected — losing a run's output
-          # to a race rather than to anything being wrong.
+          # Two publishers write this branch, and a scan can also race another
+          # run of itself: github.sha is pinned when a run is created, so one
+          # that queued behind another checks out a base that has already moved.
           #
-          # Rebase and retry. The two workflows write different files, so there
-          # is nothing to conflict over; the loser just needs a newer base.
+          # The first attempt at this rebased, on the reasoning that the two
+          # workflows write different files so nothing could conflict. That was
+          # true across workflows and false for a workflow racing itself — both
+          # runs regenerate the same file with a different timestamp, on the
+          # same lines, and the rebase stopped on a conflict.
+          #
+          # These files are generated, never edited, so there is nothing to
+          # merge. The newest scan is simply the one we want: take the freshest
+          # main and replant our output on top of it.
           for attempt in 1 2 3; do
+            git add public/unusual.json public/snapshot.json
+            git commit -q -m "chore: update unusual moves [skip ci]" || true
+
             if git push; then
               exit 0
             fi
-            echo "::notice::Push rejected (attempt $attempt); rebasing onto origin/main."
-            git pull --rebase origin main
+
+            echo "::notice::Push rejected (attempt $attempt); replanting on the newest main."
+            mkdir -p "$RUNNER_TEMP/publish"
+            for f in public/unusual.json public/snapshot.json; do
+              cp "$f" "$RUNNER_TEMP/publish/$(basename "$f")"
+            done
+
+            git fetch origin main
+            git reset --hard origin/main
+
+            for f in public/unusual.json public/snapshot.json; do
+              mkdir -p "$(dirname "$f")"
+              cp "$RUNNER_TEMP/publish/$(basename "$f")" "$f"
+            done
           done
 
           echo "::error::Could not push after 3 attempts."
