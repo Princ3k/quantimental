@@ -85,8 +85,11 @@ def main() -> int:
 
     # Measure and archive coverage before writing anything, so the published
     # files and the archive describe the same session.
+    archive_days: int | None = None
+
     if with_attention:
         attention = _record_attention(snapshot_rows, result["as_of"])
+        archive_days = _archive_days()
         for row in snapshot_rows:
             reading = attention.get(row["t"])
             if reading:
@@ -99,6 +102,7 @@ def main() -> int:
         # an hourly run publishing a snapshot with no `v` field would make the
         # attention data appear and disappear through the day.
         _carry_forward_attention(snapshot_rows, result["as_of"])
+        archive_days = _archive_days()
 
     # Filings are decoration on the price scan, never a reason it fails to
     # publish. Phase 0 measured a filing on 35.7% of moves worth 2x a stock's
@@ -113,6 +117,12 @@ def main() -> int:
         "as_of": result["as_of"],
         "generated_at": result["generated_at"],
         "count": len(snapshot_rows),
+        # How many sessions the attention archive holds — the number, never the
+        # readings. It is what tells a reader whether `vx` is missing because
+        # coverage was ordinary or because there is not yet enough history to
+        # say, and publishing a count gives away nothing the archive protects.
+        "archive_days": archive_days,
+        "archive_days_needed": attention_archive.MIN_HISTORY_FOR_BASELINE,
         # Short keys keep this small; this block is the schema.
         "fields": {
             "t": "ticker", "n": "company name", "s": "sector",
@@ -143,6 +153,15 @@ def main() -> int:
         logger.info("  %s", move["headline"])
 
     return 0
+
+
+def _archive_days() -> int | None:
+    """How many sessions the attention archive holds, or None if unreadable."""
+    try:
+        return len(attention_archive.load()["dates"])
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Could not measure the archive: %s", exc)
+        return None
 
 
 def _attach_filings(rows: list[dict], as_of: str | None) -> None:

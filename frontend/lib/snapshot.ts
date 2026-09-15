@@ -15,7 +15,7 @@
  * them in its own `fields` block.
  */
 
-const SOURCE =
+export const SNAPSHOT_URL =
   process.env.NEXT_PUBLIC_SNAPSHOT_URL ??
   'https://raw.githubusercontent.com/Princ3k/quantimental/main/public/snapshot.json'
 
@@ -101,7 +101,7 @@ export interface Snapshot {
  */
 export async function getSnapshot(): Promise<Snapshot | null> {
   try {
-    const response = await fetch(SOURCE, {
+    const response = await fetch(SNAPSHOT_URL, {
       next: { revalidate: SNAPSHOT_REVALIDATE_SECONDS },
     })
     if (!response.ok) return null
