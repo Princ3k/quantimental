@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-15T21:15:51.473550+00:00",
+  "as_of": "2026-09-15T21:41:12.258248+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -55,7 +55,7 @@
       "direction": "up",
       "delta": "+0.8%",
       "change_percent": 0.82,
-      "z_score": 1.0,
+      "z_score": 0.99,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -145,7 +145,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -6.0,
+        "effect": -5.9,
         "tone": "risk_off"
       },
       {
@@ -193,10 +193,10 @@
     17.6
   ],
   "narrative": {
-    "text": "Long-term government bond yields climbed, pressuring high-yield and investment-grade credit. Energy and communications were the only sectors with notable gains.",
-    "short": "Long-term borrowing costs rose while risky debt and utility stocks fell.",
+    "text": "Long-term rates climbed while high-yield and investment-grade debt fell. Energy and communications led gains, while utilities lagged.",
+    "short": "Long-term rates climbed and risky debt fell as oil prices surged.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-15T21:15:52.043352+00:00"
+  "generated_at": "2026-09-15T21:41:12.710052+00:00"
 }
