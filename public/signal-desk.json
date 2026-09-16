@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T17:40:31.043699+00:00",
+  "as_of": "2026-09-16T18:08:33.194907+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.0%",
+      "delta": "+0.9%",
       "change_percent": 0.95,
-      "z_score": 1.16,
+      "z_score": 1.15,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,20 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+12bp",
-      "change_percent": 2.44,
-      "z_score": 1.12,
+      "delta": "+11bp",
+      "change_percent": 2.27,
+      "z_score": 1.03,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-0.4%",
+      "change_percent": -0.37,
+      "z_score": -0.93,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,8 +43,8 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+6.5%",
-      "change_percent": 6.55,
-      "z_score": 0.69,
+      "change_percent": 6.5,
+      "z_score": 0.68,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -42,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.6,
-      "z_score": -0.52,
+      "delta": "-1.4%",
+      "change_percent": -1.44,
+      "z_score": -0.48,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,9 +64,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-0.4%",
-      "change_percent": -0.38,
-      "z_score": -0.5,
+      "delta": "-0.3%",
+      "change_percent": -0.27,
+      "z_score": -0.34,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "16.8",
-      "change_percent": 2.25,
-      "z_score": 0.09,
+      "delta": "16.9",
+      "change_percent": 2.43,
+      "z_score": 0.1,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -77,40 +88,40 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.74,
-        "z_score": 1.4
+        "change_percent": 2.97,
+        "z_score": 1.51
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.12,
-        "z_score": 0.3
+        "change_percent": 1.19,
+        "z_score": 0.33
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 1.12,
-        "z_score": 0.48
+        "change_percent": 1.02,
+        "z_score": 0.43
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.49,
-        "z_score": -1.7
+        "change_percent": -3.41,
+        "z_score": -1.66
+      },
+      {
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": -1.21,
+        "z_score": -0.62
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -1.44,
-        "z_score": -0.58
-      },
-      {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": -1.06,
-        "z_score": -0.38
+        "change_percent": -1.04,
+        "z_score": -0.47
       }
     ],
     "breadth": 30,
@@ -118,18 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 32,
+    "score": 31,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -7.0,
+        "effect": -6.9,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -6.7,
+        "effect": -6.2,
         "tone": "risk_off"
       },
       {
@@ -138,23 +149,54 @@
         "tone": "risk_off"
       },
       {
-        "name": "Gold",
-        "effect": 3.1,
-        "tone": "risk_on"
+        "name": "Credit complex",
+        "effect": -3.8,
+        "tone": "risk_off"
       },
       {
-        "name": "Investment-grade credit",
-        "effect": -3.0,
-        "tone": "risk_off"
+        "name": "Gold",
+        "effect": 2.9,
+        "tone": "risk_on"
       }
     ]
   },
-  "history": [],
+  "history": [
+    58.7,
+    65.5,
+    50.3,
+    36.0,
+    39.3,
+    65.4,
+    55.1,
+    49.0,
+    51.0,
+    64.7,
+    39.5,
+    39.5,
+    56.1,
+    63.9,
+    43.0,
+    56.6,
+    52.8,
+    50.2,
+    28.8,
+    35.2,
+    49.0,
+    48.8,
+    53.0,
+    59.7,
+    45.4,
+    15.4,
+    24.6,
+    21.0,
+    17.6,
+    31.4
+  ],
   "narrative": {
-    "text": "The dollar and long-term rates rose while gold and investment-grade credit fell. Only three of ten sectors advanced, with communications leading gains.",
+    "text": "The dollar and 10-year Treasury yields rose while high-yield credit fell. Only three of ten sectors advanced, with utilities leading the decline.",
     "short": "Dollar and long-term rates climbed as investors shunned risk.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T17:40:31.601694+00:00"
+  "generated_at": "2026-09-16T18:08:33.784280+00:00"
 }
