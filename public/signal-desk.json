@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T20:39:27.877701+00:00",
+  "as_of": "2026-09-16T21:09:03.192366+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.9\u03c3",
-      "change_percent": 1.59,
-      "z_score": 1.95,
+      "change_percent": 1.58,
+      "z_score": 1.94,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.6%",
-      "change_percent": -3.63,
-      "z_score": -1.04,
+      "delta": "-3.5%",
+      "change_percent": -3.54,
+      "z_score": -1.02,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -64,8 +64,8 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+6.3%",
-      "change_percent": 6.26,
+      "delta": "+6.2%",
+      "change_percent": 6.23,
       "z_score": 0.65,
       "risk_tone": "neutral",
       "notable": false
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -11.7,
+        "effect": -11.6,
         "tone": "risk_off"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "Gold",
-        "effect": 6.2,
+        "effect": 6.1,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     24.7,
     21.2,
     17.8,
-    19.1
+    19.0
   ],
   "narrative": {
-    "text": "The US dollar and 10-year Treasury yields climbed significantly. High-yield and investment-grade credit prices fell, and gold eased back.",
-    "short": "Dollar and long-term rates rose sharply while risky assets sold off.",
+    "text": "The dollar and long-term rates climbed significantly, pressuring high-yield credit and gold. Utilities and Technology were the weakest sectors, with only three of ten advancing.",
+    "short": "Dollar and long-term rates surged while high-yield credit and gold fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T20:39:28.358444+00:00"
+  "generated_at": "2026-09-16T21:09:03.729336+00:00"
 }
