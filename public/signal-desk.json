@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T13:38:22.598444+00:00",
+  "as_of": "2026-09-16T14:09:55.366635+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+14bp",
-      "change_percent": 2.94,
-      "z_score": 1.39,
+      "delta": "+13bp",
+      "change_percent": 2.73,
+      "z_score": 1.28,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.0%",
-      "change_percent": 0.95,
-      "z_score": 1.15,
+      "change_percent": 0.98,
+      "z_score": 1.19,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+8.3%",
-      "change_percent": 8.31,
-      "z_score": 0.92,
+      "delta": "+7.6%",
+      "change_percent": 7.63,
+      "z_score": 0.83,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.5%",
-      "change_percent": -1.48,
-      "z_score": -0.49,
+      "delta": "-1.8%",
+      "change_percent": -1.82,
+      "z_score": -0.57,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "16.7",
-      "change_percent": 1.64,
-      "z_score": 0.04,
+      "delta": "16.8",
+      "change_percent": 1.76,
+      "z_score": 0.05,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 3.2,
-        "z_score": 1.62
-      },
-      {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 1.08,
-        "z_score": 0.46
+        "change_percent": 3.15,
+        "z_score": 1.6
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.01,
-        "z_score": 0.25
+        "change_percent": 0.82,
+        "z_score": 0.17
+      },
+      {
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 0.7,
+        "z_score": 0.27
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.21,
-        "z_score": -1.56
+        "change_percent": -3.61,
+        "z_score": -1.75
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -1.43,
+        "z_score": -0.82
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": -1.57,
-        "z_score": -0.58
-      },
-      {
-        "symbol": "XLK",
-        "name": "Technology",
-        "change_percent": -1.49,
-        "z_score": -0.6
+        "change_percent": -1.38,
+        "z_score": -0.51
       }
     ],
     "breadth": 30,
@@ -129,18 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 27,
+    "score": 28,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": -8.3,
+        "effect": -7.7,
         "tone": "risk_off"
       },
       {
         "name": "US dollar index",
-        "effect": -6.9,
+        "effect": -7.1,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 2.9,
+        "effect": 3.4,
         "tone": "risk_on"
       }
     ]
@@ -186,17 +186,17 @@
     53.0,
     59.7,
     45.4,
-    15.5,
+    15.4,
     24.6,
     21.1,
     17.7,
-    27.2
+    28.1
   ],
   "narrative": {
-    "text": "Government bond yields climbed while corporate debt fell. Only three of ten sectors gained, with utilities and discretionary spending lagging.",
-    "short": "Long-term borrowing costs rose as investors moved into safe assets.",
+    "text": "Government bond yields rose while corporate debt and the dollar moved in opposite directions. Only three of ten stock sectors gained value.",
+    "short": "Long-term government bond yields climbed as investors fled risky assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T13:38:23.134153+00:00"
+  "generated_at": "2026-09-16T14:09:55.958875+00:00"
 }
