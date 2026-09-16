@@ -191,8 +191,13 @@ function Results({ backtest }: { backtest: Awaited<ReturnType<typeof getBacktest
   if (!backtest) return null
 
   return (
-    <div className="mt-6 overflow-x-auto">
-      <table className="w-full min-w-[30rem] text-[0.875rem]">
+    <div className="mt-6">
+      {/* `backtest-table` restacks this below 640px. It was a 30rem table in an
+          overflow-x-auto box, which kept the page from breaking but put the two
+          columns carrying the finding off the right edge of a phone, with
+          nothing to suggest they were there. This page is where people arrive
+          to check the claim, and most of them arrive on a phone. */}
+      <table className="backtest-table w-full text-[0.875rem]">
         <thead>
           <tr className="text-ink-3 border-rule border-b text-left">
             <th scope="col" className="eyebrow pb-2 font-normal">Verdict</th>
@@ -227,8 +232,12 @@ function Row({ bucket }: { bucket: BacktestBucket }) {
           <span className="text-ink-3 ml-2 text-[0.6875rem]">significant</span>
         )}
       </td>
-      <td className="tnum py-2.5 text-right font-mono">{bucket.count.toLocaleString()}</td>
-      <td className="tnum py-2.5 text-right font-mono">{bucket.mean_return.toFixed(2)}%</td>
+      <td data-label="readings" className="tnum py-2.5 text-right font-mono">
+        {bucket.count.toLocaleString()}
+      </td>
+      <td data-label="avg" className="tnum py-2.5 text-right font-mono">
+        {bucket.mean_return.toFixed(2)}%
+      </td>
       <td
         className={cn(
           'tnum py-2.5 text-right font-mono',

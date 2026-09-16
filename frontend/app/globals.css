@@ -181,3 +181,65 @@
   }
 }
 
+/*
+ * The backtest table, restacked for a phone.
+ *
+ * The ordering is the finding: read down the "vs holding" column and it flips
+ * from negative on the bullish verdicts to positive on the bearish ones. A
+ * plain stack would destroy that, because there is no column left to read
+ * down — so each verdict keeps its own line with that figure alone on the
+ * right, and the eye still tracks it down the page.
+ *
+ * The count and the average drop to a second line, labelled, since the header
+ * row cannot survive the stack. It stays one semantic table throughout: screen
+ * readers get the real thing at every width.
+ */
+@media (max-width: 639px) {
+  .backtest-table thead {
+    display: none;
+  }
+
+  .backtest-table tr {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 0.625rem 0;
+  }
+
+  .backtest-table td {
+    padding: 0;
+  }
+
+  /* The verdict and its result, side by side, on the first line. */
+  .backtest-table td:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .backtest-table td:nth-child(4) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* Supporting numbers underneath, quieter, each saying what it is. */
+  .backtest-table td:nth-child(2),
+  .backtest-table td:nth-child(3) {
+    grid-row: 2;
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--ink-3);
+  }
+
+  .backtest-table td:nth-child(2) {
+    grid-column: 1;
+    text-align: left;
+  }
+
+  .backtest-table td:nth-child(3) {
+    grid-column: 2;
+  }
+
+  .backtest-table td[data-label]::after {
+    content: " " attr(data-label);
+  }
+}
+
