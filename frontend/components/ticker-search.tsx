@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { searchTickers } from '@/lib/api'
 import { cn } from '@/lib/utils'
 import type { SearchResult } from '@/lib/types'
+import { trackSearch } from '@/lib/events'
 
 const DEBOUNCE_MS = 250
 
@@ -49,6 +50,7 @@ export function TickerSearch({
   }, [open])
 
   const choose = (ticker: string) => {
+    trackSearch(ticker)
     onSelect(ticker)
     setQuery('')
     setOpen(false)

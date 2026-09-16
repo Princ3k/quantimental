@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { PriceChart } from '@/components/price-chart'
+import { FilingLink } from '@/components/filing-link'
 import { SiteHeader } from '@/components/site-header'
 import { StockDetail } from '@/components/stock-detail'
 import { normalizeApiBase } from '@/lib/api'
@@ -281,14 +282,9 @@ export default async function StockPage({
                     share a day, which is all anyone can say. */}
                 It filed an 8-K with the SEC{' '}
                 {stock.f.u ? (
-                  <a
-                    href={stock.f.u}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink-2 hover:text-ink underline decoration-dotted underline-offset-2 transition-colors"
-                  >
+                  <FilingLink href={stock.f.u} ticker={stock.t} items={stock.f.i}>
                     {stock.f.p}
-                  </a>
+                  </FilingLink>
                 ) : (
                   <span className="text-ink-2">{stock.f.p}</span>
                 )}

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { analyzeDeep, ApiError } from '@/lib/api'
+import { trackDeepDive } from '@/lib/events'
 import type { StockSignal } from '@/lib/types'
 
 /**
@@ -28,6 +29,7 @@ export function DeepDive({
   const [message, setMessage] = useState<string | null>(null)
 
   const run = async () => {
+    trackDeepDive(ticker)
     setState('loading')
     setMessage(null)
     try {

@@ -140,7 +140,7 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
           </div>
 
           <div className="mt-8">
-            <UnusualFeed onPick={isFull ? undefined : add} />
+            <UnusualFeed onPick={isFull ? undefined : (t) => add(t, 'unusual-feed')} />
           </div>
 
         </section>
@@ -156,7 +156,11 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
               )}
             </div>
             <div className="flex items-end gap-5">
-              <TickerSearch onSelect={add} existing={tickers} disabled={isFull} />
+              <TickerSearch
+                onSelect={(t) => add(t, 'search')}
+                existing={tickers}
+                disabled={isFull}
+              />
               <button
                 type="button"
                 onClick={() => void refresh()}

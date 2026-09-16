@@ -3,6 +3,7 @@
 import { useCallback } from 'react'
 
 import { useStoredValue } from './use-local-storage'
+import { trackFollow, type FollowSource } from '@/lib/events'
 
 const STORAGE_KEY = 'quantimental.watchlist'
 
@@ -41,9 +42,12 @@ export function useWatchlist() {
   const [tickers, setTickers] = useStoredValue(STORAGE_KEY, DEFAULT_WATCHLIST, parseWatchlist)
 
   const add = useCallback(
-    (ticker: string) => {
+    (ticker: string, source: FollowSource = 'search') => {
       const symbol = ticker.trim().toUpperCase()
       if (!symbol || tickers.includes(symbol) || tickers.length >= MAX_WATCHLIST) return
+      // After the guard, so a duplicate or a full list is not counted as
+      // someone choosing to follow something.
+      trackFollow(symbol, source)
       setTickers([...tickers, symbol])
     },
     [tickers, setTickers],
