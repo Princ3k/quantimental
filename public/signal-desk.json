@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T21:09:03.192366+00:00",
+  "as_of": "2026-09-16T21:38:17.501571+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.9\u03c3",
-      "change_percent": 1.58,
-      "z_score": 1.94,
+      "change_percent": 1.56,
+      "z_score": 1.92,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -54,7 +54,7 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.5%",
-      "change_percent": -3.54,
+      "change_percent": -3.55,
       "z_score": -1.02,
       "risk_tone": "risk_on",
       "notable": true
@@ -65,7 +65,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+6.2%",
-      "change_percent": 6.23,
+      "change_percent": 6.22,
       "z_score": 0.65,
       "risk_tone": "neutral",
       "notable": false
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -11.6,
+        "effect": -11.5,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     24.7,
     21.2,
     17.8,
-    19.0
+    19.1
   ],
   "narrative": {
-    "text": "The dollar and long-term rates climbed significantly, pressuring high-yield credit and gold. Utilities and Technology were the weakest sectors, with only three of ten advancing.",
-    "short": "Dollar and long-term rates surged while high-yield credit and gold fell.",
+    "text": "The US dollar and 10-year Treasury yields rose significantly. High-yield and investment-grade credit prices fell, and gold eased back.",
+    "short": "Dollar and long-term rates climbed while risky assets sold off.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T21:09:03.729336+00:00"
+  "generated_at": "2026-09-16T21:38:18.054671+00:00"
 }
