@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T20:08:13.226670+00:00",
+  "as_of": "2026-09-16T20:25:30.835949+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.8\u03c3",
-      "change_percent": 1.5,
-      "z_score": 1.85,
+      "delta": "+1.9\u03c3",
+      "change_percent": 1.55,
+      "z_score": 1.9,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.4%",
-      "change_percent": -3.38,
-      "z_score": -0.98,
+      "delta": "-3.5%",
+      "change_percent": -3.49,
+      "z_score": -1.0,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+6.1%",
-      "change_percent": 6.14,
-      "z_score": 0.64,
+      "delta": "+6.3%",
+      "change_percent": 6.31,
+      "z_score": 0.66,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "17.6",
-      "change_percent": 7.17,
-      "z_score": 0.44,
+      "delta": "17.7",
+      "change_percent": 7.53,
+      "z_score": 0.47,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -94,14 +94,14 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.72,
+        "change_percent": 0.71,
         "z_score": 0.12
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 0.39,
-        "z_score": 0.1
+        "change_percent": 0.34,
+        "z_score": 0.08
       }
     ],
     "laggards": [
@@ -114,14 +114,14 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -2.07,
-        "z_score": -0.75
+        "change_percent": -2.1,
+        "z_score": -0.76
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": -2.05,
-        "z_score": -0.78
+        "change_percent": -2.03,
+        "z_score": -0.77
       }
     ],
     "breadth": 30,
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -11.1,
+        "effect": -11.4,
         "tone": "risk_off"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "Gold",
-        "effect": 5.9,
+        "effect": 6.0,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     24.7,
     21.2,
     17.8,
-    19.9
+    19.6
   ],
   "narrative": {
-    "text": "The dollar and long-term rates rose sharply, pressuring credit markets. Utilities and Technology led sector declines.",
-    "short": "Dollar and long-term rates surged while risky assets sold off.",
+    "text": "The dollar and long-term rates rose while credit markets weakened. Utilities and technology stocks fell, while communications and health care led gains.",
+    "short": "Dollar and long-term rates climbed as investors shunned risky assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T20:08:13.705126+00:00"
+  "generated_at": "2026-09-16T20:25:31.357513+00:00"
 }
