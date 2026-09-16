@@ -151,3 +151,33 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * A control that fades in on hover — but only where hover exists.
+ *
+ * Written here rather than as a Tailwind arbitrary variant because
+ * `[@media(hover:hover)]:opacity-0` compiles to a class with the escaped name
+ * and no at-rule at all, so it hides the element everywhere. The plain CSS is
+ * also the honest description of the rule.
+ *
+ * The default is visible. A touch screen has no hover, and an `opacity: 0`
+ * control there is worse than a missing one: it is still laid out and still
+ * tappable, so it gets hit by accident with nothing on screen to explain what
+ * happened.
+ */
+.reveal-on-hover {
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+@media (hover: hover) {
+  .reveal-on-hover {
+    opacity: 0;
+  }
+
+  .group:hover .reveal-on-hover,
+  .reveal-on-hover:focus-visible {
+    opacity: 1;
+  }
+}
+

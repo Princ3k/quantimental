@@ -70,7 +70,12 @@ export function StockCard({
             type="button"
             onClick={() => onRemove(signal.ticker)}
             aria-label={`Remove ${signal.ticker}`}
-            className="text-ink-3 hover:text-ink -mt-1 -mr-1 shrink-0 rounded p-1.5 text-xs opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+            /* `reveal-on-hover` keeps this visible on touch. It was
+               unconditionally opacity-0, which on a phone is worse than a
+               missing control: still laid out, still tappable, invisible. Most
+               of this traffic arrives from the LinkedIn app, so touch is the
+               main surface rather than the exception. */
+            className="reveal-on-hover text-ink-3 hover:text-ink -mt-1 -mr-1 shrink-0 rounded p-1.5 text-xs"
           >
             Remove
           </button>
