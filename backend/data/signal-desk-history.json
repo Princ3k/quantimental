@@ -16,5 +16,11 @@
     "score": 18,
     "label": "Risk-off",
     "tone": "risk_off"
+  },
+  {
+    "date": "2026-09-16",
+    "score": 26,
+    "label": "Risk-off",
+    "tone": "risk_off"
   }
 ]
