@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { SiteHeader } from '@/components/site-header'
-import { DAILY_SLOTS, describeAge, getOps, minutesSince, type Run } from '@/lib/ops'
+import { SCHEDULES, describeAge, getOps, minutesSince, slotsDue, type Run } from '@/lib/ops'
 import { sessionLabel } from '@/lib/session'
 
 /* A minute. The point of the page is telling you what just happened, and a
@@ -132,23 +132,33 @@ export default async function OpsPage() {
 
         <Section title="Schedulers">
           {runs ? (
-            Object.entries(DAILY_SLOTS).map(([name, slots]) => {
+            SCHEDULES.map(({ name, slots }) => {
               const { cron, dispatch } = schedulerTally(runs, name)
+              const due = slotsDue(slots)
               // Both schedulers can cover the same slot, so runs can exceed
-              // slots. The honest figure is how much of the day got covered —
-              // capped — with the breakdown of who actually did it.
-              const covered = Math.min(cron + dispatch, slots)
+              // what was due. The figure is coverage of what should have run
+              // by now, capped — not a count of runs.
+              const covered = Math.min(cron + dispatch, due)
               return (
                 <Row key={name} label={name.replace('Publish ', '')}>
-                  <span className="tnum">
-                    <Status ok={covered >= slots}>
-                      {covered} / {slots} slots
-                    </Status>
+                  {due === 0 ? (
+                    // Nothing due yet is not nothing working. Before the first
+                    // slot of a weekday, and all weekend, there is no coverage
+                    // to report and a red mark would be a lie.
                     <span className="text-ink-3">
-                      {' '}
-                      · GitHub {cron} · Railway {dispatch}
+                      none due yet · {slots.length} today
                     </span>
-                  </span>
+                  ) : (
+                    <span className="tnum">
+                      <Status ok={covered >= due}>
+                        {covered} / {due} due
+                      </Status>
+                      <span className="text-ink-3">
+                        {' '}
+                        · GitHub {cron} · Railway {dispatch}
+                      </span>
+                    </span>
+                  )}
                 </Row>
               )
             })

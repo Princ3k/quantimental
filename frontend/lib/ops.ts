@@ -17,10 +17,60 @@ const HEALTH_URL = `${process.env.NEXT_PUBLIC_API_URL ?? ''}/health`
 const RUNS_URL =
   'https://api.github.com/repos/Princ3k/quantimental/actions/runs?per_page=40'
 
-/** Slots each workflow is scheduled for on a weekday, for a coverage figure. */
-export const DAILY_SLOTS: Record<string, number> = {
-  'Publish Unusual Moves': 9,
-  'Publish Signal Desk': 18,
+/**
+ * When each workflow is scheduled, in UTC, mirroring the cron blocks.
+ *
+ * The times rather than a count, because the useful question is not "how many
+ * runs should happen today" but "how many should have happened by now". A page
+ * that reports nine missing runs at one in the morning, when the first is not
+ * due until the afternoon, is reporting a failure that has not occurred — and
+ * a red mark that appears every night is one nobody reads by the end of the
+ * week.
+ */
+export const SCHEDULES: { name: string; slots: { hour: number; minute: number }[] }[] = [
+  {
+    name: 'Publish Unusual Moves',
+    // 13 14-21 * * 1-5, plus 43 21 * * 1-5
+    slots: [
+      ...Array.from({ length: 8 }, (_, i) => ({ hour: 14 + i, minute: 13 })),
+      { hour: 21, minute: 43 },
+    ],
+  },
+  {
+    name: 'Publish Signal Desk',
+    // 7,37 13-21 * * 1-5
+    slots: Array.from({ length: 9 }, (_, i) => [
+      { hour: 13 + i, minute: 7 },
+      { hour: 13 + i, minute: 37 },
+    ]).flat(),
+  },
+]
+
+/**
+ * How long after a slot before its absence counts as missing.
+ *
+ * GitHub's scheduler has been observed running more than half an hour late,
+ * and a run that is merely late is not a run that failed. Marking one missing
+ * the instant its minute passes would put a red mark on the page for the few
+ * minutes after every slot.
+ */
+const GRACE_MINUTES = 35
+
+/**
+ * Slots that should have produced a run by now, on this UTC day.
+ *
+ * Zero on a weekend, and zero before the first slot of a weekday — in both
+ * cases nothing is due, which is a different statement from nothing ran.
+ */
+export function slotsDue(
+  slots: { hour: number; minute: number }[],
+  now: Date = new Date(),
+): number {
+  const day = now.getUTCDay()
+  if (day === 0 || day === 6) return 0
+
+  const minutesNow = now.getUTCHours() * 60 + now.getUTCMinutes()
+  return slots.filter((s) => minutesNow >= s.hour * 60 + s.minute + GRACE_MINUTES).length
 }
 
 interface ErrorReporting {
