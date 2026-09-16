@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-16T20:25:30.835949+00:00",
+  "as_of": "2026-09-16T20:39:27.877701+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.9\u03c3",
-      "change_percent": 1.55,
-      "z_score": 1.9,
+      "change_percent": 1.59,
+      "z_score": 1.95,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-1.5\u03c3",
-      "change_percent": -0.65,
-      "z_score": -1.54,
+      "delta": "-1.7\u03c3",
+      "change_percent": -0.71,
+      "z_score": -1.68,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.5%",
-      "change_percent": -3.49,
-      "z_score": -1.0,
+      "delta": "-3.6%",
+      "change_percent": -3.63,
+      "z_score": -1.04,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -65,8 +65,8 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+6.3%",
-      "change_percent": 6.31,
-      "z_score": 0.66,
+      "change_percent": 6.26,
+      "z_score": 0.65,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,7 +76,7 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "17.7",
-      "change_percent": 7.53,
+      "change_percent": 7.59,
       "z_score": 0.47,
       "risk_tone": "risk_off",
       "notable": false
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 20,
+    "score": 19,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -11.4,
+        "effect": -11.7,
         "tone": "risk_off"
       },
       {
@@ -145,12 +145,12 @@
       },
       {
         "name": "Credit complex",
-        "effect": -8.0,
+        "effect": -8.5,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 6.0,
+        "effect": 6.2,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     24.7,
     21.2,
     17.8,
-    19.6
+    19.1
   ],
   "narrative": {
-    "text": "The dollar and long-term rates rose while credit markets weakened. Utilities and technology stocks fell, while communications and health care led gains.",
-    "short": "Dollar and long-term rates climbed as investors shunned risky assets.",
+    "text": "The US dollar and 10-year Treasury yields climbed significantly. High-yield and investment-grade credit prices fell, and gold eased back.",
+    "short": "Dollar and long-term rates rose sharply while risky assets sold off.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-16T20:25:31.357513+00:00"
+  "generated_at": "2026-09-16T20:39:28.358444+00:00"
 }
