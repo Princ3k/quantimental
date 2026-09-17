@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T20:39:49.043499+00:00",
+  "as_of": "2026-09-17T21:09:03.988486+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,7 +9,7 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.1%",
+      "delta": "+1.2%",
       "change_percent": 1.15,
       "z_score": 1.39,
       "risk_tone": "risk_off",
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.26,
-      "z_score": -0.33,
+      "delta": "-1.4%",
+      "change_percent": -1.38,
+      "z_score": -0.34,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -54,7 +54,7 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-0.6%",
-      "change_percent": -0.56,
+      "change_percent": -0.59,
       "z_score": -0.25,
       "risk_tone": "risk_on",
       "notable": false
@@ -193,10 +193,10 @@
     52.6
   ],
   "narrative": {
-    "text": "The dollar strengthened sharply and volatility eased. Oil and gold declined, while health care and technology led sector gains.",
-    "short": "Dollar surged and volatility eased while oil and gold slid.",
+    "text": "The dollar strengthened and market volatility dropped. Health care and technology sectors gained, while utilities and financials declined.",
+    "short": "Dollar rose and volatility eased as health care and technology led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T20:39:49.531883+00:00"
+  "generated_at": "2026-09-17T21:09:04.469669+00:00"
 }
