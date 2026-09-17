@@ -25,6 +25,7 @@ from discord.ext import tasks
 import render
 import schedule
 from client import ApiUnavailable, QuantimentalClient
+from misses import Misses
 from store import MAX_PER_GUILD, Watchlists, check_durability
 
 logging.basicConfig(
@@ -48,6 +49,8 @@ class QuantimentalBot(discord.Client):
         self.tree = app_commands.CommandTree(self)
         self.api = QuantimentalClient()
         self.lists = Watchlists()
+        # Which tickers people ask for that the universe does not cover.
+        self.misses = Misses()
 
     async def setup_hook(self) -> None:
         # Says in the deploy logs whether watchlists will survive a redeploy.
@@ -100,6 +103,10 @@ class QuantimentalBot(discord.Client):
         watched = self.lists.get(guild_id)
         mine = [rows[t] for t in watched if t in rows]
         missing = [t for t in watched if t not in rows]
+        # A watched ticker that is never covered is the stronger signal: someone
+        # wanted it tracked daily, not just looked up once.
+        for ticker in missing:
+            self.misses.record(ticker, guild_id)
 
         embed = render.digest(
             mine, as_of=batch.as_of, generated_at=batch.generated_at, missing=missing
@@ -133,8 +140,11 @@ async def stock(interaction: discord.Interaction, ticker: str) -> None:
 
     found = batch.by_ticker().get(ticker.strip().upper())
     if not found:
+        # The answer to "should the universe expand, and to what" is this list.
+        bot.misses.record(ticker, interaction.guild_id)
         await interaction.followup.send(
-            f"{ticker.upper()} is not in the covered universe (the S&P 500)."
+            f"{ticker.upper()} is not in the covered universe (the S&P 500) yet. "
+            "It has been noted — what people ask for is how the universe grows."
         )
         return
     await interaction.followup.send(embed=render.one(found))
@@ -160,6 +170,36 @@ async def market(interaction: discord.Interaction) -> None:
         await interaction.followup.send("Quantimental is unreachable right now.")
         return
     await interaction.followup.send(embed=render.desk(payload))
+
+
+@bot.tree.command(description="Tickers people asked for that are not covered. Bot owner only.")
+async def misses(interaction: discord.Interaction) -> None:
+    """Data left on a volume nobody reads is data nobody acts on."""
+    app = await bot.application_info()
+    owner = app.team.owner_id if app.team else app.owner.id
+    if interaction.user.id != owner:
+        await interaction.response.send_message(
+            "That one is for whoever runs the bot.", ephemeral=True
+        )
+        return
+
+    ranked = bot.misses.ranked()
+    if not ranked:
+        await interaction.response.send_message(
+            "Nothing asked for yet that is outside the universe.", ephemeral=True
+        )
+        return
+
+    lines = [
+        f"**{ticker}** — {row['count']}x across {len(row['guilds'])} server(s), "
+        f"first {row['first']}"
+        for ticker, row in ranked
+    ]
+    body = (
+        f"{bot.misses.distinct()} tickers, {bot.misses.total()} requests.\n\n"
+        + "\n".join(lines)
+    )
+    await interaction.response.send_message(body[:1900], ephemeral=True)
 
 
 watch = app_commands.Group(name="watch", description="The tickers this server follows.")

@@ -12,6 +12,7 @@ tests. Anything this bot phrased itself would not be.
 | `/stock TICKER` | What one stock did this session. |
 | `/unusual` | Stocks that moved far beyond their own normal today. |
 | `/market` | What the market as a whole did today. |
+| `/misses` | Tickers people asked for that are not covered. Bot owner only. |
 | `/watch add TICKER` | Follow a ticker. Manage-server permission. |
 | `/watch remove TICKER` | Stop following one. |
 | `/watch list` | What this server follows. |
@@ -93,5 +94,29 @@ ERROR State path /data/watchlists.json is not inside the mounted volume /app/dat
 ## Tests
 
 ```bash
-python -m pytest        # 56 tests, no network
+python -m pytest        # 68 tests, no network
 ```
+
+## Measuring the universe gap
+
+The covered universe is the S&P 500. The first ticker reached for in testing
+was KAZR, which is not in it — and small caps are most of the conversation in a
+stock server, so the refusal will be a common first interaction.
+
+Whether to expand, and to what, is a real question, and `misses.py` answers it
+the way the 8-K question was answered: by measuring first. Every refused ticker
+is recorded — from `/stock` and from a watched ticker the digest could not
+cover, which is the stronger signal, since someone wanted it tracked daily
+rather than looked up once. `/misses` ranks them, breadth before volume: one
+person hammering a ticker is a person, five servers asking once each is a gap.
+
+**Not recorded:** who asked. No user ids, no usernames, no message content.
+Servers are counted but not identified — a guild id is stored as an eight-
+character digest, so "eleven servers asked for this" is answerable and "which
+servers" is not. Most of these requests come from other people's communities,
+and the ranked list is the entire point.
+
+One thing to settle before acting on the list: `mkt` in the published snapshot
+is the median of the *scanned universe*, so expanding it silently redefines
+"the market" in every attribution sentence, Apple's included. Compute the
+market median from a fixed benchmark basket first, then grow the universe.
