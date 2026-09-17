@@ -10,10 +10,17 @@ tests. Anything this bot phrased itself would not be.
 | | |
 |---|---|
 | `/stock TICKER` | What one stock did this session. |
+| `/unusual` | Stocks that moved far beyond their own normal today. |
+| `/market` | What the market as a whole did today. |
 | `/watch add TICKER` | Follow a ticker. Manage-server permission. |
 | `/watch remove TICKER` | Stop following one. |
 | `/watch list` | What this server follows. |
 | `/watch here` | Post the daily digest in this channel. |
+
+`/unusual` reads `/api/v1/market/unusual` and `/market` reads
+`/api/v1/market/desk` — both cached published files. Note that `/market/desk`
+is not `/market/signal-desk`: the latter recomputes from Yahoo and an LLM on
+every call, which is not something to put behind a command anyone can spam.
 
 Slash commands, not `@mentions`. That avoids the message-content intent, which
 needs Discord's approval past 75 servers and would mean reading every message
@@ -86,5 +93,5 @@ ERROR State path /data/watchlists.json is not inside the mounted volume /app/dat
 ## Tests
 
 ```bash
-python -m pytest        # 50 tests, no network
+python -m pytest        # 56 tests, no network
 ```

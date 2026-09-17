@@ -76,6 +76,20 @@ class Explanation:
 
 
 @dataclass(frozen=True)
+class Unusual:
+    """Today's unusual moves, and the threshold that defined "unusual"."""
+
+    as_of: Optional[str]
+    generated_at: Optional[str]
+    scanned: Optional[int]
+    count: int
+    movers: list[dict[str, Any]]
+    biggest: list[dict[str, Any]]
+    threshold: dict[str, Any]
+    disclosure: str
+
+
+@dataclass(frozen=True)
 class Batch:
     """What one call returned, and what it could not answer."""
 
@@ -140,6 +154,46 @@ class QuantimentalClient:
             explanations=[Explanation.from_payload(r) for r in rows],
             not_found=[t.upper() for t in (payload.get("not_found") or [])],
         )
+
+    async def unusual(self, limit: int = 10) -> Unusual:
+        """Stocks that moved far relative to their own normal, this session."""
+        payload = await self._get("/api/v1/market/unusual", {"limit": limit})
+        if not payload.get("available"):
+            raise ApiUnavailable(payload.get("reason") or "No published scan.")
+        return Unusual(
+            as_of=payload.get("as_of"),
+            generated_at=payload.get("generated_at"),
+            scanned=payload.get("scanned"),
+            count=payload.get("count") or 0,
+            movers=payload.get("movers") or [],
+            biggest=payload.get("biggest") or [],
+            threshold=payload.get("threshold") or {},
+            disclosure=payload.get("disclosure", ""),
+        )
+
+    async def desk(self) -> dict[str, Any]:
+        """The Signal Desk as last published.
+
+        Deliberately /market/desk and not /market/signal-desk: the latter
+        recomputes from Yahoo and an LLM on every call, which is not something
+        to put behind a slash command anyone can spam.
+        """
+        payload = await self._get("/api/v1/market/desk", None)
+        if not payload.get("available"):
+            raise ApiUnavailable(payload.get("reason") or "No published desk.")
+        return payload
+
+    async def _get(self, path: str, params: Optional[dict[str, Any]]) -> dict[str, Any]:
+        try:
+            async with httpx.AsyncClient(timeout=self._timeout) as http:
+                response = await http.get(f"{self._base}{path}", params=params)
+                response.raise_for_status()
+                return response.json()
+        except ApiUnavailable:
+            raise
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("GET %s failed: %s", path, exc)
+            raise ApiUnavailable(str(exc)) from exc
 
 
 def _normalise(tickers: list[str]) -> list[str]:

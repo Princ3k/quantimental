@@ -140,6 +140,28 @@ async def stock(interaction: discord.Interaction, ticker: str) -> None:
     await interaction.followup.send(embed=render.one(found))
 
 
+@bot.tree.command(description="Stocks that moved far beyond their own normal today.")
+async def unusual(interaction: discord.Interaction) -> None:
+    await interaction.response.defer()
+    try:
+        feed = await bot.api.unusual()
+    except ApiUnavailable:
+        await interaction.followup.send("Quantimental is unreachable right now.")
+        return
+    await interaction.followup.send(embed=render.unusual(feed))
+
+
+@bot.tree.command(description="What the market as a whole did today.")
+async def market(interaction: discord.Interaction) -> None:
+    await interaction.response.defer()
+    try:
+        payload = await bot.api.desk()
+    except ApiUnavailable:
+        await interaction.followup.send("Quantimental is unreachable right now.")
+        return
+    await interaction.followup.send(embed=render.desk(payload))
+
+
 watch = app_commands.Group(name="watch", description="The tickers this server follows.")
 
 

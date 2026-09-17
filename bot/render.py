@@ -172,3 +172,128 @@ def digest(
         footer_parts.append(explanations[0].disclosure)
     embed.set_footer(text="\n".join(footer_parts))
     return embed
+
+
+def unusual(feed) -> discord.Embed:
+    """Today's unusual moves.
+
+    Two rules this holds, both easy to undo by accident:
+
+    - The threshold is stated. "Unusual" is a measured claim — a multiple of
+      each stock's own typical daily range — and a reader cannot judge the list
+      without knowing what bar it cleared.
+    - A quiet day says so. `biggest` is carried by the API but is *not* a list
+      of unusual moves, so when nothing qualifies this says nothing qualified
+      rather than promoting the largest ordinary move to fill the space. The
+      product describes silence; so does this.
+    """
+    embed = discord.Embed(title="Unusual moves today", colour=FLAT)
+
+    if feed.movers:
+        lines = []
+        for m in feed.movers:
+            arrow = "▲" if m.get("direction") == "up" else "▼"
+            # The API's own headline, which already carries the multiple and
+            # the typical move. Nothing is rephrased here.
+            lines.append(f"{arrow} **{m.get('ticker')}** — {m.get('headline') or ''}".rstrip(" —"))
+        embed.description = "\n".join(lines)
+
+        for m in feed.movers[:3]:
+            if m.get("context"):
+                embed.add_field(name=m.get("ticker", "—"), value=m["context"], inline=False)
+    else:
+        embed.description = (
+            "Nothing moved unusually today — no stock cleared the threshold below."
+        )
+        if feed.biggest:
+            largest = feed.biggest[0]
+            embed.add_field(
+                name="Largest ordinary move",
+                value=(
+                    f"**{largest.get('ticker')}** {_pct(largest.get('change_percent'))}, "
+                    f"{largest.get('multiple')}x its typical "
+                    f"{_pct(largest.get('typical_percent'))} day — which is "
+                    f"within its normal range."
+                ),
+                inline=False,
+            )
+
+    bar = feed.threshold or {}
+    if bar:
+        embed.add_field(
+            name="What counts as unusual",
+            value=(
+                f"A move of at least {bar.get('min_move_percent')}% that is also "
+                f"{bar.get('multiple')}x the stock's own typical daily range. "
+                f"Scanned {feed.scanned or '—'} companies."
+            ),
+            inline=False,
+        )
+
+    footer = []
+    if feed.as_of:
+        footer.append(f"Session of {feed.as_of}")
+    notice = stale_notice(feed.generated_at)
+    if notice:
+        footer.append(notice)
+    if feed.disclosure:
+        footer.append(feed.disclosure)
+    embed.set_footer(text="\n".join(footer))
+    return embed
+
+
+def desk(payload: dict) -> discord.Embed:
+    """The Signal Desk: the market as a whole, as last published."""
+    composite = payload.get("composite") or {}
+    narrative = payload.get("narrative") or {}
+    sectors = payload.get("sectors") or {}
+
+    embed = discord.Embed(
+        title="Market today",
+        description=narrative.get("text") or narrative.get("short") or "",
+        colour=FLAT,
+    )
+
+    score = composite.get("score")
+    if score is not None:
+        # Named exactly as the site names it. A number out of 100 with a
+        # different label in each place it appears is how two descriptions of
+        # one measurement start to disagree.
+        embed.add_field(
+            name="Risk appetite",
+            value=f"**{score}** / 100 · {composite.get('label') or ''}".strip(" ·"),
+            inline=False,
+        )
+
+    notable = [s for s in (payload.get("signals") or []) if s.get("notable")]
+    if notable:
+        embed.add_field(
+            name="What moved",
+            value="\n".join(
+                f"{'▲' if s.get('direction') == 'up' else '▼'} {s.get('text')} "
+                f"({s.get('delta')})"
+                for s in notable[:6]
+            ),
+            inline=False,
+        )
+
+    if sectors.get("available"):
+        leaders = ", ".join(s.get("name", "") for s in (sectors.get("leaders") or [])[:3])
+        laggards = ", ".join(s.get("name", "") for s in (sectors.get("laggards") or [])[:3])
+        if leaders or laggards:
+            embed.add_field(
+                name="Sectors",
+                value=f"Leading: {leaders or '—'}\nLagging: {laggards or '—'}",
+                inline=False,
+            )
+
+    footer = []
+    if payload.get("as_of"):
+        footer.append(f"Session of {str(payload['as_of'])[:10]}")
+    notice = stale_notice(payload.get("generated_at"))
+    if notice:
+        footer.append(notice)
+    if payload.get("disclosure"):
+        footer.append(payload["disclosure"])
+    embed.set_footer(text="\n".join(footer))
+    return embed

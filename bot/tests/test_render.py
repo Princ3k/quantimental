@@ -77,3 +77,66 @@ class TestDigest:
             [row()], as_of="2026-09-17", generated_at=None, missing=["ZZZZ"]
         )
         assert "ZZZZ" in [f.value for f in embed.fields][0]
+
+
+class TestUnusual:
+    def _feed(self, movers=None, biggest=None):
+        from client import Unusual
+        return Unusual(
+            as_of="2026-09-17",
+            generated_at=datetime.now(timezone.utc).isoformat(),
+            scanned=503,
+            count=len(movers or []),
+            movers=movers or [],
+            biggest=biggest or [],
+            threshold={"multiple": 2.0, "min_move_percent": 1.5},
+            disclosure="Descriptive only. Not investment advice, and not a forecast.",
+        )
+
+    def test_uses_the_api_headline_verbatim(self):
+        head = "Generac is up 17.6% today, 3.9x its typical 4.5% daily move."
+        embed = render.unusual(self._feed([
+            {"ticker": "GNRC", "direction": "up", "headline": head},
+        ]))
+        assert head in embed.description
+
+    def test_states_the_threshold(self):
+        # "Unusual" is a measured claim; the list cannot be judged without it.
+        embed = render.unusual(self._feed([{"ticker": "GNRC", "direction": "up"}]))
+        bar = [f for f in embed.fields if f.name == "What counts as unusual"][0]
+        assert "2.0x" in bar.value and "1.5%" in bar.value and "503" in bar.value
+
+    def test_a_quiet_day_says_nothing_qualified(self):
+        embed = render.unusual(self._feed(movers=[], biggest=[
+            {"ticker": "SMCI", "change_percent": 9.9, "multiple": 1.7, "typical_percent": 5.96},
+        ]))
+        assert "Nothing moved unusually" in embed.description
+
+    def test_a_quiet_day_does_not_promote_the_largest_ordinary_move(self):
+        # The failure to avoid: dressing the biggest ordinary move up as news
+        # because the unusual list was empty.
+        embed = render.unusual(self._feed(movers=[], biggest=[
+            {"ticker": "SMCI", "change_percent": 9.9, "multiple": 1.7, "typical_percent": 5.96},
+        ]))
+        largest = [f for f in embed.fields if f.name == "Largest ordinary move"][0]
+        assert "within its normal range" in largest.value
+
+
+class TestDesk:
+    def test_renders_the_published_narrative_and_score(self):
+        embed = render.desk({
+            "as_of": "2026-09-17T18:08:08+00:00",
+            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "composite": {"score": 37, "label": "Mixed"},
+            "narrative": {"text": "The US dollar strengthened."},
+            "signals": [
+                {"text": "Dollar strengthening", "direction": "up", "delta": "+1.2%", "notable": True},
+                {"text": "Quiet thing", "direction": "up", "delta": "+0.1%", "notable": False},
+            ],
+            "disclosure": "Descriptive only. Not investment advice, and not a forecast.",
+        })
+        assert embed.description == "The US dollar strengthened."
+        assert "37" in [f for f in embed.fields if f.name == "Risk appetite"][0].value
+        moved = [f for f in embed.fields if f.name == "What moved"][0]
+        assert "Dollar strengthening" in moved.value
+        assert "Quiet thing" not in moved.value   # only notable signals

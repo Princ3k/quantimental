@@ -52,3 +52,12 @@ class TestGuards:
     async def test_over_the_cap_is_refused_before_it_is_sent(self):
         with pytest.raises(ValueError, match=str(MAX_PER_CALL)):
             await QuantimentalClient().explain([f"AA{chr(65 + i % 26)}{i}" for i in range(MAX_PER_CALL + 1)])
+
+
+class TestClientSurface:
+    def test_the_methods_are_on_the_class_not_nested_in_a_helper(self):
+        # They were appended to the end of the module once, which put them
+        # inside _normalise's body: valid Python, and the client silently had
+        # no unusual() at all.
+        for name in ("explain", "unusual", "desk"):
+            assert callable(getattr(QuantimentalClient, name, None)), name
