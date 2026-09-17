@@ -27,7 +27,56 @@ from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
-STORE_PATH = Path(os.environ.get("WATCHLIST_PATH") or "/data/watchlists.json")
+def default_path() -> Path:
+    """Where state lives when WATCHLIST_PATH does not say.
+
+    Railway sets RAILWAY_VOLUME_MOUNT_PATH itself whenever a volume is attached,
+    so deriving the default from it means the file lands on the volume without
+    anyone having to make two settings agree. Getting that wrong is silent: the
+    bot creates the directory, writes happily to container storage, answers
+    /watch list correctly — and loses everything on the next deploy, which is
+    exactly what happened the first time this ran.
+    """
+    mount = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+    if mount:
+        return Path(mount) / "watchlists.json"
+    return Path("/data/watchlists.json")
+
+
+STORE_PATH = (
+    Path(os.environ["WATCHLIST_PATH"])
+    if os.environ.get("WATCHLIST_PATH")
+    else default_path()
+)
+
+
+def check_durability(path: Path = STORE_PATH) -> bool:
+    """Log whether this path will actually survive a redeploy.
+
+    Returns True when the state file is on a mounted volume. Logged at error
+    level when it is not, because the alternative is finding out a week later
+    that every server's watchlist has been quietly resetting.
+    """
+    mount = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH")
+    if not mount:
+        logger.error(
+            "No volume is attached (RAILWAY_VOLUME_MOUNT_PATH is unset). State at "
+            "%s is on container storage and will be lost on the next deploy.",
+            path,
+        )
+        return False
+    try:
+        path.resolve().relative_to(Path(mount).resolve())
+    except ValueError:
+        logger.error(
+            "State path %s is not inside the mounted volume %s. It will be lost "
+            "on the next deploy. Unset WATCHLIST_PATH to use the volume.",
+            path,
+            mount,
+        )
+        return False
+    logger.info("State at %s is on the volume mounted at %s.", path, mount)
+    return True
 
 # Per guild. High enough that nobody legitimate hits it, low enough that many
 # servers together stay well under the endpoint's hundred-ticker cap.
@@ -40,6 +89,9 @@ class Watchlists:
     def __init__(self, path: Path = STORE_PATH) -> None:
         self._path = path
         self._lock = threading.Lock()
+        # Exposed so the startup check can report the path actually in use
+        # rather than re-deriving it and possibly disagreeing.
+        self.path = path
         self._guilds: dict[str, dict[str, Any]] = self._read()
 
     # -- reading -----------------------------------------------------------

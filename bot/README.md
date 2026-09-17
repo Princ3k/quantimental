@@ -60,15 +60,28 @@ DISCORD_BOT_TOKEN=... WATCHLIST_PATH=./state.json python main.py
 | Variable | |
 |---|---|
 | `DISCORD_BOT_TOKEN` | From the Discord developer portal. Required. |
-| `WATCHLIST_PATH` | State file. Defaults to `/data/watchlists.json` — on Railway, a volume mount. |
+| `WATCHLIST_PATH` | State file. Leave unset on Railway — the default follows the attached volume. |
 | `QUANTIMENTAL_API` | Defaults to `https://api.thequantimental.com`. |
 
 State is one JSON file written to a temporary file and renamed, so a crash
-mid-write leaves the previous file intact. It needs a Railway **volume** at
-`/data`; without one the watchlists are lost on every deploy.
+mid-write leaves the previous file intact.
+
+It needs a Railway **volume**, and the path follows that volume automatically:
+Railway sets `RAILWAY_VOLUME_MOUNT_PATH` when one is attached, and the default
+state path is derived from it. Do not set `WATCHLIST_PATH` on Railway — hard-
+coding a path that does not match the mount is the one way to get this wrong,
+and it fails silently. The bot writes happily to container storage, answers
+`/watch list` correctly, and loses everything on the next deploy.
+
+`check_durability()` runs at startup and says which case you are in:
+
+```
+INFO  State at /app/data/watchlists.json is on the volume mounted at /app/data.
+ERROR State path /data/watchlists.json is not inside the mounted volume /app/data.
+```
 
 ## Tests
 
 ```bash
-python -m pytest        # 41 tests, no network
+python -m pytest        # 45 tests, no network
 ```

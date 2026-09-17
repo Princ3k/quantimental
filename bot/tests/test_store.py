@@ -1,5 +1,9 @@
 import json
+import pathlib
+
 import pytest
+
+import store
 
 from store import MAX_PER_GUILD, Watchlists, clean
 
@@ -106,3 +110,33 @@ class TestPersistence:
         # No staging file left behind, and what landed is valid JSON.
         assert not list(tmp_path.glob(".*.tmp"))
         assert json.loads(path.read_text())["guilds"]["1"]["tickers"] == ["AAPL"]
+
+
+class TestDurability:
+    def test_the_volume_mount_supplies_the_default(self, monkeypatch):
+        # Railway sets this itself when a volume is attached, so deriving the
+        # default from it removes the chance of two settings disagreeing.
+        monkeypatch.setenv("RAILWAY_VOLUME_MOUNT_PATH", "/mnt/state")
+        import importlib
+        import store as store_module
+        importlib.reload(store_module)
+        assert store_module.default_path() == pathlib.Path("/mnt/state/watchlists.json")
+
+    def test_no_volume_is_reported_as_not_durable(self, monkeypatch, tmp_path, caplog):
+        monkeypatch.delenv("RAILWAY_VOLUME_MOUNT_PATH", raising=False)
+        with caplog.at_level("ERROR"):
+            assert store.check_durability(tmp_path / "state.json") is False
+        assert "lost on the next deploy" in caplog.text
+
+    def test_a_path_outside_the_volume_is_reported(self, monkeypatch, tmp_path, caplog):
+        # The failure that actually happened: a volume exists, but the state
+        # file is written somewhere else on container storage.
+        monkeypatch.setenv("RAILWAY_VOLUME_MOUNT_PATH", str(tmp_path / "volume"))
+        (tmp_path / "volume").mkdir()
+        with caplog.at_level("ERROR"):
+            assert store.check_durability(tmp_path / "elsewhere.json") is False
+        assert "not inside the mounted volume" in caplog.text
+
+    def test_a_path_on_the_volume_is_durable(self, monkeypatch, tmp_path):
+        monkeypatch.setenv("RAILWAY_VOLUME_MOUNT_PATH", str(tmp_path))
+        assert store.check_durability(tmp_path / "watchlists.json") is True

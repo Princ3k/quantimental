@@ -25,7 +25,7 @@ from discord.ext import tasks
 import render
 import schedule
 from client import ApiUnavailable, QuantimentalClient
-from store import MAX_PER_GUILD, Watchlists
+from store import MAX_PER_GUILD, Watchlists, check_durability
 
 logging.basicConfig(
     level=logging.INFO,
@@ -50,6 +50,10 @@ class QuantimentalBot(discord.Client):
         self.lists = Watchlists()
 
     async def setup_hook(self) -> None:
+        # Says in the deploy logs whether watchlists will survive a redeploy.
+        # It does not refuse to start: a bot that answers /stock is still worth
+        # running, and the operator is the one who can fix the mount.
+        check_durability(self.lists.path)
         await self.tree.sync()
         self.daily.start()
 
