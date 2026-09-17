@@ -14,6 +14,7 @@ committed, because Vercel's build image has no Python.
 """
 
 import re
+import struct
 import sys
 from pathlib import Path
 
@@ -80,11 +81,44 @@ def tile(px, radius_frac=0.0, scale=0.80):
     return img.resize((px, px), Image.LANCZOS)
 
 
+def ico_bytes(images):
+    """Pack an ICO with BMP-encoded entries.
+
+    Pillow's own ICO writer PNG-compresses every entry. The format only really
+    sanctions that at 256x256, and Safari will not reliably decode a PNG entry
+    at tab sizes — it silently falls back to whatever icon it cached before,
+    which is exactly how the Vercel triangle survived the first attempt at
+    this. BMP entries are the boring, universally understood form.
+    """
+    entries, blobs = [], []
+    offset = 6 + 16 * len(images)
+    for img in images:
+        w, h = img.size
+        px = img.convert("RGBA").load()
+        xor = bytearray()
+        for y in range(h - 1, -1, -1):  # BMP rows run bottom-up
+            for x in range(w):
+                r, g, b, a = px[x, y]
+                xor += bytes((b, g, r, a))
+        stride = ((w + 31) // 32) * 4   # 1bpp AND mask, rows padded to 4 bytes
+        mask = bytes(stride * h)        # opaque throughout; alpha lives in xor
+        # BITMAPINFOHEADER, with doubled height to cover the mask.
+        head = struct.pack("<IiiHHIIiiII", 40, w, h * 2, 1, 32, 0,
+                           len(xor) + len(mask), 0, 0, 0, 0)
+        blob = head + bytes(xor) + mask
+        entries.append(
+            struct.pack("<BBBBHHII", w % 256, h % 256, 0, 0, 1, 32, len(blob), offset)
+        )
+        blobs.append(blob)
+        offset += len(blob)
+    return struct.pack("<HHH", 0, 1, len(images)) + b"".join(entries) + b"".join(blobs)
+
+
 def main():
     ico = APP / "favicon.ico"
-    tile(256, radius_frac=0.22).save(
-        ico, format="ICO", sizes=[(s, s) for s in (16, 32, 48, 64, 128, 256)]
-    )
+    # 16/32/48 is what browsers actually draw in a tab, at 1x and 2x. Larger
+    # entries only serve Windows shortcuts and would triple the file.
+    ico.write_bytes(ico_bytes([tile(s, radius_frac=0.22) for s in (16, 32, 48)]))
     apple = APP / "apple-icon.png"
     tile(180, radius_frac=0.0, scale=0.72).save(apple)
     for path in (ico, apple):
