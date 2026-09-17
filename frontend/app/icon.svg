@@ -11,12 +11,23 @@
     Monochrome on purpose: green and red already mean "up today" and "down
     today" everywhere else in this interface, and a logo in either would take
     a directional position the product does not hold.
+
+    The line and the dot get separate classes, and the line's `fill: none`
+    lives in the CSS rather than in a fill="" attribute. This matters: CSS
+    outranks presentation attributes, so a single class setting both stroke
+    and fill silently overrode fill="none" and flooded the path — which
+    renders as a solid wedge that looks uncannily like the Vercel logo. Keep
+    the two properties apart.
   -->
   <style>
-    .ink { stroke: #1c1b1a; fill: #1c1b1a; }
-    @media (prefers-color-scheme: dark) { .ink { stroke: #f4f3f1; fill: #f4f3f1; } }
+    .line { fill: none; stroke: #1c1b1a; }
+    .dot  { fill: #1c1b1a; stroke: none; }
+    @media (prefers-color-scheme: dark) {
+      .line { stroke: #f4f3f1; }
+      .dot  { fill: #f4f3f1; }
+    }
   </style>
-  <path class="ink" d="M4 23 L10 17.5 L15.5 20.5 L24 11"
-        fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
-  <circle class="ink" cx="24" cy="11" r="3.2" stroke="none" />
+  <path class="line" d="M4 23 L10 17.5 L15.5 20.5 L24 11"
+        stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle class="dot" cx="24" cy="11" r="3.2" />
 </svg>
