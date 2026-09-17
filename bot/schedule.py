@@ -32,27 +32,58 @@ CLOSE = time(16, 0)
 ABANDON_AFTER_HOURS = 20.0
 
 
-def session_has_closed(as_of: str, *, now: Optional[datetime] = None) -> bool:
-    """Whether the trading session `as_of` describes is over."""
-    try:
-        day = datetime.strptime(as_of[:10], "%Y-%m-%d").date()
-    except (ValueError, TypeError):
-        return False
-    closed_at = datetime.combine(day, CLOSE, tzinfo=MARKET)
-    return (now or datetime.now(timezone.utc)) >= closed_at
-
-
-def hours_since_close(as_of: str, *, now: Optional[datetime] = None) -> Optional[float]:
+def _closed_at(as_of: str) -> Optional[datetime]:
+    """The moment the session `as_of` names stopped trading."""
     try:
         day = datetime.strptime(as_of[:10], "%Y-%m-%d").date()
     except (ValueError, TypeError):
         return None
-    closed_at = datetime.combine(day, CLOSE, tzinfo=MARKET)
+    return datetime.combine(day, CLOSE, tzinfo=MARKET)
+
+
+def session_has_closed(as_of: str, *, now: Optional[datetime] = None) -> bool:
+    """Whether the trading session `as_of` describes is over."""
+    closed_at = _closed_at(as_of)
+    if closed_at is None:
+        return False
+    return (now or datetime.now(timezone.utc)) >= closed_at
+
+
+def scan_ran_after_close(as_of: str, generated_at: Optional[str]) -> bool:
+    """Whether the scan behind these figures ran after the session closed.
+
+    The session being over is not enough. The hourly scans run at :13 past,
+    from 14:13 to 21:13 UTC, and the market closes at 20:00 UTC — so at the
+    moment the session ends, the most recent published scan is 19:13's, and
+    its prices are intraday. Posting those under the session's date would put
+    a number in someone's channel that is not the close and does not match any
+    chart they can check it against.
+
+    Requiring the scan itself to postdate the close means the earliest digest
+    uses 20:13's run, which is final.
+    """
+    closed_at = _closed_at(as_of)
+    if closed_at is None or not generated_at:
+        return False
+    try:
+        when = datetime.fromisoformat(generated_at)
+    except ValueError:
+        return False
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    return when >= closed_at
+
+
+def hours_since_close(as_of: str, *, now: Optional[datetime] = None) -> Optional[float]:
+    closed_at = _closed_at(as_of)
+    if closed_at is None:
+        return None
     return ((now or datetime.now(timezone.utc)) - closed_at).total_seconds() / 3600.0
 
 
 def should_post(
     as_of: Optional[str],
+    generated_at: Optional[str],
     last_posted: Optional[str],
     *,
     now: Optional[datetime] = None,
@@ -64,6 +95,8 @@ def should_post(
         return False          # already sent for this session
     if not session_has_closed(as_of, now=now):
         return False          # the session is still trading
+    if not scan_ran_after_close(as_of, generated_at):
+        return False          # the figures are intraday, not the close
     elapsed = hours_since_close(as_of, now=now)
     if elapsed is None or elapsed > ABANDON_AFTER_HOURS:
         return False          # too late to be today's news

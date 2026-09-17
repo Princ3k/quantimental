@@ -84,7 +84,7 @@ class QuantimentalBot(discord.Client):
         rows = batch.by_ticker()
         for guild_id in guilds:
             last = self.lists.get_posted(guild_id)
-            if not schedule.should_post(batch.as_of, last):
+            if not schedule.should_post(batch.as_of, batch.generated_at, last):
                 continue
             await self._post_digest(guild_id, batch, rows)
 

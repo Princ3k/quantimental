@@ -26,8 +26,11 @@ The sentences are not computed when the bot asks for them. They are baked into
 A bot posting at a fixed time would sometimes repeat the previous session's
 wording with no way to tell from its own side.
 
-So: **once per guild per `as_of`**, the first time a scan for a closed session
-becomes visible. A missed slot self-heals — the next poll still owes it — and a
+So: **once per guild per `as_of`**, the first time a scan that *itself ran
+after the close* becomes visible. The session being over is not enough — the
+hourly scans run at :13 past and the market closes at 20:00 UTC, so at the bell
+the newest published scan is 19:13's and its prices are intraday. The earliest
+digest therefore uses the 20:13 run, which is final. A missed slot self-heals — the next poll still owes it — and a
 session that publishes twice cannot produce two posts. Past 20 hours after the
 close the session is abandoned, because posting a day-old digest as today's is
 worse than posting nothing. See `schedule.py`.
@@ -83,5 +86,5 @@ ERROR State path /data/watchlists.json is not inside the mounted volume /app/dat
 ## Tests
 
 ```bash
-python -m pytest        # 45 tests, no network
+python -m pytest        # 50 tests, no network
 ```
