@@ -22,7 +22,7 @@ from app.schemas.api import AnalyzeRequest
 from app.services.data.macro_signal_service import macro_signal_service
 from app.services.data.market_data_service import market_data_service
 from app.services.data.narrative_service import narrative_service
-from app.services.data import published_service
+from app.services.data import published_service, snapshot_service
 
 logger = logging.getLogger(__name__)
 
@@ -325,3 +325,46 @@ async def get_published_desk() -> dict[str, Any]:
     desk = dict(desk)
     desk["disclosure"] = PUBLISHED_DISCLOSURE
     return desk
+
+
+@router.get("/filings")
+async def get_filings(limit: int = Query(25, ge=1, le=100)) -> dict[str, Any]:
+    """
+    The 8-Ks companies filed for this session.
+
+    A fact about a document, not an explanation of a move. The filing and the
+    price happened on the same day; both are reported and the reader is left to
+    judge, which is why every row carries the same note the per-stock endpoint
+    does and why nothing here is sorted by how far the stock moved — ordering
+    filings by price action is a causal claim made with a sort key.
+
+    Ordered by the item code instead, most notable first, which is the scan's
+    own judgement of which disclosures matter and is about the document alone.
+    """
+    snapshot = await asyncio.to_thread(snapshot_service.get_snapshot)
+    if not snapshot:
+        return {"available": False, "reason": "No published scan is available."}
+
+    filed = [row for row in snapshot.rows.values() if row.get("f")]
+    filed.sort(key=lambda r: (r["f"].get("i") or ["99"])[0])
+
+    return {
+        "available": True,
+        "as_of": snapshot.as_of,
+        "generated_at": snapshot.generated_at,
+        "count": len(filed),
+        "filings": [
+            {
+                "ticker": row["t"],
+                "company": row.get("n"),
+                "sector": row.get("s"),
+                "items": row["f"].get("i") or [],
+                "reported": row["f"].get("p"),
+                "accepted_at": row["f"].get("a"),
+                "url": row["f"].get("u"),
+                "note": "Filed on the same session. Same-day is adjacency, not cause.",
+            }
+            for row in filed[:limit]
+        ],
+        "disclosure": PUBLISHED_DISCLOSURE,
+    }

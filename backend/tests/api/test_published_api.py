@@ -74,3 +74,54 @@ class TestPublishedDesk:
     def test_unavailable_is_reported_not_raised(self, monkeypatch):
         monkeypatch.setattr(published_service, "get", lambda name, **kw: None)
         assert TestClient(app).get("/api/v1/market/desk").json()["available"] is False
+
+
+class TestFilings:
+    """8-Ks for the session: a fact about a document, not about a move."""
+
+    ROWS = {
+        "EXE": {"t": "EXE", "n": "Expand Energy", "s": "Energy", "c": 0.4,
+                "f": {"i": ["1.01", "2.03"], "p": "a material agreement",
+                      "a": "2026-09-17T12:00:00Z", "u": "https://sec.gov/x"}},
+        "AIG": {"t": "AIG", "n": "AIG", "s": "Financials", "c": -8.0,
+                "f": {"i": ["5.02"], "p": "a change among its directors",
+                      "a": "2026-09-17T13:00:00Z", "u": None}},
+        "AAPL": {"t": "AAPL", "n": "Apple Inc.", "s": "Information Technology", "c": 1.4},
+    }
+
+    @pytest.fixture
+    def filed(self, monkeypatch):
+        from app.services.data import snapshot_service
+
+        class Fake:
+            rows = self.ROWS
+            as_of = "2026-09-17"
+            generated_at = "2026-09-17T20:18:00+00:00"
+
+        monkeypatch.setattr(snapshot_service, "get_snapshot", lambda *a, **k: Fake())
+        return TestClient(app)
+
+    def test_returns_only_rows_that_filed(self, filed):
+        body = filed.get("/api/v1/market/filings").json()
+        assert body["count"] == 2
+        assert {f["ticker"] for f in body["filings"]} == {"EXE", "AIG"}
+
+    def test_ordered_by_item_code_not_by_price_move(self, filed):
+        # Sorting filings by how far the stock moved would be a causal claim
+        # made with a sort key. AIG moved eight times as far as EXE.
+        body = filed.get("/api/v1/market/filings").json()
+        assert [f["ticker"] for f in body["filings"]] == ["EXE", "AIG"]
+
+    def test_every_filing_carries_the_adjacency_note(self, filed):
+        for f in filed.get("/api/v1/market/filings").json()["filings"]:
+            assert "adjacency, not cause" in f["note"]
+
+    def test_a_missing_filing_url_is_passed_through_not_invented(self, filed):
+        aig = [f for f in filed.get("/api/v1/market/filings").json()["filings"]
+               if f["ticker"] == "AIG"][0]
+        assert aig["url"] is None
+
+    def test_no_published_scan_says_so(self, monkeypatch):
+        from app.services.data import snapshot_service
+        monkeypatch.setattr(snapshot_service, "get_snapshot", lambda *a, **k: None)
+        assert TestClient(app).get("/api/v1/market/filings").json()["available"] is False
