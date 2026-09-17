@@ -241,7 +241,10 @@ def scan(universe: Optional[list[dict[str, str]]] = None) -> dict[str, Any]:
 
     # Attribution needs every stock's move, so it runs once over the whole
     # sweep rather than per ticker.
-    attribution = decompose(measurements, sectors)
+    # Defaults to False, not True: a constituent added without the flag must
+    # not silently join the basket that defines "the market".
+    benchmark = {c["ticker"] for c in constituents if c.get("benchmark", False)}
+    attribution = decompose(measurements, sectors, benchmark=benchmark)
 
     snapshot = [_snapshot_row(m, names, sectors, attribution) for m in measurements]
 

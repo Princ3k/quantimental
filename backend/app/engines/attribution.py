@@ -37,8 +37,11 @@ what its whole sector did that day.
 
 from __future__ import annotations
 
+import logging
 import statistics
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
+
+logger = logging.getLogger(__name__)
 
 # How large the gap between a stock and its sector must be, relative to that
 # stock's own typical daily move, before it is called a divergence rather than
@@ -54,6 +57,12 @@ MIN_SECTOR_MEMBERS = 8
 # they do not really have. Matches app/engines/describe.py.
 FLAT_THRESHOLD_PCT = 0.5
 
+# Below this many benchmark members present in a scan, the basket describes a
+# handful of companies rather than a market, and the whole scan is the better
+# estimate. Set well under 503 so an ordinary day of missing prices does not
+# trip it, and well over the point where a median stops meaning anything.
+MIN_BENCHMARK_MEMBERS = 100
+
 
 def _phrase(pct: float) -> str:
     if pct > FLAT_THRESHOLD_PCT:
@@ -63,9 +72,45 @@ def _phrase(pct: float) -> str:
     return "was flat"
 
 
+def _market_move(
+    measurements: list[dict[str, Any]],
+    benchmark: Optional[Iterable[str]],
+) -> float:
+    """The market's move: the median of a named basket, not of whatever ran.
+
+    These are the same number today, and will not stay that way. "The market
+    was flat" has been the median of the scanned universe, so the day the scan
+    adds small caps that sentence quietly starts describing a different market
+    — in Apple's row as much as in the new ones, with nothing on the page to
+    show the word changed meaning. Someone checking "the market was flat"
+    against the index on their own screen would find the two disagreeing and
+    have no way to see why.
+
+    Pinning it to a basket lets the universe grow without redefining the term.
+    A basket too thin to be a market falls back to the whole scan and says so,
+    because a median of eleven companies is worse than the alternative.
+    """
+    moves = [m["change_percent"] for m in measurements]
+    if benchmark:
+        wanted = set(benchmark)
+        in_basket = [
+            m["change_percent"] for m in measurements if m["ticker"] in wanted
+        ]
+        if len(in_basket) >= MIN_BENCHMARK_MEMBERS:
+            return statistics.median(in_basket)
+        logger.warning(
+            "Only %d of %d benchmark members were scanned; falling back to the "
+            "whole universe for the market median.",
+            len(in_basket),
+            len(wanted),
+        )
+    return statistics.median(moves)
+
+
 def decompose(
     measurements: list[dict[str, Any]],
     sectors: dict[str, str],
+    benchmark: Optional[Iterable[str]] = None,
 ) -> dict[str, dict[str, Any]]:
     """
     Attribute each stock's move against the market and its sector.
@@ -74,6 +119,9 @@ def decompose(
         measurements: Scan rows, each with `ticker`, `change_percent` and
             `typical_percent`.
         sectors: Ticker to GICS sector.
+        benchmark: The tickers that define "the market". Omit and the whole
+            scan is used, which is correct only while the two are the same
+            set — see `_market_move`.
 
     Returns:
         Per ticker: the market move, the sector move, the gap between the stock
@@ -84,7 +132,7 @@ def decompose(
     if not measurements:
         return {}
 
-    market = statistics.median(m["change_percent"] for m in measurements)
+    market = _market_move(measurements, benchmark)
 
     by_sector: dict[str, list[float]] = {}
     for row in measurements:

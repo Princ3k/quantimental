@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import pytest
 
+from app.engines import attribution
 from app.engines.attribution import (
     MIN_SECTOR_MEMBERS,
     decompose,
@@ -150,3 +151,61 @@ class TestExplain:
 
     def test_missing_attribution_yields_nothing(self):
         assert explain("Nvidia", -4.0, None) is None
+
+
+class TestBenchmarkBasket:
+    """The market median must come from a named basket, not from whatever ran."""
+
+    def _rows(self, moves):
+        return [
+            {"ticker": t, "change_percent": pct, "typical_percent": 2.0}
+            for t, pct in moves
+        ]
+
+    def _benchmark_rows(self, n, pct):
+        return [(f"BM{i:03d}", pct) for i in range(n)]
+
+    def test_the_basket_defines_the_market_not_the_whole_scan(self):
+        # 150 benchmark names flat, 400 small caps down 5%. "The market" is the
+        # benchmark's answer, not the crowd's.
+        rows = self._rows(
+            self._benchmark_rows(150, 0.0) + [(f"SC{i:03d}", -5.0) for i in range(400)]
+        )
+        sectors = {r["ticker"]: "Information Technology" for r in rows}
+        benchmark = {f"BM{i:03d}" for i in range(150)}
+
+        result = attribution.decompose(rows, sectors, benchmark=benchmark)
+        assert result["BM000"]["market_percent"] == 0.0
+
+        # Without the basket, the same scan says the market fell 5%.
+        unpinned = attribution.decompose(rows, sectors)
+        assert unpinned["BM000"]["market_percent"] == -5.0
+
+    def test_omitting_the_basket_keeps_the_old_behaviour(self):
+        rows = self._rows(self._benchmark_rows(150, 1.0))
+        sectors = {r["ticker"]: "Industrials" for r in rows}
+        assert attribution.decompose(rows, sectors)["BM000"]["market_percent"] == 1.0
+
+    def test_a_basket_too_thin_to_be_a_market_falls_back(self, caplog):
+        # A median of eleven companies is worse than the whole scan, so the
+        # fallback is deliberate — and says so rather than degrading quietly.
+        rows = self._rows(
+            [(f"BM{i:03d}", 0.0) for i in range(11)]
+            + [(f"SC{i:03d}", -5.0) for i in range(400)]
+        )
+        sectors = {r["ticker"]: "Utilities" for r in rows}
+        benchmark = {f"BM{i:03d}" for i in range(11)}
+
+        with caplog.at_level("WARNING"):
+            result = attribution.decompose(rows, sectors, benchmark=benchmark)
+        assert result["BM000"]["market_percent"] == -5.0
+        assert "falling back" in caplog.text
+
+    def test_an_empty_basket_falls_back_without_complaint(self):
+        # What an old universe.json with no flags produces. Correct today,
+        # because the universe is exactly the benchmark.
+        rows = self._rows(self._benchmark_rows(150, 0.5))
+        sectors = {r["ticker"]: "Energy" for r in rows}
+        assert attribution.decompose(rows, sectors, benchmark=set())["BM000"][
+            "market_percent"
+        ] == 0.5

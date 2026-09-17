@@ -54,6 +54,10 @@ def main() -> int:
             "ticker": str(row["Symbol"]).strip().replace(".", "-"),
             "name": str(row["Security"]).strip(),
             "sector": str(row["GICS Sector"]).strip(),
+            # This script only ever writes S&P 500 members, and the S&P 500 is
+            # the basket "the market" refers to. Anything added to the universe
+            # from another source must leave this out.
+            "benchmark": True,
         }
         for _, row in table.iterrows()
     ]
