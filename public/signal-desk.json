@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T17:36:35.524310+00:00",
+  "as_of": "2026-09-17T17:40:00.110052+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -11,7 +11,7 @@
       "direction": "up",
       "delta": "+1.2%",
       "change_percent": 1.16,
-      "z_score": 1.4,
+      "z_score": 1.41,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.6",
-      "change_percent": -12.33,
-      "z_score": -0.96,
+      "delta": "15.7",
+      "change_percent": -12.16,
+      "z_score": -0.95,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.59,
-      "z_score": 0.93,
+      "change_percent": 0.58,
+      "z_score": 0.92,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,7 +43,7 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-0.3%",
-      "change_percent": -0.3,
+      "change_percent": -0.31,
       "z_score": -0.2,
       "risk_tone": "neutral",
       "notable": false
@@ -53,8 +53,8 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.1%",
-      "change_percent": -0.15,
+      "delta": "-0.2%",
+      "change_percent": -0.17,
       "z_score": -0.14,
       "risk_tone": "risk_on",
       "notable": false
@@ -76,8 +76,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.1%",
-      "change_percent": 0.09,
-      "z_score": 0.08,
+      "change_percent": 0.08,
+      "z_score": 0.07,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,19 +88,19 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.72,
-        "z_score": 0.56
+        "change_percent": 1.75,
+        "z_score": 0.58
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 1.49,
+        "change_percent": 1.48,
         "z_score": 0.23
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.8,
+        "change_percent": 0.81,
         "z_score": 0.43
       }
     ],
@@ -108,14 +108,14 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.07,
-        "z_score": -1.01
+        "change_percent": -2.12,
+        "z_score": -1.03
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.51,
-        "z_score": -0.92
+        "change_percent": -1.47,
+        "z_score": -0.89
       },
       {
         "symbol": "XLE",
@@ -129,18 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 51,
+    "score": 50,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.4,
+        "effect": -8.5,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 5.8,
+        "effect": 5.7,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     21.1,
     17.7,
     16.2,
-    51.8
+    51.7
   ],
   "narrative": {
-    "text": "The dollar strengthened and market volatility eased over the last five days. Health care and technology were the strongest sectors, while utilities lagged.",
-    "short": "Dollar rose 1.2% while volatility fell 12.3% and healthcare led gains.",
+    "text": "The US dollar rose while market volatility eased. Health Care and Technology led gains, while Utilities and Financials lagged.",
+    "short": "Dollar strength and falling volatility marked a mixed week for investors.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T17:36:36.093479+00:00"
+  "generated_at": "2026-09-17T17:40:00.540391+00:00"
 }
