@@ -7,11 +7,13 @@ what a filing is allowed to say. Nothing here reaches EDGAR.
 
 from __future__ import annotations
 
-from datetime import date
+import json
+import os
+from datetime import date, timedelta
 
 import pytest
 
-from app.services.ingestion.filings import filing_fetcher, items
+from app.services.ingestion.filings import cik_map, filing_fetcher, items
 
 
 class TestItems:
@@ -197,3 +199,70 @@ class TestMissingIndex:
                             lambda *a, **k: (_ for _ in ()).throw(RuntimeError("no index")))
         monkeypatch.setattr(filing_fetcher.cik_map, "ciks_for", lambda t: {"DELL": 1571996})
         assert filing_fetcher.filings_for_session(["DELL"], "2026-09-14") == {}
+
+
+class TestCikMap:
+    """
+    The map is an input, not a cache.
+
+    It used to decide its own freshness from the file's mtime, which is always
+    "just written" under CI because actions/checkout sets mtime to checkout
+    time. The monthly refresh it promised therefore never happened once.
+    """
+
+    @pytest.fixture
+    def map_path(self, tmp_path, monkeypatch):
+        path = tmp_path / "cik-map.json"
+        monkeypatch.setattr(cik_map, "CACHE_PATH", path)
+        cik_map.reset_cache()
+        return path
+
+    def _write(self, path, captured, ciks=None):
+        path.write_text(json.dumps({
+            "source": "x", "captured": captured,
+            "count": 1, "ciks": ciks or {"AAPL": 320193},
+        }))
+
+    def test_age_comes_from_the_file_not_its_mtime(self, map_path, monkeypatch):
+        # The bug, encoded. A checkout makes every file look newly written;
+        # only a date inside it survives that.
+        self._write(map_path, (date.today() - timedelta(days=400)).isoformat())
+        os.utime(map_path, None)  # exactly what checkout does
+
+        warned = []
+        monkeypatch.setattr(cik_map.logger, "warning", lambda m, *a: warned.append(m % a if a else m))
+        cik_map.load()
+
+        assert any("days old" in w for w in warned)
+
+    def test_a_recent_map_loads_without_complaint(self, map_path, monkeypatch):
+        self._write(map_path, date.today().isoformat())
+
+        warned = []
+        monkeypatch.setattr(cik_map.logger, "warning", lambda m, *a: warned.append(m))
+        assert cik_map.load() == {"AAPL": 320193}
+        assert warned == []
+
+    def test_the_older_flat_shape_still_loads(self, map_path, monkeypatch):
+        # The first version of the file was a bare {ticker: cik} object.
+        map_path.write_text(json.dumps({"AAPL": 320193}))
+
+        warned = []
+        monkeypatch.setattr(cik_map.logger, "warning", lambda m, *a: warned.append(m))
+        assert cik_map.load() == {"AAPL": 320193}
+        assert any("no capture date" in w for w in warned)
+
+    def test_it_does_not_refetch_on_a_stale_map(self, map_path, monkeypatch):
+        # Stale is a reason to warn, not to pull 800KB from the SEC on every
+        # scan of the day to arrive at the same answer.
+        self._write(map_path, (date.today() - timedelta(days=400)).isoformat())
+        monkeypatch.setattr(cik_map, "write", lambda *a, **k: pytest.fail("refetched"))
+        monkeypatch.setattr(cik_map.logger, "warning", lambda *a: None)
+
+        assert cik_map.load() == {"AAPL": 320193}
+
+    def test_class_share_tickers_resolve_through_the_dash_spelling(self, map_path):
+        # EDGAR writes BRK-B where the price feed says BRK.B. Missing those
+        # would be a silent hole rather than an error.
+        self._write(map_path, date.today().isoformat(), {"BRK-B": 1067983})
+        assert cik_map.cik_for("BRK.B") == 1067983

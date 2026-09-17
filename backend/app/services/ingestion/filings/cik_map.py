@@ -18,7 +18,7 @@ import json
 import logging
 import os
 import threading
-import time
+from datetime import date
 from pathlib import Path
 from typing import Optional
 
@@ -33,19 +33,13 @@ CACHE_PATH = Path(
     or Path(__file__).resolve().parents[4] / "data" / "cik-map.json"
 )
 
-# Companies are added and renamed, not hourly. A month is frequent enough to
-# catch index changes and rare enough that the file is effectively static.
-CACHE_TTL_SECONDS = 30 * 24 * 3600.0
+# How old the file may get before the log starts complaining. Companies are
+# added and renamed, not hourly, so a month is frequent enough to catch index
+# changes and rare enough that the file is effectively static.
+STALE_AFTER_DAYS = 30
 
 _memory: Optional[dict[str, int]] = None
 _lock = threading.Lock()
-
-
-def _fresh(path: Path) -> bool:
-    try:
-        return (time.time() - path.stat().st_mtime) < CACHE_TTL_SECONDS
-    except OSError:
-        return False
 
 
 def _download() -> dict[str, int]:
@@ -60,13 +54,57 @@ def _download() -> dict[str, int]:
     return mapping
 
 
+def write(path: Path = CACHE_PATH) -> dict[str, int]:
+    """Fetch the mapping from the SEC and write it down. Used by the refresh script."""
+    mapping = _download()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    staged = path.with_name(f".{path.name}.tmp")
+    staged.write_text(
+        json.dumps(
+            {
+                "source": TICKER_MAP_URL,
+                "captured": date.today().isoformat(),
+                "note": (
+                    "Baked in rather than fetched at runtime, for the same reason as "
+                    "universe.json: the scan must not depend on a live download to "
+                    "name a company. Refresh with scripts/refresh_cik_map.py."
+                ),
+                "count": len(mapping),
+                "ciks": mapping,
+            },
+            separators=(",", ":"),
+        )
+    )
+    os.replace(staged, path)
+    logger.info("Wrote %s — %d companies", path, len(mapping))
+    return mapping
+
+
+def _read(path: Path) -> tuple[dict[str, int], Optional[str]]:
+    """The mapping and the day it was captured, tolerating the older flat shape."""
+    payload = json.loads(path.read_text())
+    if isinstance(payload.get("ciks"), dict):
+        return payload["ciks"], payload.get("captured")
+    # The first version of this file was a bare {ticker: cik} object with no
+    # date in it. Readable, just undatable.
+    return payload, None
+
+
 def load(refresh: bool = False) -> dict[str, int]:
     """
-    The whole mapping, from memory, then disk, then the SEC.
+    The whole mapping.
 
-    A failed refresh falls back to the cached file however old it is. A stale
-    map costs us the handful of companies that changed ticker since; no map at
-    all costs every filing that day.
+    Read from the file rather than fetched, and deliberately not on a runtime
+    TTL. The previous version compared the file's mtime against a month, which
+    is always false under CI: `actions/checkout` sets mtime to checkout time,
+    so the committed map looked newly written on every single run and the
+    refresh it promised never once happened.
+
+    Keying the age on a date inside the file fixes the check, but a runtime
+    refresh is the wrong shape anyway — once the file did age past the limit,
+    every scan of the day would pull the same 800KB from the SEC to reach the
+    same answer. So this is an input like universe.json: refreshed by running
+    a script, and noisy in the log when it is getting old.
     """
     global _memory
 
@@ -74,33 +112,51 @@ def load(refresh: bool = False) -> dict[str, int]:
         if _memory is not None and not refresh:
             return _memory
 
-    if not refresh and CACHE_PATH.exists() and _fresh(CACHE_PATH):
-        try:
-            mapping = json.loads(CACHE_PATH.read_text())
-            with _lock:
-                _memory = mapping
-            return mapping
-        except (ValueError, OSError) as exc:
-            logger.warning("Cached CIK map unreadable (%s); refetching.", exc)
+    if refresh or not CACHE_PATH.exists():
+        mapping = write()
+        with _lock:
+            _memory = mapping
+        return mapping
 
     try:
-        mapping = _download()
-    except Exception as exc:  # noqa: BLE001
-        if CACHE_PATH.exists():
-            logger.warning("Could not refresh the CIK map (%s); using the cached one.", exc)
-            mapping = json.loads(CACHE_PATH.read_text())
-        else:
-            raise
+        mapping, captured = _read(CACHE_PATH)
+    except (ValueError, OSError, AttributeError) as exc:
+        logger.warning("CIK map at %s unreadable (%s); fetching a fresh one.", CACHE_PATH, exc)
+        mapping = write()
+        with _lock:
+            _memory = mapping
+        return mapping
 
-    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    staged = CACHE_PATH.with_name(f".{CACHE_PATH.name}.tmp")
-    staged.write_text(json.dumps(mapping, separators=(",", ":")))
-    os.replace(staged, CACHE_PATH)
+    age = _age_days(captured)
+    if age is None:
+        logger.warning(
+            "CIK map carries no capture date, so its age is unknown. "
+            "Refresh it with scripts/refresh_cik_map.py."
+        )
+    elif age > STALE_AFTER_DAYS:
+        # Loud rather than silent: a company that changed ticker since simply
+        # stops having filings attached, and nothing else would report it.
+        logger.warning(
+            "CIK map is %d days old (captured %s). Companies that changed ticker "
+            "since will silently have no filings. Refresh with "
+            "scripts/refresh_cik_map.py.",
+            age, captured,
+        )
+    else:
+        logger.info("CIK map: %d companies, captured %s", len(mapping), captured)
 
     with _lock:
         _memory = mapping
-    logger.info("CIK map: %d companies", len(mapping))
     return mapping
+
+
+def _age_days(captured: Optional[str]) -> Optional[int]:
+    if not captured:
+        return None
+    try:
+        return (date.today() - date.fromisoformat(captured)).days
+    except ValueError:
+        return None
 
 
 def cik_for(ticker: str, mapping: Optional[dict[str, int]] = None) -> Optional[int]:
