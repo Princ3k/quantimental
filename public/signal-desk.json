@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T21:09:03.988486+00:00",
+  "as_of": "2026-09-17T21:40:02.631236+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,7 +43,7 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.4%",
-      "change_percent": -1.38,
+      "change_percent": -1.36,
       "z_score": -0.34,
       "risk_tone": "neutral",
       "notable": false
@@ -54,8 +54,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-0.6%",
-      "change_percent": -0.59,
-      "z_score": -0.25,
+      "change_percent": -0.61,
+      "z_score": -0.26,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.5,
+        "effect": 1.6,
         "tone": "risk_on"
       }
     ]
@@ -193,10 +193,10 @@
     52.6
   ],
   "narrative": {
-    "text": "The dollar strengthened and market volatility dropped. Health care and technology sectors gained, while utilities and financials declined.",
-    "short": "Dollar rose and volatility eased as health care and technology led gains.",
+    "text": "The US dollar rose 1.1% while volatility fell 13.4%. Health Care and Technology led gains, while Utilities and Financials lagged.",
+    "short": "Dollar strength and easing volatility marked a mixed week for investors.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T21:09:04.469669+00:00"
+  "generated_at": "2026-09-17T21:40:03.137036+00:00"
 }
