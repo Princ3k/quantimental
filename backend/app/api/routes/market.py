@@ -22,6 +22,7 @@ from app.schemas.api import AnalyzeRequest
 from app.services.data.macro_signal_service import macro_signal_service
 from app.services.data.market_data_service import market_data_service
 from app.services.data.narrative_service import narrative_service
+from app.services.data import published_service
 
 logger = logging.getLogger(__name__)
 
@@ -266,4 +267,61 @@ async def get_signal_desk() -> dict[str, Any]:
         return desk
 
     desk["narrative"] = await asyncio.to_thread(narrative_service.generate, desk)
+    return desk
+
+
+# The disclosure that rides on /explain, repeated here for the same reason: a
+# consumer embedding these somewhere needs it to travel with the text.
+PUBLISHED_DISCLOSURE = "Descriptive only. Not investment advice, and not a forecast."
+
+
+@router.get("/unusual")
+async def get_unusual(limit: int = Query(10, ge=1, le=50)) -> dict[str, Any]:
+    """
+    Today's unusual moves: stocks that moved far relative to their own normal.
+
+    "Unusual" is measured, not asserted. A move qualifies by exceeding a
+    multiple of that stock's own typical daily range, so a 3% day counts for a
+    utility and does not for a small-cap biotech. The threshold used is
+    returned alongside, because a reader cannot judge the list without it.
+
+    Served from the file the scan publishes, so the wording here is the wording
+    everywhere else. `biggest` is carried separately and is explicitly *not* a
+    list of unusual moves — on a quiet day `movers` is empty and that is the
+    honest answer, not a prompt to promote the largest ordinary move.
+    """
+    feed = await asyncio.to_thread(published_service.get, "unusual.json")
+    if not feed or not feed.get("available"):
+        return {"available": False, "reason": "No published scan is available."}
+
+    return {
+        "available": True,
+        "as_of": feed.get("as_of"),
+        "generated_at": feed.get("generated_at"),
+        "scanned": feed.get("scanned"),
+        "threshold": feed.get("threshold"),
+        "count": feed.get("unusual_count", 0),
+        "rising": feed.get("rising"),
+        "falling": feed.get("falling"),
+        "movers": (feed.get("movers") or [])[:limit],
+        "biggest": (feed.get("biggest") or [])[:limit],
+        "disclosure": PUBLISHED_DISCLOSURE,
+    }
+
+
+@router.get("/desk")
+async def get_published_desk() -> dict[str, Any]:
+    """
+    The Signal Desk as the scan last published it.
+
+    Distinct from `/signal-desk` above, which recomputes: that one reads a
+    basket of macro instruments from Yahoo and then calls an LLM, which is the
+    right shape for a page a person loads and the wrong shape for anything that
+    might be called in a loop. This reads the published file and costs nothing.
+    """
+    desk = await asyncio.to_thread(published_service.get, "signal-desk.json")
+    if not desk or not desk.get("available"):
+        return {"available": False, "reason": "No published desk is available."}
+    desk = dict(desk)
+    desk["disclosure"] = PUBLISHED_DISCLOSURE
     return desk
