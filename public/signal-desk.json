@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T17:40:00.110052+00:00",
+  "as_of": "2026-09-17T18:08:08.170316+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -11,19 +11,8 @@
       "direction": "up",
       "delta": "+1.2%",
       "change_percent": 1.16,
-      "z_score": 1.41,
+      "z_score": 1.4,
       "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "15.7",
-      "change_percent": -12.16,
-      "z_score": -0.95,
-      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -32,8 +21,19 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.58,
-      "z_score": 0.92,
+      "change_percent": 0.65,
+      "z_score": 1.02,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "15.6",
+      "change_percent": -12.61,
+      "z_score": -0.98,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -42,21 +42,10 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.31,
-      "z_score": -0.2,
+      "delta": "-0.5%",
+      "change_percent": -0.52,
+      "z_score": -0.23,
       "risk_tone": "neutral",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-0.2%",
-      "change_percent": -0.17,
-      "z_score": -0.14,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -65,9 +54,20 @@
       "text": "Long-term rates climbing",
       "direction": "up",
       "delta": "+1bp",
-      "change_percent": 0.22,
-      "z_score": -0.1,
+      "change_percent": 0.1,
+      "z_score": -0.16,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-0.2%",
+      "change_percent": -0.16,
+      "z_score": -0.14,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -76,8 +76,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.1%",
-      "change_percent": 0.08,
-      "z_score": 0.07,
+      "change_percent": 0.1,
+      "z_score": 0.1,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,45 +88,45 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.75,
-        "z_score": 0.58
-      },
-      {
-        "symbol": "XLK",
-        "name": "Technology",
-        "change_percent": 1.48,
-        "z_score": 0.23
+        "change_percent": 1.9,
+        "z_score": 0.65
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.81,
-        "z_score": 0.43
+        "change_percent": 0.72,
+        "z_score": 0.39
+      },
+      {
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 0.49,
+        "z_score": 0.16
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.12,
-        "z_score": -1.03
+        "change_percent": -2.15,
+        "z_score": -1.05
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.47,
+        "change_percent": -1.45,
         "z_score": -0.89
       },
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": -0.96,
-        "z_score": -0.6
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -0.86,
+        "z_score": -0.54
       }
     ],
-    "breadth": 50,
-    "advancing": 5,
-    "total": 10
+    "breadth": 44,
+    "advancing": 4,
+    "total": 9
   },
   "composite": {
     "score": 50,
@@ -135,39 +135,39 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.5,
+        "effect": -8.4,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 5.7,
+        "effect": 5.9,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 3.0,
+        "effect": 3.4,
         "tone": "risk_on"
       },
       {
-        "name": "Gold",
-        "effect": 0.8,
-        "tone": "risk_on"
+        "name": "Sector breadth",
+        "effect": -1.2,
+        "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -0.6,
+        "effect": -1.0,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
-    65.4,
-    50.2,
+    63.4,
+    48.2,
     36.0,
-    39.3,
-    65.4,
-    55.1,
-    49.0,
+    37.3,
+    63.4,
+    53.1,
+    47.0,
     51.0,
     64.6,
     39.4,
@@ -175,28 +175,28 @@
     56.0,
     63.8,
     43.0,
-    56.6,
-    52.8,
-    50.3,
-    28.9,
-    35.2,
+    54.6,
+    50.8,
+    48.3,
+    26.9,
+    33.2,
     49.0,
-    48.8,
-    52.9,
-    59.7,
-    45.4,
+    46.8,
+    50.9,
+    57.7,
+    43.4,
     15.5,
-    24.6,
+    22.6,
     21.1,
     17.7,
     16.2,
-    51.7
+    50.7
   ],
   "narrative": {
-    "text": "The US dollar rose while market volatility eased. Health Care and Technology led gains, while Utilities and Financials lagged.",
-    "short": "Dollar strength and falling volatility marked a mixed week for investors.",
+    "text": "The US dollar strengthened significantly over five days. Health care led sector gains, while utilities and financials declined.",
+    "short": "Dollar surged 1.2% while utilities fell 2.1% and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T17:40:00.540391+00:00"
+  "generated_at": "2026-09-17T18:08:08.625814+00:00"
 }
