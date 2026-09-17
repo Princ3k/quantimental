@@ -123,6 +123,17 @@ def decompose(
     return result
 
 
+def _ends(text: str) -> str:
+    """Close a sentence without doubling a period the last word already has.
+
+    Thirty of the S&P 500 are named "... Inc." or "... Corp.", so a template
+    that appends its own period rendered "specific to Apple Inc.." on six
+    percent of rows — on the site, in the API, and anywhere the sentence was
+    embedded.
+    """
+    return text if text.endswith((".", "!", "?")) else text + "."
+
+
 def explain(
     company: str,
     change_percent: float,
@@ -146,7 +157,9 @@ def explain(
     context = f"The market {_phrase(market_pct)} today and {sector} {_phrase(sector_pct)}"
 
     if not attribution["diverged"]:
-        return f"{context}, so this move tracked the market rather than anything specific to {company}."
+        return _ends(
+            f"{context}, so this move tracked the market rather than anything specific to {company}"
+        )
 
     stock_up = change_percent > FLAT_THRESHOLD_PCT
     stock_down = change_percent < -FLAT_THRESHOLD_PCT
@@ -163,4 +176,4 @@ def explain(
     if not stock_up and not stock_down and (sector_up or sector_down):
         return f"{context} — so {company} did not follow its sector."
 
-    return f"{context}, so most of this was specific to {company}."
+    return _ends(f"{context}, so most of this was specific to {company}")

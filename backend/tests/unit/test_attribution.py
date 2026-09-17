@@ -99,6 +99,20 @@ class TestExplain:
         assert "fell 1.2%" in sentence
         assert "fell 3.1%" in sentence
 
+    def test_a_name_ending_in_a_period_does_not_get_a_second_one(self):
+        # Thirty of the 503 are "... Inc." or "... Corp.". Appending a period
+        # to those rendered "specific to Apple Inc.." everywhere the sentence
+        # was shown.
+        for name in ("Apple Inc.", "Coherent Corp.", "Arthur J. Gallagher & Co."):
+            market_wide = explain(name, -4.0, self._attribution())
+            specific = explain(name, -8.0, self._attribution(gap=-4.9, diverged=True))
+            for sentence in (market_wide, specific):
+                assert sentence.endswith(".")
+                assert not sentence.endswith("..")
+
+    def test_a_name_without_one_still_gets_a_period(self):
+        assert explain("Nvidia", -4.0, self._attribution()).endswith("Nvidia.")
+
     def test_a_divergent_move_says_it_was_specific(self):
         sentence = explain("Nvidia", -8.0, self._attribution(gap=-4.9, diverged=True))
         assert "most of this was specific to Nvidia" in sentence
