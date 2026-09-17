@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T15:08:03.423198+00:00",
+  "as_of": "2026-09-17T15:38:49.181656+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,20 +10,9 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.1%",
-      "change_percent": 1.06,
-      "z_score": 1.28,
+      "change_percent": 1.12,
+      "z_score": 1.36,
       "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "15.8",
-      "change_percent": -11.55,
-      "z_score": -0.91,
-      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -32,8 +21,19 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.57,
-      "z_score": 0.9,
+      "change_percent": 0.61,
+      "z_score": 0.97,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "15.9",
+      "change_percent": -11.1,
+      "z_score": -0.88,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -42,21 +42,10 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.34,
-      "z_score": -0.34,
+      "delta": "-1.9%",
+      "change_percent": -1.86,
+      "z_score": -0.41,
       "risk_tone": "neutral",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.3,
-      "z_score": -0.18,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -64,10 +53,21 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+1bp",
-      "change_percent": 0.18,
-      "z_score": -0.12,
+      "delta": "+0bp",
+      "change_percent": 0.06,
+      "z_score": -0.19,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-0.2%",
+      "change_percent": -0.19,
+      "z_score": -0.15,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -76,8 +76,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.1%",
-      "change_percent": 0.06,
-      "z_score": 0.03,
+      "change_percent": 0.09,
+      "z_score": 0.08,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.56,
-        "z_score": 0.49
+        "change_percent": 1.71,
+        "z_score": 0.56
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 1.44,
-        "z_score": 0.22
+        "change_percent": 1.49,
+        "z_score": 0.23
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.71,
-        "z_score": 0.38
+        "change_percent": 1.09,
+        "z_score": 0.57
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.35,
-        "z_score": -1.14
+        "change_percent": -2.19,
+        "z_score": -1.06
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.94,
-        "z_score": -1.16
+        "change_percent": -1.72,
+        "z_score": -1.03
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -1.53,
-        "z_score": -0.79
+        "change_percent": -1.45,
+        "z_score": -0.76
       }
     ],
     "breadth": 40,
@@ -129,23 +129,23 @@
     "total": 10
   },
   "composite": {
-    "score": 49,
+    "score": 48,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -7.7,
+        "effect": -8.2,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 5.5,
+        "effect": 5.3,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 2.8,
+        "effect": 3.2,
         "tone": "risk_on"
       },
       {
@@ -154,9 +154,9 @@
         "tone": "risk_off"
       },
       {
-        "name": "Gold",
-        "effect": 1.1,
-        "tone": "risk_on"
+        "name": "10-year Treasury yield",
+        "effect": -1.1,
+        "tone": "risk_off"
       }
     ]
   },
@@ -193,10 +193,10 @@
     50.3
   ],
   "narrative": {
-    "text": "The US dollar rose 1.1% while market volatility fell 11.6%. Health Care and Technology led gains, but Utilities and Financials lagged.",
-    "short": "Dollar strength and easing volatility marked a mixed week for investors.",
+    "text": "The dollar rose 1.1% while the volatility index fell 11.1%. Health care and technology were the strongest sectors, while utilities and financials lagged.",
+    "short": "Dollar strengthened and volatility eased as health care and tech led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T15:08:04.046228+00:00"
+  "generated_at": "2026-09-17T15:38:50.047781+00:00"
 }
