@@ -249,6 +249,9 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
             wrong. This is not financial advice.
           </p>
           <nav className="mt-3 flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/stocks" className="hover:text-ink transition-colors">
+              Every company we cover
+            </Link>
             <Link href="/method" className="hover:text-ink transition-colors">
               Why we don&rsquo;t predict
             </Link>

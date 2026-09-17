@@ -23,6 +23,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      // The index that makes every stock page reachable by crawling rather
+      // than only by sitemap. High priority: it is the hub for 503 others.
+      url: `${SITE_URL}/stocks`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
       url: `${SITE_URL}/method`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
