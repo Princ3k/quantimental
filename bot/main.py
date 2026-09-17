@@ -1,0 +1,211 @@
+"""
+The Quantimental Discord bot.
+
+A tap on an API that already exists, not a second product. It holds no market
+data, computes no figures and writes no descriptions: every sentence it posts
+came from `/api/v1/explain`, which is the endpoint built to be embedded
+elsewhere and the one whose wording is covered by the no-forecast tests.
+
+Commands are slash commands. That avoids the message-content intent, which
+needs Discord's approval past seventy-five servers and would mean reading every
+message in every channel to find the few addressed to us.
+"""
+
+from __future__ import annotations
+
+import asyncio
+import logging
+import os
+import sys
+
+import discord
+from discord import app_commands
+from discord.ext import tasks
+
+import render
+import schedule
+from client import ApiUnavailable, QuantimentalClient
+from store import MAX_PER_GUILD, Watchlists
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s %(message)s",
+)
+logger = logging.getLogger("quantimental.bot")
+
+TOKEN = os.environ.get("DISCORD_BOT_TOKEN", "")
+
+# How often to check whether a new session has published. The scan runs hourly
+# at most, so anything tighter is spent re-reading a file that has not changed.
+POLL_MINUTES = 15
+
+
+class QuantimentalBot(discord.Client):
+    def __init__(self) -> None:
+        # No privileged intents: this never reads message content, member lists
+        # or presence. Guilds alone is enough to resolve a channel to post in.
+        super().__init__(intents=discord.Intents(guilds=True))
+        self.tree = app_commands.CommandTree(self)
+        self.api = QuantimentalClient()
+        self.lists = Watchlists()
+
+    async def setup_hook(self) -> None:
+        await self.tree.sync()
+        self.daily.start()
+
+    # -- the scheduled post ------------------------------------------------
+
+    @tasks.loop(minutes=POLL_MINUTES)
+    async def daily(self) -> None:
+        """Post each guild's digest once per session, when one is ready."""
+        guilds = self.lists.guilds()
+        if not guilds:
+            return
+
+        wanted = self.lists.every_ticker()
+        if not wanted:
+            return
+
+        try:
+            # One call for every guild. The cost is the number of distinct
+            # companies anyone follows, not servers times tickers.
+            batch = await self.api.explain(wanted[: 100])
+        except ApiUnavailable as exc:
+            # Warning, not error: the API being briefly unreachable is expected
+            # and self-healing, and paging on it would train everyone to ignore
+            # the alert that matters.
+            logger.warning("Skipping this round; API unavailable: %s", exc)
+            return
+
+        rows = batch.by_ticker()
+        for guild_id in guilds:
+            last = self.lists.get_posted(guild_id)
+            if not schedule.should_post(batch.as_of, last):
+                continue
+            await self._post_digest(guild_id, batch, rows)
+
+    async def _post_digest(self, guild_id: int, batch, rows) -> None:
+        channel_id = self.lists.channel(guild_id)
+        if not channel_id:
+            return
+        channel = self.get_channel(channel_id)
+        if channel is None:
+            logger.warning("Guild %s: channel %s is gone.", guild_id, channel_id)
+            return
+
+        watched = self.lists.get(guild_id)
+        mine = [rows[t] for t in watched if t in rows]
+        missing = [t for t in watched if t not in rows]
+
+        embed = render.digest(
+            mine, as_of=batch.as_of, generated_at=batch.generated_at, missing=missing
+        )
+        try:
+            await channel.send(embed=embed)
+        except discord.DiscordException as exc:
+            logger.warning("Guild %s: could not post: %s", guild_id, exc)
+            return
+        # Recorded only after a successful send, so a failed post is retried on
+        # the next poll rather than being marked done.
+        self.lists.mark_posted(guild_id, batch.as_of)
+
+    @daily.before_loop
+    async def _wait(self) -> None:
+        await self.wait_until_ready()
+
+
+bot = QuantimentalBot()
+
+
+@bot.tree.command(description="What one stock did this session.")
+@app_commands.describe(ticker="Ticker symbol, e.g. AAPL")
+async def stock(interaction: discord.Interaction, ticker: str) -> None:
+    await interaction.response.defer()
+    try:
+        batch = await bot.api.explain([ticker])
+    except ApiUnavailable:
+        await interaction.followup.send("Quantimental is unreachable right now.")
+        return
+
+    found = batch.by_ticker().get(ticker.strip().upper())
+    if not found:
+        await interaction.followup.send(
+            f"{ticker.upper()} is not in the covered universe (the S&P 500)."
+        )
+        return
+    await interaction.followup.send(embed=render.one(found))
+
+
+watch = app_commands.Group(name="watch", description="The tickers this server follows.")
+
+
+@watch.command(name="add", description="Follow a ticker.")
+async def watch_add(interaction: discord.Interaction, ticker: str) -> None:
+    if not _is_manager(interaction):
+        await interaction.response.send_message(
+            "Only members who can manage the server can change the watchlist.",
+            ephemeral=True,
+        )
+        return
+    _, message = bot.lists.add(interaction.guild_id, ticker)
+    await interaction.response.send_message(message)
+
+
+@watch.command(name="remove", description="Stop following a ticker.")
+async def watch_remove(interaction: discord.Interaction, ticker: str) -> None:
+    if not _is_manager(interaction):
+        await interaction.response.send_message(
+            "Only members who can manage the server can change the watchlist.",
+            ephemeral=True,
+        )
+        return
+    _, message = bot.lists.remove(interaction.guild_id, ticker)
+    await interaction.response.send_message(message)
+
+
+@watch.command(name="list", description="Show what this server follows.")
+async def watch_list(interaction: discord.Interaction) -> None:
+    tickers = bot.lists.get(interaction.guild_id)
+    if not tickers:
+        await interaction.response.send_message(
+            "Nothing yet. Add one with `/watch add TICKER`."
+        )
+        return
+    await interaction.response.send_message(
+        f"Watching {len(tickers)}/{MAX_PER_GUILD}: " + ", ".join(tickers)
+    )
+
+
+@watch.command(name="here", description="Post the daily digest in this channel.")
+async def watch_here(interaction: discord.Interaction) -> None:
+    if not _is_manager(interaction):
+        await interaction.response.send_message(
+            "Only members who can manage the server can set the channel.",
+            ephemeral=True,
+        )
+        return
+    bot.lists.set_channel(interaction.guild_id, interaction.channel_id)
+    await interaction.response.send_message(
+        "The daily digest will be posted here, once per session after the close."
+    )
+
+
+bot.tree.add_command(watch)
+
+
+def _is_manager(interaction: discord.Interaction) -> bool:
+    """Changing what a whole server sees is a moderator action."""
+    perms = getattr(interaction.user, "guild_permissions", None)
+    return bool(perms and (perms.manage_guild or perms.administrator))
+
+
+def run() -> int:
+    if not TOKEN:
+        logger.error("DISCORD_BOT_TOKEN is not set.")
+        return 1
+    bot.run(TOKEN, log_handler=None)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(run())

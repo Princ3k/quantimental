@@ -1,0 +1,7 @@
+# Gateway client. 2.x is the line with app_commands (slash commands), which is
+# what this uses instead of message parsing — no message-content intent to get
+# verified for, and Discord validates the arguments before they reach us.
+discord.py==2.4.0
+
+# Same HTTP client the backend uses, so timeout and error semantics match.
+httpx==0.28.1
