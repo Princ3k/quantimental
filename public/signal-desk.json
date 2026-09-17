@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T16:09:36.325350+00:00",
+  "as_of": "2026-09-17T16:38:10.039077+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,10 +9,21 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.1%",
-      "change_percent": 1.14,
-      "z_score": 1.38,
+      "delta": "+1.2%",
+      "change_percent": 1.15,
+      "z_score": 1.39,
       "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "15.6",
+      "change_percent": -12.5,
+      "z_score": -0.98,
+      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -27,24 +38,13 @@
       "notable": true
     },
     {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "15.7",
-      "change_percent": -12.22,
-      "z_score": -0.96,
-      "risk_tone": "risk_on",
-      "notable": true
-    },
-    {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.57,
-      "z_score": -0.37,
+      "delta": "-1.2%",
+      "change_percent": -1.2,
+      "z_score": -0.32,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -60,6 +60,17 @@
       "notable": false
     },
     {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold little changed",
+      "direction": "flat",
+      "delta": "-0.0%",
+      "change_percent": -0.05,
+      "z_score": -0.11,
+      "risk_tone": "neutral",
+      "notable": false
+    },
+    {
       "category": "CREDIT",
       "name": "High-yield credit",
       "text": "High-yield credit bid \u2014 appetite for risk improving",
@@ -69,17 +80,6 @@
       "z_score": 0.1,
       "risk_tone": "risk_on",
       "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold little changed",
-      "direction": "flat",
-      "delta": "+0.0%",
-      "change_percent": 0.05,
-      "z_score": -0.09,
-      "risk_tone": "neutral",
-      "notable": false
     }
   ],
   "sectors": {
@@ -88,40 +88,40 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.8,
-        "z_score": 0.6
+        "change_percent": 1.72,
+        "z_score": 0.57
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 1.52,
+        "change_percent": 1.53,
         "z_score": 0.24
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.98,
-        "z_score": 0.52
+        "change_percent": 0.87,
+        "z_score": 0.46
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.06,
-        "z_score": -1.0
+        "change_percent": -1.99,
+        "z_score": -0.97
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.46,
-        "z_score": -0.89
+        "change_percent": -1.52,
+        "z_score": -0.92
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -1.33,
-        "z_score": -0.72
+        "change_percent": -1.27,
+        "z_score": -0.7
       }
     ],
     "breadth": 50,
@@ -140,7 +140,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": 5.8,
+        "effect": 5.9,
         "tone": "risk_on"
       },
       {
@@ -185,13 +185,13 @@
     21.1,
     17.7,
     16.2,
-    52.6
+    52.8
   ],
   "narrative": {
-    "text": "The dollar strengthened and volatility eased over the last five days. Health Care and Technology led gains, while Utilities and Financials lagged.",
-    "short": "Dollar rose 1.1% while volatility eased and crude oil slid.",
+    "text": "The US dollar rose while market volatility eased. Health Care and Technology led gains, but Utilities and Financials declined.",
+    "short": "Dollar strength and easing volatility marked a mixed week.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T16:09:36.825407+00:00"
+  "generated_at": "2026-09-17T16:38:10.508088+00:00"
 }
