@@ -44,6 +44,11 @@ export const metadata: Metadata = {
     siteName: 'Quantimental',
     type: 'website',
   },
+  // Without this X renders the share card as a small square thumbnail and
+  // crops the sentence out of it, which is the only part worth reading.
+  twitter: {
+    card: 'summary_large_image',
+  },
 }
 
 export const viewport: Viewport = {

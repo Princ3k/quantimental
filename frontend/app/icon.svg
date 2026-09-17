@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Quantimental">
+  <!--
+    A reading that stops.
+
+    Every other chart mark in this category ends in an arrowhead pointing off
+    the canvas — the forecast. This one ends in a solid dot with nothing after
+    it, because the product describes what happened and refuses to say what
+    comes next. The empty right-hand third is the mark's whole argument, so
+    do not fill it.
+
+    Monochrome on purpose: green and red already mean "up today" and "down
+    today" everywhere else in this interface, and a logo in either would take
+    a directional position the product does not hold.
+  -->
+  <style>
+    .ink { stroke: #1c1b1a; fill: #1c1b1a; }
+    @media (prefers-color-scheme: dark) { .ink { stroke: #f4f3f1; fill: #f4f3f1; } }
+  </style>
+  <path class="ink" d="M4 23 L10 17.5 L15.5 20.5 L24 11"
+        fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+  <circle class="ink" cx="24" cy="11" r="3.2" stroke="none" />
+</svg>
