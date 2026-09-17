@@ -140,8 +140,16 @@ jobs:
       # observation per trading day, so the eight hourly runs would spend the
       # same Yahoo budget overwriting the same row — and sweeping nine times a
       # day is how you get rate limited. Only the post-close run measures it.
+      # Reads the archive without writing to it: publish_unusual.py carries the
+      # last sweep's coverage forward and reports how many sessions are banked.
+      # Without this the hourly runs looked at the default path, which does not
+      # exist in the public checkout, so every one of them republished the
+      # snapshot with no `v` and archive_days: 0 — wiping, within the hour, what
+      # the post-close sweep had just measured.
       - name: Scan for unusual moves
         if: ${{ !(github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention) }}
+        env:
+          ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
         run: python scripts/publish_unusual.py ../public/unusual.json --filings
 
       - name: Scan, and measure attention
