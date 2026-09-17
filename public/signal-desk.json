@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T20:07:43.081506+00:00",
+  "as_of": "2026-09-17T20:33:36.731659+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.1%",
-      "change_percent": 1.13,
-      "z_score": 1.37,
+      "delta": "+1.2%",
+      "change_percent": 1.16,
+      "z_score": 1.4,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.76,
-      "z_score": 1.17,
+      "change_percent": 0.77,
+      "z_score": 1.19,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "15.4",
-      "change_percent": -13.51,
-      "z_score": -1.05,
+      "change_percent": -13.45,
+      "z_score": -1.04,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.2%",
-      "change_percent": -1.25,
-      "z_score": -0.33,
+      "change_percent": -1.18,
+      "z_score": -0.32,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -54,8 +54,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.46,
-      "z_score": -0.22,
+      "change_percent": -0.53,
+      "z_score": -0.24,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -77,7 +77,7 @@
       "direction": "up",
       "delta": "+0.1%",
       "change_percent": 0.13,
-      "z_score": 0.18,
+      "z_score": 0.17,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -94,28 +94,28 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 1.54,
+        "change_percent": 1.53,
         "z_score": 0.25
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.74,
-        "z_score": 0.4
+        "change_percent": 0.76,
+        "z_score": 0.41
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -1.99,
-        "z_score": -0.96
+        "change_percent": -1.95,
+        "z_score": -0.95
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.75,
-        "z_score": -1.05
+        "change_percent": -1.74,
+        "z_score": -1.04
       },
       {
         "symbol": "XLI",
@@ -135,17 +135,17 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.2,
+        "effect": -8.4,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 6.3,
+        "effect": 6.2,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 4.0,
+        "effect": 4.1,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.3,
+        "effect": 1.4,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     21.1,
     17.7,
     16.2,
-    52.6
+    52.5
   ],
   "narrative": {
-    "text": "The US dollar rose 1.1% while the volatility index fell 13.5%. Health Care led gains, but Utilities and Financials declined.",
-    "short": "Dollar strength and easing volatility marked a mixed week for markets.",
+    "text": "The US dollar gained 1.2% while the volatility index dropped 13.4%. Health care and technology were the strongest sectors, while utilities and financials lagged.",
+    "short": "Dollar strengthened and volatility eased as health care and tech led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T20:07:43.694522+00:00"
+  "generated_at": "2026-09-17T20:33:37.378903+00:00"
 }
