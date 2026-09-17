@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T20:33:36.731659+00:00",
+  "as_of": "2026-09-17T20:39:49.043499+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.2%",
-      "change_percent": 1.16,
-      "z_score": 1.4,
+      "delta": "+1.1%",
+      "change_percent": 1.15,
+      "z_score": 1.39,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.2%",
-      "change_percent": -1.18,
-      "z_score": -0.32,
+      "delta": "-1.3%",
+      "change_percent": -1.26,
+      "z_score": -0.33,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.53,
-      "z_score": -0.24,
+      "delta": "-0.6%",
+      "change_percent": -0.56,
+      "z_score": -0.25,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.4,
+        "effect": -8.3,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.4,
+        "effect": 1.5,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     21.1,
     17.7,
     16.2,
-    52.5
+    52.6
   ],
   "narrative": {
-    "text": "The US dollar gained 1.2% while the volatility index dropped 13.4%. Health care and technology were the strongest sectors, while utilities and financials lagged.",
-    "short": "Dollar strengthened and volatility eased as health care and tech led gains.",
+    "text": "The dollar strengthened sharply and volatility eased. Oil and gold declined, while health care and technology led sector gains.",
+    "short": "Dollar surged and volatility eased while oil and gold slid.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T20:33:37.378903+00:00"
+  "generated_at": "2026-09-17T20:39:49.531883+00:00"
 }
