@@ -58,10 +58,18 @@ class TestWatchlist:
 
 
 class TestScheduledPostState:
-    def test_guilds_needs_both_a_list_and_a_channel(self, lists):
+    def test_guilds_needs_somewhere_to_post(self, lists):
         lists.add(1, "AAPL")
         assert lists.guilds() == []          # nowhere to post yet
         lists.set_channel(1, 999)
+        assert lists.guilds() == [1]
+
+    def test_a_channel_alone_is_enough(self, lists):
+        # The zero-configuration path, and most of the point: unusual moves and
+        # filings are about the market, not about anyone's list, so a server
+        # that has only run /watch here still gets the close summary.
+        lists.set_channel(1, 999)
+        assert lists.get(1) == []
         assert lists.guilds() == [1]
 
     def test_channel_and_posted_are_not_mistaken_for_guilds_or_tickers(self, lists):

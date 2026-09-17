@@ -50,6 +50,38 @@ FLAT = 0x55524F
 # be a claim we cannot support. Two hours covers an hourly scan missing a slot.
 STALE_AFTER_HOURS = 2.0
 
+# Discord's cap on one embed field. Going over does not truncate the field — it
+# rejects the whole embed, so the post fails to send, and since a failed send is
+# deliberately not marked done, it retries and fails every fifteen minutes until
+# the session is abandoned. Six 8-K filings with EDGAR URLs came to 1221
+# characters on the first day this ran, which is how this limit was found.
+FIELD_LIMIT = 1024
+
+# Room for the "+N more" marker when lines have to be dropped.
+_MORE_ALLOWANCE = 24
+
+
+def _fit(lines: list[str], *, suffix: str = "", limit: int = FIELD_LIMIT) -> str:
+    """As many whole lines as fit, then a count of what was left out.
+
+    Never a half-rendered line: a truncated markdown link renders as raw text
+    and a truncated URL is a broken one.
+    """
+    joined = "\n".join(lines) + suffix
+    if len(joined) <= limit:
+        return joined
+
+    kept: list[str] = []
+    used = len(suffix) + _MORE_ALLOWANCE
+    for line in lines:
+        if used + len(line) + 1 > limit:
+            break
+        kept.append(line)
+        used += len(line) + 1
+
+    dropped = len(lines) - len(kept)
+    return "\n".join(kept) + f"\n_+{dropped} more_" + suffix
+
 
 def _colour(change: Optional[float]) -> int:
     if change is None or abs(change) < 0.5:
@@ -138,6 +170,108 @@ def _filing(filing: dict) -> str:
     return "\n".join(lines)
 
 
+def close_post(
+    explanations: list[Explanation],
+    *,
+    as_of: Optional[str],
+    generated_at: Optional[str],
+    unusual_feed=None,
+    filings: Optional[list[dict]] = None,
+    missing: Optional[list[str]] = None,
+) -> Optional[discord.Embed]:
+    """The one post a day, after the close.
+
+    One embed, not three. A server that gets a watchlist post, an unusual-moves
+    post and a filings post gets muted; the same content in one block after the
+    close is a market summary someone reads.
+
+    Every section is optional and appears only when it has something in it,
+    which is what lets this work with no configuration at all: a server that has
+    only run `/watch here` still gets unusual moves and filings, because those
+    are about the market rather than about their list. Returns None when there
+    is nothing in any section, because a daily post saying nothing happened is
+    how a bot teaches a channel to ignore it.
+    """
+    movers = list(getattr(unusual_feed, "movers", None) or [])
+    filed = list(filings or [])
+    if not explanations and not movers and not filed:
+        return None
+
+    embed = discord.Embed(
+        title="After the close",
+        url=SITE,
+        colour=FLAT,
+    )
+
+    if movers:
+        embed.add_field(
+            name="Moved unusually",
+            value=_fit([
+                f"{'▲' if m.get('direction') == 'up' else '▼'} "
+                f"**{_linked(m.get('ticker', ''))}** — {m.get('headline') or ''}".rstrip(" —")
+                for m in movers[:8]
+            ]),
+            inline=False,
+        )
+
+    if filed:
+        embed.add_field(
+            name=f"Filed an 8-K ({len(filed)})",
+            # The caveat is carried once for the block rather than on every
+            # line, and is passed as a suffix so it survives truncation — it
+            # must travel with the facts even when some of them are dropped.
+            value=_fit(
+                [_filing_line(f) for f in filed],
+                suffix="\n_Filed the same session. Same-day is adjacency, not cause._",
+            ),
+            inline=False,
+        )
+
+    if explanations:
+        embed.add_field(
+            name="Your watchlist",
+            value=_watchlist_lines(explanations),
+            inline=False,
+        )
+
+    if missing:
+        embed.add_field(name="Not covered", value=", ".join(missing), inline=False)
+
+    footer = []
+    if as_of:
+        footer.append(f"Session of {as_of}")
+    notice = stale_notice(generated_at)
+    if notice:
+        footer.append(notice)
+    disclosure = next((e.disclosure for e in explanations if e.disclosure), None)
+    footer.append(disclosure or "Descriptive only. Not investment advice, and not a forecast.")
+    embed.set_footer(text="\n".join(footer))
+    return embed
+
+
+def _filing_line(f: dict) -> str:
+    items = ", ".join(f.get("items") or []) or "8-K"
+    ticker = _linked(f.get("ticker", ""))
+    body = f"**{ticker}** {items} — {f.get('reported') or 'filed this session'}"
+    return f"{body} · [EDGAR]({f['url']})" if f.get("url") else body
+
+
+def _watchlist_lines(explanations: list[Explanation]) -> str:
+    ordered = sorted(
+        explanations,
+        key=lambda e: abs(e.movement.get("change_percent") or 0.0),
+        reverse=True,
+    )
+    lines = []
+    for e in ordered:
+        change = e.movement.get("change_percent")
+        arrow = "▲" if (change or 0) > 0 else "▼" if (change or 0) < 0 else "▬"
+        lines.append(
+            f"{arrow} **{_linked(e.ticker)}** {_pct(change)} — {e.explanation or ''}".rstrip(" —")
+        )
+    return _fit(lines)
+
+
 def digest(
     explanations: list[Explanation],
     *,
@@ -145,12 +279,7 @@ def digest(
     generated_at: Optional[str],
     missing: Optional[list[str]] = None,
 ) -> discord.Embed:
-    """The daily post: one embed for a whole watchlist.
-
-    One embed rather than one per stock. Twenty separate embeds is a wall that
-    nobody reads and that Discord rate-limits; a single ordered list is the
-    shape someone actually scans over morning coffee.
-    """
+    """A watchlist on its own. Kept for /watch list-style use and its tests."""
     embed = discord.Embed(
         title="Today's watchlist",
         url=f"{SITE}/stocks",

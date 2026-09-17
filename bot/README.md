@@ -13,6 +13,12 @@ tests. Anything this bot phrased itself would not be.
 | `/unusual` | Stocks that moved far beyond their own normal today. |
 | `/market` | What the market as a whole did today. |
 | `/misses` | Tickers people asked for that are not covered. Bot owner only. |
+
+One post a day, after the close: unusual moves, 8-K filings, then the server's
+watchlist. Each section appears only when it has something, which is what makes
+`/watch here` alone enough — unusual moves and filings are about the market,
+not about anyone's list. When no section has anything, nothing is posted: a
+daily "nothing happened" is how a channel learns to ignore a bot.
 | `/watch add TICKER` | Follow a ticker. Manage-server permission. |
 | `/watch remove TICKER` | Stop following one. |
 | `/watch list` | What this server follows. |
@@ -107,6 +113,15 @@ is actually made good, and therefore the page a sceptic should land on.
 
 URLs are lower-cased, matching what `generateStaticParams` prerenders. Upper
 case resolves too, but misses the static route and is not the canonical URL.
+
+## Discord's field limits
+
+A field value over 1024 characters does not get truncated by Discord — the
+whole embed is rejected, the post fails, and because a failed send is
+deliberately not marked done it retries and fails every fifteen minutes until
+the session is abandoned. Six real 8-K filings with EDGAR URLs came to 1221
+characters on the first day, so `_fit()` drops whole lines and says how many it
+left out. Whole lines only: a truncated markdown link renders as raw text.
 
 ## Measuring the universe gap
 

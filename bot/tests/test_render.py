@@ -198,3 +198,171 @@ class TestLinksBack:
         assert render_module.stock_url("AAPL") == "https://staging.example.com/stock/aapl"
         monkeypatch.delenv("QUANTIMENTAL_SITE")
         importlib.reload(render_module)
+
+
+class TestClosePost:
+    def _unusual(self, movers):
+        from client import Unusual
+        return Unusual(
+            as_of="2026-09-17", generated_at=datetime.now(timezone.utc).isoformat(),
+            scanned=503, count=len(movers), movers=movers, biggest=[],
+            threshold={"multiple": 2.0, "min_move_percent": 1.5}, disclosure="",
+        )
+
+    MOVER = {"ticker": "GNRC", "direction": "up",
+             "headline": "Generac is up 17.9% today, 4.0x its typical 4.5% daily move."}
+    FILING = {"ticker": "AIG", "items": ["5.02"],
+              "reported": "a change among its directors", "url": "https://sec.gov/x"}
+
+    def _names(self, embed):
+        return [f.name for f in embed.fields]
+
+    def test_nothing_at_all_posts_nothing(self):
+        # A daily post saying nothing happened is how a channel learns to
+        # ignore the bot.
+        assert render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=[],
+        ) is None
+
+    def test_a_server_with_no_watchlist_still_gets_the_market(self):
+        # The zero-configuration path: only /watch here was ever run.
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([self.MOVER]), filings=[self.FILING],
+        )
+        assert embed is not None
+        assert self._names(embed) == ["Moved unusually", "Filed an 8-K (1)"]
+
+    def test_sections_appear_only_when_they_have_something(self):
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([self.MOVER]), filings=[],
+        )
+        assert self._names(embed) == ["Moved unusually"]
+
+    def test_all_three_sections_in_order(self):
+        embed = render.close_post(
+            [row("AAPL")], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([self.MOVER]), filings=[self.FILING],
+        )
+        assert self._names(embed) == ["Moved unusually", "Filed an 8-K (1)", "Your watchlist"]
+
+    def test_the_watchlist_is_still_ordered_by_size_of_move(self):
+        embed = render.close_post(
+            [row("AAPL", 0.3), row("NVDA", -4.1)], as_of="2026-09-17",
+            generated_at=None, unusual_feed=self._unusual([]), filings=[],
+        )
+        lines = [f for f in embed.fields if f.name == "Your watchlist"][0].value.splitlines()
+        assert "NVDA" in lines[0] and "AAPL" in lines[1]
+
+    def test_the_adjacency_caveat_rides_with_the_filings(self):
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=[self.FILING],
+        )
+        block = [f for f in embed.fields if f.name.startswith("Filed")][0].value
+        assert "adjacency, not cause" in block
+        # Once for the block, not once per line.
+        assert block.count("adjacency, not cause") == 1
+
+    def test_filings_link_to_edgar_and_to_the_stock_page(self):
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=[self.FILING],
+        )
+        block = [f for f in embed.fields if f.name.startswith("Filed")][0].value
+        assert "https://sec.gov/x" in block
+        assert "https://www.thequantimental.com/stock/aig" in block
+
+    def test_a_filing_without_a_url_is_still_shown(self):
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]),
+            filings=[{"ticker": "AWK", "items": ["8.01"], "reported": "another event"}],
+        )
+        assert "AWK" in [f for f in embed.fields if f.name.startswith("Filed")][0].value
+
+    def test_the_disclosure_is_present_even_with_no_watchlist(self):
+        # It normally comes off an Explanation; there is not one here.
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([self.MOVER]), filings=[],
+        )
+        assert "not a forecast" in embed.footer.text
+
+
+class TestDiscordLimits:
+    """Over a field limit Discord rejects the whole embed, not just the field."""
+
+    def _long_filings(self, n):
+        return [{
+            "ticker": f"AA{chr(65 + i % 26)}",
+            "items": ["1.01", "2.03", "8.01"],
+            "reported": "reporting a material definitive agreement",
+            "url": f"https://www.sec.gov/Archives/edgar/data/{i}23554/00016282802606{i}267/x-2026091{i}.htm",
+        } for i in range(n)]
+
+    def _unusual(self, movers):
+        from client import Unusual
+        return Unusual(as_of="2026-09-17", generated_at=None, scanned=503,
+                       count=len(movers), movers=movers, biggest=[],
+                       threshold={}, disclosure="")
+
+    def test_fit_keeps_whole_lines_only(self):
+        # A truncated markdown link renders as raw text; a truncated URL is a
+        # broken one. Lines are dropped whole or not at all.
+        out = render._fit([f"[AAA](https://example.com/{'x' * 80})" for _ in range(40)])
+        assert len(out) <= render.FIELD_LIMIT
+        for line in out.splitlines():
+            assert line.startswith("[AAA](https://") or line.startswith("_+")
+
+    def test_a_long_filing_block_stays_under_the_limit(self):
+        # Six real filings with EDGAR URLs came to 1221 characters live.
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=self._long_filings(12),
+        )
+        block = [f for f in embed.fields if f.name.startswith("Filed")][0]
+        assert len(block.value) <= render.FIELD_LIMIT
+        assert "more_" in block.value            # says what it left out
+
+    def test_the_caveat_survives_truncation(self):
+        # It must travel with the facts even when some facts are dropped.
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=self._long_filings(12),
+        )
+        block = [f for f in embed.fields if f.name.startswith("Filed")][0].value
+        assert "adjacency, not cause" in block
+
+    def test_the_header_count_reports_all_of_them_not_the_shown_ones(self):
+        embed = render.close_post(
+            [], as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=self._long_filings(12),
+        )
+        assert [f for f in embed.fields if f.name.startswith("Filed")][0].name == "Filed an 8-K (12)"
+
+    def test_a_full_watchlist_stays_under_the_limit(self):
+        # MAX_PER_GUILD is 25, and 25 sentences with links exceed 1024.
+        embed = render.close_post(
+            [row(f"AA{chr(65 + i)}", 1.5) for i in range(25)],
+            as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([]), filings=[],
+        )
+        block = [f for f in embed.fields if f.name == "Your watchlist"][0]
+        assert len(block.value) <= render.FIELD_LIMIT
+
+    def test_everything_fits_the_whole_embed_budget(self):
+        embed = render.close_post(
+            [row(f"AA{chr(65 + i)}", 1.5) for i in range(25)],
+            as_of="2026-09-17", generated_at=None,
+            unusual_feed=self._unusual([
+                {"ticker": f"BB{chr(65 + i)}", "direction": "up",
+                 "headline": "x" * 90} for i in range(8)
+            ]),
+            filings=self._long_filings(12),
+        )
+        total = (len(embed.title or "") + len(embed.footer.text or "")
+                 + sum(len(f.name) + len(f.value) for f in embed.fields))
+        assert total <= 6000

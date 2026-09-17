@@ -90,6 +90,17 @@ class Unusual:
 
 
 @dataclass(frozen=True)
+class Filings:
+    """The 8-Ks filed for one session."""
+
+    as_of: Optional[str]
+    generated_at: Optional[str]
+    count: int
+    filings: list[dict[str, Any]]
+    disclosure: str
+
+
+@dataclass(frozen=True)
 class Batch:
     """What one call returned, and what it could not answer."""
 
@@ -168,6 +179,19 @@ class QuantimentalClient:
             movers=payload.get("movers") or [],
             biggest=payload.get("biggest") or [],
             threshold=payload.get("threshold") or {},
+            disclosure=payload.get("disclosure", ""),
+        )
+
+    async def filings(self, limit: int = 25) -> Filings:
+        """The 8-Ks companies filed for this session."""
+        payload = await self._get("/api/v1/market/filings", {"limit": limit})
+        if not payload.get("available"):
+            raise ApiUnavailable(payload.get("reason") or "No published scan.")
+        return Filings(
+            as_of=payload.get("as_of"),
+            generated_at=payload.get("generated_at"),
+            count=payload.get("count") or 0,
+            filings=payload.get("filings") or [],
             disclosure=payload.get("disclosure", ""),
         )
 

@@ -101,12 +101,16 @@ class Watchlists:
             return list(self._guilds.get(str(guild_id), {}).get("tickers", []))
 
     def guilds(self) -> list[int]:
-        """Guilds with at least one ticker and somewhere to post it."""
+        """Guilds with somewhere to post.
+
+        A channel alone is enough. The close summary leads with unusual moves
+        and filings, which are about the market rather than about anyone's
+        list, so a server that has only run `/watch here` still gets one — and
+        that zero-configuration path is most of the point.
+        """
         with self._lock:
             return [
-                int(gid)
-                for gid, state in self._guilds.items()
-                if state.get("tickers") and state.get("channel")
+                int(gid) for gid, state in self._guilds.items() if state.get("channel")
             ]
 
     def every_ticker(self) -> list[str]:

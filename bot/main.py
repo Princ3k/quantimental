@@ -69,34 +69,44 @@ class QuantimentalBot(discord.Client):
 
     @tasks.loop(minutes=POLL_MINUTES)
     async def daily(self) -> None:
-        """Post each guild's digest once per session, when one is ready."""
+        """Post each guild's close summary once per session, when one is ready."""
         guilds = self.lists.guilds()
         if not guilds:
             return
 
-        wanted = self.lists.every_ticker()
-        if not wanted:
-            return
-
+        # Market-wide first: these need no watchlist, and are the reason a
+        # server that has only run /watch here still gets something every day.
         try:
-            # One call for every guild. The cost is the number of distinct
-            # companies anyone follows, not servers times tickers.
-            batch = await self.api.explain(wanted[: 100])
+            unusual = await self.api.unusual()
+            filings = await self.api.filings()
         except ApiUnavailable as exc:
-            # Warning, not error: the API being briefly unreachable is expected
-            # and self-healing, and paging on it would train everyone to ignore
-            # the alert that matters.
             logger.warning("Skipping this round; API unavailable: %s", exc)
             return
 
-        rows = batch.by_ticker()
+        # One explain call serves every guild. Cost is the number of distinct
+        # companies anyone follows, not servers times tickers.
+        rows: dict = {}
+        batch = None
+        wanted = self.lists.every_ticker()
+        if wanted:
+            try:
+                batch = await self.api.explain(wanted[:100])
+                rows = batch.by_ticker()
+            except ApiUnavailable as exc:
+                # The market-wide half is still worth posting without it.
+                logger.warning("Watchlists unavailable this round: %s", exc)
+
+        as_of = unusual.as_of
+        generated_at = unusual.generated_at
         for guild_id in guilds:
             last = self.lists.get_posted(guild_id)
-            if not schedule.should_post(batch.as_of, batch.generated_at, last):
+            if not schedule.should_post(as_of, generated_at, last):
                 continue
-            await self._post_digest(guild_id, batch, rows)
+            await self._post_close(guild_id, as_of, generated_at, unusual, filings, rows)
 
-    async def _post_digest(self, guild_id: int, batch, rows) -> None:
+    async def _post_close(
+        self, guild_id: int, as_of, generated_at, unusual, filings, rows
+    ) -> None:
         channel_id = self.lists.channel(guild_id)
         if not channel_id:
             return
@@ -113,9 +123,21 @@ class QuantimentalBot(discord.Client):
         for ticker in missing:
             self.misses.record(ticker, guild_id)
 
-        embed = render.digest(
-            mine, as_of=batch.as_of, generated_at=batch.generated_at, missing=missing
+        embed = render.close_post(
+            mine,
+            as_of=as_of,
+            generated_at=generated_at,
+            unusual_feed=unusual,
+            filings=filings.filings,
+            missing=missing,
         )
+        if embed is None:
+            # Nothing unusual, nothing filed, nothing watched. A daily post
+            # saying so is how a channel learns to ignore the bot — but the
+            # session is still marked done, so this does not retry all evening.
+            self.lists.mark_posted(guild_id, as_of)
+            return
+
         try:
             await channel.send(embed=embed)
         except discord.DiscordException as exc:
@@ -123,7 +145,7 @@ class QuantimentalBot(discord.Client):
             return
         # Recorded only after a successful send, so a failed post is retried on
         # the next poll rather than being marked done.
-        self.lists.mark_posted(guild_id, batch.as_of)
+        self.lists.mark_posted(guild_id, as_of)
 
     @daily.before_loop
     async def _wait(self) -> None:
