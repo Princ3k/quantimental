@@ -53,7 +53,7 @@ API keys, no native libraries.
 ```bash
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt -r requirements-dev.txt
 PYTHONPATH=$(pwd) uvicorn app.main:app --reload --port 8000
 ```
 
@@ -215,7 +215,7 @@ reads.
 ## Tests
 
 ```bash
-cd backend && PYTHONPATH=$(pwd) python -m pytest     # 400 tests
+cd backend && PYTHONPATH=$(pwd) python -m pytest     # 423 tests
 cd frontend && npm run check                         # types + lint
 ```
 

@@ -7,7 +7,7 @@ See the [repository README](../README.md) for the project overview.
 
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements.txt -r requirements-dev.txt
 PYTHONPATH=$(pwd) uvicorn app.main:app --reload --port 8000
 ```
 
@@ -145,7 +145,7 @@ service fetches. `tests/unit/test_indicators.py` covers them.
 PYTHONPATH=$(pwd) python -m pytest
 ```
 
-114 tests, about 1.5 seconds, no network access. Market data is stubbed in the
+423 tests, about 12 seconds, no network access. Market data is stubbed in the
 API tests so CI is deterministic.
 
 ## Configuration
