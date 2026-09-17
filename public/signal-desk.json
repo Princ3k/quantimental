@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-17T21:40:02.631236+00:00",
+  "as_of": "2026-09-17T23:04:56.164667+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.2%",
-      "change_percent": 1.15,
-      "z_score": 1.39,
+      "change_percent": 1.16,
+      "z_score": 1.4,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.4%",
-      "change_percent": -1.36,
-      "z_score": -0.34,
+      "delta": "-1.3%",
+      "change_percent": -1.29,
+      "z_score": -0.33,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.6%",
-      "change_percent": -0.61,
-      "z_score": -0.26,
+      "delta": "-0.5%",
+      "change_percent": -0.54,
+      "z_score": -0.24,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.3,
+        "effect": -8.4,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.6,
+        "effect": 1.4,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     21.1,
     17.7,
     16.2,
-    52.6
+    52.5
   ],
   "narrative": {
-    "text": "The US dollar rose 1.1% while volatility fell 13.4%. Health Care and Technology led gains, while Utilities and Financials lagged.",
-    "short": "Dollar strength and easing volatility marked a mixed week for investors.",
+    "text": "The US dollar rose while volatility fell. Health Care and Technology led gains, while Utilities and Financials lagged.",
+    "short": "Dollar strength and easing volatility marked a mixed week for markets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-17T21:40:03.137036+00:00"
+  "generated_at": "2026-09-17T23:04:56.703949+00:00"
 }
