@@ -73,6 +73,7 @@ DISCORD_BOT_TOKEN=... WATCHLIST_PATH=./state.json python main.py
 | `DISCORD_BOT_TOKEN` | From the Discord developer portal. Required. |
 | `WATCHLIST_PATH` | State file. Leave unset on Railway — the default follows the attached volume. |
 | `QUANTIMENTAL_API` | Defaults to `https://api.thequantimental.com`. |
+| `QUANTIMENTAL_SITE` | Where embeds link to. Defaults to `https://www.thequantimental.com`. |
 
 State is one JSON file written to a temporary file and renamed, so a crash
 mid-write leaves the previous file intact.
@@ -94,8 +95,18 @@ ERROR State path /data/watchlists.json is not inside the mounted volume /app/dat
 ## Tests
 
 ```bash
-python -m pytest        # 68 tests, no network
+python -m pytest        # 74 tests, no network
 ```
+
+## Every embed links back
+
+A ticker in a channel is a dead end otherwise. Titles link to the stock page,
+tickers in lists are links, and the unusual threshold links to `/method` —
+which is where the claim that any of this is descriptive rather than predictive
+is actually made good, and therefore the page a sceptic should land on.
+
+URLs are lower-cased, matching what `generateStaticParams` prerenders. Upper
+case resolves too, but misses the static route and is not the canonical URL.
 
 ## Measuring the universe gap
 

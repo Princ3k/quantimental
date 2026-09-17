@@ -65,8 +65,11 @@ class TestDigest:
             generated_at=datetime.now(timezone.utc).isoformat(),
         )
         lines = embed.description.splitlines()
-        assert lines[0].startswith("▼ **NVDA**")
-        assert lines[1].startswith("▲ **CAT**")
+        # Assert the order and the direction, not the markup — the tickers are
+        # links now, and this test should not break again when they change.
+        assert lines[0].startswith("▼") and "NVDA" in lines[0]
+        assert lines[1].startswith("▲") and "CAT" in lines[1]
+        assert "AAPL" in lines[2]
 
     def test_an_empty_watchlist_says_so_rather_than_rendering_blank(self):
         embed = render.digest([], as_of="2026-09-17", generated_at=None)
@@ -140,3 +143,58 @@ class TestDesk:
         moved = [f for f in embed.fields if f.name == "What moved"][0]
         assert "Dollar strengthening" in moved.value
         assert "Quiet thing" not in moved.value   # only notable signals
+
+
+class TestLinksBack:
+    """Every embed is a way back to the site, not a dead end."""
+
+    def test_the_stock_title_links_to_its_page(self):
+        assert render.one(row()).url == "https://www.thequantimental.com/stock/aapl"
+
+    def test_the_url_is_lower_cased_like_the_route(self):
+        # generateStaticParams emits lower-cased tickers, so the lower-cased
+        # path is the prerendered one. Upper case still resolves — the page
+        # upper-cases the param itself — but it misses the static route and
+        # renders on demand, and it is not the canonical URL the sitemap and
+        # the og:image use.
+        assert render.stock_url("AAPL").endswith("/stock/aapl")
+        assert render.stock_url(" brk-b ").endswith("/stock/brk-b")
+
+    def test_digest_tickers_are_links(self):
+        embed = render.digest(
+            [row("AAPL")], as_of="2026-09-17", generated_at=None
+        )
+        assert "[AAPL](https://www.thequantimental.com/stock/aapl)" in embed.description
+        assert embed.url.endswith("/stocks")
+
+    def test_unusual_tickers_are_links(self):
+        from client import Unusual
+        feed = Unusual(
+            as_of="2026-09-17", generated_at=None, scanned=503, count=1,
+            movers=[{"ticker": "GNRC", "direction": "up", "headline": "Generac is up."}],
+            biggest=[], threshold={"multiple": 2.0, "min_move_percent": 1.5},
+            disclosure="",
+        )
+        embed = render.unusual(feed)
+        assert "[GNRC](https://www.thequantimental.com/stock/gnrc)" in embed.description
+
+    def test_the_threshold_links_to_the_method_page(self):
+        # The claim "unusual is measured, not asserted" is made good on /method.
+        from client import Unusual
+        feed = Unusual(
+            as_of="2026-09-17", generated_at=None, scanned=503, count=0,
+            movers=[], biggest=[], threshold={"multiple": 2.0, "min_move_percent": 1.5},
+            disclosure="",
+        )
+        bar = [f for f in render.unusual(feed).fields if f.name == "What counts as unusual"][0]
+        assert "https://www.thequantimental.com/method" in bar.value
+
+    def test_the_site_is_overridable(self, monkeypatch):
+        # So a staging deploy does not send people to production.
+        monkeypatch.setenv("QUANTIMENTAL_SITE", "https://staging.example.com/")
+        import importlib
+        import render as render_module
+        importlib.reload(render_module)
+        assert render_module.stock_url("AAPL") == "https://staging.example.com/stock/aapl"
+        monkeypatch.delenv("QUANTIMENTAL_SITE")
+        importlib.reload(render_module)

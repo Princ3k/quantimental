@@ -17,11 +17,28 @@ Two consequences worth stating, because both are easy to undo by accident:
 
 from __future__ import annotations
 
+import os
 from typing import Optional
 
 import discord
 
 from client import Explanation, staleness_hours
+
+# Every embed links back. A ticker in a channel is a dead end otherwise, and
+# the stock page carries the chart, the two-week history and the filing text
+# that an embed has no room for — plus /method, which is where the claim that
+# any of this is descriptive rather than predictive is actually made good.
+SITE = os.environ.get("QUANTIMENTAL_SITE", "https://www.thequantimental.com").rstrip("/")
+
+
+def stock_url(ticker: str) -> str:
+    """The page for one company. Routes are lower-cased."""
+    return f"{SITE}/stock/{(ticker or '').strip().lower()}"
+
+
+def _linked(ticker: str) -> str:
+    """A ticker as a markdown link — Discord renders it without showing a URL."""
+    return f"[{ticker}]({stock_url(ticker)})"
 
 # The app's own colours, resolved to ints. Green and red mean up and down here
 # exactly as they do on the site; nothing else in the embed uses them.
@@ -64,6 +81,7 @@ def one(explanation: Explanation) -> discord.Embed:
 
     embed = discord.Embed(
         title=f"{e.ticker} · {e.company}" if e.company else e.ticker,
+        url=stock_url(e.ticker),
         description=e.explanation or "No description published for this session.",
         colour=_colour(change),
     )
@@ -135,6 +153,7 @@ def digest(
     """
     embed = discord.Embed(
         title="Today's watchlist",
+        url=f"{SITE}/stocks",
         colour=FLAT,
     )
 
@@ -152,7 +171,9 @@ def digest(
         for e in ordered:
             change = e.movement.get("change_percent")
             arrow = "▲" if (change or 0) > 0 else "▼" if (change or 0) < 0 else "▬"
-            lines.append(f"{arrow} **{e.ticker}** {_pct(change)} — {e.explanation or ''}".rstrip(" —"))
+            lines.append(
+                f"{arrow} **{_linked(e.ticker)}** {_pct(change)} — {e.explanation or ''}".rstrip(" —")
+            )
         embed.description = "\n".join(lines)
 
     if missing:
@@ -187,7 +208,7 @@ def unusual(feed) -> discord.Embed:
       rather than promoting the largest ordinary move to fill the space. The
       product describes silence; so does this.
     """
-    embed = discord.Embed(title="Unusual moves today", colour=FLAT)
+    embed = discord.Embed(title="Unusual moves today", url=SITE, colour=FLAT)
 
     if feed.movers:
         lines = []
@@ -195,7 +216,9 @@ def unusual(feed) -> discord.Embed:
             arrow = "▲" if m.get("direction") == "up" else "▼"
             # The API's own headline, which already carries the multiple and
             # the typical move. Nothing is rephrased here.
-            lines.append(f"{arrow} **{m.get('ticker')}** — {m.get('headline') or ''}".rstrip(" —"))
+            lines.append(
+                f"{arrow} **{_linked(m.get('ticker', ''))}** — {m.get('headline') or ''}".rstrip(" —")
+            )
         embed.description = "\n".join(lines)
 
         for m in feed.movers[:3]:
@@ -225,7 +248,8 @@ def unusual(feed) -> discord.Embed:
             value=(
                 f"A move of at least {bar.get('min_move_percent')}% that is also "
                 f"{bar.get('multiple')}x the stock's own typical daily range. "
-                f"Scanned {feed.scanned or '—'} companies."
+                f"Scanned {feed.scanned or '—'} companies. "
+                f"[How this is measured]({SITE}/method)"
             ),
             inline=False,
         )
@@ -250,6 +274,7 @@ def desk(payload: dict) -> discord.Embed:
 
     embed = discord.Embed(
         title="Market today",
+        url=SITE,
         description=narrative.get("text") or narrative.get("short") or "",
         colour=FLAT,
     )
