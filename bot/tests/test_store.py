@@ -140,3 +140,36 @@ class TestDurability:
     def test_a_path_on_the_volume_is_durable(self, monkeypatch, tmp_path):
         monkeypatch.setenv("RAILWAY_VOLUME_MOUNT_PATH", str(tmp_path))
         assert store.check_durability(tmp_path / "watchlists.json") is True
+
+
+class TestForget:
+    def test_removing_a_guild_deletes_everything_it_stored(self, lists):
+        lists.add(1, "AAPL")
+        lists.set_channel(1, 999)
+        lists.mark_posted(1, "2026-09-17")
+
+        assert lists.forget(1) is True
+        assert lists.get(1) == []
+        assert lists.channel(1) is None
+        assert lists.get_posted(1) is None
+        assert lists.guilds() == []
+
+    def test_it_reaches_the_file_not_just_memory(self, tmp_path):
+        # The privacy policy says removing the bot deletes the watchlist. That
+        # has to survive a restart to be true.
+        path = tmp_path / "state.json"
+        first = Watchlists(path)
+        first.add(1, "AAPL")
+        first.set_channel(1, 999)
+        first.forget(1)
+        assert Watchlists(path).get(1) == []
+
+    def test_other_guilds_are_untouched(self, lists):
+        lists.add(1, "AAPL"); lists.set_channel(1, 1)
+        lists.add(2, "NVDA"); lists.set_channel(2, 2)
+        lists.forget(1)
+        assert lists.get(2) == ["NVDA"]
+        assert lists.guilds() == [2]
+
+    def test_forgetting_an_unknown_guild_is_harmless(self, lists):
+        assert lists.forget(999) is False

@@ -161,6 +161,26 @@ class Watchlists:
             self._guilds.setdefault(str(guild_id), {})["channel"] = int(channel_id)
             self._write()
 
+    def forget(self, guild_id: int) -> bool:
+        """Drop everything stored for one server. Returns whether there was any.
+
+        Called when the bot is removed from a server. The privacy policy says
+        removing it deletes the watchlist, and a policy that claims more than
+        the code does is a false statement about someone's data rather than a
+        missing one — so the code has to actually do it.
+
+        What this does not touch is misses.json, which holds an eight-character
+        digest of the guild id against tickers that were asked for. That is not
+        recoverable to a server and the policy says so rather than implying the
+        record goes too.
+        """
+        with self._lock:
+            existed = str(guild_id) in self._guilds
+            self._guilds.pop(str(guild_id), None)
+            if existed:
+                self._write()
+        return existed
+
     def mark_posted(self, guild_id: int, as_of: Optional[str]) -> None:
         """Record that this guild has had its digest for `as_of`.
 

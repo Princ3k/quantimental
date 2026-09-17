@@ -12,6 +12,12 @@ import { SITE_URL } from '@/lib/snapshot'
  * receiving anything is Vercel Analytics. A policy that claims more than the
  * app does is worse than none, because it is a false statement about people's
  * data rather than a missing one.
+ *
+ * The Discord section is the exception that proves the rule: the bot does keep
+ * a watchlist on our server, which directly contradicts the section above it,
+ * so the two sit next to each other rather than the difference being buried.
+ * The claim that removing the bot deletes the data is backed by
+ * `bot/main.py`'s on_guild_remove — it was written because this page says so.
  */
 export const metadata: Metadata = {
   title: 'Privacy',
@@ -29,7 +35,7 @@ export default function PrivacyPage() {
         </Link>
 
         <h1 className="mt-6 text-2xl font-medium tracking-tight">Privacy</h1>
-        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 12 September 2026</p>
+        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 17 September 2026</p>
 
         <div className="mt-8 space-y-8">
           <Section title="There are no accounts">
@@ -46,6 +52,34 @@ export default function PrivacyPage() {
               sent to us and never leave your device. Clearing your browser data erases them,
               and they do not follow you to another device — because we have no way to
               connect the two.
+            </p>
+          </Section>
+
+          <Section title="The Discord bot works differently">
+            <p>
+              Everything above describes the website. If your server uses our Discord
+              bot, there is no browser involved, so its watchlist is kept on our server
+              instead. That is the one place we store something for you rather than
+              beside you.
+            </p>
+            <p>
+              For each server we keep three things: the tickers it follows, the channel
+              its daily post goes to, and which trading session it was last sent. That is
+              the whole record.
+            </p>
+            <p>
+              We do not store who used a command. No user IDs, no usernames, no message
+              content, and the bot never asks Discord for permission to read your
+              messages or your member list — it can only see the commands addressed to
+              it. If someone asks for a ticker outside the S&amp;P 500, we record the
+              ticker so we know what is worth covering, alongside a one-way hash of the
+              server&rsquo;s ID. That tells us how many distinct servers wanted it and
+              cannot be turned back into which ones.
+            </p>
+            <p>
+              Removing the bot from a server deletes its watchlist, channel and posting
+              history immediately. The anonymous record that some server once asked about
+              a ticker stays, because there is nothing in it to connect back to you.
             </p>
           </Section>
 

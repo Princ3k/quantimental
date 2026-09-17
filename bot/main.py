@@ -60,6 +60,11 @@ class QuantimentalBot(discord.Client):
         await self.tree.sync()
         self.daily.start()
 
+    async def on_guild_remove(self, guild: discord.Guild) -> None:
+        """Forget a server the moment the bot is removed from it."""
+        if self.lists.forget(guild.id):
+            logger.info("Removed from a guild; its watchlist has been deleted.")
+
     # -- the scheduled post ------------------------------------------------
 
     @tasks.loop(minutes=POLL_MINUTES)
