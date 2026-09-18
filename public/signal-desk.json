@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T18:07:52.641424+00:00",
+  "as_of": "2026-09-18T18:37:47.634311+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -20,9 +20,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.2%",
-      "change_percent": -4.19,
-      "z_score": -0.71,
+      "delta": "-4.1%",
+      "change_percent": -4.11,
+      "z_score": -0.7,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.31,
-      "z_score": 0.51,
+      "change_percent": 0.33,
+      "z_score": 0.54,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -42,9 +42,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.3",
-      "change_percent": -3.66,
-      "z_score": -0.34,
+      "delta": "15.2",
+      "change_percent": -4.29,
+      "z_score": -0.38,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -54,8 +54,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.1,
-      "z_score": -0.32,
+      "change_percent": -0.07,
+      "z_score": -0.27,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -65,8 +65,8 @@
       "text": "Long-term rates climbing",
       "direction": "up",
       "delta": "+3bp",
-      "change_percent": 0.5,
-      "z_score": 0.06,
+      "change_percent": 0.54,
+      "z_score": 0.08,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.53,
-      "z_score": 0.04,
+      "change_percent": 0.46,
+      "z_score": 0.02,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,8 +88,8 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.84,
-        "z_score": 0.61
+        "change_percent": 2.01,
+        "z_score": 0.69
       },
       {
         "symbol": "XLK",
@@ -108,20 +108,20 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.78,
-        "z_score": -1.34
+        "change_percent": -2.75,
+        "z_score": -1.32
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.43,
-        "z_score": -1.42
+        "change_percent": -2.33,
+        "z_score": -1.37
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -1.94,
-        "z_score": -1.05
+        "change_percent": -1.79,
+        "z_score": -0.98
       }
     ],
     "breadth": 20,
@@ -145,17 +145,17 @@
       },
       {
         "name": "Volatility index",
-        "effect": 2.0,
+        "effect": 2.3,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 0.6,
+        "effect": 0.8,
         "tone": "risk_on"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -0.4,
+        "effect": -0.5,
         "tone": "risk_off"
       }
     ]
@@ -164,9 +164,9 @@
     50.2,
     35.9,
     39.2,
-    65.4,
+    65.3,
     55.1,
-    49.0,
+    48.9,
     51.0,
     64.6,
     39.4,
@@ -190,13 +190,13 @@
     17.7,
     16.1,
     52.0,
-    37.9
+    38.3
   ],
   "narrative": {
-    "text": "The US dollar rose 1.1% and crude oil fell 4.2% over five days. Health care was the strongest sector, while utilities and financials lagged.",
-    "short": "Dollar strengthened while crude oil and utilities declined.",
+    "text": "The US dollar rose 1.1% while crude oil dropped 4.1%. Only health care and technology sectors gained ground.",
+    "short": "Dollar surged and crude oil fell as most sectors declined.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T18:07:53.257336+00:00"
+  "generated_at": "2026-09-18T18:37:48.132042+00:00"
 }
