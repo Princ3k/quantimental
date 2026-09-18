@@ -57,6 +57,9 @@ STALE_AFTER_HOURS = 2.0
 # characters on the first day this ran, which is how this limit was found.
 FIELD_LIMIT = 1024
 
+# An embed description gets a larger budget than a field does.
+DESCRIPTION_LIMIT = 4096
+
 # Room for the "+N more" marker when lines have to be dropped.
 _MORE_ALLOWANCE = 24
 
@@ -449,5 +452,45 @@ def desk(payload: dict) -> discord.Embed:
         footer.append(notice)
     if payload.get("disclosure"):
         footer.append(payload["disclosure"])
+    embed.set_footer(text="\n".join(footer))
+    return embed
+
+
+def filings(feed) -> discord.Embed:
+    """The 8-Ks companies filed for this session.
+
+    Ordered as the API returns them — by item code, most notable first, which
+    is a judgement about the document. Deliberately not re-sorted here by how
+    far the stock moved: ordering filings by price action is a causal claim
+    made with a sort key, and the whole point is that these two things happened
+    on the same day and the reader decides what that means.
+    """
+    embed = discord.Embed(
+        title=f"8-K filings today ({feed.count})" if feed.count else "8-K filings today",
+        url=SITE,
+        colour=FLAT,
+    )
+
+    if not feed.filings:
+        embed.description = (
+            "No 8-K filings from the covered universe this session. "
+            "Quiet days are normal — most companies file a handful a year."
+        )
+    else:
+        embed.description = _fit(
+            [_filing_line(f) for f in feed.filings],
+            suffix="\n_Filed the same session. Same-day is adjacency, not cause._",
+            # Embed descriptions get a larger allowance than fields do.
+            limit=DESCRIPTION_LIMIT,
+        )
+
+    footer = []
+    if feed.as_of:
+        footer.append(f"Session of {feed.as_of}")
+    notice = stale_notice(feed.generated_at)
+    if notice:
+        footer.append(notice)
+    if feed.disclosure:
+        footer.append(feed.disclosure)
     embed.set_footer(text="\n".join(footer))
     return embed

@@ -366,3 +366,61 @@ class TestDiscordLimits:
         total = (len(embed.title or "") + len(embed.footer.text or "")
                  + sum(len(f.name) + len(f.value) for f in embed.fields))
         assert total <= 6000
+
+
+class TestFilingsCommand:
+    def _feed(self, rows, count=None):
+        from client import Filings
+        return Filings(
+            as_of="2026-09-17",
+            generated_at=datetime.now(timezone.utc).isoformat(),
+            count=len(rows) if count is None else count,
+            filings=rows,
+            disclosure="Descriptive only. Not investment advice, and not a forecast.",
+        )
+
+    ROWS = [
+        {"ticker": "EXE", "items": ["1.01", "2.03"], "reported": "a material agreement",
+         "url": "https://sec.gov/exe"},
+        {"ticker": "AIG", "items": ["5.02"], "reported": "a change among its directors",
+         "url": "https://sec.gov/aig"},
+    ]
+
+    def test_lists_the_filings_in_the_order_given(self):
+        # By item code, as the API returns them — not re-sorted by price move,
+        # which would be a causal claim made with a sort key.
+        embed = render.filings(self._feed(self.ROWS))
+        lines = embed.description.splitlines()
+        assert "EXE" in lines[0] and "AIG" in lines[1]
+
+    def test_the_count_is_in_the_title(self):
+        assert render.filings(self._feed(self.ROWS)).title == "8-K filings today (2)"
+
+    def test_a_quiet_session_says_so_plainly(self):
+        embed = render.filings(self._feed([]))
+        assert "No 8-K filings" in embed.description
+        assert "Quiet days are normal" in embed.description
+
+    def test_the_adjacency_caveat_is_carried(self):
+        assert "adjacency, not cause" in render.filings(self._feed(self.ROWS)).description
+
+    def test_tickers_and_edgar_are_both_linked(self):
+        d = render.filings(self._feed(self.ROWS)).description
+        assert "https://www.thequantimental.com/stock/exe" in d
+        assert "https://sec.gov/exe" in d
+
+    def test_a_long_session_stays_under_the_description_limit(self):
+        many = [{
+            "ticker": f"AA{chr(65 + i % 26)}",
+            "items": ["1.01", "2.03", "8.01"],
+            "reported": "reporting a material definitive agreement",
+            "url": f"https://www.sec.gov/Archives/edgar/data/{i}23554/00016282802606{i}267/x.htm",
+        } for i in range(120)]
+        embed = render.filings(self._feed(many))
+        assert len(embed.description) <= render.DESCRIPTION_LIMIT
+        assert "more_" in embed.description
+        # The title still reports every one of them, not just those shown.
+        assert embed.title == "8-K filings today (120)"
+
+    def test_the_disclosure_is_in_the_footer(self):
+        assert "not a forecast" in render.filings(self._feed(self.ROWS)).footer.text

@@ -188,6 +188,17 @@ async def unusual(interaction: discord.Interaction) -> None:
     await interaction.followup.send(embed=render.unusual(feed))
 
 
+@bot.tree.command(description="The 8-K filings companies made this session.")
+async def filings(interaction: discord.Interaction) -> None:
+    await interaction.response.defer()
+    try:
+        feed = await bot.api.filings()
+    except ApiUnavailable:
+        await interaction.followup.send("Quantimental is unreachable right now.")
+        return
+    await interaction.followup.send(embed=render.filings(feed))
+
+
 @bot.tree.command(description="What the market as a whole did today.")
 async def market(interaction: discord.Interaction) -> None:
     await interaction.response.defer()

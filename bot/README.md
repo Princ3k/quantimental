@@ -11,6 +11,7 @@ tests. Anything this bot phrased itself would not be.
 |---|---|
 | `/stock TICKER` | What one stock did this session. |
 | `/unusual` | Stocks that moved far beyond their own normal today. |
+| `/filings` | The 8-Ks companies filed this session. |
 | `/market` | What the market as a whole did today. |
 | `/misses` | Tickers people asked for that are not covered. Bot owner only. |
 
