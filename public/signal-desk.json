@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T17:03:57.938772+00:00",
+  "as_of": "2026-09-18T17:10:08.837397+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -20,9 +20,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.9%",
-      "change_percent": -3.95,
-      "z_score": -0.67,
+      "delta": "-4.0%",
+      "change_percent": -4.02,
+      "z_score": -0.68,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.49,
+      "change_percent": 0.3,
+      "z_score": 0.5,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -43,8 +43,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.13,
-      "z_score": -0.39,
+      "change_percent": -0.12,
+      "z_score": -0.38,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.5",
-      "change_percent": -2.4,
-      "z_score": -0.24,
+      "delta": "15.4",
+      "change_percent": -2.78,
+      "z_score": -0.27,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.23,
-      "z_score": -0.04,
+      "delta": "+0.3%",
+      "change_percent": 0.28,
+      "z_score": -0.03,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -94,34 +94,34 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 0.19,
-        "z_score": -0.13
+        "change_percent": 0.22,
+        "z_score": -0.12
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -0.28,
-        "z_score": -0.24
+        "change_percent": -0.32,
+        "z_score": -0.26
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.94,
-        "z_score": -1.41
+        "change_percent": -2.97,
+        "z_score": -1.43
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.42,
-        "z_score": -1.41
+        "change_percent": -2.48,
+        "z_score": -1.45
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -1.99,
-        "z_score": -1.08
+        "change_percent": -2.04,
+        "z_score": -1.1
       }
     ],
     "breadth": 20,
@@ -145,12 +145,12 @@
       },
       {
         "name": "Volatility index",
-        "effect": 1.4,
+        "effect": 1.6,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 0.3,
+        "effect": 0.4,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     17.7,
     16.1,
     52.0,
-    37.2
+    37.4
   ],
   "narrative": {
-    "text": "The US dollar strengthened significantly while crude oil prices slid. Health care and technology were the only sectors to advance.",
-    "short": "Dollar surged 1.2% while crude oil fell 4.0% and utilities dropped 2.9%.",
+    "text": "The US dollar strengthened and crude oil prices declined. Health care was the strongest sector, while utilities and financials lagged.",
+    "short": "Dollar rose 1.2% while crude oil fell 4.0% over the last five trading days.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T17:03:58.728909+00:00"
+  "generated_at": "2026-09-18T17:10:09.371315+00:00"
 }
