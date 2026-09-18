@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T20:38:49.485393+00:00",
+  "as_of": "2026-09-18T21:09:11.778479+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.1%",
-      "change_percent": 1.09,
-      "z_score": 1.31,
+      "change_percent": 1.1,
+      "z_score": 1.33,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.7%",
-      "change_percent": -4.73,
-      "z_score": -0.78,
+      "delta": "-4.6%",
+      "change_percent": -4.58,
+      "z_score": -0.76,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -60,6 +60,17 @@
       "notable": false
     },
     {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold bid \u2014 a defensive tilt",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.16,
+      "z_score": -0.06,
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
       "category": "RATES",
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
@@ -67,17 +78,6 @@
       "delta": "+2bp",
       "change_percent": 0.46,
       "z_score": 0.04,
-      "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold bid \u2014 a defensive tilt",
-      "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.24,
-      "z_score": -0.04,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -7.9,
+        "effect": -8.0,
         "tone": "risk_off"
       },
       {
@@ -154,8 +154,8 @@
         "tone": "risk_on"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": -0.2,
+        "name": "Gold",
+        "effect": -0.4,
         "tone": "risk_off"
       }
     ]
@@ -193,10 +193,10 @@
     40.2
   ],
   "narrative": {
-    "text": "The dollar strengthened and crude oil prices dropped. Health care and technology stocks led gains, while utilities and financials lagged.",
-    "short": "Dollar surged while crude oil fell and stock volatility eased.",
+    "text": "The dollar rose 1.1% and crude oil fell 4.6%. Health Care and Technology led gains, while Utilities and Financials lagged.",
+    "short": "Dollar surged while crude oil slid and only two sectors gained.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T20:38:49.971870+00:00"
+  "generated_at": "2026-09-18T21:09:12.267044+00:00"
 }
