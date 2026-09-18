@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T17:10:08.837397+00:00",
+  "as_of": "2026-09-18T17:37:56.741203+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.2%",
-      "change_percent": 1.18,
-      "z_score": 1.43,
+      "delta": "+1.1%",
+      "change_percent": 1.1,
+      "z_score": 1.33,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.0%",
-      "change_percent": -4.02,
-      "z_score": -0.68,
+      "delta": "-4.2%",
+      "change_percent": -4.22,
+      "z_score": -0.71,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.3,
-      "z_score": 0.5,
+      "change_percent": 0.32,
+      "z_score": 0.52,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -54,7 +54,7 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "15.4",
-      "change_percent": -2.78,
+      "change_percent": -2.71,
       "z_score": -0.27,
       "risk_tone": "risk_on",
       "notable": false
@@ -64,9 +64,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+2bp",
-      "change_percent": 0.46,
-      "z_score": 0.04,
+      "delta": "+3bp",
+      "change_percent": 0.5,
+      "z_score": 0.06,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.28,
-      "z_score": -0.03,
+      "delta": "+0.4%",
+      "change_percent": 0.35,
+      "z_score": -0.01,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,39 +88,39 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.68,
-        "z_score": 0.54
+        "change_percent": 1.7,
+        "z_score": 0.55
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 0.22,
-        "z_score": -0.12
+        "change_percent": 0.33,
+        "z_score": -0.09
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -0.32,
-        "z_score": -0.26
+        "change_percent": -0.35,
+        "z_score": -0.27
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.97,
-        "z_score": -1.43
+        "change_percent": -2.8,
+        "z_score": -1.34
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.48,
-        "z_score": -1.45
+        "change_percent": -2.5,
+        "z_score": -1.46
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -2.04,
+        "change_percent": -2.03,
         "z_score": -1.1
       }
     ],
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 37,
+    "score": 38,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.6,
+        "effect": -8.0,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -0.2,
+        "effect": -0.4,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     17.7,
     16.1,
     52.0,
-    37.4
+    37.8
   ],
   "narrative": {
-    "text": "The US dollar strengthened and crude oil prices declined. Health care was the strongest sector, while utilities and financials lagged.",
-    "short": "Dollar rose 1.2% while crude oil fell 4.0% over the last five trading days.",
+    "text": "The dollar strengthened significantly while crude oil prices slid. Only two of ten sectors advanced, with health care leading gains and utilities posting the largest losses.",
+    "short": "Dollar surged 1.1% while crude oil fell 4.2% over the last five trading days.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T17:10:09.371315+00:00"
+  "generated_at": "2026-09-18T17:37:57.275725+00:00"
 }
