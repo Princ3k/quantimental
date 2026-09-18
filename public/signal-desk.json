@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T19:34:00.340403+00:00",
+  "as_of": "2026-09-18T19:40:22.818830+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.1%",
-      "change_percent": 1.06,
-      "z_score": 1.28,
+      "change_percent": 1.08,
+      "z_score": 1.3,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,8 +20,8 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.5%",
-      "change_percent": -4.48,
+      "delta": "-4.4%",
+      "change_percent": -4.43,
       "z_score": -0.74,
       "risk_tone": "neutral",
       "notable": false
@@ -31,9 +31,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.35,
-      "z_score": 0.57,
+      "delta": "+0.4%",
+      "change_percent": 0.37,
+      "z_score": 0.61,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -54,8 +54,19 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.09,
-      "z_score": -0.31,
+      "change_percent": -0.06,
+      "z_score": -0.24,
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold bid \u2014 a defensive tilt",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.21,
+      "z_score": -0.05,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -69,17 +80,6 @@
       "z_score": 0.04,
       "risk_tone": "risk_off",
       "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold bid \u2014 a defensive tilt",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.27,
-      "z_score": -0.03,
-      "risk_tone": "risk_off",
-      "notable": false
     }
   ],
   "sectors": {
@@ -88,14 +88,14 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.85,
-        "z_score": 0.62
+        "change_percent": 2.06,
+        "z_score": 0.71
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 0.43,
-        "z_score": -0.06
+        "change_percent": 0.51,
+        "z_score": -0.04
       },
       {
         "symbol": "XLP",
@@ -108,20 +108,20 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.82,
-        "z_score": -1.35
+        "change_percent": -2.74,
+        "z_score": -1.32
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.37,
-        "z_score": -1.38
+        "change_percent": -2.33,
+        "z_score": -1.37
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": -1.85,
-        "z_score": -0.88
+        "change_percent": -1.66,
+        "z_score": -0.8
       }
     ],
     "breadth": 20,
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 39,
+    "score": 40,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -7.7,
+        "effect": -7.8,
         "tone": "risk_off"
       },
       {
@@ -150,12 +150,12 @@
       },
       {
         "name": "Credit complex",
-        "effect": 0.8,
+        "effect": 1.1,
         "tone": "risk_on"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": -0.2,
+        "name": "Gold",
+        "effect": -0.3,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     17.7,
     16.1,
     52.0,
-    39.8
+    40.1
   ],
   "narrative": {
-    "text": "The dollar strengthened significantly, while crude oil prices dropped. Financials and utilities were the weakest sectors, with only two of ten sectors advancing.",
-    "short": "Dollar surged while crude oil and financial stocks fell.",
+    "text": "The US dollar strengthened sharply while crude oil prices slid. Health Care and Technology were the only sectors to post gains.",
+    "short": "Dollar surged as oil fell and only two of ten sectors advanced.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T19:34:00.926943+00:00"
+  "generated_at": "2026-09-18T19:40:23.274026+00:00"
 }
