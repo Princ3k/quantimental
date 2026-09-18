@@ -88,8 +88,12 @@ class TestScanExpected:
     def test_before_the_window_opens(self):
         assert schedule.scan_expected(utc(2026, 9, 17, 12)) is False
 
-    def test_after_it_closes(self):
-        assert schedule.scan_expected(utc(2026, 9, 17, 23)) is False
+    def test_the_late_railway_run_is_still_inside_the_window(self):
+        # ~23:4x every weekday, from a Railway trigger that is in no cron here.
+        assert schedule.scan_expected(utc(2026, 9, 17, 23, 30)) is True
+
+    def test_after_midnight_is_outside(self):
+        assert schedule.scan_expected(utc(2026, 9, 18, 0, 30)) is False
 
     def test_overnight(self):
         assert schedule.scan_expected(utc(2026, 9, 18, 8)) is False
@@ -98,8 +102,13 @@ class TestScanExpected:
         assert schedule.scan_expected(utc(2026, 9, 19, 18)) is False
         assert schedule.scan_expected(utc(2026, 9, 20, 18)) is False
 
-    def test_the_boundaries(self):
-        assert schedule.scan_expected(utc(2026, 9, 17, 14, 0)) is True
-        assert schedule.scan_expected(utc(2026, 9, 17, 13, 59)) is False
-        assert schedule.scan_expected(utc(2026, 9, 17, 21, 59)) is True
-        assert schedule.scan_expected(utc(2026, 9, 17, 22, 0)) is False
+    def test_the_window_opens_after_the_first_scan_has_landed(self):
+        # The first scan is at 14:1x. Opening on the hour would mean warning
+        # against the previous night's run for twenty minutes every morning.
+        assert schedule.scan_expected(utc(2026, 9, 17, 14, 0)) is False
+        assert schedule.scan_expected(utc(2026, 9, 17, 14, 44)) is False
+        assert schedule.scan_expected(utc(2026, 9, 17, 14, 45)) is True
+
+    def test_the_closing_boundary(self):
+        assert schedule.scan_expected(utc(2026, 9, 17, 23, 58)) is True
+        assert schedule.scan_expected(utc(2026, 9, 17, 23, 59)) is False

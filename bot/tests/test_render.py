@@ -463,3 +463,29 @@ class TestFilingsCommand:
 
     def test_the_disclosure_is_in_the_footer(self):
         assert "not a forecast" in render.filings(self._feed(self.ROWS)).footer.text
+
+
+class TestStaleWindowEdges:
+    """Derived from what actually publishes, not from the cron."""
+
+    def _at(self, y, m, d, hh, mm=0):
+        return datetime(y, m, d, hh, mm, tzinfo=timezone.utc)
+
+    def test_no_warning_in_the_minutes_before_the_first_scan(self):
+        # 14:20 on a weekday, against last night's 23:42. A window opening at
+        # 14:00 would have warned here every morning.
+        now = self._at(2026, 9, 18, 14, 20)
+        then = self._at(2026, 9, 17, 23, 42).isoformat()
+        assert render.stale_notice(then, now=now) is None
+
+    def test_a_missed_first_scan_is_caught_once_the_window_is_open(self):
+        now = self._at(2026, 9, 18, 15, 30)
+        then = self._at(2026, 9, 17, 23, 42).isoformat()
+        assert render.stale_notice(then, now=now) is not None
+
+    def test_the_late_evening_run_is_covered(self):
+        # 23:00, against the 21:47 post-close sweep: 1h13m, and the ~23:4x run
+        # has not happened yet. Nothing is late.
+        now = self._at(2026, 9, 17, 23, 0)
+        then = self._at(2026, 9, 17, 21, 47).isoformat()
+        assert render.stale_notice(then, now=now) is None

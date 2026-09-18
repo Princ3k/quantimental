@@ -31,12 +31,20 @@ CLOSE = time(16, 0)
 # day-old digest as if it were today's is worse than posting nothing.
 ABANDON_AFTER_HOURS = 20.0
 
-# When the scans run: weekdays, hourly from 14:13 UTC, plus the post-close
-# sweep at 21:43. Outside this, no scan is due — so data from the last session
-# is the current answer however many hours ago it was published, and warning
-# about its age would mean warning every night and all weekend.
-SCAN_WINDOW_OPENS = time(14, 0)
-SCAN_WINDOW_CLOSES = time(22, 0)
+# When a scan is actually due, derived from what has published rather than from
+# the cron, because the two disagree. The workflow says hourly 14:13-21:13 plus
+# 21:43, but a Railway trigger also fires around 23:4x every weekday and is not
+# in any cron expression here — three consecutive days published at 23:44,
+# 23:52 and 23:42. Re-derive with:
+#
+#   git log origin/main --format="%H %ct" -- public/snapshot.json
+#
+# Opens at 14:45, not 14:00: the first scan lands at 14:1x, so a window opening
+# on the hour would spend its first twenty minutes comparing against the
+# previous night's run and warning every single morning — the same bug this
+# rule was written to remove, moved seventeen minutes later.
+SCAN_WINDOW_OPENS = time(14, 45)
+SCAN_WINDOW_CLOSES = time(23, 59)
 
 
 def scan_expected(now: Optional[datetime] = None) -> bool:
