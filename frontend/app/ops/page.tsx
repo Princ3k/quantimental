@@ -2,7 +2,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { SiteHeader } from '@/components/site-header'
-import { SCHEDULES, describeAge, getOps, minutesSince, slotsDue, type Run } from '@/lib/ops'
+import {
+  SCHEDULES,
+  describeAge,
+  getOps,
+  minutesSince,
+  publishOverdue,
+  slotsDue,
+  type Run,
+} from '@/lib/ops'
 import { sessionLabel } from '@/lib/session'
 
 /* A minute. The point of the page is telling you what just happened, and a
@@ -20,7 +28,6 @@ export const metadata: Metadata = {
    GitHub is entitled to take. Two hours is generous on an hourly schedule and
    deliberately so: a page that cries wolf gets ignored, and this one only
    earns its place if a red mark means something. */
-const STALE_AFTER_MINUTES = 120
 
 function Status({ ok, children }: { ok: boolean | null; children: React.ReactNode }) {
   const mark = ok === null ? '·' : ok ? '✓' : '✗'
@@ -67,7 +74,10 @@ export default async function OpsPage() {
   const publishes = (runs ?? []).filter((r) => r.name.startsWith('Publish'))
   const lastPublish = publishes[0] ?? null
   const age = minutesSince(lastPublish?.created_at ?? null)
-  const fresh = age === null ? null : age < STALE_AFTER_MINUTES
+  // Overdue is judged against whether a scan was due, not against the clock —
+  // see publishOverdue. This row was red every night against current data.
+  const overdue = publishOverdue(age)
+  const fresh = overdue === null ? null : !overdue
   const failures = publishes.filter((r) => r.conclusion === 'failure').length
 
   return (

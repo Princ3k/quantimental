@@ -172,3 +172,51 @@ export function describeAge(minutes: number | null): string {
   if (hours < 24) return `${hours}h ago`
   return `${Math.floor(hours / 24)}d ago`
 }
+
+/*
+ * When a scan is actually due.
+ *
+ * Derived from what has published rather than from the cron in
+ * .github/workflows/unusual-scan.yml, because the two disagree: a Railway
+ * trigger also fires around 23:4x every weekday and appears in no cron
+ * expression in this repository. Three consecutive days published at 23:44,
+ * 23:52 and 23:42. Re-derive with:
+ *
+ *   git log origin/main --format="%H %ct" -- public/snapshot.json
+ *
+ * The window opens at 14:45 rather than 14:00 because the first scan lands at
+ * 14:1x — opening on the hour means comparing against the previous night's run
+ * and calling it stale, every morning.
+ *
+ * Mirrors bot/schedule.py. Two copies, because the bot cannot import from here
+ * and neither can be the source of truth for the other; change both.
+ */
+const SCAN_OPENS_MINUTES = 14 * 60 + 45
+const SCAN_CLOSES_MINUTES = 23 * 60 + 59
+
+export function scanExpected(now: Date = new Date()): boolean {
+  const day = now.getUTCDay()
+  if (day === 0 || day === 6) return false
+  const minutes = now.getUTCHours() * 60 + now.getUTCMinutes()
+  return minutes >= SCAN_OPENS_MINUTES && minutes < SCAN_CLOSES_MINUTES
+}
+
+/**
+ * Whether the last publish is overdue, or null when there is nothing to judge.
+ *
+ * Measured against whether a scan was due, not against the clock. Judging by
+ * wall-clock age put a red mark on this page every night and all weekend,
+ * against data that was current — and a page that cries wolf nightly is one
+ * nobody checks on the morning something has actually broken. Same failure as
+ * the scheduler row, which used to compare against the whole day's slots.
+ */
+export function publishOverdue(
+  ageMinutes: number | null,
+  now: Date = new Date(),
+): boolean | null {
+  if (ageMinutes === null) return null
+  // Inside the window, roughly two missed hourly slots. Outside it, three days
+  // spans a long weekend and still catches a scan that has genuinely died.
+  const limit = scanExpected(now) ? 150 : 72 * 60
+  return ageMinutes >= limit
+}
