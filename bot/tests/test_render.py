@@ -21,16 +21,55 @@ def row(ticker="AAPL", change=1.5, **over):
 
 
 class TestStaleNotice:
-    def test_a_fresh_scan_gets_no_notice(self):
-        assert render.stale_notice(datetime.now(timezone.utc).isoformat()) is None
+    """Overdue is measured against the scan schedule, not the wall clock.
 
-    def test_an_old_scan_is_flagged(self):
-        then = (datetime.now(timezone.utc) - timedelta(hours=9)).isoformat()
-        assert "9 hours old" in render.stale_notice(then)
+    Scans run weekdays 14:13-21:43 UTC. 2026-09-17 is a Thursday and
+    2026-09-19 a Saturday.
+    """
 
-    def test_a_very_old_scan_is_reported_in_days(self):
-        then = (datetime.now(timezone.utc) - timedelta(days=3)).isoformat()
-        assert "3 days old" in render.stale_notice(then)
+    def _at(self, y, m, d, hh, mm=0):
+        return datetime(y, m, d, hh, mm, tzinfo=timezone.utc)
+
+    def test_a_fresh_scan_during_the_window_gets_no_notice(self):
+        now = self._at(2026, 9, 17, 18)
+        then = (now - timedelta(minutes=40)).isoformat()
+        assert render.stale_notice(then, now=now) is None
+
+    def test_a_missed_slot_during_the_window_is_flagged(self):
+        # Mid-afternoon with nothing published for three hours means the
+        # hourly scan has missed slots, and that is worth saying.
+        now = self._at(2026, 9, 17, 19)
+        then = (now - timedelta(hours=3)).isoformat()
+        assert "3 hours old" in render.stale_notice(then, now=now)
+
+    def test_overnight_is_not_stale(self):
+        # The bug this rule replaced: at 08:00 the previous close is 12 hours
+        # old and is also the correct, current answer. Warning here would mean
+        # warning every single morning.
+        now = self._at(2026, 9, 18, 8)
+        then = self._at(2026, 9, 17, 20, 18).isoformat()
+        assert render.stale_notice(then, now=now) is None
+
+    def test_a_weekend_is_not_stale(self):
+        # Sunday afternoon, against Friday's close: 67 hours and perfectly fine.
+        now = self._at(2026, 9, 20, 15)
+        then = self._at(2026, 9, 17, 20, 18).isoformat()
+        assert render.stale_notice(then, now=now) is None
+
+    def test_a_genuinely_dead_scan_is_still_caught_out_of_hours(self):
+        now = self._at(2026, 9, 22, 8)
+        then = self._at(2026, 9, 17, 20, 18).isoformat()
+        assert "days old" in render.stale_notice(then, now=now)
+
+    def test_stale_data_is_flagged_once_the_window_opens(self):
+        # Same data, two hours later: now a scan is due and none has run.
+        then = self._at(2026, 9, 17, 20, 18).isoformat()
+        assert render.stale_notice(then, now=self._at(2026, 9, 18, 13)) is None
+        assert render.stale_notice(then, now=self._at(2026, 9, 18, 15)) is not None
+
+    def test_a_missing_or_unparseable_timestamp_says_nothing(self):
+        assert render.stale_notice(None) is None
+        assert render.stale_notice("this morning") is None
 
 
 class TestOne:

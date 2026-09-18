@@ -113,7 +113,9 @@ class Batch:
         return {e.ticker.upper(): e for e in self.explanations}
 
 
-def staleness_hours(generated_at: Optional[str]) -> Optional[float]:
+def staleness_hours(
+    generated_at: Optional[str], *, now: Optional[datetime] = None
+) -> Optional[float]:
     """How old the scan behind a response is, in hours.
 
     Worth measuring rather than trusting. The API serves a cached copy of the
@@ -130,7 +132,7 @@ def staleness_hours(generated_at: Optional[str]) -> Optional[float]:
         return None
     if when.tzinfo is None:
         when = when.replace(tzinfo=timezone.utc)
-    return (datetime.now(timezone.utc) - when).total_seconds() / 3600.0
+    return ((now or datetime.now(timezone.utc)) - when).total_seconds() / 3600.0
 
 
 class QuantimentalClient:

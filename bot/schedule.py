@@ -31,6 +31,21 @@ CLOSE = time(16, 0)
 # day-old digest as if it were today's is worse than posting nothing.
 ABANDON_AFTER_HOURS = 20.0
 
+# When the scans run: weekdays, hourly from 14:13 UTC, plus the post-close
+# sweep at 21:43. Outside this, no scan is due — so data from the last session
+# is the current answer however many hours ago it was published, and warning
+# about its age would mean warning every night and all weekend.
+SCAN_WINDOW_OPENS = time(14, 0)
+SCAN_WINDOW_CLOSES = time(22, 0)
+
+
+def scan_expected(now: Optional[datetime] = None) -> bool:
+    """Whether a scan should have run recently."""
+    moment = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    if moment.weekday() >= 5:        # Saturday, Sunday
+        return False
+    return SCAN_WINDOW_OPENS <= moment.time() < SCAN_WINDOW_CLOSES
+
 
 def _closed_at(as_of: str) -> Optional[datetime]:
     """The moment the session `as_of` names stopped trading."""

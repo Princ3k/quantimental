@@ -52,11 +52,19 @@ worse than posting nothing. See `schedule.py`.
 
 ## Staleness is surfaced, not hidden
 
-`render.stale_notice()` puts a warning in the footer when the scan behind a
-response is more than two hours old. This is deliberate: the API keeps serving
-its last good snapshot when a refresh fails, and logs that at warning level, so
-nothing raises and nothing pages. A consumer that does not check `generated_at`
-cannot tell an hourly scan from a broken one.
+`render.stale_notice()` warns in the footer when a scan is overdue. This is
+deliberate: the API keeps serving its last good snapshot when a refresh fails
+and logs that at warning level, so nothing raises and nothing pages. A consumer
+that does not check `generated_at` cannot tell an hourly scan from a broken one.
+
+**Overdue is measured against the schedule, not the clock.** The first version
+warned past two wall-clock hours, which fired every morning and all weekend —
+scans run weekdays 14:13 to 21:43 UTC, so overnight the last session's close is
+the current answer and nothing is late. A warning that is on most of the time
+is one nobody reads, and then it is not there on the day a scan has died.
+
+Inside the window the limit is 2.5 hours, roughly two missed hourly slots.
+Outside it, 72 hours, which spans a long weekend and still catches a dead scan.
 
 ## Cost
 

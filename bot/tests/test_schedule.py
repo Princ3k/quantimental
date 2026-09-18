@@ -77,3 +77,29 @@ class TestShouldPost:
 
     def test_no_session_means_no_post(self):
         assert schedule.should_post(None, CLOSED, None, now=utc(2026, 9, 17, 22)) is False
+
+
+class TestScanExpected:
+    """Scans run weekdays 14:13-21:43 UTC; nothing is due outside that."""
+
+    def test_mid_window_on_a_weekday(self):
+        assert schedule.scan_expected(utc(2026, 9, 17, 18)) is True
+
+    def test_before_the_window_opens(self):
+        assert schedule.scan_expected(utc(2026, 9, 17, 12)) is False
+
+    def test_after_it_closes(self):
+        assert schedule.scan_expected(utc(2026, 9, 17, 23)) is False
+
+    def test_overnight(self):
+        assert schedule.scan_expected(utc(2026, 9, 18, 8)) is False
+
+    def test_saturday_and_sunday_even_mid_window(self):
+        assert schedule.scan_expected(utc(2026, 9, 19, 18)) is False
+        assert schedule.scan_expected(utc(2026, 9, 20, 18)) is False
+
+    def test_the_boundaries(self):
+        assert schedule.scan_expected(utc(2026, 9, 17, 14, 0)) is True
+        assert schedule.scan_expected(utc(2026, 9, 17, 13, 59)) is False
+        assert schedule.scan_expected(utc(2026, 9, 17, 21, 59)) is True
+        assert schedule.scan_expected(utc(2026, 9, 17, 22, 0)) is False

@@ -18,10 +18,12 @@ Two consequences worth stating, because both are easy to undo by accident:
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from typing import Optional
 
 import discord
 
+import schedule
 from client import Explanation, staleness_hours
 
 # Every embed links back. A ticker in a channel is a dead end otherwise, and
@@ -46,9 +48,18 @@ UP = 0x1F7C4B
 DOWN = 0xB5432F
 FLAT = 0x55524F
 
-# Past this, the scan behind a response is old enough that saying "today" would
-# be a claim we cannot support. Two hours covers an hourly scan missing a slot.
-STALE_AFTER_HOURS = 2.0
+# Staleness is measured against whether a scan was due, not against the clock.
+#
+# The first version warned past two wall-clock hours, which meant it fired every
+# morning and all weekend — the scans run weekdays 14:13 to 21:43 UTC, so
+# overnight the last session's close is the current answer and nothing is late.
+# A warning that is on most of the time is one nobody reads, and then it is not
+# there on the day a scan has actually died.
+#
+# Inside the window, two and a half hours is roughly two missed hourly slots.
+# Outside it, three days spans a long weekend and still catches a dead scan.
+STALE_DURING_SCANS_HOURS = 2.5
+STALE_OUT_OF_HOURS = 72.0
 
 # Discord's cap on one embed field. Going over does not truncate the field — it
 # rejects the whole embed, so the post fails to send, and since a failed send is
@@ -98,10 +109,19 @@ def _pct(value: Optional[float]) -> str:
     return f"{value:+.2f}%"
 
 
-def stale_notice(generated_at: Optional[str]) -> Optional[str]:
-    """A line to append when the underlying scan is old, else None."""
-    hours = staleness_hours(generated_at)
-    if hours is None or hours < STALE_AFTER_HOURS:
+def stale_notice(
+    generated_at: Optional[str], *, now: Optional[datetime] = None
+) -> Optional[str]:
+    """A line to append when a scan is genuinely overdue, else None."""
+    hours = staleness_hours(generated_at, now=now)
+    if hours is None:
+        return None
+    limit = (
+        STALE_DURING_SCANS_HOURS
+        if schedule.scan_expected(now)
+        else STALE_OUT_OF_HOURS
+    )
+    if hours < limit:
         return None
     if hours < 48:
         return f"⚠️ Latest scan is {hours:.0f} hours old."
