@@ -514,3 +514,65 @@ def filings(feed) -> discord.Embed:
         footer.append(feed.disclosure)
     embed.set_footer(text="\n".join(footer))
     return embed
+
+
+def help_embed() -> discord.Embed:
+    """What the bot does, for someone who has just seen it appear in a channel.
+
+    Written for a member, not an operator: what they can type, what the numbers
+    mean, and where the claim that none of this is a forecast is made good. The
+    admin commands are listed too rather than hidden, because a member who
+    cannot use them should still know why a daily post exists and who to ask.
+    """
+    embed = discord.Embed(
+        title="Quantimental",
+        url=SITE,
+        description=(
+            "Describes what the market and your stocks did — and refuses to say "
+            "what they will do next. Every sentence here is derived from a "
+            "measured number you can check against a chart."
+        ),
+        colour=FLAT,
+    )
+
+    embed.add_field(
+        name="Anyone can use",
+        value="\n".join([
+            "`/stock TICKER` — what one company did this session",
+            "`/unusual` — stocks that moved far beyond their *own* normal range",
+            "`/market` — what the market as a whole did",
+            "`/filings` — the 8-Ks companies filed this session",
+        ]),
+        inline=False,
+    )
+
+    embed.add_field(
+        name="Server managers",
+        value="\n".join([
+            "`/watch here` — post a daily summary in this channel after the close",
+            "`/watch add TICKER` · `/watch remove` · `/watch list`",
+        ]),
+        inline=False,
+    )
+
+    embed.add_field(
+        name='What "unusual" means',
+        value=(
+            "Measured against each stock's own typical daily range, not a fixed "
+            "percentage — so a 3% day counts for a utility and does not for a "
+            f"volatile small cap. [How it is measured]({SITE}/method)"
+        ),
+        inline=False,
+    )
+
+    embed.add_field(
+        name="Coverage",
+        value=(
+            "The S&P 500. Ask for anything else and it will say so — those "
+            "requests are counted, and what people ask for is how the list grows."
+        ),
+        inline=False,
+    )
+
+    embed.set_footer(text="Descriptive only. Not investment advice, and not a forecast.")
+    return embed

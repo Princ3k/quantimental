@@ -489,3 +489,34 @@ class TestStaleWindowEdges:
         now = self._at(2026, 9, 17, 23, 0)
         then = self._at(2026, 9, 17, 21, 47).isoformat()
         assert render.stale_notice(then, now=now) is None
+
+
+class TestHelp:
+    def test_lists_every_command_the_bot_registers(self):
+        # A command that exists but is not in help is one nobody finds.
+        text = render.help_embed().description + "".join(
+            f.name + f.value for f in render.help_embed().fields
+        )
+        for cmd in ("/stock", "/unusual", "/market", "/filings", "/watch"):
+            assert cmd in text, cmd
+
+    def test_says_what_unusual_is_measured_against(self):
+        field = [f for f in render.help_embed().fields if "unusual" in f.name][0]
+        assert "own typical daily range" in field.value
+        assert f"{render.SITE}/method" in field.value
+
+    def test_states_the_coverage_and_that_misses_are_counted(self):
+        field = [f for f in render.help_embed().fields if f.name == "Coverage"][0]
+        assert "S&P 500" in field.value
+        assert "counted" in field.value
+
+    def test_makes_the_no_forecast_position_explicit(self):
+        e = render.help_embed()
+        assert "refuses to say" in e.description
+        assert "not a forecast" in e.footer.text
+
+    def test_fits_discord_limits(self):
+        e = render.help_embed()
+        for f in e.fields:
+            assert len(f.value) <= render.FIELD_LIMIT
+        assert len(e.description) <= render.DESCRIPTION_LIMIT

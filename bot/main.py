@@ -188,6 +188,12 @@ async def unusual(interaction: discord.Interaction) -> None:
     await interaction.followup.send(embed=render.unusual(feed))
 
 
+@bot.tree.command(description="What this bot does and what you can ask it.")
+async def help(interaction: discord.Interaction) -> None:
+    """Ephemeral: a channel does not need everyone's help output in it."""
+    await interaction.response.send_message(embed=render.help_embed(), ephemeral=True)
+
+
 @bot.tree.command(description="The 8-K filings companies made this session.")
 async def filings(interaction: discord.Interaction) -> None:
     await interaction.response.defer()

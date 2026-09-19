@@ -9,6 +9,7 @@ tests. Anything this bot phrased itself would not be.
 
 | | |
 |---|---|
+| `/help` | What the bot does and what you can ask it. Ephemeral. |
 | `/stock TICKER` | What one stock did this session. |
 | `/unusual` | Stocks that moved far beyond their own normal today. |
 | `/filings` | The 8-Ks companies filed this session. |
