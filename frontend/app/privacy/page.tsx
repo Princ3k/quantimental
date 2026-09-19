@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         </Link>
 
         <h1 className="mt-6 text-2xl font-medium tracking-tight">Privacy</h1>
-        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 17 September 2026</p>
+        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 18 September 2026</p>
 
         <div className="mt-8 space-y-8">
           <Section title="There are no accounts">
@@ -80,6 +80,37 @@ export default function PrivacyPage() {
               Removing the bot from a server deletes its watchlist, channel and posting
               history immediately. The anonymous record that some server once asked about
               a ticker stays, because there is nothing in it to connect back to you.
+            </p>
+          </Section>
+
+          <Section title="If you make a personal watchlist">
+            <p>
+              The bot can keep a watchlist for you rather than for a whole server.
+              That means it has to recognise you between commands, so this is the
+              one place we store anything tied to a person — and it is stored
+              against a one-way digest of your Discord ID, never the ID itself.
+              The file is a list of ticker symbols against digests, not a list of
+              who uses this.
+            </p>
+            <p>
+              We would rather be precise than flattering about what that gets you:
+              it is pseudonymous, not anonymous. We cannot turn a digest back into
+              a Discord account, and we cannot produce a list of our users. But
+              Discord IDs are not secret, so anyone who already had yours could
+              check whether it appears. It stops the file being a directory; it
+              does not make you untraceable to someone who already knows who they
+              are looking for.
+            </p>
+            <p>
+              What is kept is the ticker symbols you added and nothing else — not
+              your username, not which servers you are in, not anything else you
+              type. <strong>Nothing is ever sent to you unasked.</strong> A personal
+              list is shown only when you run the command yourself, and only to
+              you.
+            </p>
+            <p>
+              <code>/my clear</code> deletes it immediately and completely. There
+              is nothing else of yours to delete.
             </p>
           </Section>
 

@@ -25,6 +25,7 @@ daily "nothing happened" is how a channel learns to ignore a bot.
 | `/watch remove TICKER` | Stop following one. |
 | `/watch list` | What this server follows. |
 | `/watch here` | Post the daily digest in this channel. |
+| `/my add` · `/my remove` · `/my today` · `/my clear` | A watchlist of your own, private to you. |
 
 `/unusual` reads `/api/v1/market/unusual` and `/market` reads
 `/api/v1/market/desk` — both cached published files. Note that `/market/desk`
@@ -156,3 +157,27 @@ One thing to settle before acting on the list: `mkt` in the published snapshot
 is the median of the *scanned universe*, so expanding it silently redefines
 "the market" in every attribution sentence, Apple's included. Compute the
 market median from a fixed benchmark basket first, then grow the universe.
+
+## Personal watchlists, and the identity question
+
+Asked for by the first server that installed the bot: members wanting their own
+list rather than the admin-managed one the daily post uses.
+
+Keeping a list per person means recognising that person between commands, which
+is the one thing the rest of this bot avoids. So `personal.py` keys on a
+SHA-256 of the Discord id, never the id — the file is ticker symbols against
+digests and cannot be read as, or turned into, a list of who uses this. A full
+digest rather than the 8 characters `misses.json` uses: that one only counts
+servers, where a collision is harmless, and here a collision would hand someone
+another person's watchlist.
+
+That is pseudonymity, not anonymity, and `/privacy` says so in those words.
+Discord ids are not secret, so someone who already holds yours can test for it.
+The digest stops the file being a directory; it does not defeat somebody with a
+specific person already in mind.
+
+The boundary this draws is the useful part: **a digest cannot be reversed, so
+this cannot message anyone.** Every `/my` reply is ephemeral and follows a
+command the person just typed. Push delivery would need the real id, and that
+is a separate decision with its own consent — not something to slide in behind
+this one.

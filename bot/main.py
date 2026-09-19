@@ -26,6 +26,7 @@ import render
 import schedule
 from client import ApiUnavailable, QuantimentalClient
 from misses import Misses
+from personal import MAX_PER_PERSON, Personal
 from store import MAX_PER_GUILD, Watchlists, check_durability
 
 logging.basicConfig(
@@ -51,6 +52,8 @@ class QuantimentalBot(discord.Client):
         self.lists = Watchlists()
         # Which tickers people ask for that the universe does not cover.
         self.misses = Misses()
+        # Watchlists that belong to a person, keyed by a digest of their id.
+        self.personal = Personal()
 
     async def setup_hook(self) -> None:
         # Says in the deploy logs whether watchlists will survive a redeploy.
@@ -244,6 +247,66 @@ async def misses(interaction: discord.Interaction) -> None:
         + "\n".join(lines)
     )
     await interaction.response.send_message(body[:1900], ephemeral=True)
+
+
+mine = app_commands.Group(name="my", description="Your own watchlist, private to you.")
+
+
+@mine.command(name="add", description="Add a ticker to your own list.")
+async def my_add(interaction: discord.Interaction, ticker: str) -> None:
+    _, message = bot.personal.add(interaction.user.id, ticker)
+    await interaction.response.send_message(message, ephemeral=True)
+
+
+@mine.command(name="remove", description="Take a ticker off your own list.")
+async def my_remove(interaction: discord.Interaction, ticker: str) -> None:
+    _, message = bot.personal.remove(interaction.user.id, ticker)
+    await interaction.response.send_message(message, ephemeral=True)
+
+
+@mine.command(name="clear", description="Delete your list and everything stored for you.")
+async def my_clear(interaction: discord.Interaction) -> None:
+    had = bot.personal.clear(interaction.user.id)
+    await interaction.response.send_message(
+        "Your list is deleted. Nothing of yours is stored now."
+        if had
+        else "There was nothing stored for you.",
+        ephemeral=True,
+    )
+
+
+@mine.command(name="today", description="What your own stocks did this session.")
+async def my_today(interaction: discord.Interaction) -> None:
+    watched = bot.personal.get(interaction.user.id)
+    if not watched:
+        await interaction.response.send_message(
+            "Your list is empty. Add one with `/my add TICKER`.", ephemeral=True
+        )
+        return
+
+    await interaction.response.defer(ephemeral=True)
+    try:
+        batch = await bot.api.explain(watched)
+    except ApiUnavailable:
+        await interaction.followup.send("Quantimental is unreachable right now.", ephemeral=True)
+        return
+
+    rows = batch.by_ticker()
+    found = [rows[t] for t in watched if t in rows]
+    missing = [t for t in watched if t not in rows]
+    for ticker in missing:
+        bot.misses.record(ticker, interaction.guild_id)
+
+    embed = render.digest(
+        found, as_of=batch.as_of, generated_at=batch.generated_at, missing=missing
+    )
+    embed.title = "Your watchlist"
+    # Ephemeral throughout: a personal list is shown to the person who asked and
+    # to nobody else, which is also what the privacy page promises.
+    await interaction.followup.send(embed=embed, ephemeral=True)
+
+
+bot.tree.add_command(mine)
 
 
 watch = app_commands.Group(name="watch", description="The tickers this server follows.")

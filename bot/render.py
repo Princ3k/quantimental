@@ -556,6 +556,18 @@ def help_embed() -> discord.Embed:
     )
 
     embed.add_field(
+        name="Your own list",
+        value="\n".join([
+            "`/my add TICKER` · `/my remove TICKER`",
+            "`/my today` — what your stocks did, shown only to you",
+            "`/my clear` — delete it and everything stored for you",
+            "",
+            "Private to you, and nothing is ever sent to you unasked.",
+        ]),
+        inline=False,
+    )
+
+    embed.add_field(
         name='What "unusual" means',
         value=(
             "Measured against each stock's own typical daily range, not a fixed "

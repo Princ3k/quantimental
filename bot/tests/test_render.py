@@ -520,3 +520,17 @@ class TestHelp:
         for f in e.fields:
             assert len(f.value) <= render.FIELD_LIMIT
         assert len(e.description) <= render.DESCRIPTION_LIMIT
+
+
+class TestHelpCoversPersonalLists:
+    def test_the_my_commands_are_documented(self):
+        e = render.help_embed()
+        field = [f for f in e.fields if f.name == "Your own list"][0]
+        for cmd in ("/my add", "/my remove", "/my today", "/my clear"):
+            assert cmd in field.value, cmd
+
+    def test_it_says_nothing_is_sent_unasked(self):
+        # The line that distinguishes this from a push feature, and the one the
+        # privacy page also makes. They have to agree.
+        field = [f for f in render.help_embed().fields if f.name == "Your own list"][0]
+        assert "sent to you unasked" in field.value
