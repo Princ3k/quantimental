@@ -676,3 +676,59 @@ class TestMarketauxQuotaProtection:
         await fetcher._fetch_marketaux("AAPL", limit=3, skip_full_text=True)
         await fetcher._fetch_marketaux("AAPL", limit=10, skip_full_text=True)
         assert seen == ["3", "10"], "a request for ten must not be served from three"
+
+
+class TestDiscussionsLinkBack:
+    """The Reddit threads behind the buzz count, sent back to Reddit."""
+
+    @staticmethod
+    def _service():
+        from app.services.data.real_time_sentiment_service import RealTimeSentimentService
+        return RealTimeSentimentService
+
+    def _post(self, **over):
+        post = {
+            "source": "reddit",
+            "subreddit": "stocks",
+            "title": "Why did GNRC move today?",
+            "text": "a long body that is scored and then discarded",
+            "url": "https://reddit.com/r/stocks/comments/abc/why/",
+            "author": "someone",
+            "score": 42,
+        }
+        post.update(over)
+        return post
+
+    def test_title_and_permalink_are_carried(self):
+        out = self._service()._discussions([self._post()])
+        assert out[0]["title"] == "Why did GNRC move today?"
+        assert out[0]["url"].startswith("https://reddit.com/r/stocks/comments/")
+        assert out[0]["subreddit"] == "r/stocks"
+
+    def test_the_body_and_author_are_never_carried(self):
+        # Reddit requires deleted content to be purged from anything we hold.
+        # Holding none of it is the surest way to comply.
+        out = self._service()._discussions([self._post()])
+        blob = str(out)
+        assert "discarded" not in blob
+        assert "someone" not in blob
+        assert set(out[0]) == {"title", "url", "subreddit"}
+
+    def test_a_post_without_a_link_is_dropped(self):
+        # A discussion we cannot link back to gives the reader nothing and
+        # gives Reddit nothing, which is the whole point of showing these.
+        assert self._service()._discussions([self._post(url="")]) == []
+
+    def test_an_untitled_post_is_dropped(self):
+        assert self._service()._discussions([self._post(title="  ")]) == []
+
+    def test_a_missing_subreddit_is_empty_not_a_stray_prefix(self):
+        out = self._service()._discussions([self._post(subreddit="")])
+        assert out[0]["subreddit"] == ""
+
+    def test_the_limit_is_honoured(self):
+        posts = [self._post(url=f"https://reddit.com/x/{i}") for i in range(12)]
+        assert len(self._service()._discussions(posts)) == 5
+
+    def test_no_posts_is_an_empty_list_not_an_error(self):
+        assert self._service()._discussions([]) == []

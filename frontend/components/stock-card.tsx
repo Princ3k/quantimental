@@ -13,7 +13,7 @@ import {
   formatPrice,
   formatVolume,
 } from '@/lib/presentation'
-import type { Headline, StockSignal } from '@/lib/types'
+import type { Discussion, Headline, StockSignal } from '@/lib/types'
 
 /*
  * One stock.
@@ -123,7 +123,10 @@ export function StockCard({
       {/* The why. Headlines are the explanation in a descriptive product, so
           they sit with the description rather than behind the numbers. */}
       {sentiment.available ? (
-        <Headlines items={sentiment.headlines} className="mt-4" />
+        <>
+          <Headlines items={sentiment.headlines} className="mt-4" />
+          <Discussions items={sentiment.discussions} className="mt-4" />
+        </>
       ) : (
         onDeepDive && (
           <div className="mt-3">
@@ -279,6 +282,45 @@ function Headlines({ items, className }: { items?: Headline[]; className?: strin
               <span className="text-ink-2 text-[0.8125rem] leading-relaxed">{item.title}</span>
             )}
             {item.source && <span className="text-ink-3 ml-1.5 text-[0.75rem]">{item.source}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/**
+ * The Reddit threads behind the buzz count.
+ *
+ * Same argument as `Headlines`: a number saying twelve people are discussing
+ * this asks to be believed, and a link to the threads can be read instead.
+ *
+ * These links point away from the site, which is deliberate. The count is
+ * derived from other people's writing, and the honest thing — as well as the
+ * thing Reddit's terms ask for — is to send the reader to the original rather
+ * than reproduce it here. Only titles are shown; post bodies never leave the
+ * server.
+ */
+function Discussions({ items, className }: { items?: Discussion[]; className?: string }) {
+  if (!items?.length) return null
+
+  return (
+    <div className={className}>
+      <p className="eyebrow mb-2.5">Being discussed</p>
+      <ul className="space-y-2.5">
+        {items.map((item) => (
+          <li key={item.url}>
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ink-2 hover:text-ink text-[0.8125rem] leading-relaxed transition-colors"
+            >
+              {item.title}
+            </a>
+            {item.subreddit && (
+              <span className="text-ink-3 ml-1.5 text-[0.75rem]">{item.subreddit}</span>
+            )}
           </li>
         ))}
       </ul>

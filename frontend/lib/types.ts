@@ -109,6 +109,20 @@ export interface Headline {
   published_at: string
 }
 
+/**
+ * One Reddit thread behind the buzz count.
+ *
+ * Title and link only. The post body is scored server-side and discarded, and
+ * the author is never carried — Reddit requires deleted content to be purged
+ * from anything we hold, and holding none of it is the surest way to comply.
+ */
+export interface Discussion {
+  title: string
+  url: string
+  /** Already prefixed, e.g. "r/stocks". Empty when the feed omitted it. */
+  subreddit: string
+}
+
 /** What one upstream source returned, and why. */
 export interface SourceStatus {
   /** `disabled` means no credentials, which is a choice, not a fault. */
@@ -128,6 +142,8 @@ export interface SentimentAnalysis {
   twitter_buzz: number
   /** The stories the score was computed from, so a reader can check it. */
   headlines?: Headline[]
+  /** The Reddit threads behind `reddit_buzz`, linked back to Reddit. */
+  discussions?: Discussion[]
   /** Per-source outcome; absent on older responses. */
   sources?: Record<string, SourceStatus> | null
   /** Explains why sentiment is missing, when it is. */

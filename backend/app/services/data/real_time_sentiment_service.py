@@ -84,6 +84,7 @@ class RealTimeSentimentService:
             )
             aggregated["source_status"] = source_status
             aggregated["headlines"] = self._headlines(news_articles)
+            aggregated["discussions"] = self._discussions(reddit_posts)
 
             return aggregated
 
@@ -103,6 +104,7 @@ class RealTimeSentimentService:
                     "twitter": {"score": 50, "mentions": 0}
                 },
                 "headlines": [],
+                "discussions": [],
                 "source_status": {
                     "pipeline": {
                         "status": "error",
@@ -133,6 +135,39 @@ class RealTimeSentimentService:
                 "published_at": article.get("published_at") or "",
             })
         return headlines
+
+    @staticmethod
+    def _discussions(posts: list, limit: int = 5) -> list:
+        """
+        The Reddit threads behind the buzz count, linked back to Reddit.
+
+        Same reasoning as `_headlines`: a number that says "twelve people are
+        talking about this" asks to be believed, and a link to the threads can
+        be checked instead.
+
+        It also settles what this integration gives back. Reddit's terms ask
+        what benefit an app offers Redditors, and a read-only consumer that
+        derives a count and shows nothing has a thin answer. Sending readers to
+        the original thread is a real one.
+
+        Only the title and the permalink are carried. Post bodies are scored and
+        discarded, and the author is never taken — Reddit requires deleted
+        content to be purged from anything we hold, and the surest way to
+        comply is to hold none of it.
+        """
+        discussions = []
+        for post in posts[:limit]:
+            title = (post.get("title") or "").strip()
+            url = post.get("url") or ""
+            if not title or not url:
+                continue
+            subreddit = (post.get("subreddit") or "").strip()
+            discussions.append({
+                "title": title,
+                "url": url,
+                "subreddit": f"r/{subreddit}" if subreddit else "",
+            })
+        return discussions
 
     def _analyze_reddit_with_ml(self, posts: list) -> Dict[str, Any]:
         """Analyze Reddit posts using Llama 3 via Groq."""

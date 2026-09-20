@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 # Reddit's RSS feeds, which unlike the JSON API still serve unauthenticated
 # clients. See ``_fetch_reddit``.
 REDDIT_BASE_URL = "https://www.reddit.com"
-REDDIT_USER_AGENT = "python:quantimental-sentiment:v1.0.0 (by /u/quantimental)"
+REDDIT_USER_AGENT = "python:quantimental-sentiment:v1.0.0 (by /u/_PrinceK_)"
 REDDIT_TARGET_SUBREDDITS = ["stocks", "investing", "wallstreetbets"]
 # Reddit accepts several subreddits in one path, which turns three requests
 # into one. Each entry carries a <category label="r/stocks"> saying where it

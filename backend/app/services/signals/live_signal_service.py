@@ -218,6 +218,7 @@ class LiveSignalService:
             "breakdown": data.get("breakdown", {}),
             "sources": _source_status(data),
             "headlines": data.get("headlines", []),
+            "discussions": data.get("discussions", []),
             "reason": None,
         }
 
