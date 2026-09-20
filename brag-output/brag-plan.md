@@ -238,3 +238,56 @@ deliberate trade for the two added beats.
 | 5 | 23.2 → 25.8 | Wordmark, tagline, silence |
 
 Beat locks: **8.74s** sparkline · **13.11s** the descent · **19.66s** the bars.
+
+
+---
+
+## v4 — the unusual band, and a vertical cut
+
+### The 2.2× band
+
+The card used to carry a sentence: *"A bigger move than usual for this stock — 2.2× its typical
+2.8% day, and down 5.4% over the past two weeks."* Twenty words, about three seconds of reading,
+for something a picture settles instantly. It is now a band:
+
+- A shaded range spanning **±2.84%** — Nucor's typical daily move, from the real snapshot row —
+  with a hairline goalpost at each edge and the zero axis through the middle.
+- Today's **−6.32%** as a bar growing leftward from the axis, visibly crossing the left goalpost.
+- Labels: `±2.8% is a normal day for Nucor` and `−6.32% today · 2.2× that`.
+
+This is the idea the film had been missing: the engine judges "unusual" against each stock's own
+baseline rather than a fixed percentage (`backend/app/engines/describe.py`), so a mega-cap moving
+3% is news and a small-cap moving 3% is Tuesday. The bar crossing the goalpost says that without
+a word of explanation. The fortnight figure survives as a short line beneath.
+
+Geometry is derived, not eyeballed: the track maps −7.5%…+7.5% across its width, and the band,
+axis and bar positions are computed from 2.84 and −6.32 at build time.
+
+The band takes a beat of its own (frame in at 14.55s, bar grows at 14.84s, labels at 15.29s),
+which pushes everything after it. **The film is now 27.2 seconds.** That is 2.2s past the skill's
+cap; the band and the inversion bars are both worth more than the seconds they cost.
+
+### The vertical cut
+
+`composition-vertical/` is 1080x1920 — the same timeline, the same figures, the same audio, a
+reflowed layout. It is **generated** by `build-vertical.py` from `composition/index.html`, so the
+two cannot drift: edit the landscape composition and re-run the script.
+
+What the reflow changes:
+
+- The ticker grid drops from 19 columns to 9, at 34px rows, so 503 cells still fill the frame.
+- The risk-appetite block moves from beside the sector rows to beneath them, its left hairline
+  becoming a top one.
+- The mover rows wrap: ticker, company and move on one line, the multiple on a second. The sector
+  column is dropped, since the card names it moments later.
+- The inversion track narrows from 760px to 520px, with the bar geometry recomputed from the same
+  bucket returns.
+- The band's typical label moves to the end of its track, because at 940px the two labels collide.
+
+**Type is scaled up, not merely reflowed.** A 1080-wide canvas is watched at phone width, so a
+size that reads comfortably on a 1920 frame is about a third smaller in the hand. Nothing a
+viewer needs to read sits below 22px in the vertical cut — the figure notes went 18px → 23px, the
+inversion labels 21px → 24px, the baseline caption 16px → 19px.
+
+Both cuts pass `hyperframes check` with 0 errors. The remaining warnings in each are the two
+crossfade seams and the card body mid-expansion, all transient by construction.
