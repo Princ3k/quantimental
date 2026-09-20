@@ -22,10 +22,13 @@ BAND_TRACK = COL - CARD_PAD * 2          # 860
 IV_TRACK = 520
 IV_LABEL, IV_GAP, IV_VALUE = 180, 20, 112
 
-# --- band: today against a normal day, from the real NUE row -----------------
-B_LO, B_HI = -7.5, 7.5
+# --- band: today against a normal day, from the real PEP row -----------------
+# PepsiCo's typical day is 1.43%, so the scale is tighter than a volatile name
+# would need; today's -2.93% still has to visibly clear the band edge.
+B_TYPICAL, B_TODAY = 1.43, -2.93
+B_LO, B_HI = -4.0, 4.0
 bx = lambda v: (v - B_LO) / (B_HI - B_LO) * BAND_TRACK
-b_zero, b_tlo, b_thi, b_today = bx(0), bx(-2.84), bx(2.84), bx(-6.32)
+b_zero, b_tlo, b_thi, b_today = bx(0), bx(-B_TYPICAL), bx(B_TYPICAL), bx(B_TODAY)
 
 # --- inversion bars: the real mean returns from public/backtest.json ---------
 BUCKETS = {1: -0.142, 2: 0.442, 3: 0.867, 4: 1.073, 5: 2.481}
@@ -81,6 +84,8 @@ OVERRIDES = f"""
       .mrow .tk {{ width: 80px; font-size: 27px; }}
       .mrow .co {{ width: auto; flex: 1; font-size: 30px; }}
       .mrow .sc {{ display: none; }}
+      #s3-contrast {{ margin-top: 26px; padding-top: 22px; }}
+      #c-fort, .plabel2 {{ font-size: 23px; }}
       .mrow .mv {{ width: 160px; font-size: 34px; }}
       .mrow .mx {{ width: 100%; text-align: left; margin-top: 10px; font-size: 24px; }}
 

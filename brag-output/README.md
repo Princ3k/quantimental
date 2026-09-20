@@ -21,15 +21,16 @@ to build and render.
 
 Noise, then a descent. All 503 tickers fill the frame and churn; the grid goes quiet and the
 film says *"Let's reduce the noise."* Then it keeps that promise — the day's market and sectors,
-503 scanned down to the 2 flagged unusual, and one of them (Nucor, down 6.3% on a stock whose
-typical day is 2.8%) opened up in full. Only after the product has visibly done its job does the
+503 scanned down to the 2 flagged unusual — plus Coinbase, the day's biggest move at +11.66%,
+which the engine did not flag because a 7% day is normal for Coinbase. Then one of the flagged
+two, PepsiCo, opened up in full. Only after the product has visibly done its job does the
 film say what it refuses to do: the 48.5% backtest drawn as five bucket returns climbing the
 wrong way, and the ratings deleted rather than tuned.
 
-The card carries a band showing today against a normal day for Nucor: the shaded range is its
-typical ±2.8% move with goalposts at the edges, and today's bar visibly crosses one. That is the
-engine's per-stock baseline — a mega-cap moving 3% is news, a small-cap moving 3% is Tuesday —
-shown rather than explained.
+The card carries a band showing today against a normal day for PepsiCo: the shaded range is its
+typical ±1.4% move with goalposts at the edges, and today's bar visibly crosses one. PepsiCo is
+the right stock for it precisely because −2.93% looks unremarkable until the band shows it is
+twice a normal day. The 8-K beneath is shown as adjacency, never as cause.
 
 **Every figure is real.** They come from the committed scan of 2026-09-18 in `public/` —
 `snapshot.json`, `signal-desk.json`, `unusual.json` and `backtest.json` — because the first

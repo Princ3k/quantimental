@@ -275,3 +275,31 @@ Contrast reports `0/0 text checks` in both, as before — it samples nothing rat
 nothing. The palette is unchanged from the hand-verified set (ink 18.0:1, ink-2 8.1:1, up 7.0:1,
 down 7.1:1); the two colours added since carry no text (`oklch(0.80 0.004 75)` neutral inversion
 bars, `oklch(0.945 0.003 75)` the typical-day band).
+
+
+---
+
+## v5 — built
+
+Hero swapped from Nucor to PepsiCo, the Coinbase counter-example added to the movers scene, and
+the 8-K added to the card. See `brag-plan.md` → "v5" for the reasoning.
+
+**Data, all from the same committed 2026-09-18 scan.** PepsiCo: today −2.93%, typical 1.43%,
+2.0×, fortnight −6.34%, sector (Consumer Staples) −0.96%, and an 8-K Item 5.02 filed 2026-09-17.
+Coinbase: +11.66% at 1.6× a typical 7.11% day, present in `unusual.json`'s `biggest` list and
+deliberately absent from `movers` — which is the point the row makes.
+
+**The band rescaled.** PepsiCo's typical day is 1.43% rather than Nucor's 2.84%, so the track
+now maps −4.0%…+4.0% instead of −7.5%…+7.5%; at the old scale the band and the bar would both
+have been too small to read. Geometry is recomputed from 1.43 and −2.93 in both aspects.
+
+**The filing is adjacency, never cause.** The chip sits below the market/sector conclusion as
+its own element and its own sentence. Nothing in the film joins the filing to the move.
+
+**Length held at 27.2s** by cutting the news-volume figure, folding the fortnight into the card
+header, and merging the band's label reveals.
+
+`check`: **0 errors** in both cuts. Landscape 5 lint warnings, 2 layout warnings, 3 infos;
+vertical 5 / 2 / 4. All are the crossfade seams and the card body mid-expansion.
+Rendered `--quality delivery`: 1920x1080 and 1080x1920, 27.2s, 816 frames, H.264 + AAC.
+Posters are the assembled PepsiCo card at 19.0s in each aspect, baked as frame 0.

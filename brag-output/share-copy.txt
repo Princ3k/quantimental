@@ -1,5 +1,7 @@
-503 stocks moved on Thursday. Two of them moved unusually — judged against their own typical day, not a fixed percentage. Nucor was down 6.3%, which is 2.2× a normal day for Nucor, and the market and its sector only explain a fraction of it.
+On Thursday the market fell 0.63% and 503 stocks moved. Two of them moved unusually — judged against their own typical day, not a fixed percentage.
 
-That's all Quantimental does: it describes what happened in a sentence you can check against the chart. It used to rate stocks too, until the backtest came back at 48.5% directional accuracy against a 50% coin flip. Those ratings were deleted rather than tuned, and the test that killed them is published.
+PepsiCo was down 2.93%, which looks like nothing until you know a normal PepsiCo day is 1.4%. Coinbase was up 11.66% and didn't make the list, because a 7% day is normal for Coinbase.
+
+That's Quantimental: it tells you what happened in a sentence you can check against the chart. It used to rate stocks too, until the backtest came back at 48.5% directional accuracy against a 50% coin flip. Those ratings were deleted rather than tuned, and the test that killed them is published.
 
 thequantimental.com

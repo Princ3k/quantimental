@@ -291,3 +291,58 @@ inversion labels 21px → 24px, the baseline caption 16px → 19px.
 
 Both cuts pass `hyperframes check` with 0 errors. The remaining warnings in each are the two
 crossfade seams and the card body mid-expansion, all transient by construction.
+
+
+---
+
+## v5 — PepsiCo, and the move that was not unusual
+
+### Why the hero changed
+
+Only two stocks were flagged unusual in the 2026-09-18 scan, so only two were eligible:
+Nucor (−6.32%, 2.2× its typical 2.84%) and PepsiCo (−2.93%, 2.0× its typical 1.43%).
+
+Recognition was the obvious argument for PepsiCo, but it is the weaker one. The real argument
+is that **PepsiCo is the better demonstration**. Nucor at −6.32% is self-evidently a bad day —
+anyone reading that number already knows it is big, so the band only confirms what they
+inferred. PepsiCo at −2.93% looks unremarkable. The band is what reveals it is twice a normal
+day for a stock whose typical move is 1.43%. The per-stock baseline only earns its place when
+the raw number does not already give the game away.
+
+Switching also unlocked the filings engine, which the film had ignored entirely: PepsiCo's
+snapshot row carries an 8-K, Item 5.02, *a change among its directors or senior officers*,
+filed the previous day. It appears on the card as its own element with its own sentence, below
+the market/sector conclusion and never joined to it — because a filing on the same day is
+adjacency, never cause, and the copy must never join the two.
+
+The cost is a less arresting number: `−2.93%` in place of `−6.32%`. The band and the `2.0×`
+carry the card instead.
+
+### The Coinbase counter-example
+
+The clearest way to state the per-stock baseline is to show both halves of it, so the scene
+that lists the two flagged movers now carries a third row beneath a hairline:
+
+```
+NUE   Nucor     −6.32%   2.2× its typical 2.8% daily move
+PEP   PepsiCo   −2.93%   2.0× its typical 1.4% daily move
+      ─────────────────────────────────────────────────
+COIN  Coinbase  +11.66%  1.6× — a normal day for Coinbase
+```
+
+Coinbase had the biggest move of the day and the engine left it alone, because a 7.11% day is
+ordinary for Coinbase. A 2.9% move that counts beside an 11.7% move that does not — that is the
+whole idea in two rows, and it costs one reveal rather than a scene.
+
+### Paying for it
+
+Both additions landed without the film getting longer. It is **still 27.2 seconds**.
+
+- **Cut** the news-volume figure. PepsiCo's is 6.71/day against Nucor's 41.3 — a weaker number,
+  and the card was carrying three figures where two do the work the conclusion needs.
+- **Folded** the fortnight into the card header as `−6.34% over two weeks`, a small line that
+  arrives with the count-up instead of taking a beat of its own.
+- **Merged** the band's two label reveals into one staggered pair.
+
+Beat locks: **8.74s** sparkline · **13.64s** the descent into PepsiCo · **22.93s** the closing
+line. Both cuts pass `hyperframes check` with 0 errors.

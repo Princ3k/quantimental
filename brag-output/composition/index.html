@@ -92,22 +92,29 @@
          The engine judges "unusual" against each stock's own typical daily move
          rather than a fixed percentage (backend/app/engines/describe.py). The band
          is that typical range; the bar is today overshooting it. Geometry derives
-         from the real snapshot row: typical 2.84%, today -6.32%, multiple 2.2x. */
+         from the real snapshot row: typical 1.43%, today -2.93%, multiple 2.0x. */
       #c-band { margin-top: 26px; }
       #c-bandtrack { position: relative; width: 1160px; height: 44px; margin-top: 16px; }
-      #c-typical { position: absolute; top: 0; bottom: 0; left: 360.4px; width: 439.3px;
+      #c-typical { position: absolute; top: 0; bottom: 0; left: 372.7px; width: 414.7px;
         background: oklch(0.945 0.003 75); border-radius: 3px; }
       #c-bandtrack .axis { position: absolute; top: -6px; bottom: -6px; left: 580.0px; width: 1px; background: var(--rule-strong); }
-      #c-todaybar { position: absolute; top: 11px; height: 22px; left: 91.3px; width: 488.7px;
+      #c-todaybar { position: absolute; top: 11px; height: 22px; left: 155.1px; width: 424.9px;
         background: var(--down); border-radius: 2px; transform-origin: right center; }
       /* goalposts at the edges of a normal day, so the bar visibly crosses one */
       #c-bandtrack .edge { position: absolute; top: -9px; bottom: -9px; width: 1px; background: var(--rule-strong); }
-      #c-bandtrack .edge.lo { left: 360.4px; }
-      #c-bandtrack .edge.hi { left: 799.6px; }
+      #c-bandtrack .edge.lo { left: 372.7px; }
+      #c-bandtrack .edge.hi { left: 787.3px; }
       #c-bandlbls { position: relative; width: 1160px; height: 30px; margin-top: 12px; }
       #c-bandlbls span { position: absolute; top: 0; font-size: 21px; color: var(--ink-2); white-space: nowrap; }
       #c-lbl-typ { left: 580.0px; transform: translateX(-50%); }
-      #c-lbl-today { left: 91.3px; color: var(--down); font-weight: 500; }
+      #c-lbl-today { left: 155.1px; color: var(--down); font-weight: 500; }
+      .plabel2 { font-size: 22px; color: var(--ink-2); display: block; margin-top: 6px;
+        font-family: "JetBrains Mono", ui-monospace, monospace; }
+      .figs.two { grid-template-columns: 1fr 1fr; }
+      /* the counter-example: the day's biggest move, which the engine did not flag */
+      #s3-contrast { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--rule); }
+      .mrow.quiet { border-bottom: none; padding-bottom: 0; }
+      .mrow.quiet .tk, .mrow.quiet .co { color: var(--ink-2); }
       #c-body { padding-top: 32px; overflow: hidden; }
       .figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 56px; margin-top: 22px; }
       .fig dt { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
@@ -193,51 +200,58 @@
       </section>
 
       <!-- Scene 3 — the two that were not noise, then one of them in full -->
-      <section id="s3" class="clip" data-start="9.5" data-duration="10.6" data-track-index="2">
+      <section id="s3" class="clip" data-start="9.5" data-duration="11.0" data-track-index="2">
         <div id="s3-inner" style="position:absolute; inset:0;">
           <div class="stage"><div class="col" id="s3-list">
             <div class="headrow" id="s3-head">
               <p class="eyebrow">Unusual today</p>
-              <p class="meta">503 scanned · 2 flagged</p>
+              <p class="meta">503 scanned &middot; 2 flagged</p>
             </div>
             <p id="s3-line">Two moves weren&rsquo;t.</p>
-            <div style="margin-top:34px">
+            <div style="margin-top:32px">
               <div class="mrow" id="m-nue"><span class="tk">NUE</span><span class="co">Nucor</span><span class="sc">Materials</span><span class="mv tnum down">&minus;6.32%</span><span class="mx">2.2&times; its typical 2.8% daily move</span></div>
               <div class="mrow" id="m-pep"><span class="tk">PEP</span><span class="co">PepsiCo</span><span class="sc">Consumer Staples</span><span class="mv tnum down">&minus;2.93%</span><span class="mx">2.0&times; its typical 1.4% daily move</span></div>
+            </div>
+            <div id="s3-contrast">
+              <p class="eyebrow" id="s3-clabel">The biggest move today, and not unusual</p>
+              <div class="mrow quiet" id="m-coin" style="margin-top:14px"><span class="tk">COIN</span><span class="co">Coinbase</span><span class="sc">Financials</span><span class="mv tnum up">+11.66%</span><span class="mx">1.6&times; &mdash; a normal day for Coinbase</span></div>
             </div>
           </div></div>
 
           <div id="s3-cardstage"><article class="card" id="s3-card">
             <header class="card-head">
-              <div><h2 class="cname">Nucor</h2><span class="cticker">NUE · Materials</span></div>
-              <div class="cpct"><span class="pct-big down tnum" id="c-pct">0.00%</span><span class="plabel">today</span></div>
+              <div><h2 class="cname">PepsiCo</h2><span class="cticker">PEP &middot; Consumer Staples</span></div>
+              <div class="cpct">
+                <span class="pct-big down tnum" id="c-pct">0.00%</span>
+                <span class="plabel">today</span>
+                <span class="plabel2" id="c-fort">&minus;6.34% over two weeks</span>
+              </div>
             </header>
             <div id="c-band">
-              <p class="eyebrow" id="c-bandeye">Today against a normal day for Nucor</p>
+              <p class="eyebrow" id="c-bandeye">Today against a normal day for PepsiCo</p>
               <div id="c-bandtrack">
                 <span id="c-typical"></span><span class="edge lo"></span><span class="edge hi"></span><span class="axis"></span><span id="c-todaybar"></span>
               </div>
               <div id="c-bandlbls">
-                <span id="c-lbl-typ" class="tnum">&plusmn;2.8% is a normal day for Nucor</span>
-                <span id="c-lbl-today" class="tnum">&minus;6.32% today &middot; 2.2&times; that</span>
+                <span id="c-lbl-typ" class="tnum">&plusmn;1.4% is a normal day for PepsiCo</span>
+                <span id="c-lbl-today" class="tnum">&minus;2.93% today &middot; 2.0&times; that</span>
               </div>
             </div>
-            <p id="c-unusual">and down <span class="mono tnum">5.4%</span> over the past two weeks</p>
             <div id="c-body">
               <p class="eyebrow" id="c-eyebrow">What we read</p>
-              <dl class="figs">
+              <dl class="figs two">
                 <div class="fig" id="c-f1"><dt>Market</dt><dd class="down tnum">&minus;0.63%</dd><p class="fnote">Where the whole market went today</p></div>
-                <div class="fig" id="c-f2"><dt>Materials</dt><dd class="down tnum">&minus;1.23%</dd><p class="fnote">Its own sector, same day</p></div>
-                <div class="fig" id="c-f3"><dt>News volume</dt><dd class="tnum">41.3<span style="font-size:24px">/day</span></dd><p class="fnote">How often stories about it appear</p></div>
+                <div class="fig" id="c-f2"><dt>Consumer Staples</dt><dd class="down tnum">&minus;0.96%</dd><p class="fnote">Its own sector, same day</p></div>
               </dl>
-              <p id="c-conc">Most of this was specific to Nucor.</p>
+              <p id="c-conc">Most of this was specific to PepsiCo.</p>
+              <div><span id="c-chip">8-K filed the day before &middot; a change among directors or senior officers</span></div>
             </div>
           </article></div>
         </div>
       </section>
 
       <!-- Scene 4 — the ratings, and the direction they pointed -->
-      <section id="s4" class="clip" data-start="19.2" data-duration="6.1" data-track-index="3">
+      <section id="s4" class="clip" data-start="19.8" data-duration="5.7" data-track-index="3">
         <div class="stage"><div class="col" id="s4-inner">
           <div class="headrow" id="s4-head">
             <p class="eyebrow">The ratings it used to publish</p>
@@ -257,7 +271,7 @@
       </section>
 
       <!-- Scene 5 -->
-      <section id="s5" class="clip" data-start="24.6" data-duration="2.6" data-track-index="4">
+      <section id="s5" class="clip" data-start="24.8" data-duration="2.4" data-track-index="4">
         <div class="stage"><div id="s5-col">
           <h1 id="s5-mark">Quantimental</h1>
           <div class="rule" id="s5-rule"></div>
@@ -267,12 +281,12 @@
 
       <audio id="music-bed" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"
         data-start="0" data-duration="27.2" data-track-index="10"
-        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.20},{"t":2.19,"v":0.26},{"t":23.2,"v":0.26},{"t":26.6,"v":0}]}]}'></audio>
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.20},{"t":2.19,"v":0.26},{"t":24.6,"v":0.26},{"t":26.8,"v":0}]}]}'></audio>
       <audio id="sfx-calm"  src="assets/sfx/interface/drop_002.ogg"           data-start="2.19"  data-duration="0.19" data-track-index="11" data-volume="0.26"></audio>
       <audio id="sfx-spark" src="assets/sfx/interface/drop_001.ogg"           data-start="8.74"  data-duration="0.11" data-track-index="12" data-volume="0.26"></audio>
-      <audio id="sfx-desc"  src="assets/sfx/impact/impactSoft_medium_000.ogg" data-start="13.11" data-duration="0.12" data-track-index="13" data-volume="0.46"></audio>
+      <audio id="sfx-desc"  src="assets/sfx/impact/impactSoft_medium_000.ogg" data-start="13.64" data-duration="0.12" data-track-index="13" data-volume="0.46"></audio>
       <audio id="sfx-conc"  src="assets/sfx/interface/bong_001.ogg"           data-start="17.47" data-duration="0.12" data-track-index="14" data-volume="0.26"></audio>
-      <audio id="sfx-bars"  src="assets/sfx/impact/impactSoft_medium_002.ogg" data-start="20.75" data-duration="0.12" data-track-index="15" data-volume="0.40"></audio>
+      <audio id="sfx-bars"  src="assets/sfx/impact/impactSoft_medium_002.ogg" data-start="21.28" data-duration="0.12" data-track-index="15" data-volume="0.40"></audio>
     </div>
 
     <script>
@@ -332,7 +346,7 @@
                   { strokeDashoffset: 0, duration: 0.70, ease: "power1.inOut" }, 8.74) // beat-locked: 8.74s
           .to("#s2-inner", { opacity: 0, duration: 0.70, ease: S }, 9.50);
 
-        /* ===== Scene 3 — the two, then Nucor in full (9.5 → 18.9) ===== */
+        /* ===== Scene 3 — the two flagged, the one that was not, then PepsiCo ===== */
         tl.fromTo("#s3-list", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 9.50)
           .fromTo("#s3-card", { opacity: 0, y: 44 }, { opacity: 0, y: 44, duration: 0.01 }, 0)
           .fromTo("#c-body", { height: 0, paddingTop: 0 }, { height: 0, paddingTop: 0, duration: 0.01 }, 0)
@@ -340,46 +354,50 @@
           .fromTo("#s3-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 10.37)
           .fromTo(["#m-nue", "#m-pep"], { opacity: 0, y: 14 },
                   { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.16 }, 10.93) // beat-grid: 10.93s
-          /* the descent: PepsiCo and the framing recede, Nucor lifts */
-          .to(["#s3-head", "#s3-line", "#m-pep"], { opacity: 0, duration: 0.45, ease: S }, 13.11) // beat-locked: 13.11s
-          .to("#m-nue", { y: -150, duration: 0.65, ease: "power2.inOut" }, 13.11)
-          .to("#s3-card", { opacity: 1, y: 0, duration: 0.60, ease: "power3.out" }, 13.64)
-          .to("#m-nue", { opacity: 0, duration: 0.35, ease: S }, 13.64);
-        countUp("#c-pct", 0, 6.32, 2, "−", "%", 14.20, 0.80);
-        tl.fromTo("#c-bandeye", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 14.42)
-          .fromTo(["#c-typical", "#c-bandtrack .axis", "#c-bandtrack .edge"], { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 14.55)
-          /* today overshoots the band: the per-stock-baseline idea, in one move */
-          .fromTo("#c-todaybar", { scaleX: 0 }, { scaleX: 1, duration: 0.70, ease: "power2.out" }, 14.84)
-          .fromTo("#c-lbl-typ", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 15.29)
-          .fromTo("#c-lbl-today", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 15.55)
-          .fromTo("#c-unusual", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 15.84)
+          /* the counter-example: the day's biggest move, which the engine left alone */
+          .fromTo("#s3-contrast", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.50, ease: E }, 12.02) // beat-grid: 12.02s
+          /* the descent: everything but PepsiCo recedes, and PepsiCo lifts */
+          .to(["#s3-head", "#s3-line", "#m-nue", "#s3-contrast"], { opacity: 0, duration: 0.45, ease: S }, 13.64) // beat-locked: 13.64s
+          .to("#m-pep", { y: -150, duration: 0.65, ease: "power2.inOut" }, 13.64)
+          .to("#s3-card", { opacity: 1, y: 0, duration: 0.60, ease: "power3.out" }, 14.20)
+          .to("#m-pep", { opacity: 0, duration: 0.35, ease: S }, 14.20);
+        countUp("#c-pct", 0, 2.93, 2, "\u2212", "%", 14.73, 0.80);
+        tl.fromTo("#c-fort", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 14.73)
+          .fromTo("#c-bandeye", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 15.05)
+          .fromTo(["#c-typical", "#c-bandtrack .axis", "#c-bandtrack .edge"], { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 15.05)
+          /* today overshoots the band. It matters more here than with a -6.3% stock:
+             -2.93% looks unremarkable until the band shows it is twice a normal
+             PepsiCo day, which is the whole per-stock-baseline idea. */
+          .fromTo("#c-todaybar", { scaleX: 0 }, { scaleX: 1, duration: 0.70, ease: "power2.out" }, 15.29)
+          .fromTo(["#c-lbl-typ", "#c-lbl-today"], { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E, stagger: 0.12 }, 15.84)
           /* the card opens rather than sitting reserved-but-blank */
           .to("#c-body", { height: cardBodyH, paddingTop: 32, duration: 0.60, ease: "power2.inOut" }, 16.38) // beat-grid: 16.38s
           .fromTo("#c-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 16.70)
-          /* market, sector and attention arrive together — the point is comparing them */
-          .fromTo(["#c-f1", "#c-f2", "#c-f3"], { opacity: 0, y: 12 },
+          .fromTo(["#c-f1", "#c-f2"], { opacity: 0, y: 12 },
                   { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.14 }, 16.93) // beat-grid: 16.93s
           .fromTo("#c-conc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 17.47)
-          .to("#s3-inner", { opacity: 0, duration: 0.70, ease: S }, 19.40);
+          /* the filing is adjacency, never cause: its own element, its own sentence */
+          .fromTo("#c-chip", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 18.02)
+          .to("#s3-inner", { opacity: 0, duration: 0.70, ease: S }, 19.80);
 
         /* ===== Scene 4 — the ratings, and the direction they pointed ===== */
-        tl.fromTo("#s4-inner", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 19.20)
+        tl.fromTo("#s4-inner", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 19.80)
           .fromTo("#s4-head", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 20.19)
-          .fromTo("#ivbase", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "power2.inOut" }, 20.45)
-          .fromTo("#ivbase-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 20.62)
+          .fromTo("#ivbase", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "power2.inOut" }, 20.75)
+          .fromTo("#ivbase-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 21.00)
           .fromTo(["#iv-1", "#iv-2", "#iv-3", "#iv-4", "#iv-5"], { scaleX: 0 },
-                  { scaleX: 1, duration: 0.55, ease: "power2.out", stagger: 0.12 }, 20.75) // beat-grid: 20.75s
+                  { scaleX: 1, duration: 0.55, ease: "power2.out", stagger: 0.12 }, 21.28) // beat-grid: 21.28s
           .fromTo(["#ivv-1", "#ivv-2", "#ivv-3", "#ivv-4", "#ivv-5"], { opacity: 0 },
-                  { opacity: 1, duration: 0.35, ease: E, stagger: 0.12 }, 20.95)
-          .fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 21.84)
-          .fromTo("#s4-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 22.37) // beat-locked: 22.37s
-          .to("#s4-inner", { opacity: 0, duration: 0.70, ease: S }, 24.60);
+                  { opacity: 1, duration: 0.35, ease: E, stagger: 0.12 }, 21.50)
+          .fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 22.37)
+          .fromTo("#s4-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 22.93) // beat-locked: 22.93s
+          .to("#s4-inner", { opacity: 0, duration: 0.70, ease: S }, 24.80);
 
         /* ===== Scene 5 ===== */
-        tl.fromTo("#s5-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 24.60)
-          .fromTo("#s5-mark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 24.87)
-          .fromTo("#s5-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 25.50)
-          .fromTo("#s5-tag", { opacity: 0 }, { opacity: 1, duration: 0.50, ease: E }, 25.90);
+        tl.fromTo("#s5-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 24.80)
+          .fromTo("#s5-mark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 25.06)
+          .fromTo("#s5-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 25.60)
+          .fromTo("#s5-tag", { opacity: 0 }, { opacity: 1, duration: 0.50, ease: E }, 26.00);
 
         window.__timelines["main"] = tl;
         if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
