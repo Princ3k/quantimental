@@ -11,7 +11,7 @@ defining move was deleting its own buy/sell ratings after backtesting them.
 - Composition directory: `brag-output/composition/`
 - Rendered video: `brag-output/brag.mp4`
 - Format: landscape — 1920x1080
-- Duration: 24.8 seconds (as built)
+- Duration: 25.8 seconds (as built, v3)
 
 ## Source Material
 - Project root: `/home/user/quantimental`
@@ -184,7 +184,7 @@ Requirements:
 
 ---
 
-## Built
+## Built (v2 — superseded)
 
 `composition/index.html`, monolithic (one file, four `.clip` sections, one paused GSAP timeline
 built inside `document.fonts.ready` so the card body can be measured against real font metrics).
@@ -205,3 +205,45 @@ audio-reactivity would break the project's own rule that colour carries meaning 
 
 Rendered at `--quality delivery`: 1920x1080, 30fps, 744 frames, 24.8s, H.264 + AAC. The poster
 is the fully-assembled Oracle card at 14.5s, baked as frame 0 so thumbnail grabbers use it.
+
+
+---
+
+## v3 — built
+
+Rebuilt on the real committed scan. See `brag-plan.md` → "v3 — what changed, and why" for the
+full rationale; this section is the verification record.
+
+**Data sources (all committed in `public/`, scan of 2026-09-18):** `snapshot.json` (503 rows,
+the opening grid and Nucor), `signal-desk.json` (composite 40, breadth 2/10, 30-point history),
+`unusual.json` (503 scanned, 2 flagged), `backtest.json` (3,792 observations, five buckets,
++0.78% baseline). Figures are hardcoded into the composition, so the film is a fixed artefact
+of that day rather than something that drifts with the next scan.
+
+**`npx hyperframes check` → 0 errors.** Findings that remain, and why each is expected:
+
+- 5 × `nested_structure_needs_subcomposition` (warning) — Studio-ergonomics advice about
+  splitting scenes into sub-composition files. Monolithic is supported; the render is unaffected.
+- 2 × `content_overlap` at t=18.45–18.70 (warning) and 2 × at t=13.84 / t=18.70 (info) — the
+  descent seam and the scene 3→4 crossfade. Transient by construction.
+- `data-layout-ignore` on `#noise` — 503 cells of deliberately illegible texture, meant to be
+  overlapped by the headline and covered by the scrim. Auditing them produced 80 findings about
+  text nobody is meant to read. Scoped to the grid alone; every real text block stays audited.
+
+**Contrast** still reports `0/0 text checks` — it samples nothing rather than passing nothing.
+Verified by hand against WCAG 2.1 instead: ink 18.0:1, ink-2 8.1:1, up 7.0:1, down 7.1:1 on the
+paper background, all clearing AA at normal size. The one colour added in v3,
+`oklch(0.80 0.004 75)` for the neutral inversion bars, carries no text.
+
+**Determinism.** The noise field is a single proxy tween driving all 503 cells through
+`Math.sin` on a per-cell phase baked in at build time from a seeded LCG. No `Math.random`, no
+clock, no network — every frame is reproducible from its time alone. The three count-ups are
+proxy tweens writing `textContent` on update, so they are seek-safe.
+
+**Render.** `--quality delivery`: 1920x1080, 30fps, 774 frames, 25.8s, H.264 + AAC. The poster
+is the assembled Nucor card at 17.0s, baked as frame 0 so thumbnail grabbers use it. The file is
+larger than v2 (3.8 MB vs 1.4) because the noise scene is high-entropy to encode.
+
+**Audio.** Bed at 0.20 under the noise, lifting to 0.26 as it calms, fading from 21.8s. Five
+cues: the calm landing (2.19s), the sparkline (8.74s), the descent into Nucor (13.11s, the
+loudest sound in the film), the conclusion (15.84s), the bars (19.66s).

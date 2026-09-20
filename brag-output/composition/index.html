@@ -6,275 +6,343 @@
     <title>Quantimental — brag</title>
     <script src="assets/gsap.min.js"></script>
     <style>
-      /* Fonts shipped locally — the pair the product uses (frontend/app/layout.tsx). */
-      @font-face { font-family: "Inter Tight"; font-weight: 400; font-style: normal;
-        src: url("assets/fonts/InterTight-Regular.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "Inter Tight"; font-weight: 500; font-style: normal;
-        src: url("assets/fonts/InterTight-Medium.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "Inter Tight"; font-weight: 600; font-style: normal;
-        src: url("assets/fonts/InterTight-SemiBold.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal;
-        src: url("assets/fonts/JetBrainsMono-Regular.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "JetBrains Mono"; font-weight: 500; font-style: normal;
-        src: url("assets/fonts/JetBrainsMono-Medium.ttf") format("truetype"); font-display: block; }
-      @font-face { font-family: "JetBrains Mono"; font-weight: 700; font-style: normal;
-        src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Inter Tight"; font-weight: 400; src: url("assets/fonts/InterTight-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Inter Tight"; font-weight: 500; src: url("assets/fonts/InterTight-Medium.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Inter Tight"; font-weight: 600; src: url("assets/fonts/InterTight-SemiBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 400; src: url("assets/fonts/JetBrainsMono-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url("assets/fonts/JetBrainsMono-Medium.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 700; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-display: block; }
 
-      /* Tokens from frontend/app/globals.css :root, darkened a touch on the three
-         text colours so every pair clears WCAG AA at normal size. */
+      /* Tokens from frontend/app/globals.css :root; the three text colours are
+         darkened slightly so every pair clears WCAG AA at normal size. */
       :root {
-        --bg: oklch(0.985 0.002 85);
-        --surface: oklch(1 0 0);
-        --ink: oklch(0.18 0.004 60);
-        --ink-2: oklch(0.42 0.006 70);
-        --rule: oklch(0.90 0.004 75);
-        --rule-strong: oklch(0.82 0.005 75);
-        --up: oklch(0.44 0.115 155);
-        --down: oklch(0.47 0.165 27);
+        --bg: oklch(0.985 0.002 85); --surface: oklch(1 0 0);
+        --ink: oklch(0.18 0.004 60); --ink-2: oklch(0.42 0.006 70);
+        --rule: oklch(0.90 0.004 75); --rule-strong: oklch(0.82 0.005 75);
+        --up: oklch(0.44 0.115 155); --down: oklch(0.47 0.165 27);
         --mark: oklch(0.28 0.02 60);
       }
-
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
-
-      #root {
-        position: relative; width: 100%; height: 100%; overflow: hidden;
-        background: var(--bg); color: var(--ink);
-        font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
-        -webkit-font-smoothing: antialiased;
-      }
-
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--bg);
+        color: var(--ink); font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
       .stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
       .col { width: 1400px; }
       .tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
       .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
-      .up { color: var(--up); }
-      .down { color: var(--down); }
-
-      .eyebrow {
-        font-family: "JetBrains Mono", ui-monospace, monospace;
-        font-size: 21px; font-weight: 400; letter-spacing: 0.14em;
-        text-transform: uppercase; color: var(--ink-2);
-      }
+      .up { color: var(--up); } .down { color: var(--down); }
+      .eyebrow { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 21px; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--ink-2); }
+      .headrow { display: flex; align-items: baseline; justify-content: space-between; }
+      .headrow .meta { font-size: 21px; color: var(--ink-2); }
       .rule { display: block; width: 100%; height: 1px; background: var(--rule-strong); transform-origin: left center; }
 
-      /* ---------- Scene 1 — the whole market ---------- */
-      #s1-grid { display: grid; grid-template-columns: 1fr auto; gap: 0 90px; align-items: start; margin-top: 34px; }
-      #s1-line { font-size: 70px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
-      #s1-line .mono { font-size: 66px; font-weight: 500; letter-spacing: -0.02em; }
-      #s1-breadth { font-size: 34px; color: var(--ink-2); margin-top: 30px; letter-spacing: -0.01em; }
-      #s1-risk { width: 330px; padding-left: 56px; border-left: 1px solid var(--rule); }
-      #s1-score { font-size: 76px; font-weight: 500; line-height: 1; margin-top: 16px; letter-spacing: -0.03em; }
-      #s1-score .of { font-family: "Inter Tight", sans-serif; font-size: 28px; font-weight: 400; color: var(--ink-2); letter-spacing: 0; }
-      #s1-risklabel { font-size: 26px; color: var(--ink-2); margin-top: 12px; }
-      #s1-disc { font-size: 20px; color: var(--ink-2); margin-top: 72px; }
+      /* ---- Scene 1: 503 real tickers, churning, then quiet ---- */
+      #noise { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(19, 1fr);
+        grid-auto-rows: 40px; align-content: center; padding: 0 26px; }
+      .nc { display: flex; align-items: baseline; gap: 7px; font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 15px; letter-spacing: 0.01em; white-space: nowrap; }
+      .nc i { font-style: normal; color: var(--ink-2); }
+      .nc b { font-weight: 500; font-variant-numeric: tabular-nums; }
+      .nc.u b { color: var(--up); } .nc.d b { color: var(--down); } .nc.f b { color: var(--ink-2); }
+      #s1-scrim { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%);
+        height: 300px; background: var(--bg); }
+      #s1-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      #s1-l1 { font-size: 62px; font-weight: 400; color: var(--ink-2); letter-spacing: -0.026em; }
+      #s1-l2 { font-size: 86px; font-weight: 500; letter-spacing: -0.032em; margin-top: 26px; }
 
-      /* ---------- Scene 2 — sectors, then one of them ---------- */
-      #s2-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px; }
-      #s2-head .meta { font-size: 21px; color: var(--ink-2); }
-      .srow { display: flex; align-items: center; gap: 28px; padding: 15px 0; }
-      .srow .name { flex: 1; font-size: 30px; letter-spacing: -0.01em; }
+      /* ---- Scene 2: the day ---- */
+      #s2-line { font-size: 66px; font-weight: 500; letter-spacing: -0.03em; margin-top: 34px; }
+      #s2-grid { display: grid; grid-template-columns: 1fr auto; gap: 0 90px; align-items: start; margin-top: 44px; }
+      .srow { display: flex; align-items: center; gap: 28px; padding: 14px 0; }
+      .srow .name { flex: 1; font-size: 29px; letter-spacing: -0.01em; }
       .bar { position: relative; display: block; width: 190px; height: 11px; flex: none; }
       .bar .axis { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--rule-strong); }
       .bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
-      .bar .fill.up  { left: 50%; background: var(--up); }
-      .bar .fill.down { right: 50%; background: var(--down); }
-      .srow .ratio { width: 96px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 20px; color: var(--ink-2); }
-      .srow .pct { width: 130px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
+      .bar .fill.up { left: 50%; background: var(--up); } .bar .fill.down { right: 50%; background: var(--down); }
+      .srow .pct { width: 126px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 29px; font-weight: 500; letter-spacing: -0.02em; }
+      #s2-risk { width: 360px; padding-left: 56px; border-left: 1px solid var(--rule); }
+      #s2-score { font-size: 74px; font-weight: 500; line-height: 1; margin-top: 16px; letter-spacing: -0.03em; }
+      #s2-score .of { font-family: "Inter Tight", sans-serif; font-size: 27px; font-weight: 400; color: var(--ink-2); letter-spacing: 0; }
+      #s2-risklabel { font-size: 25px; color: var(--ink-2); margin-top: 10px; }
+      #spark { display: block; margin-top: 20px; }
 
-      /* ---------- the stock card ---------- */
-      #s2-cardstage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
-      .card { width: 1400px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 50px 56px 54px; }
-      .card-head { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 30px; border-bottom: 1px solid var(--rule); }
+      /* ---- Scene 3: the two, then Nucor ---- */
+      #s3-line { font-size: 66px; font-weight: 500; letter-spacing: -0.03em; margin-top: 30px; }
+      .mrow { display: flex; align-items: baseline; gap: 26px; padding: 22px 0; border-bottom: 1px solid var(--rule); }
+      .mrow .tk { width: 74px; flex: none; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 27px; font-weight: 500; }
+      .mrow .co { width: 210px; flex: none; font-size: 29px; }
+      .mrow .sc { flex: 1; font-size: 23px; color: var(--ink-2); }
+      .mrow .mv { width: 150px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 33px; font-weight: 500; letter-spacing: -0.02em; }
+      .mrow .mx { width: 420px; flex: none; text-align: right; font-size: 22px; color: var(--ink-2); }
+      #s3-cardstage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .card { width: 1400px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 48px 56px 52px; }
+      .card-head { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 28px; border-bottom: 1px solid var(--rule); }
       .cname { font-size: 46px; font-weight: 500; letter-spacing: -0.022em; }
-      .cticker { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 25px; color: var(--ink-2); letter-spacing: 0.06em; margin-top: 8px; display: block; }
+      .cticker { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 24px; color: var(--ink-2); letter-spacing: 0.06em; margin-top: 8px; display: block; }
       .cpct { text-align: right; }
-      .pct-big { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 100px; font-weight: 500; line-height: 1; letter-spacing: -0.03em; display: block; }
-      .plabel { font-size: 23px; color: var(--ink-2); display: block; margin-top: 10px; }
-      #c-fortnight { font-size: 27px; color: var(--ink-2); margin-top: 20px; }
-      #c-fortnight .mono { font-size: 27px; font-weight: 500; }
-      #c-body { padding-top: 34px; overflow: hidden; }
-      .figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 56px; margin-top: 24px; }
+      .pct-big { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 98px; font-weight: 500; line-height: 1; letter-spacing: -0.03em; display: block; }
+      .plabel { font-size: 22px; color: var(--ink-2); display: block; margin-top: 9px; }
+      #c-unusual { font-size: 27px; color: var(--ink-2); margin-top: 18px; }
+      #c-unusual .mono { font-weight: 500; }
+      #c-body { padding-top: 32px; overflow: hidden; }
+      .figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 56px; margin-top: 22px; }
       .fig dt { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
-      .fig dd { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 46px; font-weight: 500; margin-top: 12px; letter-spacing: -0.02em; }
-      .fnote { font-size: 21px; color: var(--ink-2); margin-top: 10px; }
-      #c-conc { font-size: 52px; font-weight: 500; letter-spacing: -0.026em; margin-top: 44px; }
-      #c-chip { display: inline-block; margin-top: 24px; padding: 11px 19px; border: 1px solid var(--rule-strong); border-radius: 8px;
-        font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 20px; color: var(--ink-2); letter-spacing: 0.04em; }
+      .fig dd { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 44px; font-weight: 500; margin-top: 11px; letter-spacing: -0.02em; }
+      .fnote { font-size: 20px; color: var(--ink-2); margin-top: 9px; }
+      #c-conc { font-size: 50px; font-weight: 500; letter-spacing: -0.026em; margin-top: 40px; }
 
-      /* ---------- Scene 3 — the turn ---------- */
-      #s3-col { width: 1400px; }
-      #s3-figure { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 210px; font-weight: 500; line-height: 1; letter-spacing: -0.035em; margin: 28px 0 22px; }
-      #s3-sub { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
-      #s3-line { font-size: 62px; font-weight: 500; letter-spacing: -0.03em; margin-top: 46px; }
+      /* ---- Scene 4: the inversion ---- */
+      #inv { position: relative; margin-top: 40px; width: 1120px; padding-bottom: 36px; }
+      .ivrow { display: flex; align-items: center; gap: 26px; height: 62px; }
+      .ivrow .lbl { width: 190px; flex: none; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 23px; color: var(--ink-2); }
+      .ivtrack { position: relative; width: 760px; height: 26px; flex: none; }
+      .ivbar { position: absolute; top: 0; bottom: 0; border-radius: 2px; background: oklch(0.80 0.004 75); }
+      .ivbar.down { background: var(--down); }
+      .ivbar.up { background: var(--up); }
+      /* bar widths derive from the real mean returns in public/backtest.json */
+      #iv-1 { width: 36.0px; left: 40.0px; transform-origin: right center; }
+      #iv-2 { width: 112.0px; left: 76.0px; transform-origin: left center; }
+      #iv-3 { width: 219.6px; left: 76.0px; transform-origin: left center; }
+      #iv-4 { width: 271.8px; left: 76.0px; transform-origin: left center; }
+      #iv-5 { width: 628.5px; left: 76.0px; transform-origin: left center; }
+      #ivbase { left: 490.6px; }
+      #ivbase-lbl { left: 490.6px; }
+      .ivval { width: 110px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 26px; font-weight: 500; }
+      #ivbase { position: absolute; width: 1px; background: var(--mark); top: 6px; bottom: 30px; transform-origin: top center; }
+      #ivbase-lbl { position: absolute; bottom: 4px; font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 18px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); transform: translateX(-50%); white-space: nowrap; }
+      #s4-sub { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 21px; letter-spacing: 0.12em;
+        text-transform: uppercase; color: var(--ink-2); margin-top: 46px; }
+      #s4-line { font-size: 58px; font-weight: 500; letter-spacing: -0.03em; margin-top: 26px; }
 
-      /* ---------- Scene 4 — the wordmark ---------- */
-      #s4-col { width: 1100px; text-align: center; }
-      #s4-mark { font-size: 112px; font-weight: 500; letter-spacing: -0.032em; }
-      #s4-rule { margin: 40px auto 0; width: 260px; transform-origin: center; }
-      #s4-tag { font-size: 36px; color: var(--ink-2); margin-top: 38px; letter-spacing: -0.01em; }
-      #s4-url { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 24px; color: var(--ink-2); margin-top: 22px; letter-spacing: 0.06em; }
+      /* ---- Scene 5 ---- */
+      #s5-col { width: 1100px; text-align: center; }
+      #s5-mark { font-size: 112px; font-weight: 500; letter-spacing: -0.032em; }
+      #s5-rule { margin: 38px auto 0; width: 260px; transform-origin: center; }
+      #s5-tag { font-size: 36px; color: var(--ink-2); margin-top: 36px; letter-spacing: -0.01em; }
     </style>
   </head>
 
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="24.8" data-width="1920" data-height="1080">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="25.8" data-width="1920" data-height="1080">
 
-      <!-- Scene 1 — the whole market -->
-      <section id="s1" class="clip" data-start="0" data-duration="5.2" data-track-index="0">
-        <div class="stage"><div class="col" id="s1-inner">
-          <p class="eyebrow" id="s1-eyebrow">Market today</p>
-          <div id="s1-grid">
-            <div>
-              <p id="s1-line">The market rose <span class="mono tnum up">0.5%</span> today.</p>
-              <p id="s1-breadth">Eight of eleven sectors rose with it.</p>
+      <!-- Scene 1 — every stock that moved, then quiet -->
+      <section id="s1" class="clip" data-start="0" data-duration="5.6" data-track-index="0">
+        <div id="s1-inner" style="position:absolute; inset:0;">
+          <!-- Excluded from the layout audit: these 503 cells are deliberately illegible
+               texture, meant to be overlapped by the headline and covered by the scrim.
+               Scoped to the grid alone, so every real text block stays audited. -->
+          <div id="noise" data-layout-ignore><span class="nc u" data-p="0.0442"><i>A</i><b>+0.1</b></span><span class="nc d" data-p="0.3361"><i>AAPL</i><b>−0.3</b></span><span class="nc d" data-p="0.3554"><i>ABBV</i><b>−0.0</b></span><span class="nc u" data-p="0.8683"><i>ABNB</i><b>+0.2</b></span><span class="nc u" data-p="0.3016"><i>ABT</i><b>+0.4</b></span><span class="nc u" data-p="0.1242"><i>ACGL</i><b>+0.2</b></span><span class="nc d" data-p="0.0463"><i>ACN</i><b>−4.7</b></span><span class="nc d" data-p="0.2782"><i>ADBE</i><b>−1.5</b></span><span class="nc u" data-p="0.5871"><i>ADI</i><b>+3.6</b></span><span class="nc d" data-p="0.2107"><i>ADM</i><b>−3.3</b></span><span class="nc d" data-p="0.1703"><i>ADP</i><b>−0.4</b></span><span class="nc d" data-p="0.6183"><i>ADSK</i><b>−0.8</b></span><span class="nc d" data-p="0.2434"><i>AEE</i><b>−1.6</b></span><span class="nc d" data-p="0.4502"><i>AEP</i><b>−1.3</b></span><span class="nc d" data-p="0.9942"><i>AES</i><b>−0.1</b></span><span class="nc d" data-p="0.9099"><i>AFL</i><b>−0.2</b></span><span class="nc d" data-p="0.7615"><i>AIG</i><b>−0.5</b></span><span class="nc d" data-p="0.5967"><i>AIZ</i><b>−0.6</b></span><span class="nc d" data-p="0.0061"><i>AJG</i><b>−0.8</b></span><span class="nc d" data-p="0.4299"><i>AKAM</i><b>−2.4</b></span><span class="nc d" data-p="0.9805"><i>ALB</i><b>−3.6</b></span><span class="nc d" data-p="0.1742"><i>ALGN</i><b>−1.4</b></span><span class="nc d" data-p="0.6104"><i>ALL</i><b>−0.9</b></span><span class="nc d" data-p="0.0499"><i>ALLE</i><b>−0.9</b></span><span class="nc u" data-p="0.2703"><i>AMAT</i><b>+6.5</b></span><span class="nc d" data-p="0.4311"><i>AMCR</i><b>−1.1</b></span><span class="nc u" data-p="0.9771"><i>AMD</i><b>+2.7</b></span><span class="nc u" data-p="0.3917"><i>AME</i><b>+1.4</b></span><span class="nc u" data-p="0.9150"><i>AMGN</i><b>+1.6</b></span><span class="nc d" data-p="0.2226"><i>AMP</i><b>−0.2</b></span><span class="nc d" data-p="0.0144"><i>AMT</i><b>−0.9</b></span><span class="nc u" data-p="0.3969"><i>AMZN</i><b>+1.0</b></span><span class="nc d" data-p="0.4167"><i>ANET</i><b>−0.1</b></span><span class="nc d" data-p="0.1640"><i>AON</i><b>−0.1</b></span><span class="nc u" data-p="0.9334"><i>AOS</i><b>+0.0</b></span><span class="nc d" data-p="0.4011"><i>APA</i><b>−1.3</b></span><span class="nc d" data-p="0.9378"><i>APD</i><b>−0.7</b></span><span class="nc d" data-p="0.9001"><i>APH</i><b>−1.1</b></span><span class="nc d" data-p="0.3723"><i>APO</i><b>−0.1</b></span><span class="nc d" data-p="0.3082"><i>APP</i><b>−4.2</b></span><span class="nc d" data-p="0.6006"><i>APTV</i><b>−0.1</b></span><span class="nc d" data-p="0.8328"><i>ARE</i><b>−5.4</b></span><span class="nc d" data-p="0.5513"><i>ARES</i><b>−1.2</b></span><span class="nc d" data-p="0.9577"><i>ATO</i><b>−1.1</b></span><span class="nc u" data-p="0.8629"><i>AVGO</i><b>+3.0</b></span><span class="nc d" data-p="0.1517"><i>AVY</i><b>−2.0</b></span><span class="nc d" data-p="0.4243"><i>AWK</i><b>−1.7</b></span><span class="nc d" data-p="0.2799"><i>AXON</i><b>−1.3</b></span><span class="nc u" data-p="0.6894"><i>AXP</i><b>+0.1</b></span><span class="nc u" data-p="0.5113"><i>AZO</i><b>+0.4</b></span><span class="nc u" data-p="0.2980"><i>BA</i><b>+0.6</b></span><span class="nc d" data-p="0.3309"><i>BAC</i><b>−0.8</b></span><span class="nc d" data-p="0.7354"><i>BALL</i><b>−1.0</b></span><span class="nc d" data-p="0.1986"><i>BAX</i><b>−1.0</b></span><span class="nc d" data-p="0.8869"><i>BBY</i><b>−1.8</b></span><span class="nc d" data-p="0.8030"><i>BDX</i><b>−0.2</b></span><span class="nc d" data-p="0.2644"><i>BEN</i><b>−0.2</b></span><span class="nc d" data-p="0.1341"><i>BF-B</i><b>−2.1</b></span><span class="nc d" data-p="0.2715"><i>BG</i><b>−3.1</b></span><span class="nc d" data-p="0.1030"><i>BIIB</i><b>−1.6</b></span><span class="nc d" data-p="0.0154"><i>BKNG</i><b>−1.5</b></span><span class="nc u" data-p="0.5510"><i>BKR</i><b>+1.2</b></span><span class="nc u" data-p="0.7307"><i>BLDR</i><b>+0.8</b></span><span class="nc u" data-p="0.5930"><i>BLK</i><b>+1.5</b></span><span class="nc u" data-p="0.7416"><i>BMY</i><b>+0.3</b></span><span class="nc u" data-p="0.6958"><i>BNY</i><b>+0.5</b></span><span class="nc d" data-p="0.9153"><i>BR</i><b>−0.7</b></span><span class="nc u" data-p="0.0870"><i>BRK-B</i><b>+0.1</b></span><span class="nc d" data-p="0.6365"><i>BRO</i><b>−0.1</b></span><span class="nc d" data-p="0.3939"><i>BSX</i><b>−0.5</b></span><span class="nc d" data-p="0.3322"><i>BX</i><b>−0.4</b></span><span class="nc d" data-p="0.1963"><i>BXP</i><b>−1.2</b></span><span class="nc d" data-p="0.3682"><i>C</i><b>−0.7</b></span><span class="nc d" data-p="0.8249"><i>CAH</i><b>−0.4</b></span><span class="nc d" data-p="0.6082"><i>CARR</i><b>−0.9</b></span><span class="nc d" data-p="0.6198"><i>CASY</i><b>−1.6</b></span><span class="nc u" data-p="0.9394"><i>CAT</i><b>+1.3</b></span><span class="nc d" data-p="0.3495"><i>CB</i><b>−0.4</b></span><span class="nc u" data-p="0.5014"><i>CBOE</i><b>+2.3</b></span><span class="nc u" data-p="0.9699"><i>CBRE</i><b>+0.1</b></span><span class="nc d" data-p="0.0930"><i>CCI</i><b>−0.9</b></span><span class="nc d" data-p="0.7336"><i>CCL</i><b>−1.5</b></span><span class="nc u" data-p="0.1296"><i>CDNS</i><b>+0.8</b></span><span class="nc d" data-p="0.2301"><i>CDW</i><b>−2.0</b></span><span class="nc d" data-p="0.4804"><i>CEG</i><b>−3.1</b></span><span class="nc d" data-p="0.6132"><i>CF</i><b>−4.6</b></span><span class="nc d" data-p="0.3842"><i>CFG</i><b>−0.5</b></span><span class="nc d" data-p="0.4372"><i>CHD</i><b>−0.3</b></span><span class="nc d" data-p="0.3132"><i>CHRW</i><b>−0.5</b></span><span class="nc d" data-p="0.5415"><i>CHTR</i><b>−3.9</b></span><span class="nc d" data-p="0.9986"><i>CI</i><b>−0.3</b></span><span class="nc u" data-p="0.6813"><i>CIEN</i><b>+1.3</b></span><span class="nc d" data-p="0.7153"><i>CINF</i><b>−0.5</b></span><span class="nc d" data-p="0.4660"><i>CL</i><b>−0.3</b></span><span class="nc d" data-p="0.2395"><i>CLX</i><b>−2.2</b></span><span class="nc d" data-p="0.0186"><i>CMCSA</i><b>−0.7</b></span><span class="nc u" data-p="0.4953"><i>CME</i><b>+1.8</b></span><span class="nc d" data-p="0.9751"><i>CMG</i><b>−0.2</b></span><span class="nc u" data-p="0.6896"><i>CMI</i><b>+1.6</b></span><span class="nc d" data-p="0.3895"><i>CMS</i><b>−1.3</b></span><span class="nc d" data-p="0.5576"><i>CNC</i><b>−3.0</b></span><span class="nc d" data-p="0.1610"><i>CNP</i><b>−0.9</b></span><span class="nc u" data-p="0.0918"><i>COF</i><b>+0.2</b></span><span class="nc u" data-p="0.1368"><i>COHR</i><b>+7.2</b></span><span class="nc u" data-p="0.6709"><i>COIN</i><b>+11.7</b></span><span class="nc u" data-p="0.4417"><i>COO</i><b>+2.8</b></span><span class="nc d" data-p="0.7217"><i>COP</i><b>−1.0</b></span><span class="nc d" data-p="0.2166"><i>COR</i><b>−0.2</b></span><span class="nc u" data-p="0.8124"><i>COST</i><b>+0.1</b></span><span class="nc d" data-p="0.1850"><i>CPAY</i><b>−1.6</b></span><span class="nc d" data-p="0.2586"><i>CPRT</i><b>−1.3</b></span><span class="nc d" data-p="0.6971"><i>CPT</i><b>−1.8</b></span><span class="nc d" data-p="0.8080"><i>CRH</i><b>−0.6</b></span><span class="nc d" data-p="0.4793"><i>CRL</i><b>−1.3</b></span><span class="nc d" data-p="0.6235"><i>CRM</i><b>−2.0</b></span><span class="nc d" data-p="0.6379"><i>CRWD</i><b>−3.3</b></span><span class="nc d" data-p="0.4848"><i>CSCO</i><b>−0.7</b></span><span class="nc d" data-p="0.8951"><i>CSGP</i><b>−0.7</b></span><span class="nc d" data-p="0.7523"><i>CSX</i><b>−1.7</b></span><span class="nc d" data-p="0.9434"><i>CTAS</i><b>−0.2</b></span><span class="nc d" data-p="0.0572"><i>CTSH</i><b>−3.2</b></span><span class="nc d" data-p="0.5798"><i>CTVA</i><b>−1.2</b></span><span class="nc d" data-p="0.7733"><i>CVNA</i><b>−1.1</b></span><span class="nc d" data-p="0.2855"><i>CVS</i><b>−1.6</b></span><span class="nc d" data-p="0.9636"><i>CVX</i><b>−1.0</b></span><span class="nc d" data-p="0.5308"><i>D</i><b>−1.1</b></span><span class="nc u" data-p="0.5580"><i>DAL</i><b>+0.2</b></span><span class="nc d" data-p="0.6879"><i>DASH</i><b>−0.8</b></span><span class="nc u" data-p="0.8728"><i>DD</i><b>+0.4</b></span><span class="nc d" data-p="0.3894"><i>DDOG</i><b>−2.6</b></span><span class="nc d" data-p="0.1136"><i>DE</i><b>−0.2</b></span><span class="nc d" data-p="0.8661"><i>DECK</i><b>−1.6</b></span><span class="nc d" data-p="0.0798"><i>DELL</i><b>−3.5</b></span><span class="nc d" data-p="0.6005"><i>DG</i><b>−2.0</b></span><span class="nc d" data-p="0.7857"><i>DGX</i><b>−0.4</b></span><span class="nc d" data-p="0.9174"><i>DHI</i><b>−1.7</b></span><span class="nc d" data-p="0.0084"><i>DHR</i><b>−0.3</b></span><span class="nc d" data-p="0.2816"><i>DIS</i><b>−2.5</b></span><span class="nc d" data-p="0.7410"><i>DLR</i><b>−1.2</b></span><span class="nc d" data-p="0.4539"><i>DLTR</i><b>−2.1</b></span><span class="nc d" data-p="0.0403"><i>DOC</i><b>−0.8</b></span><span class="nc d" data-p="0.6433"><i>DOV</i><b>−1.0</b></span><span class="nc d" data-p="0.6975"><i>DOW</i><b>−2.6</b></span><span class="nc d" data-p="0.7730"><i>DPZ</i><b>−1.2</b></span><span class="nc u" data-p="0.3889"><i>DRI</i><b>+1.2</b></span><span class="nc d" data-p="0.3075"><i>DTE</i><b>−1.5</b></span><span class="nc d" data-p="0.3714"><i>DUK</i><b>−0.8</b></span><span class="nc u" data-p="0.1586"><i>DVA</i><b>+0.4</b></span><span class="nc d" data-p="0.2366"><i>DVN</i><b>−0.2</b></span><span class="nc u" data-p="0.3654"><i>DXCM</i><b>+1.6</b></span><span class="nc d" data-p="0.6102"><i>EBAY</i><b>−0.9</b></span><span class="nc d" data-p="0.9063"><i>ECHO</i><b>−0.7</b></span><span class="nc d" data-p="0.8555"><i>ECL</i><b>−0.8</b></span><span class="nc d" data-p="0.5193"><i>ED</i><b>−1.5</b></span><span class="nc d" data-p="0.6793"><i>EFX</i><b>−1.4</b></span><span class="nc d" data-p="0.1683"><i>EG</i><b>−1.4</b></span><span class="nc d" data-p="0.9279"><i>EIX</i><b>−0.3</b></span><span class="nc d" data-p="0.1524"><i>EL</i><b>−0.5</b></span><span class="nc d" data-p="0.6724"><i>ELV</i><b>−0.8</b></span><span class="nc u" data-p="0.2092"><i>EME</i><b>+2.9</b></span><span class="nc u" data-p="0.7878"><i>EMR</i><b>+1.7</b></span><span class="nc d" data-p="0.6699"><i>EOG</i><b>−0.8</b></span><span class="nc d" data-p="0.5130"><i>EQIX</i><b>−0.5</b></span><span class="nc d" data-p="0.1679"><i>EQT</i><b>−0.7</b></span><span class="nc d" data-p="0.8004"><i>ERIE</i><b>−2.2</b></span><span class="nc d" data-p="0.9554"><i>ES</i><b>−1.8</b></span><span class="nc d" data-p="0.5170"><i>ESS</i><b>−0.3</b></span><span class="nc u" data-p="0.9197"><i>ETN</i><b>+3.7</b></span><span class="nc d" data-p="0.5994"><i>ETR</i><b>−1.3</b></span><span class="nc d" data-p="0.2867"><i>EVRG</i><b>−1.3</b></span><span class="nc u" data-p="0.9844"><i>EW</i><b>+0.0</b></span><span class="nc d" data-p="0.1313"><i>EXC</i><b>−1.3</b></span><span class="nc d" data-p="0.4003"><i>EXE</i><b>−0.9</b></span><span class="nc u" data-p="0.5533"><i>EXPD</i><b>+1.0</b></span><span class="nc d" data-p="0.7886"><i>EXPE</i><b>−1.8</b></span><span class="nc d" data-p="0.1026"><i>EXR</i><b>−1.7</b></span><span class="nc d" data-p="0.1088"><i>F</i><b>−2.9</b></span><span class="nc d" data-p="0.1215"><i>FANG</i><b>−2.3</b></span><span class="nc d" data-p="0.4336"><i>FAST</i><b>−0.3</b></span><span class="nc u" data-p="0.4901"><i>FCX</i><b>+1.0</b></span><span class="nc u" data-p="0.4426"><i>FDS</i><b>+1.8</b></span><span class="nc d" data-p="0.1890"><i>FDX</i><b>−0.7</b></span><span class="nc d" data-p="0.5455"><i>FDXF</i><b>−1.8</b></span><span class="nc d" data-p="0.5044"><i>FE</i><b>−1.0</b></span><span class="nc u" data-p="0.7859"><i>FERG</i><b>+0.1</b></span><span class="nc d" data-p="0.9740"><i>FFIV</i><b>−0.6</b></span><span class="nc d" data-p="0.2692"><i>FICO</i><b>−1.7</b></span><span class="nc d" data-p="0.6762"><i>FIS</i><b>−2.2</b></span><span class="nc d" data-p="0.9949"><i>FISV</i><b>−4.3</b></span><span class="nc d" data-p="0.5815"><i>FITB</i><b>−0.7</b></span><span class="nc u" data-p="0.5375"><i>FIX</i><b>+4.9</b></span><span class="nc d" data-p="0.7843"><i>FLEX</i><b>−0.5</b></span><span class="nc d" data-p="0.8731"><i>FOX</i><b>−1.2</b></span><span class="nc d" data-p="0.8915"><i>FOXA</i><b>−0.8</b></span><span class="nc d" data-p="0.6827"><i>FRT</i><b>−0.8</b></span><span class="nc d" data-p="0.0397"><i>FSLR</i><b>−2.6</b></span><span class="nc d" data-p="0.5357"><i>FTNT</i><b>−1.6</b></span><span class="nc d" data-p="0.3124"><i>FTV</i><b>−0.1</b></span><span class="nc d" data-p="0.3579"><i>GD</i><b>−0.8</b></span><span class="nc d" data-p="0.1192"><i>GDDY</i><b>−0.7</b></span><span class="nc u" data-p="0.3810"><i>GE</i><b>+0.3</b></span><span class="nc d" data-p="0.7429"><i>GEHC</i><b>−0.5</b></span><span class="nc d" data-p="0.2386"><i>GEN</i><b>−4.0</b></span><span class="nc u" data-p="0.1421"><i>GEV</i><b>+1.7</b></span><span class="nc d" data-p="0.8881"><i>GILD</i><b>−0.5</b></span><span class="nc d" data-p="0.5876"><i>GIS</i><b>−0.9</b></span><span class="nc u" data-p="0.4711"><i>GL</i><b>+0.7</b></span><span class="nc u" data-p="0.1846"><i>GLW</i><b>+1.6</b></span><span class="nc d" data-p="0.9597"><i>GM</i><b>−5.1</b></span><span class="nc u" data-p="0.1680"><i>GNRC</i><b>+0.1</b></span><span class="nc u" data-p="0.3391"><i>GOOG</i><b>+0.2</b></span><span class="nc u" data-p="0.4243"><i>GOOGL</i><b>+0.6</b></span><span class="nc d" data-p="0.0284"><i>GPC</i><b>−2.1</b></span><span class="nc d" data-p="0.3744"><i>GPN</i><b>−0.4</b></span><span class="nc d" data-p="0.1146"><i>GRMN</i><b>−0.5</b></span><span class="nc d" data-p="0.5100"><i>GS</i><b>−1.0</b></span><span class="nc u" data-p="0.6451"><i>GWW</i><b>+0.3</b></span><span class="nc d" data-p="0.9016"><i>HAL</i><b>−1.1</b></span><span class="nc d" data-p="0.5641"><i>HAS</i><b>−1.3</b></span><span class="nc f" data-p="0.2493"><i>HBAN</i><b>0.0</b></span><span class="nc d" data-p="0.7697"><i>HCA</i><b>−0.3</b></span><span class="nc d" data-p="0.9126"><i>HD</i><b>−0.8</b></span><span class="nc d" data-p="0.0769"><i>HIG</i><b>−0.9</b></span><span class="nc d" data-p="0.2089"><i>HII</i><b>−1.5</b></span><span class="nc u" data-p="0.4799"><i>HLT</i><b>+1.1</b></span><span class="nc d" data-p="0.4730"><i>HON</i><b>−0.0</b></span><span class="nc d" data-p="0.8859"><i>HONA</i><b>−2.1</b></span><span class="nc u" data-p="0.3202"><i>HOOD</i><b>+9.1</b></span><span class="nc d" data-p="0.3205"><i>HPE</i><b>−0.5</b></span><span class="nc d" data-p="0.6017"><i>HPQ</i><b>−0.8</b></span><span class="nc u" data-p="0.3491"><i>HRL</i><b>+0.3</b></span><span class="nc d" data-p="0.0848"><i>HSIC</i><b>−0.2</b></span><span class="nc d" data-p="0.0092"><i>HST</i><b>−0.3</b></span><span class="nc u" data-p="0.2799"><i>HSY</i><b>+0.9</b></span><span class="nc u" data-p="0.7592"><i>HUBB</i><b>+0.8</b></span><span class="nc u" data-p="0.4735"><i>HUM</i><b>+0.4</b></span><span class="nc u" data-p="0.7183"><i>HWM</i><b>+1.7</b></span><span class="nc u" data-p="0.2626"><i>IBKR</i><b>+2.6</b></span><span class="nc d" data-p="0.6529"><i>IBM</i><b>−3.5</b></span><span class="nc u" data-p="0.1116"><i>ICE</i><b>+1.4</b></span><span class="nc u" data-p="0.6523"><i>IDXX</i><b>+1.0</b></span><span class="nc u" data-p="0.0376"><i>IEX</i><b>+0.8</b></span><span class="nc d" data-p="0.0857"><i>IFF</i><b>−2.3</b></span><span class="nc d" data-p="0.8467"><i>INCY</i><b>−1.8</b></span><span class="nc d" data-p="0.1381"><i>INTC</i><b>−0.2</b></span><span class="nc d" data-p="0.7738"><i>INTU</i><b>−3.2</b></span><span class="nc d" data-p="0.8427"><i>INVH</i><b>−0.9</b></span><span class="nc d" data-p="0.2889"><i>IP</i><b>−2.9</b></span><span class="nc d" data-p="0.9485"><i>IQV</i><b>−1.1</b></span><span class="nc d" data-p="0.6037"><i>IR</i><b>−1.1</b></span><span class="nc u" data-p="0.0541"><i>IRM</i><b>+0.3</b></span><span class="nc u" data-p="0.4215"><i>ISRG</i><b>+2.5</b></span><span class="nc d" data-p="0.0762"><i>IT</i><b>−1.1</b></span><span class="nc u" data-p="0.0839"><i>ITW</i><b>+0.7</b></span><span class="nc u" data-p="0.1829"><i>IVZ</i><b>+1.0</b></span><span class="nc d" data-p="0.8723"><i>J</i><b>−0.5</b></span><span class="nc d" data-p="0.6782"><i>JBHT</i><b>−1.1</b></span><span class="nc u" data-p="0.1768"><i>JBL</i><b>+1.2</b></span><span class="nc u" data-p="0.8550"><i>JCI</i><b>+1.6</b></span><span class="nc d" data-p="0.9417"><i>JKHY</i><b>−0.9</b></span><span class="nc d" data-p="0.4085"><i>JNJ</i><b>−0.1</b></span><span class="nc u" data-p="0.5977"><i>JPM</i><b>+0.1</b></span><span class="nc d" data-p="0.5001"><i>KDP</i><b>−1.5</b></span><span class="nc d" data-p="0.9795"><i>KEY</i><b>−0.7</b></span><span class="nc u" data-p="0.8587"><i>KEYS</i><b>+1.1</b></span><span class="nc d" data-p="0.8709"><i>KHC</i><b>−1.2</b></span><span class="nc d" data-p="0.2707"><i>KIM</i><b>−0.2</b></span><span class="nc u" data-p="0.2060"><i>KKR</i><b>+0.6</b></span><span class="nc u" data-p="0.3243"><i>KLAC</i><b>+4.7</b></span><span class="nc d" data-p="0.9383"><i>KMB</i><b>−0.3</b></span><span class="nc u" data-p="0.2108"><i>KMI</i><b>+1.7</b></span><span class="nc u" data-p="0.5699"><i>KO</i><b>+0.2</b></span><span class="nc d" data-p="0.6160"><i>KR</i><b>−1.2</b></span><span class="nc d" data-p="0.6647"><i>KVUE</i><b>−0.3</b></span><span class="nc d" data-p="0.1400"><i>L</i><b>−0.5</b></span><span class="nc d" data-p="0.7364"><i>LDOS</i><b>−2.5</b></span><span class="nc d" data-p="0.1350"><i>LEN</i><b>−4.1</b></span><span class="nc d" data-p="0.0834"><i>LH</i><b>−0.6</b></span><span class="nc d" data-p="0.2237"><i>LHX</i><b>−1.3</b></span><span class="nc u" data-p="0.8009"><i>LII</i><b>+0.0</b></span><span class="nc u" data-p="0.9302"><i>LIN</i><b>+0.4</b></span><span class="nc u" data-p="0.7256"><i>LITE</i><b>+4.2</b></span><span class="nc u" data-p="0.6979"><i>LLY</i><b>+0.0</b></span><span class="nc d" data-p="0.8206"><i>LMT</i><b>−0.9</b></span><span class="nc d" data-p="0.9573"><i>LNT</i><b>−1.6</b></span><span class="nc d" data-p="0.8775"><i>LOW</i><b>−0.9</b></span><span class="nc u" data-p="0.7166"><i>LRCX</i><b>+7.0</b></span><span class="nc d" data-p="0.7579"><i>LULU</i><b>−1.3</b></span><span class="nc u" data-p="0.2569"><i>LUV</i><b>+1.6</b></span><span class="nc d" data-p="0.1091"><i>LVS</i><b>−1.7</b></span><span class="nc d" data-p="0.7909"><i>LYB</i><b>−3.6</b></span><span class="nc d" data-p="0.9304"><i>LYV</i><b>−0.7</b></span><span class="nc d" data-p="0.2721"><i>MA</i><b>−0.1</b></span><span class="nc d" data-p="0.9183"><i>MAA</i><b>−1.9</b></span><span class="nc u" data-p="0.7892"><i>MAR</i><b>+1.5</b></span><span class="nc d" data-p="0.5597"><i>MAS</i><b>−0.2</b></span><span class="nc d" data-p="0.0232"><i>MCD</i><b>−0.1</b></span><span class="nc u" data-p="0.8333"><i>MCHP</i><b>+3.5</b></span><span class="nc d" data-p="0.9662"><i>MCK</i><b>−0.6</b></span><span class="nc u" data-p="0.5145"><i>MCO</i><b>+1.4</b></span><span class="nc d" data-p="0.3583"><i>MDLZ</i><b>−1.9</b></span><span class="nc d" data-p="0.8186"><i>MDT</i><b>−0.7</b></span><span class="nc d" data-p="0.9903"><i>MET</i><b>−0.3</b></span><span class="nc d" data-p="0.8394"><i>META</i><b>−2.4</b></span><span class="nc d" data-p="0.9991"><i>MGM</i><b>−1.3</b></span><span class="nc d" data-p="0.3272"><i>MKC</i><b>−2.0</b></span><span class="nc d" data-p="0.4373"><i>MLM</i><b>−0.8</b></span><span class="nc u" data-p="0.1665"><i>MMM</i><b>+0.7</b></span><span class="nc u" data-p="0.6007"><i>MNST</i><b>+0.5</b></span><span class="nc d" data-p="0.8428"><i>MO</i><b>−0.3</b></span><span class="nc d" data-p="0.7202"><i>MOS</i><b>−3.6</b></span><span class="nc u" data-p="0.5995"><i>MPC</i><b>+0.7</b></span><span class="nc u" data-p="0.5431"><i>MPWR</i><b>+4.1</b></span><span class="nc d" data-p="0.2561"><i>MRK</i><b>−0.2</b></span><span class="nc d" data-p="0.9230"><i>MRNA</i><b>−2.5</b></span><span class="nc u" data-p="0.1679"><i>MRSH</i><b>+0.2</b></span><span class="nc u" data-p="0.6743"><i>MRVL</i><b>+1.4</b></span><span class="nc d" data-p="0.9190"><i>MS</i><b>−0.5</b></span><span class="nc u" data-p="0.5078"><i>MSCI</i><b>+0.6</b></span><span class="nc d" data-p="0.4424"><i>MSFT</i><b>−0.8</b></span><span class="nc d" data-p="0.7235"><i>MSI</i><b>−0.2</b></span><span class="nc u" data-p="0.7199"><i>MTB</i><b>+0.4</b></span><span class="nc d" data-p="0.3631"><i>MTD</i><b>−1.3</b></span><span class="nc u" data-p="0.4061"><i>MU</i><b>+3.9</b></span><span class="nc d" data-p="0.6025"><i>NCLH</i><b>−1.9</b></span><span class="nc u" data-p="0.0251"><i>NDAQ</i><b>+2.4</b></span><span class="nc d" data-p="0.1634"><i>NDSN</i><b>−0.1</b></span><span class="nc d" data-p="0.1760"><i>NEE</i><b>−1.0</b></span><span class="nc d" data-p="0.3149"><i>NEM</i><b>−0.8</b></span><span class="nc d" data-p="0.8278"><i>NFLX</i><b>−4.7</b></span><span class="nc d" data-p="0.5075"><i>NI</i><b>−0.8</b></span><span class="nc d" data-p="0.6670"><i>NKE</i><b>−2.3</b></span><span class="nc u" data-p="0.6910"><i>NOC</i><b>+0.7</b></span><span class="nc d" data-p="0.9511"><i>NOW</i><b>−2.2</b></span><span class="nc d" data-p="0.8055"><i>NRG</i><b>−2.4</b></span><span class="nc d" data-p="0.7941"><i>NSC</i><b>−1.5</b></span><span class="nc u" data-p="0.6684"><i>NTAP</i><b>+0.4</b></span><span class="nc u" data-p="0.6471"><i>NTRS</i><b>+0.5</b></span><span class="nc d" data-p="0.3816"><i>NUE</i><b>−6.3</b></span><span class="nc u" data-p="0.3037"><i>NVDA</i><b>+1.3</b></span><span class="nc d" data-p="0.3358"><i>NVR</i><b>−1.5</b></span><span class="nc d" data-p="0.4358"><i>NWS</i><b>−2.1</b></span><span class="nc d" data-p="0.7635"><i>NWSA</i><b>−1.3</b></span><span class="nc u" data-p="0.8319"><i>NXPI</i><b>+0.0</b></span><span class="nc d" data-p="0.4587"><i>O</i><b>−1.1</b></span><span class="nc d" data-p="0.5282"><i>ODFL</i><b>−1.2</b></span><span class="nc u" data-p="0.6257"><i>OKE</i><b>+0.3</b></span><span class="nc d" data-p="0.2788"><i>OMC</i><b>−2.6</b></span><span class="nc u" data-p="0.7075"><i>ON</i><b>+2.5</b></span><span class="nc d" data-p="0.6779"><i>ORCL</i><b>−2.0</b></span><span class="nc d" data-p="0.3552"><i>ORLY</i><b>−0.2</b></span><span class="nc d" data-p="0.0965"><i>OTIS</i><b>−0.3</b></span><span class="nc d" data-p="0.3044"><i>OXY</i><b>−0.8</b></span><span class="nc d" data-p="0.8028"><i>PANW</i><b>−3.1</b></span><span class="nc d" data-p="0.7102"><i>PAYX</i><b>−0.3</b></span><span class="nc d" data-p="0.5824"><i>PCAR</i><b>−1.1</b></span><span class="nc d" data-p="0.3096"><i>PCG</i><b>−1.4</b></span><span class="nc d" data-p="0.2235"><i>PEG</i><b>−1.7</b></span><span class="nc d" data-p="0.5384"><i>PEP</i><b>−2.9</b></span><span class="nc u" data-p="0.7722"><i>PFE</i><b>+0.1</b></span><span class="nc u" data-p="0.2646"><i>PFG</i><b>+1.5</b></span><span class="nc d" data-p="0.8590"><i>PG</i><b>−0.8</b></span><span class="nc d" data-p="0.0252"><i>PGR</i><b>−1.3</b></span><span class="nc u" data-p="0.0258"><i>PH</i><b>+2.0</b></span><span class="nc d" data-p="0.4120"><i>PHM</i><b>−1.3</b></span><span class="nc d" data-p="0.2272"><i>PKG</i><b>−1.2</b></span><span class="nc d" data-p="0.4393"><i>PLD</i><b>−0.2</b></span><span class="nc u" data-p="0.9013"><i>PLTR</i><b>+0.8</b></span><span class="nc d" data-p="0.2097"><i>PM</i><b>−1.0</b></span><span class="nc u" data-p="0.5900"><i>PNC</i><b>+0.5</b></span><span class="nc u" data-p="0.8457"><i>PNR</i><b>+0.4</b></span><span class="nc d" data-p="0.4086"><i>PNW</i><b>−1.4</b></span><span class="nc d" data-p="0.3595"><i>PODD</i><b>−0.7</b></span><span class="nc d" data-p="0.0894"><i>PPG</i><b>−0.9</b></span><span class="nc d" data-p="0.7539"><i>PPL</i><b>−0.8</b></span><span class="nc u" data-p="0.2390"><i>PRU</i><b>+0.4</b></span><span class="nc d" data-p="0.0676"><i>PSA</i><b>−1.5</b></span><span class="nc d" data-p="0.2183"><i>PSKY</i><b>−3.9</b></span><span class="nc d" data-p="0.1708"><i>PSX</i><b>−0.4</b></span><span class="nc u" data-p="0.0620"><i>PTC</i><b>+1.1</b></span><span class="nc u" data-p="0.7560"><i>PWR</i><b>+3.3</b></span><span class="nc d" data-p="0.4675"><i>PYPL</i><b>−1.0</b></span><span class="nc u" data-p="0.0260"><i>Q</i><b>+2.5</b></span><span class="nc d" data-p="0.4846"><i>QCOM</i><b>−5.8</b></span><span class="nc d" data-p="0.9447"><i>RCL</i><b>−1.6</b></span><span class="nc d" data-p="0.4954"><i>RDDT</i><b>−1.3</b></span><span class="nc d" data-p="0.4393"><i>REG</i><b>−0.2</b></span><span class="nc d" data-p="0.7669"><i>REGN</i><b>−0.6</b></span><span class="nc u" data-p="0.5221"><i>RF</i><b>+0.1</b></span><span class="nc u" data-p="0.6627"><i>RJF</i><b>+0.6</b></span><span class="nc u" data-p="0.7989"><i>RL</i><b>+0.6</b></span><span class="nc d" data-p="0.8864"><i>RMD</i><b>−1.5</b></span><span class="nc u" data-p="0.1223"><i>ROK</i><b>+1.4</b></span><span class="nc d" data-p="0.2755"><i>ROL</i><b>−1.7</b></span><span class="nc d" data-p="0.1188"><i>ROP</i><b>−0.5</b></span><span class="nc d" data-p="0.0467"><i>ROST</i><b>−1.2</b></span><span class="nc d" data-p="0.8297"><i>RSG</i><b>−0.4</b></span><span class="nc u" data-p="0.3820"><i>RTX</i><b>+0.2</b></span><span class="nc d" data-p="0.6436"><i>RVTY</i><b>−2.2</b></span><span class="nc d" data-p="0.2223"><i>SBAC</i><b>−1.4</b></span><span class="nc d" data-p="0.9274"><i>SBUX</i><b>−0.9</b></span><span class="nc u" data-p="0.4650"><i>SCHW</i><b>+0.6</b></span><span class="nc d" data-p="0.1712"><i>SHW</i><b>−0.1</b></span><span class="nc d" data-p="0.8353"><i>SJM</i><b>−0.7</b></span><span class="nc d" data-p="0.9100"><i>SLB</i><b>−1.8</b></span><span class="nc d" data-p="0.8749"><i>SMCI</i><b>−3.1</b></span><span class="nc u" data-p="0.0603"><i>SNA</i><b>+0.1</b></span><span class="nc u" data-p="0.1556"><i>SNDK</i><b>+11.0</b></span><span class="nc u" data-p="0.4787"><i>SNPS</i><b>+1.0</b></span><span class="nc d" data-p="0.3467"><i>SO</i><b>−1.4</b></span><span class="nc u" data-p="0.3923"><i>SOLV</i><b>+1.5</b></span><span class="nc u" data-p="0.5203"><i>SPG</i><b>+0.4</b></span><span class="nc u" data-p="0.7373"><i>SPGI</i><b>+0.3</b></span><span class="nc d" data-p="0.4447"><i>SRE</i><b>−1.1</b></span><span class="nc d" data-p="0.2563"><i>STE</i><b>−1.4</b></span><span class="nc d" data-p="0.9649"><i>STLD</i><b>−4.1</b></span><span class="nc d" data-p="0.3081"><i>STT</i><b>−0.1</b></span><span class="nc u" data-p="0.2787"><i>STX</i><b>+6.9</b></span><span class="nc d" data-p="0.6263"><i>STZ</i><b>−2.8</b></span><span class="nc d" data-p="0.3604"><i>SW</i><b>−2.5</b></span><span class="nc u" data-p="0.5873"><i>SWK</i><b>+0.5</b></span><span class="nc d" data-p="0.3356"><i>SWKS</i><b>−2.8</b></span><span class="nc u" data-p="0.7981"><i>SYF</i><b>+0.8</b></span><span class="nc d" data-p="0.6500"><i>SYK</i><b>−1.8</b></span><span class="nc d" data-p="0.8565"><i>SYY</i><b>−0.1</b></span><span class="nc u" data-p="0.7693"><i>T</i><b>+0.0</b></span><span class="nc d" data-p="0.8562"><i>TAP</i><b>−4.0</b></span><span class="nc u" data-p="0.2791"><i>TDG</i><b>+0.9</b></span><span class="nc u" data-p="0.4713"><i>TDY</i><b>+0.2</b></span><span class="nc d" data-p="0.9944"><i>TECH</i><b>−0.1</b></span><span class="nc d" data-p="0.1387"><i>TEL</i><b>−0.6</b></span><span class="nc u" data-p="0.4123"><i>TER</i><b>+5.2</b></span><span class="nc u" data-p="0.8447"><i>TFC</i><b>+0.2</b></span><span class="nc d" data-p="0.9254"><i>TGT</i><b>−1.0</b></span><span class="nc u" data-p="0.1684"><i>TJX</i><b>+0.6</b></span><span class="nc d" data-p="0.0319"><i>TKO</i><b>−0.0</b></span><span class="nc d" data-p="0.4440"><i>TMO</i><b>−1.0</b></span><span class="nc u" data-p="0.7070"><i>TMUS</i><b>+1.0</b></span><span class="nc u" data-p="0.0203"><i>TPL</i><b>+1.6</b></span><span class="nc d" data-p="0.5101"><i>TPR</i><b>−0.9</b></span><span class="nc u" data-p="0.5201"><i>TRGP</i><b>+2.5</b></span><span class="nc u" data-p="0.2774"><i>TRMB</i><b>+0.4</b></span><span class="nc u" data-p="0.5925"><i>TROW</i><b>+1.3</b></span><span class="nc d" data-p="0.7501"><i>TRV</i><b>−1.3</b></span><span class="nc d" data-p="0.7880"><i>TSCO</i><b>−1.9</b></span><span class="nc d" data-p="0.6103"><i>TSLA</i><b>−0.5</b></span><span class="nc u" data-p="0.7510"><i>TSN</i><b>+1.0</b></span><span class="nc u" data-p="0.4892"><i>TT</i><b>+1.4</b></span><span class="nc d" data-p="0.7773"><i>TTD</i><b>−2.4</b></span><span class="nc d" data-p="0.9779"><i>TTWO</i><b>−2.5</b></span><span class="nc u" data-p="0.8159"><i>TXN</i><b>+3.3</b></span><span class="nc d" data-p="0.8580"><i>TXT</i><b>−1.5</b></span><span class="nc d" data-p="0.0715"><i>TYL</i><b>−1.2</b></span><span class="nc u" data-p="0.0789"><i>UAL</i><b>+1.0</b></span><span class="nc d" data-p="0.3579"><i>UBER</i><b>−0.5</b></span><span class="nc d" data-p="0.7885"><i>UDR</i><b>−0.9</b></span><span class="nc d" data-p="0.1542"><i>UHS</i><b>−2.2</b></span><span class="nc d" data-p="0.3763"><i>ULTA</i><b>−0.5</b></span><span class="nc u" data-p="0.7745"><i>UNH</i><b>+0.5</b></span><span class="nc d" data-p="0.3664"><i>UNP</i><b>−1.1</b></span><span class="nc d" data-p="0.0824"><i>UPS</i><b>−1.1</b></span><span class="nc u" data-p="0.4868"><i>URI</i><b>+1.1</b></span><span class="nc d" data-p="0.6139"><i>USB</i><b>−0.3</b></span><span class="nc d" data-p="0.7200"><i>V</i><b>−0.4</b></span><span class="nc d" data-p="0.7035"><i>VEEV</i><b>−1.3</b></span><span class="nc d" data-p="0.9679"><i>VICI</i><b>−1.6</b></span><span class="nc u" data-p="0.1164"><i>VLO</i><b>+0.2</b></span><span class="nc d" data-p="0.5402"><i>VLTO</i><b>−0.8</b></span><span class="nc d" data-p="0.6371"><i>VMC</i><b>−1.5</b></span><span class="nc d" data-p="0.3441"><i>VMRK</i><b>−2.8</b></span><span class="nc d" data-p="0.9402"><i>VRSK</i><b>−0.6</b></span><span class="nc u" data-p="0.8248"><i>VRSN</i><b>+0.3</b></span><span class="nc u" data-p="0.7383"><i>VRT</i><b>+3.3</b></span><span class="nc d" data-p="0.7181"><i>VRTX</i><b>−1.6</b></span><span class="nc d" data-p="0.5427"><i>VST</i><b>−2.0</b></span><span class="nc d" data-p="0.9416"><i>VTR</i><b>−1.2</b></span><span class="nc d" data-p="0.2633"><i>VTRS</i><b>−1.1</b></span><span class="nc d" data-p="0.8087"><i>VZ</i><b>−0.5</b></span><span class="nc u" data-p="0.1837"><i>WAB</i><b>+0.5</b></span><span class="nc d" data-p="0.6033"><i>WAT</i><b>−1.9</b></span><span class="nc d" data-p="0.4535"><i>WBD</i><b>−1.6</b></span><span class="nc d" data-p="0.7614"><i>WDAY</i><b>−2.7</b></span><span class="nc u" data-p="0.0217"><i>WDC</i><b>+4.1</b></span><span class="nc d" data-p="0.8482"><i>WEC</i><b>−1.5</b></span><span class="nc d" data-p="0.7594"><i>WELL</i><b>−1.5</b></span><span class="nc d" data-p="0.5731"><i>WFC</i><b>−0.9</b></span><span class="nc d" data-p="0.2693"><i>WM</i><b>−1.1</b></span><span class="nc u" data-p="0.6208"><i>WMB</i><b>+0.3</b></span><span class="nc d" data-p="0.4217"><i>WMT</i><b>−0.1</b></span><span class="nc d" data-p="0.4761"><i>WRB</i><b>−0.2</b></span><span class="nc u" data-p="0.8791"><i>WSM</i><b>+2.4</b></span><span class="nc d" data-p="0.0456"><i>WST</i><b>−1.2</b></span><span class="nc d" data-p="0.6279"><i>WTW</i><b>−0.3</b></span><span class="nc d" data-p="0.1258"><i>WY</i><b>−2.0</b></span><span class="nc d" data-p="0.7272"><i>WYNN</i><b>−1.5</b></span><span class="nc d" data-p="0.9878"><i>XEL</i><b>−1.8</b></span><span class="nc u" data-p="0.9646"><i>XOM</i><b>+0.2</b></span><span class="nc d" data-p="0.9332"><i>XYL</i><b>−0.0</b></span><span class="nc d" data-p="0.7629"><i>XYZ</i><b>−0.2</b></span><span class="nc u" data-p="0.9955"><i>YUM</i><b>+1.6</b></span><span class="nc u" data-p="0.3834"><i>ZBH</i><b>+1.2</b></span><span class="nc d" data-p="0.3888"><i>ZBRA</i><b>−0.3</b></span><span class="nc d" data-p="0.0953"><i>ZTS</i><b>−2.2</b></span></div>
+          <div id="s1-scrim"></div>
+          <div id="s1-text"><div style="text-align:center">
+            <p id="s1-l1">503 stocks moved today.</p>
+            <p id="s1-l2">Let&rsquo;s reduce the noise.</p>
+          </div></div>
+        </div>
+      </section>
+
+      <!-- Scene 2 — the day it happened in -->
+      <section id="s2" class="clip" data-start="4.9" data-duration="5.3" data-track-index="1">
+        <div class="stage"><div class="col" id="s2-inner">
+          <div class="headrow" id="s2-head">
+            <p class="eyebrow">Market today</p>
+            <p class="meta">2 of 10 sectors advancing</p>
+          </div>
+          <p id="s2-line">The market fell <span class="mono tnum down" id="s2-mkt">0.00%</span> today.</p>
+          <div id="s2-grid">
+            <div id="s2-sectors">
+              <div class="srow" id="sec-1"><span class="name">Health Care</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:30%"></span></span><span class="pct tnum up">+1.83%</span></div>
+              <div class="srow" id="sec-2"><span class="name">Technology</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:17%"></span></span><span class="pct tnum up">+1.03%</span></div>
+              <div class="srow" id="sec-3"><span class="name">Utilities</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:50%"></span></span><span class="pct tnum down">&minus;3.04%</span></div>
             </div>
-            <div id="s1-risk">
+            <div id="s2-risk">
               <p class="eyebrow">Risk appetite</p>
-              <p class="mono tnum" id="s1-score">61<span class="of"> / 100</span></p>
-              <p id="s1-risklabel">Measured</p>
+              <p class="mono tnum" id="s2-score">0<span class="of"> / 100</span></p>
+              <p id="s2-risklabel">Mixed</p>
+              <svg id="spark" width="300" height="72" viewBox="0 0 300 72" fill="none" aria-hidden="true">
+                <polyline id="spark-line" points="0.0,23.5 10.3,41.7 20.7,37.5 31.0,4.0 41.4,17.2 51.7,25.0 62.1,22.5 72.4,5.0 82.8,37.3 93.1,37.2 103.4,16.1 113.8,5.9 124.1,32.6 134.5,15.3 144.8,20.2 155.2,23.4 165.5,50.8 175.9,42.7 186.2,24.9 196.6,25.3 206.9,19.9 217.2,11.3 227.6,29.7 237.9,68.0 248.3,56.3 258.6,60.8 269.0,65.2 279.3,67.1 289.7,21.1 300.0,36.2" stroke="var(--ink-2)" stroke-width="2"
+                  stroke-linejoin="round" stroke-linecap="round" fill="none" />
+              </svg>
             </div>
           </div>
-          <p id="s1-disc">Describes moves that have already happened. Not a forecast, not advice.</p>
         </div></div>
       </section>
 
-      <!-- Scene 2 — eleven sectors, then the one that matters, then the company inside it -->
-      <section id="s2" class="clip" data-start="4.5" data-duration="12.0" data-track-index="1">
-        <div id="s2-inner" style="position:absolute; inset:0;">
-
-          <div class="stage"><div class="col" id="s2-sectors">
-            <div id="s2-head">
-              <p class="eyebrow">All sectors</p>
-              <p class="meta">median move · how many rose</p>
+      <!-- Scene 3 — the two that were not noise, then one of them in full -->
+      <section id="s3" class="clip" data-start="9.5" data-duration="9.4" data-track-index="2">
+        <div id="s3-inner" style="position:absolute; inset:0;">
+          <div class="stage"><div class="col" id="s3-list">
+            <div class="headrow" id="s3-head">
+              <p class="eyebrow">Unusual today</p>
+              <p class="meta">503 scanned · 2 flagged</p>
             </div>
-            <div id="s2-others-top">
-              <div class="srow" id="row-ind"><span class="name">Industrials</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:21%"></span></span><span class="ratio tnum">6/9</span><span class="pct tnum up">+0.8%</span></div>
-              <div class="srow" id="row-fin"><span class="name">Financials</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:16%"></span></span><span class="ratio tnum">7/11</span><span class="pct tnum up">+0.6%</span></div>
-            </div>
-            <div class="srow" id="row-tech"><span class="name">Information Technology</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:50%"></span></span><span class="ratio tnum">8/12</span><span class="pct tnum up">+1.9%</span></div>
-            <div id="s2-others-bot">
-              <div class="srow" id="row-stp"><span class="name">Consumer Staples</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:5%"></span></span><span class="ratio tnum">4/9</span><span class="pct tnum down">−0.2%</span></div>
-              <div class="srow" id="row-utl"><span class="name">Utilities</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:13%"></span></span><span class="ratio tnum">3/8</span><span class="pct tnum down">−0.5%</span></div>
-              <div class="srow" id="row-eng"><span class="name">Energy</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:29%"></span></span><span class="ratio tnum">2/7</span><span class="pct tnum down">−1.1%</span></div>
+            <p id="s3-line">Two moves weren&rsquo;t.</p>
+            <div style="margin-top:34px">
+              <div class="mrow" id="m-nue"><span class="tk">NUE</span><span class="co">Nucor</span><span class="sc">Materials</span><span class="mv tnum down">&minus;6.32%</span><span class="mx">2.2&times; its typical 2.8% daily move</span></div>
+              <div class="mrow" id="m-pep"><span class="tk">PEP</span><span class="co">PepsiCo</span><span class="sc">Consumer Staples</span><span class="mv tnum down">&minus;2.93%</span><span class="mx">2.0&times; its typical 1.4% daily move</span></div>
             </div>
           </div></div>
 
-          <div id="s2-cardstage"><article class="card" id="s2-card">
+          <div id="s3-cardstage"><article class="card" id="s3-card">
             <header class="card-head">
-              <div>
-                <h2 class="cname">Oracle Corporation</h2>
-                <span class="cticker">ORCL</span>
-              </div>
-              <div class="cpct">
-                <span class="pct-big down tnum" id="c-pct">−1.7%</span>
-                <span class="plabel">today</span>
-              </div>
+              <div><h2 class="cname">Nucor</h2><span class="cticker">NUE · Materials</span></div>
+              <div class="cpct"><span class="pct-big down tnum" id="c-pct">0.00%</span><span class="plabel">today</span></div>
             </header>
-            <p id="c-fortnight">and down <span class="mono tnum">1.1%</span> over the past two weeks</p>
+            <p id="c-unusual">A bigger move than usual for this stock — <span class="mono tnum" id="c-mult">2.2&times;</span> its typical <span class="mono tnum">2.8%</span> day, and down <span class="mono tnum">5.4%</span> over the past two weeks.</p>
             <div id="c-body">
               <p class="eyebrow" id="c-eyebrow">What we read</p>
               <dl class="figs">
-                <div class="fig" id="c-f1"><dt>Market</dt><dd class="up tnum">+0.5%</dd><p class="fnote">Where the whole market went today</p></div>
-                <div class="fig" id="c-f2"><dt>Its sector</dt><dd class="up tnum">+1.9%</dd><p class="fnote">Information Technology, same day</p></div>
-                <div class="fig" id="c-f3"><dt>News volume</dt><dd class="tnum">41<span style="font-size:26px">/day</span></dd><p class="fnote">How often stories about it appear</p></div>
+                <div class="fig" id="c-f1"><dt>Market</dt><dd class="down tnum">&minus;0.63%</dd><p class="fnote">Where the whole market went today</p></div>
+                <div class="fig" id="c-f2"><dt>Materials</dt><dd class="down tnum">&minus;1.23%</dd><p class="fnote">Its own sector, same day</p></div>
+                <div class="fig" id="c-f3"><dt>News volume</dt><dd class="tnum">41.3<span style="font-size:24px">/day</span></dd><p class="fnote">How often stories about it appear</p></div>
               </dl>
-              <p id="c-conc">Oracle did not follow its sector.</p>
-              <div><span id="c-chip">8-K · quarterly results, filed after the previous close</span></div>
+              <p id="c-conc">Most of this was specific to Nucor.</p>
             </div>
           </article></div>
         </div>
       </section>
 
-      <!-- Scene 3 — the turn: what it will not tell you -->
-      <section id="s3" class="clip" data-start="15.8" data-duration="5.5" data-track-index="2">
-        <div class="stage"><div id="s3-col">
-          <p class="eyebrow" id="s3-eyebrow">The ratings it used to publish</p>
-          <div class="mono tnum" id="s3-figure">48.5%</div>
-          <p id="s3-sub">Directional accuracy · a coin flip is 50%</p>
-          <p id="s3-line">Deleted rather than tuned.</p>
+      <!-- Scene 4 — the ratings, and the direction they pointed -->
+      <section id="s4" class="clip" data-start="18.2" data-duration="5.7" data-track-index="3">
+        <div class="stage"><div class="col" id="s4-inner">
+          <div class="headrow" id="s4-head">
+            <p class="eyebrow">The ratings it used to publish</p>
+            <p class="meta">3,792 observations · 2021&ndash;2026</p>
+          </div>
+          <div id="inv">
+            <div class="ivrow"><span class="lbl">strong_buy</span><span class="ivtrack"><span class="ivbar down" id="iv-1"></span></span><span class="ivval down tnum" id="ivv-1">&minus;0.14%</span></div>
+            <div class="ivrow"><span class="lbl">buy</span><span class="ivtrack"><span class="ivbar" id="iv-2"></span></span><span class="ivval tnum" id="ivv-2">+0.44%</span></div>
+            <div class="ivrow"><span class="lbl">hold</span><span class="ivtrack"><span class="ivbar" id="iv-3"></span></span><span class="ivval tnum" id="ivv-3">+0.87%</span></div>
+            <div class="ivrow"><span class="lbl">sell</span><span class="ivtrack"><span class="ivbar" id="iv-4"></span></span><span class="ivval tnum" id="ivv-4">+1.07%</span></div>
+            <div class="ivrow"><span class="lbl">strong_sell</span><span class="ivtrack"><span class="ivbar up" id="iv-5"></span></span><span class="ivval up tnum" id="ivv-5">+2.48%</span></div>
+            <span id="ivbase"></span><span id="ivbase-lbl">Holding returned +0.78%</span>
+          </div>
+          <p id="s4-sub">48.5% directional accuracy · a coin flip is 50%</p>
+          <p id="s4-line">Deleted rather than tuned.</p>
         </div></div>
       </section>
 
-      <!-- Scene 4 — Quantimental -->
-      <section id="s4" class="clip" data-start="21.3" data-duration="3.5" data-track-index="3">
-        <div class="stage"><div id="s4-col">
-          <h1 id="s4-mark">Quantimental</h1>
-          <div class="rule" id="s4-rule"></div>
-          <p id="s4-tag">Described, not predicted.</p>
-          <p id="s4-url">thequantimental.com</p>
+      <!-- Scene 5 -->
+      <section id="s5" class="clip" data-start="23.2" data-duration="2.6" data-track-index="4">
+        <div class="stage"><div id="s5-col">
+          <h1 id="s5-mark">Quantimental</h1>
+          <div class="rule" id="s5-rule"></div>
+          <p id="s5-tag">Described, not predicted.</p>
         </div></div>
       </section>
 
-      <!-- Audio: a low bed and five soft cues. Polished means present, never eager. -->
       <audio id="music-bed" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"
-        data-start="0" data-duration="24.8" data-track-index="10"
-        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.24},{"t":20.8,"v":0.24},{"t":24.2,"v":0}]}]}'></audio>
-      <audio id="sfx-market"  src="assets/sfx/interface/drop_001.ogg"        data-start="1.09"  data-duration="0.11" data-track-index="11" data-volume="0.30"></audio>
-      <audio id="sfx-sectors" src="assets/sfx/interface/drop_002.ogg"        data-start="5.34"  data-duration="0.19" data-track-index="12" data-volume="0.28"></audio>
-      <audio id="sfx-card"    src="assets/sfx/impact/impactSoft_medium_000.ogg" data-start="9.83"  data-duration="0.12" data-track-index="13" data-volume="0.46"></audio>
-      <audio id="sfx-conc"    src="assets/sfx/interface/bong_001.ogg"        data-start="13.11" data-duration="0.12" data-track-index="14" data-volume="0.28"></audio>
-      <audio id="sfx-turn"    src="assets/sfx/impact/impactSoft_medium_002.ogg" data-start="18.56" data-duration="0.12" data-track-index="15" data-volume="0.42"></audio>
+        data-start="0" data-duration="25.8" data-track-index="10"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.20},{"t":2.19,"v":0.26},{"t":21.8,"v":0.26},{"t":25.2,"v":0}]}]}'></audio>
+      <audio id="sfx-calm"  src="assets/sfx/interface/drop_002.ogg"           data-start="2.19"  data-duration="0.19" data-track-index="11" data-volume="0.26"></audio>
+      <audio id="sfx-spark" src="assets/sfx/interface/drop_001.ogg"           data-start="8.74"  data-duration="0.11" data-track-index="12" data-volume="0.26"></audio>
+      <audio id="sfx-desc"  src="assets/sfx/impact/impactSoft_medium_000.ogg" data-start="13.11" data-duration="0.12" data-track-index="13" data-volume="0.46"></audio>
+      <audio id="sfx-conc"  src="assets/sfx/interface/bong_001.ogg"           data-start="15.84" data-duration="0.12" data-track-index="14" data-volume="0.26"></audio>
+      <audio id="sfx-bars"  src="assets/sfx/impact/impactSoft_medium_002.ogg" data-start="19.66" data-duration="0.12" data-track-index="15" data-volume="0.40"></audio>
     </div>
 
     <script>
-      /* Built after fonts resolve so the card body is measured against real metrics.
-         The timeline is registered only once the build finishes. */
       document.fonts.ready.then(() => {
         const tl = gsap.timeline({ paused: true });
-        const E = "power2.out";
-        const S = "power1.inOut";
-        const bodyH = document.getElementById("c-body").scrollHeight;
+        const E = "power2.out", S = "power1.inOut";
+        const $ = (s) => document.querySelector(s);
+        const cardBodyH = document.getElementById("c-body").scrollHeight;
 
-        /* ===== Scene 1 — the whole market (0 → 4.5) ===== */
-        tl.fromTo("#s1-eyebrow", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.30)
-          .fromTo("#s1-line",    { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.65, ease: E }, 1.09) // beat-grid: 1.09s
-          .fromTo("#s1-breadth", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 2.19) // beat-grid: 2.19s
-          .fromTo("#s1-risk",    { opacity: 0 },        { opacity: 1, duration: 0.55, ease: E }, 2.73)
-          .fromTo("#s1-disc",    { opacity: 0 },        { opacity: 1, duration: 0.5, ease: E }, 3.27)
-          .to("#s1-inner",       { opacity: 0, duration: 0.70, ease: S }, 4.50);
+        /* A number that counts rather than fades. The site uses tabular numerals
+           precisely so a changing figure does not shift the layout. */
+        function countUp(sel, from, to, decimals, prefix, suffix, at, dur) {
+          const el = $(sel), o = { v: from };
+          tl.to(o, {
+            v: to, duration: dur, ease: "power2.out",
+            onUpdate() { el.textContent = prefix + Math.abs(o.v).toFixed(decimals) + suffix; },
+          }, at);
+        }
 
-        /* ===== Scene 2 — eleven sectors, then one, then the company inside it ===== */
-        tl.fromTo("#s2-sectors", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 4.50)
-          .fromTo("#s2-card", { opacity: 0, y: 44 }, { opacity: 0, y: 44, duration: 0.01 }, 0)
+        /* ===== Scene 1 — 503 real tickers, churning, then quiet ===== */
+        const cells = Array.from(document.querySelectorAll(".nc")).map((el) => ({
+          el, p: parseFloat(el.dataset.p),
+        }));
+        /* One proxy drives every cell. Everything is a function of timeline
+           progress, so each frame is reproducible from its time alone. */
+        const noise = { t: 0 };
+        tl.to(noise, {
+          t: 3.2, duration: 3.2, ease: "none",
+          onUpdate() {
+            const t = noise.t;
+            const damp = t < 2.19 ? 1 : Math.max(0, 1 - (t - 2.19) / 0.9);
+            const veil = t < 1.09 ? 1 : Math.max(0.42, 1 - (t - 1.09) / 1.1 * 0.58);
+            for (let i = 0; i < cells.length; i++) {
+              const c = cells[i];
+              const flick = Math.abs(Math.sin(6.2832 * (2.6 * t + c.p)));
+              c.el.style.opacity = (0.10 + damp * veil * (0.18 + 0.72 * flick)).toFixed(3);
+              c.el.style.transform = "translateY(" + (damp * Math.sin(6.2832 * (1.7 * t + c.p * 1.7)) * 3).toFixed(2) + "px)";
+            }
+          },
+        }, 0);
+        tl.fromTo("#s1-scrim", { opacity: 0 }, { opacity: 0.93, duration: 0.45, ease: E }, 0.90)
+          .fromTo("#s1-l1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 1.09) // beat-grid: 1.09s
+          .fromTo("#s1-l2", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 2.73) // the line lands on the calm
+          .to("#s1-inner", { opacity: 0, duration: 0.70, ease: S }, 4.90);
+
+        /* ===== Scene 2 — the day it happened in (4.9 → 9.5) ===== */
+        tl.fromTo("#s2-inner", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 4.90)
+          .fromTo("#s2-head", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 5.34)
+          .fromTo("#s2-line", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 5.88);
+        countUp("#s2-mkt", 0, 0.63, 2, "−", "%", 5.88, 0.85);
+        tl.fromTo(["#sec-1", "#sec-2", "#sec-3"], { opacity: 0, y: 12 },
+                  { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.14 }, 6.56) // beat-grid: 6.56s
+          .fromTo("#s2-risk", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: E }, 7.64);
+        countUp("#s2-score", 0, 40, 0, "", "", 7.70, 0.85);
+        const sparkLen = $("#spark-line").getTotalLength();
+        tl.fromTo("#spark-line", { strokeDasharray: sparkLen, strokeDashoffset: sparkLen },
+                  { strokeDashoffset: 0, duration: 0.70, ease: "power1.inOut" }, 8.74) // beat-locked: 8.74s
+          .to("#s2-inner", { opacity: 0, duration: 0.70, ease: S }, 9.50);
+
+        /* ===== Scene 3 — the two, then Nucor in full (9.5 → 18.9) ===== */
+        tl.fromTo("#s3-list", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 9.50)
+          .fromTo("#s3-card", { opacity: 0, y: 44 }, { opacity: 0, y: 44, duration: 0.01 }, 0)
           .fromTo("#c-body", { height: 0, paddingTop: 0 }, { height: 0, paddingTop: 0, duration: 0.01 }, 0)
-          /* the list arrives as one block — it is reference data, read as a set */
-          .fromTo("#s2-head", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 4.91)
-          .fromTo(["#row-ind", "#row-fin", "#row-tech", "#row-stp", "#row-utl", "#row-eng"],
-                  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.12 }, 5.34) // beat-grid: 5.34s
-          /* the descent: everything but Technology recedes */
-          .to(["#s2-head", "#s2-others-top", "#s2-others-bot"], { opacity: 0.10, duration: 0.50, ease: S }, 8.74) // beat-locked: 8.74s
-          .to(["#s2-head", "#s2-others-top", "#s2-others-bot"], { opacity: 0, duration: 0.40, ease: S }, 9.29)
-          .to("#row-tech", { y: -170, duration: 0.70, ease: "power2.inOut" }, 9.29)
-          /* and the company inside that sector rises into its place */
-          .to("#s2-card", { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, 9.83)
-          .to("#row-tech", { opacity: 0, duration: 0.35, ease: S }, 9.83)
-          .fromTo("#c-pct", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 10.10)
-          .fromTo("#c-fortnight", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 10.37) // beat-grid: 10.37s
-          /* the card opens and the reading fills in */
-          .to("#c-body", { height: bodyH, paddingTop: 34, duration: 0.60, ease: "power2.inOut" }, 10.93) // beat-grid: 10.93s
-          .fromTo("#c-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 11.30)
-          /* the three readings arrive together: the point is comparing them */
-          .fromTo(["#c-f1", "#c-f2", "#c-f3"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.14 }, 12.02) // beat-grid: 12.02s
-          .fromTo("#c-conc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 13.11) // beat-locked: 13.11s
-          .fromTo("#c-chip", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 13.64)
-          .to("#s2-inner", { opacity: 0, duration: 0.70, ease: S }, 15.80);
+          .fromTo("#s3-head", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 10.05)
+          .fromTo("#s3-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 10.37)
+          .fromTo(["#m-nue", "#m-pep"], { opacity: 0, y: 14 },
+                  { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.16 }, 10.93) // beat-grid: 10.93s
+          /* the descent: PepsiCo and the framing recede, Nucor lifts */
+          .to(["#s3-head", "#s3-line", "#m-pep"], { opacity: 0, duration: 0.45, ease: S }, 13.11) // beat-locked: 13.11s
+          .to("#m-nue", { y: -150, duration: 0.65, ease: "power2.inOut" }, 13.11)
+          .to("#s3-card", { opacity: 1, y: 0, duration: 0.60, ease: "power3.out" }, 13.64)
+          .to("#m-nue", { opacity: 0, duration: 0.35, ease: S }, 13.64);
+        countUp("#c-pct", 0, 6.32, 2, "−", "%", 14.20, 0.80);
+        tl.fromTo("#c-unusual", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 14.20)
+          /* the card opens rather than sitting reserved-but-blank */
+          .to("#c-body", { height: cardBodyH, paddingTop: 32, duration: 0.60, ease: "power2.inOut" }, 14.73) // beat-grid: 14.73s
+          .fromTo("#c-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 15.05)
+          /* market, sector and attention arrive together — the point is comparing them */
+          .fromTo(["#c-f1", "#c-f2", "#c-f3"], { opacity: 0, y: 12 },
+                  { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.14 }, 15.29) // beat-grid: 15.29s
+          .fromTo("#c-conc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 15.84)
+          .to("#s3-inner", { opacity: 0, duration: 0.70, ease: S }, 18.20);
 
-        /* ===== Scene 3 — the turn (15.8 → 21.3) ===== */
-        tl.fromTo("#s3-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 15.80)
-          .fromTo("#s3-eyebrow", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 16.93) // beat-grid: 16.93s
-          .fromTo("#s3-figure", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 18.56) // beat-locked: 18.56s
-          .fromTo("#s3-sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 18.95)
-          .fromTo("#s3-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 19.66) // beat-grid: 19.66s
-          .to("#s3-col", { opacity: 0, duration: 0.70, ease: S }, 21.30);
+        /* ===== Scene 4 — the ratings, and the direction they pointed ===== */
+        tl.fromTo("#s4-inner", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 18.20)
+          .fromTo("#s4-head", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 18.56)
+          .fromTo("#ivbase", { scaleY: 0 }, { scaleY: 1, duration: 0.45, ease: "power2.inOut" }, 19.30)
+          .fromTo("#ivbase-lbl", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 19.55)
+          .fromTo(["#iv-1", "#iv-2", "#iv-3", "#iv-4", "#iv-5"], { scaleX: 0 },
+                  { scaleX: 1, duration: 0.55, ease: "power2.out", stagger: 0.12 }, 19.66) // beat-locked: 19.66s
+          .fromTo(["#ivv-1", "#ivv-2", "#ivv-3", "#ivv-4", "#ivv-5"], { opacity: 0 },
+                  { opacity: 1, duration: 0.35, ease: E, stagger: 0.12 }, 19.86)
+          .fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 20.75)
+          .fromTo("#s4-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 21.28)
+          .to("#s4-inner", { opacity: 0, duration: 0.70, ease: S }, 23.20);
 
-        /* ===== Scene 4 — Quantimental (21.3 → 24.8) ===== */
-        tl.fromTo("#s4-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 21.30)
-          .fromTo("#s4-mark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 21.84) // beat-grid: 21.84s
-          .fromTo("#s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.50, ease: "power2.inOut" }, 22.50)
-          .fromTo("#s4-tag", { opacity: 0 }, { opacity: 1, duration: 0.50, ease: E }, 22.93) // beat-grid: 22.93s
-          .fromTo("#s4-url", { opacity: 0 }, { opacity: 1, duration: 0.40, ease: E }, 23.46);
-        /* then silence and stillness to 24.8 */
+        /* ===== Scene 5 ===== */
+        tl.fromTo("#s5-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 23.20)
+          .fromTo("#s5-mark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 23.46)
+          .fromTo("#s5-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 24.10)
+          .fromTo("#s5-tag", { opacity: 0 }, { opacity: 1, duration: 0.50, ease: E }, 24.56);
 
         window.__timelines["main"] = tl;
         if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();

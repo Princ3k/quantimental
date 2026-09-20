@@ -6,7 +6,7 @@ to build and render.
 
 | File | What it is |
 | --- | --- |
-| `brag.mp4` | The video. 1920x1080, 30fps, 24.8s, H.264 + AAC. |
+| `brag.mp4` | The video. 1920x1080, 30fps, 25.8s, H.264 + AAC. |
 | `brag.jpg` | The poster frame, also baked in as frame 0 so thumbnail grabbers use it. |
 | `brag-plan.md` | The creative plan and storyboard — the contract the video was built against. |
 | `composition-brief.md` | The handoff brief, plus what was actually built and how it was verified. |
@@ -15,12 +15,16 @@ to build and render.
 
 ## What the video does
 
-A descent. It opens on the whole market (`signal-desk.tsx` — the narrative line, the risk
-appetite composite, the not-a-forecast disclaimer), narrows through the sector strip
-(`sector-strip.tsx` — the centre-line bars), isolates Information Technology, and lands inside
-it on a single Oracle card (`stock-card.tsx`). Only after the product has visibly done its job
-does the film say what it refuses to do: the 48.5% backtest, and the ratings deleted rather
-than tuned.
+Noise, then a descent. All 503 tickers fill the frame and churn; the grid goes quiet and the
+film says *"Let's reduce the noise."* Then it keeps that promise — the day's market and sectors,
+503 scanned down to the 2 flagged unusual, and one of them (Nucor, down 6.3% on a stock whose
+typical day is 2.8%) opened up in full. Only after the product has visibly done its job does the
+film say what it refuses to do: the 48.5% backtest drawn as five bucket returns climbing the
+wrong way, and the ratings deleted rather than tuned.
+
+**Every figure is real.** They come from the committed scan of 2026-09-18 in `public/` —
+`snapshot.json`, `signal-desk.json`, `unusual.json` and `backtest.json` — because the first
+design rule in the root README is that nothing is invented.
 
 Colours and fonts are the project's own, from `frontend/app/globals.css` and
 `frontend/app/layout.tsx`. The three text colours are darkened 0.02–0.08 L from the source
@@ -40,7 +44,7 @@ Then re-pick the poster and bake it back in as frame 0:
 
 ```bash
 cd ..
-ffmpeg -y -ss 14.5 -i brag.mp4 -frames:v 1 -q:v 2 brag.jpg
+ffmpeg -y -ss 17.0 -i brag.mp4 -frames:v 1 -q:v 2 brag.jpg
 ffmpeg -y -i brag.mp4 -i brag.jpg \
   -filter_complex "[0:v][1:v]overlay=0:0:enable='eq(n,0)'[v]" \
   -map "[v]" -map 0:a? -c:v libx264 -crf 18 -preset slow -pix_fmt yuv420p \

@@ -1,8 +1,9 @@
 # Brag Plan: Quantimental
 
-*(v2 — re-cut. The first pass opened on the 48.5% failure number in the `deadpan` tone. This
-one opens wide on the whole market and descends to a single stock, in `polished`, with the
-ratings story moved from the hook to the turn.)*
+*(v3. v1 opened on the 48.5% failure number in `deadpan`. v2 became a descent through the
+market in `polished`. v3 keeps the descent and fixes the thing that mattered most: **every
+figure is now real**, read from the committed 2026-09-18 scan in `public/`, and the film opens
+on all 503 tickers at once before quieting down.)*
 
 ## What is this app?
 Quantimental reads price action, news volume and SEC filings and says, in one sentence a reader
@@ -152,3 +153,88 @@ Audio intent: the bed is fading; the last half second is silence on paper.
 **Audio summary:** A low bed runs the full 24.8s under five soft cues, the loudest of them the
 thud as the company card rises out of its sector; everything fades so the wordmark lands on
 paper and nothing else.
+
+
+---
+
+## v3 — what changed, and why
+
+### Every number is real now
+
+v1 and v2 invented every figure. The README's **first design rule is "Nothing is invented"**,
+and a launch film for that product should not open on a fabricated market. It does not have to:
+`public/` carries the committed scan from **2026-09-18**, published by the GitHub Action in
+`.github/workflows/`.
+
+| Source | What the film uses |
+| --- | --- |
+| `snapshot.json` | 503 constituents — every ticker and move in the opening grid, plus Nucor's row |
+| `signal-desk.json` | Composite 40 / "Mixed", breadth 2 of 10, the real 30-point sparkline |
+| `unusual.json` | 503 scanned → 2 flagged; Nucor and PepsiCo with their real multiples |
+| `backtest.json` | 3,792 observations, 48.5% accuracy, and the five bucket returns |
+
+The real day turned out to be a better story than the invented one. The market **fell** 0.63%.
+Only two of ten sectors advanced. And the hero is no longer Oracle but **Nucor** — down 6.32%
+on a stock whose typical day is 2.84%, which is the product's smartest idea (unusual judged
+against *this* stock's own baseline) showing itself without being explained.
+
+### The opening: noise, then quiet
+
+All 503 tickers fill the frame in a 19-column grid, each flickering on its own seeded phase.
+At 2.19s the flicker damps over 0.9s and the grid settles to 10%.
+
+`503 stocks moved today.` is already up while the grid is still churning.
+**`Let's reduce the noise.`** lands at 2.73s, on the calm — so the picture performs the
+sentence rather than captioning it. The next scene then keeps the promise: 503 scanned, 2
+flagged.
+
+The flicker is a pure function of timeline progress — one proxy tween drives all 503 cells
+through `Math.sin` on a per-cell phase baked in at build time from a seeded LCG. No
+`Math.random`, no clock, so every frame is reproducible from its time alone.
+
+The grid carries `data-layout-ignore`. Those 503 cells are deliberately illegible texture meant
+to be overlapped by the headline and covered by the scrim, and auditing them produced 80
+findings about text nobody is meant to read. The attribute is scoped to the grid alone; every
+real text block in the film stays audited.
+
+### Figures that count rather than fade
+
+`globals.css` says tabular numerals exist "so a price updating from 99.99 to 100.00 does not
+shift the layout" — the design system asking for count-ups. Three of them now: the market to
+`−0.63%`, risk appetite to `40`, and Nucor to `−6.32%`. Each is a GSAP proxy tween writing
+`textContent` on update, so it is seek-safe.
+
+### The inversion, shown rather than asserted
+
+v2 stated `48.5%` and moved on. v3 draws the five real buckets against the baseline:
+
+| Verdict | Mean return | |
+| --- | --- | --- |
+| `strong_buy` | −0.14% | significant, and pointing the wrong way |
+| `buy` | +0.44% | |
+| `hold` | +0.87% | |
+| `sell` | +1.07% | |
+| `strong_sell` | +2.48% | significant, and pointing the wrong way |
+
+Holding returned +0.78%, drawn as a vertical line through the bars. Only the two statistically
+significant buckets are coloured; the middle three are neutral grey, because the project's rule
+is that colour carries meaning or is absent. The monotonic climb from most-bullish to
+most-bearish is the whole argument, and it is now visible instead of claimed.
+
+### Length
+
+**25.8 seconds** — 0.8s past the skill's 25s cap. The noise opening spends 4.9s before the
+product appears, and the reading floors on the new beats do not compress further. Agreed as a
+deliberate trade for the two added beats.
+
+### Final timings
+
+| Scene | Window | What happens |
+| --- | --- | --- |
+| 1 | 0 → 4.9 | 503 tickers churn; damp at 2.19; `Let's reduce the noise.` at 2.73 |
+| 2 | 4.9 → 9.5 | Market −0.63% counting up; three real sectors; risk 40 + sparkline at 8.74 |
+| 3 | 9.5 → 18.2 | 503 scanned · 2 flagged; both movers; descent at 13.11; Nucor card opens |
+| 4 | 18.2 → 23.2 | The five bucket bars at 19.66; `Deleted rather than tuned.` |
+| 5 | 23.2 → 25.8 | Wordmark, tagline, silence |
+
+Beat locks: **8.74s** sparkline · **13.11s** the descent · **19.66s** the bars.
