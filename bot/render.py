@@ -550,6 +550,7 @@ def help_embed() -> discord.Embed:
         name="Server managers",
         value="\n".join([
             "`/watch here` — post a daily summary in this channel after the close",
+            "`/watch off` — stop that daily post; the list is kept",
             "`/watch add TICKER` · `/watch remove` · `/watch list`",
         ]),
         inline=False,
@@ -558,7 +559,7 @@ def help_embed() -> discord.Embed:
     embed.add_field(
         name="Your own list",
         value="\n".join([
-            "`/my add TICKER` · `/my remove TICKER`",
+            "`/my add TICKER` · `/my remove TICKER` · `/my list`",
             "`/my today` — what your stocks did, shown only to you",
             "`/my clear` — delete it and everything stored for you",
             "",

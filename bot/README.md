@@ -25,7 +25,8 @@ daily "nothing happened" is how a channel learns to ignore a bot.
 | `/watch remove TICKER` | Stop following one. |
 | `/watch list` | What this server follows. |
 | `/watch here` | Post the daily digest in this channel. |
-| `/my add` · `/my remove` · `/my today` · `/my clear` | A watchlist of your own, private to you. |
+| `/watch off` | Stop the daily post. The watchlist is kept. |
+| `/my add` · `/my remove` · `/my list` · `/my today` · `/my clear` | A watchlist of your own, private to you. |
 
 `/unusual` reads `/api/v1/market/unusual` and `/market` reads
 `/api/v1/market/desk` — both cached published files. Note that `/market/desk`

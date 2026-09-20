@@ -181,3 +181,38 @@ class TestForget:
 
     def test_forgetting_an_unknown_guild_is_harmless(self, lists):
         assert lists.forget(999) is False
+
+
+class TestStoppingTheDailyPost:
+    def test_clear_channel_stops_it_but_keeps_the_list(self, lists):
+        # A server must be able to turn this off without evicting the bot, and
+        # without losing the tickers it spent time adding.
+        lists.add(1, "AAPL")
+        lists.set_channel(1, 999)
+        assert lists.clear_channel(1) is True
+        assert lists.channel(1) is None
+        assert lists.guilds() == []          # no longer receives the post
+        assert lists.get(1) == ["AAPL"]      # but the list survives
+
+    def test_turning_it_back_on_resumes_where_it_left_off(self, lists):
+        lists.add(1, "AAPL")
+        lists.set_channel(1, 999)
+        lists.clear_channel(1)
+        lists.set_channel(1, 1234)
+        assert lists.guilds() == [1]
+        assert lists.get(1) == ["AAPL"]
+
+    def test_clearing_when_it_was_never_on_is_harmless(self, lists):
+        assert lists.clear_channel(1) is False
+        lists.add(1, "AAPL")
+        assert lists.clear_channel(1) is False
+
+    def test_it_reaches_the_file(self, tmp_path):
+        path = tmp_path / "state.json"
+        first = Watchlists(path)
+        first.add(1, "AAPL")
+        first.set_channel(1, 999)
+        first.clear_channel(1)
+        second = Watchlists(path)
+        assert second.channel(1) is None
+        assert second.get(1) == ["AAPL"]

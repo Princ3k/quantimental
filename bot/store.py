@@ -165,6 +165,22 @@ class Watchlists:
             self._guilds.setdefault(str(guild_id), {})["channel"] = int(channel_id)
             self._write()
 
+    def clear_channel(self, guild_id: int) -> bool:
+        """Stop the daily post without discarding the watchlist.
+
+        A server must be able to turn this off without evicting the bot. It is
+        also what happens when a channel turns out to be gone for good: the
+        tickers are kept, so `/watch here` in a new channel resumes exactly
+        where it left off.
+        """
+        with self._lock:
+            state = self._guilds.get(str(guild_id))
+            if not state or not state.get("channel"):
+                return False
+            state["channel"] = None
+            self._write()
+        return True
+
     def forget(self, guild_id: int) -> bool:
         """Drop everything stored for one server. Returns whether there was any.
 

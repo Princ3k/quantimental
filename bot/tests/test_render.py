@@ -497,7 +497,11 @@ class TestHelp:
         text = render.help_embed().description + "".join(
             f.name + f.value for f in render.help_embed().fields
         )
-        for cmd in ("/stock", "/unusual", "/market", "/filings", "/watch"):
+        for cmd in (
+            "/stock", "/unusual", "/market", "/filings",
+            "/watch here", "/watch off", "/watch add",
+            "/my add", "/my list", "/my today", "/my clear",
+        ):
             assert cmd in text, cmd
 
     def test_says_what_unusual_is_measured_against(self):

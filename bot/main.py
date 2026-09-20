@@ -115,7 +115,10 @@ class QuantimentalBot(discord.Client):
             return
         channel = self.get_channel(channel_id)
         if channel is None:
-            logger.warning("Guild %s: channel %s is gone.", guild_id, channel_id)
+            # Not necessarily deleted: get_channel also misses on a cold start
+            # before the guild cache fills. Treating that as deletion would wipe
+            # a working config on every restart, so this only waits.
+            logger.warning("Guild %s: channel %s not in cache yet.", guild_id, channel_id)
             return
 
         watched = self.lists.get(guild_id)
@@ -143,7 +146,19 @@ class QuantimentalBot(discord.Client):
 
         try:
             await channel.send(embed=embed)
+        except (discord.NotFound, discord.Forbidden) as exc:
+            # The channel is gone, or the bot has lost access to it. Retrying
+            # cannot fix either, and without this the loop asks again every
+            # fifteen minutes, every day, with nobody watching the logs.
+            # The watchlist is kept so /watch here elsewhere resumes it.
+            logger.warning(
+                "Guild %s: channel %s is unreachable (%s); stopping the daily post.",
+                guild_id, channel_id, exc,
+            )
+            self.lists.clear_channel(guild_id)
+            return
         except discord.DiscordException as exc:
+            # Anything else — a hiccup, a rate limit — is worth retrying.
             logger.warning("Guild %s: could not post: %s", guild_id, exc)
             return
         # Recorded only after a successful send, so a failed post is retried on
@@ -275,6 +290,20 @@ async def my_clear(interaction: discord.Interaction) -> None:
     )
 
 
+@mine.command(name="list", description="Show what is on your own list.")
+async def my_list(interaction: discord.Interaction) -> None:
+    """Just the symbols. Unlike /my today this needs nothing from the API, so
+    it still answers when the upstream is down — which is when someone is most
+    likely to be wondering what they added."""
+    watched = bot.personal.get(interaction.user.id)
+    await interaction.response.send_message(
+        f"Your list ({len(watched)}/{MAX_PER_PERSON}): " + ", ".join(watched)
+        if watched
+        else "Your list is empty. Add one with `/my add TICKER`.",
+        ephemeral=True,
+    )
+
+
 @mine.command(name="today", description="What your own stocks did this session.")
 async def my_today(interaction: discord.Interaction) -> None:
     watched = bot.personal.get(interaction.user.id)
@@ -334,6 +363,21 @@ async def watch_remove(interaction: discord.Interaction, ticker: str) -> None:
         return
     _, message = bot.lists.remove(interaction.guild_id, ticker)
     await interaction.response.send_message(message)
+
+
+@watch.command(name="off", description="Stop the daily post in this server.")
+async def watch_off(interaction: discord.Interaction) -> None:
+    if not _is_manager(interaction):
+        await interaction.response.send_message(
+            "Only members who can manage the server can change this.", ephemeral=True
+        )
+        return
+    stopped = bot.lists.clear_channel(interaction.guild_id)
+    await interaction.response.send_message(
+        "Stopped. The watchlist is kept — `/watch here` starts it again."
+        if stopped
+        else "The daily post is not switched on here.",
+    )
 
 
 @watch.command(name="list", description="Show what this server follows.")
