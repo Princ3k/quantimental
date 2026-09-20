@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Quantimental — brag</title>
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Fonts shipped locally — the pair the product uses (frontend/app/layout.tsx). */
+      @font-face { font-family: "Inter Tight"; font-weight: 400; font-style: normal;
+        src: url("assets/fonts/InterTight-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Inter Tight"; font-weight: 500; font-style: normal;
+        src: url("assets/fonts/InterTight-Medium.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "Inter Tight"; font-weight: 600; font-style: normal;
+        src: url("assets/fonts/InterTight-SemiBold.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal;
+        src: url("assets/fonts/JetBrainsMono-Regular.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 500; font-style: normal;
+        src: url("assets/fonts/JetBrainsMono-Medium.ttf") format("truetype"); font-display: block; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 700; font-style: normal;
+        src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-display: block; }
+
+      /* Tokens from frontend/app/globals.css :root, darkened a touch on the three
+         text colours so every pair clears WCAG AA at normal size. */
+      :root {
+        --bg: oklch(0.985 0.002 85);
+        --surface: oklch(1 0 0);
+        --ink: oklch(0.18 0.004 60);
+        --ink-2: oklch(0.42 0.006 70);
+        --rule: oklch(0.90 0.004 75);
+        --rule-strong: oklch(0.82 0.005 75);
+        --up: oklch(0.44 0.115 155);
+        --down: oklch(0.47 0.165 27);
+        --mark: oklch(0.28 0.02 60);
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        background: var(--bg); color: var(--ink);
+        font-family: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .stage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .col { width: 1400px; }
+      .tnum { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+      .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+      .up { color: var(--up); }
+      .down { color: var(--down); }
+
+      .eyebrow {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        font-size: 21px; font-weight: 400; letter-spacing: 0.14em;
+        text-transform: uppercase; color: var(--ink-2);
+      }
+      .rule { display: block; width: 100%; height: 1px; background: var(--rule-strong); transform-origin: left center; }
+
+      /* ---------- Scene 1 — the whole market ---------- */
+      #s1-grid { display: grid; grid-template-columns: 1fr auto; gap: 0 90px; align-items: start; margin-top: 34px; }
+      #s1-line { font-size: 70px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
+      #s1-line .mono { font-size: 66px; font-weight: 500; letter-spacing: -0.02em; }
+      #s1-breadth { font-size: 34px; color: var(--ink-2); margin-top: 30px; letter-spacing: -0.01em; }
+      #s1-risk { width: 330px; padding-left: 56px; border-left: 1px solid var(--rule); }
+      #s1-score { font-size: 76px; font-weight: 500; line-height: 1; margin-top: 16px; letter-spacing: -0.03em; }
+      #s1-score .of { font-family: "Inter Tight", sans-serif; font-size: 28px; font-weight: 400; color: var(--ink-2); letter-spacing: 0; }
+      #s1-risklabel { font-size: 26px; color: var(--ink-2); margin-top: 12px; }
+      #s1-disc { font-size: 20px; color: var(--ink-2); margin-top: 72px; }
+
+      /* ---------- Scene 2 — sectors, then one of them ---------- */
+      #s2-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px; }
+      #s2-head .meta { font-size: 21px; color: var(--ink-2); }
+      .srow { display: flex; align-items: center; gap: 28px; padding: 15px 0; }
+      .srow .name { flex: 1; font-size: 30px; letter-spacing: -0.01em; }
+      .bar { position: relative; display: block; width: 190px; height: 11px; flex: none; }
+      .bar .axis { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--rule-strong); }
+      .bar .fill { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+      .bar .fill.up  { left: 50%; background: var(--up); }
+      .bar .fill.down { right: 50%; background: var(--down); }
+      .srow .ratio { width: 96px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 20px; color: var(--ink-2); }
+      .srow .pct { width: 130px; flex: none; text-align: right; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 30px; font-weight: 500; letter-spacing: -0.02em; }
+
+      /* ---------- the stock card ---------- */
+      #s2-cardstage { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+      .card { width: 1400px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 50px 56px 54px; }
+      .card-head { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 30px; border-bottom: 1px solid var(--rule); }
+      .cname { font-size: 46px; font-weight: 500; letter-spacing: -0.022em; }
+      .cticker { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 25px; color: var(--ink-2); letter-spacing: 0.06em; margin-top: 8px; display: block; }
+      .cpct { text-align: right; }
+      .pct-big { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 100px; font-weight: 500; line-height: 1; letter-spacing: -0.03em; display: block; }
+      .plabel { font-size: 23px; color: var(--ink-2); display: block; margin-top: 10px; }
+      #c-fortnight { font-size: 27px; color: var(--ink-2); margin-top: 20px; }
+      #c-fortnight .mono { font-size: 27px; font-weight: 500; }
+      #c-body { padding-top: 34px; overflow: hidden; }
+      .figs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 56px; margin-top: 24px; }
+      .fig dt { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+      .fig dd { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 46px; font-weight: 500; margin-top: 12px; letter-spacing: -0.02em; }
+      .fnote { font-size: 21px; color: var(--ink-2); margin-top: 10px; }
+      #c-conc { font-size: 52px; font-weight: 500; letter-spacing: -0.026em; margin-top: 44px; }
+      #c-chip { display: inline-block; margin-top: 24px; padding: 11px 19px; border: 1px solid var(--rule-strong); border-radius: 8px;
+        font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 20px; color: var(--ink-2); letter-spacing: 0.04em; }
+
+      /* ---------- Scene 3 — the turn ---------- */
+      #s3-col { width: 1400px; }
+      #s3-figure { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 210px; font-weight: 500; line-height: 1; letter-spacing: -0.035em; margin: 28px 0 22px; }
+      #s3-sub { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+      #s3-line { font-size: 62px; font-weight: 500; letter-spacing: -0.03em; margin-top: 46px; }
+
+      /* ---------- Scene 4 — the wordmark ---------- */
+      #s4-col { width: 1100px; text-align: center; }
+      #s4-mark { font-size: 112px; font-weight: 500; letter-spacing: -0.032em; }
+      #s4-rule { margin: 40px auto 0; width: 260px; transform-origin: center; }
+      #s4-tag { font-size: 36px; color: var(--ink-2); margin-top: 38px; letter-spacing: -0.01em; }
+      #s4-url { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 24px; color: var(--ink-2); margin-top: 22px; letter-spacing: 0.06em; }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.8" data-width="1920" data-height="1080">
+
+      <!-- Scene 1 — the whole market -->
+      <section id="s1" class="clip" data-start="0" data-duration="5.2" data-track-index="0">
+        <div class="stage"><div class="col" id="s1-inner">
+          <p class="eyebrow" id="s1-eyebrow">Market today</p>
+          <div id="s1-grid">
+            <div>
+              <p id="s1-line">The market rose <span class="mono tnum up">0.5%</span> today.</p>
+              <p id="s1-breadth">Eight of eleven sectors rose with it.</p>
+            </div>
+            <div id="s1-risk">
+              <p class="eyebrow">Risk appetite</p>
+              <p class="mono tnum" id="s1-score">61<span class="of"> / 100</span></p>
+              <p id="s1-risklabel">Measured</p>
+            </div>
+          </div>
+          <p id="s1-disc">Describes moves that have already happened. Not a forecast, not advice.</p>
+        </div></div>
+      </section>
+
+      <!-- Scene 2 — eleven sectors, then the one that matters, then the company inside it -->
+      <section id="s2" class="clip" data-start="4.5" data-duration="12.0" data-track-index="1">
+        <div id="s2-inner" style="position:absolute; inset:0;">
+
+          <div class="stage"><div class="col" id="s2-sectors">
+            <div id="s2-head">
+              <p class="eyebrow">All sectors</p>
+              <p class="meta">median move · how many rose</p>
+            </div>
+            <div id="s2-others-top">
+              <div class="srow" id="row-ind"><span class="name">Industrials</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:21%"></span></span><span class="ratio tnum">6/9</span><span class="pct tnum up">+0.8%</span></div>
+              <div class="srow" id="row-fin"><span class="name">Financials</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:16%"></span></span><span class="ratio tnum">7/11</span><span class="pct tnum up">+0.6%</span></div>
+            </div>
+            <div class="srow" id="row-tech"><span class="name">Information Technology</span><span class="bar"><span class="axis"></span><span class="fill up" style="width:50%"></span></span><span class="ratio tnum">8/12</span><span class="pct tnum up">+1.9%</span></div>
+            <div id="s2-others-bot">
+              <div class="srow" id="row-stp"><span class="name">Consumer Staples</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:5%"></span></span><span class="ratio tnum">4/9</span><span class="pct tnum down">−0.2%</span></div>
+              <div class="srow" id="row-utl"><span class="name">Utilities</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:13%"></span></span><span class="ratio tnum">3/8</span><span class="pct tnum down">−0.5%</span></div>
+              <div class="srow" id="row-eng"><span class="name">Energy</span><span class="bar"><span class="axis"></span><span class="fill down" style="width:29%"></span></span><span class="ratio tnum">2/7</span><span class="pct tnum down">−1.1%</span></div>
+            </div>
+          </div></div>
+
+          <div id="s2-cardstage"><article class="card" id="s2-card">
+            <header class="card-head">
+              <div>
+                <h2 class="cname">Oracle Corporation</h2>
+                <span class="cticker">ORCL</span>
+              </div>
+              <div class="cpct">
+                <span class="pct-big down tnum" id="c-pct">−1.7%</span>
+                <span class="plabel">today</span>
+              </div>
+            </header>
+            <p id="c-fortnight">and down <span class="mono tnum">1.1%</span> over the past two weeks</p>
+            <div id="c-body">
+              <p class="eyebrow" id="c-eyebrow">What we read</p>
+              <dl class="figs">
+                <div class="fig" id="c-f1"><dt>Market</dt><dd class="up tnum">+0.5%</dd><p class="fnote">Where the whole market went today</p></div>
+                <div class="fig" id="c-f2"><dt>Its sector</dt><dd class="up tnum">+1.9%</dd><p class="fnote">Information Technology, same day</p></div>
+                <div class="fig" id="c-f3"><dt>News volume</dt><dd class="tnum">41<span style="font-size:26px">/day</span></dd><p class="fnote">How often stories about it appear</p></div>
+              </dl>
+              <p id="c-conc">Oracle did not follow its sector.</p>
+              <div><span id="c-chip">8-K · quarterly results, filed after the previous close</span></div>
+            </div>
+          </article></div>
+        </div>
+      </section>
+
+      <!-- Scene 3 — the turn: what it will not tell you -->
+      <section id="s3" class="clip" data-start="15.8" data-duration="5.5" data-track-index="2">
+        <div class="stage"><div id="s3-col">
+          <p class="eyebrow" id="s3-eyebrow">The ratings it used to publish</p>
+          <div class="mono tnum" id="s3-figure">48.5%</div>
+          <p id="s3-sub">Directional accuracy · a coin flip is 50%</p>
+          <p id="s3-line">Deleted rather than tuned.</p>
+        </div></div>
+      </section>
+
+      <!-- Scene 4 — Quantimental -->
+      <section id="s4" class="clip" data-start="21.3" data-duration="3.5" data-track-index="3">
+        <div class="stage"><div id="s4-col">
+          <h1 id="s4-mark">Quantimental</h1>
+          <div class="rule" id="s4-rule"></div>
+          <p id="s4-tag">Described, not predicted.</p>
+          <p id="s4-url">thequantimental.com</p>
+        </div></div>
+      </section>
+
+      <!-- Audio: a low bed and five soft cues. Polished means present, never eager. -->
+      <audio id="music-bed" src="assets/music/happy-beats-business-moves-vol-12-by-ende-dot-app.mp3"
+        data-start="0" data-duration="24.8" data-track-index="10"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":0.24},{"t":20.8,"v":0.24},{"t":24.2,"v":0}]}]}'></audio>
+      <audio id="sfx-market"  src="assets/sfx/interface/drop_001.ogg"        data-start="1.09"  data-duration="0.11" data-track-index="11" data-volume="0.30"></audio>
+      <audio id="sfx-sectors" src="assets/sfx/interface/drop_002.ogg"        data-start="5.34"  data-duration="0.19" data-track-index="12" data-volume="0.28"></audio>
+      <audio id="sfx-card"    src="assets/sfx/impact/impactSoft_medium_000.ogg" data-start="9.83"  data-duration="0.12" data-track-index="13" data-volume="0.46"></audio>
+      <audio id="sfx-conc"    src="assets/sfx/interface/bong_001.ogg"        data-start="13.11" data-duration="0.12" data-track-index="14" data-volume="0.28"></audio>
+      <audio id="sfx-turn"    src="assets/sfx/impact/impactSoft_medium_002.ogg" data-start="18.56" data-duration="0.12" data-track-index="15" data-volume="0.42"></audio>
+    </div>
+
+    <script>
+      /* Built after fonts resolve so the card body is measured against real metrics.
+         The timeline is registered only once the build finishes. */
+      document.fonts.ready.then(() => {
+        const tl = gsap.timeline({ paused: true });
+        const E = "power2.out";
+        const S = "power1.inOut";
+        const bodyH = document.getElementById("c-body").scrollHeight;
+
+        /* ===== Scene 1 — the whole market (0 → 4.5) ===== */
+        tl.fromTo("#s1-eyebrow", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 0.30)
+          .fromTo("#s1-line",    { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.65, ease: E }, 1.09) // beat-grid: 1.09s
+          .fromTo("#s1-breadth", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 2.19) // beat-grid: 2.19s
+          .fromTo("#s1-risk",    { opacity: 0 },        { opacity: 1, duration: 0.55, ease: E }, 2.73)
+          .fromTo("#s1-disc",    { opacity: 0 },        { opacity: 1, duration: 0.5, ease: E }, 3.27)
+          .to("#s1-inner",       { opacity: 0, duration: 0.70, ease: S }, 4.50);
+
+        /* ===== Scene 2 — eleven sectors, then one, then the company inside it ===== */
+        tl.fromTo("#s2-sectors", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 4.50)
+          .fromTo("#s2-card", { opacity: 0, y: 44 }, { opacity: 0, y: 44, duration: 0.01 }, 0)
+          .fromTo("#c-body", { height: 0, paddingTop: 0 }, { height: 0, paddingTop: 0, duration: 0.01 }, 0)
+          /* the list arrives as one block — it is reference data, read as a set */
+          .fromTo("#s2-head", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 4.91)
+          .fromTo(["#row-ind", "#row-fin", "#row-tech", "#row-stp", "#row-utl", "#row-eng"],
+                  { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.12 }, 5.34) // beat-grid: 5.34s
+          /* the descent: everything but Technology recedes */
+          .to(["#s2-head", "#s2-others-top", "#s2-others-bot"], { opacity: 0.10, duration: 0.50, ease: S }, 8.74) // beat-locked: 8.74s
+          .to(["#s2-head", "#s2-others-top", "#s2-others-bot"], { opacity: 0, duration: 0.40, ease: S }, 9.29)
+          .to("#row-tech", { y: -170, duration: 0.70, ease: "power2.inOut" }, 9.29)
+          /* and the company inside that sector rises into its place */
+          .to("#s2-card", { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, 9.83)
+          .to("#row-tech", { opacity: 0, duration: 0.35, ease: S }, 9.83)
+          .fromTo("#c-pct", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 10.10)
+          .fromTo("#c-fortnight", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 10.37) // beat-grid: 10.37s
+          /* the card opens and the reading fills in */
+          .to("#c-body", { height: bodyH, paddingTop: 34, duration: 0.60, ease: "power2.inOut" }, 10.93) // beat-grid: 10.93s
+          .fromTo("#c-eyebrow", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: E }, 11.30)
+          /* the three readings arrive together: the point is comparing them */
+          .fromTo(["#c-f1", "#c-f2", "#c-f3"], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: E, stagger: 0.14 }, 12.02) // beat-grid: 12.02s
+          .fromTo("#c-conc", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 13.11) // beat-locked: 13.11s
+          .fromTo("#c-chip", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 13.64)
+          .to("#s2-inner", { opacity: 0, duration: 0.70, ease: S }, 15.80);
+
+        /* ===== Scene 3 — the turn (15.8 → 21.3) ===== */
+        tl.fromTo("#s3-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 15.80)
+          .fromTo("#s3-eyebrow", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.5, ease: E }, 16.93) // beat-grid: 16.93s
+          .fromTo("#s3-figure", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 18.56) // beat-locked: 18.56s
+          .fromTo("#s3-sub", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: E }, 18.95)
+          .fromTo("#s3-line", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.55, ease: E }, 19.66) // beat-grid: 19.66s
+          .to("#s3-col", { opacity: 0, duration: 0.70, ease: S }, 21.30);
+
+        /* ===== Scene 4 — Quantimental (21.3 → 24.8) ===== */
+        tl.fromTo("#s4-col", { opacity: 0 }, { opacity: 1, duration: 0.70, ease: S }, 21.30)
+          .fromTo("#s4-mark", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.60, ease: E }, 21.84) // beat-grid: 21.84s
+          .fromTo("#s4-rule", { scaleX: 0 }, { scaleX: 1, duration: 0.50, ease: "power2.inOut" }, 22.50)
+          .fromTo("#s4-tag", { opacity: 0 }, { opacity: 1, duration: 0.50, ease: E }, 22.93) // beat-grid: 22.93s
+          .fromTo("#s4-url", { opacity: 0 }, { opacity: 1, duration: 0.40, ease: E }, 23.46);
+        /* then silence and stillness to 24.8 */
+
+        window.__timelines["main"] = tl;
+        if (window.__hfForceTimelineRebind) window.__hfForceTimelineRebind();
+        tl.seek(0);
+      });
+    </script>
+  </body>
+</html>

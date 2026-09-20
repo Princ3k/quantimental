@@ -1,0 +1,5 @@
+Quantimental starts at the whole market, narrows to a sector, and lands on one company — then tells you in one sentence what happened, in language you can check against the chart.
+
+What it won't do is rate the stock. That version scored 48.5% directional accuracy against a 50% coin flip, so it was deleted rather than tuned, and the backtest is published.
+
+thequantimental.com
