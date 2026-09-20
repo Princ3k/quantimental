@@ -29,7 +29,7 @@ import logging
 import re
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, field
 from typing import Any, Optional, Callable, Awaitable
 
@@ -108,6 +108,26 @@ REDDIT_OAUTH_URL = "https://oauth.reddit.com"
 # headlines for every visitor within the same few minutes.
 YAHOO_CACHE_TTL = 300.0
 
+# MarketAux was the only source here without a cache, and the only one with a
+# hard daily quota — which is exactly backwards. The free tier is 100 requests
+# a day and every visitor asking for the same ticker spent one, so a weekend of
+# traffic from a single Discord server exhausted it by Sunday lunchtime.
+#
+# Thirty minutes because these are publisher-scored news articles: the set does
+# not meaningfully change inside half an hour, and at this TTL a hundred clicks
+# across twenty tickers costs twenty calls rather than a hundred.
+MARKETAUX_CACHE_TTL = 1800.0
+
+# A 402 means the day's quota is gone. Nothing is gained by asking again, and
+# continuing to hammer an endpoint that can only refuse is how a key gets
+# flagged — so stop until the quota resets. MarketAux resets on UTC midnight,
+# and the breaker is set to expire then rather than after a fixed interval,
+# because a fixed cooldown would either give up too early or keep asking all
+# night.
+MARKETAUX_QUOTA_MESSAGE = (
+    "MarketAux daily quota is spent; not asking again until it resets at UTC midnight"
+)
+
 # Content Fetching configuration
 MAX_ARTICLE_LENGTH = 5000  # Truncate articles longer than this
 
@@ -145,6 +165,11 @@ class _RequestGate:
 _reddit_cache = _TTLCache(REDDIT_CACHE_TTL)
 _reddit_gate = _RequestGate(REDDIT_REQUEST_SPACING)
 _yahoo_cache = _TTLCache(YAHOO_CACHE_TTL)
+_marketaux_cache = _TTLCache(MARKETAUX_CACHE_TTL)
+
+# Set when MarketAux answers 402. Like the Reddit one this is shared across
+# every ticker, because the quota is per account, not per symbol.
+_marketaux_blocked_until = 0.0
 
 # When the anonymous feed rate-limits us, every ticker backs off, not just the
 # one that happened to hit it. The limit is per IP, so it is shared state.
@@ -625,6 +650,21 @@ async def fetch_article_content(url: str, timeout: float = 3.0) -> str:
 # MarketAux
 # ---------------------------------------------------------------------------
 
+def _seconds_until_utc_midnight(now: Optional[datetime] = None) -> float:
+    """How long until MarketAux's daily quota resets.
+
+    A fixed cooldown would be wrong in both directions: too short and it
+    resumes hammering a spent quota, too long and it sits out the first hours
+    of a fresh day. The reset is a wall-clock event, so the breaker expires at
+    that event.
+    """
+    moment = now or datetime.now(timezone.utc)
+    tomorrow = (moment + timedelta(days=1)).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
+    return max(1.0, (tomorrow - moment).total_seconds())
+
+
 async def _fetch_marketaux(
     ticker: str,
     limit: int = 10,
@@ -638,11 +678,23 @@ async def _fetch_marketaux(
     that this agrees with the /health readout. They disagreed before: health
     reported the key as present while this module had captured an empty string.
     """
+    global _marketaux_blocked_until
+
     ticker = ticker.upper().strip()
     api_key = get_settings().MARKETAUX_API_KEY
 
     if not api_key:
         return SourceOutcome([], "disabled", "MARKETAUX_API_KEY is not set")
+
+    if time.monotonic() < _marketaux_blocked_until:
+        return SourceOutcome([], "error", MARKETAUX_QUOTA_MESSAGE)
+
+    # Cached per ticker and per limit: a request for ten articles must not be
+    # served from an entry that only holds three.
+    cache_key = f"{ticker}:{limit}:{int(bool(skip_full_text))}"
+    cached = _marketaux_cache.get(cache_key)
+    if cached is not None:
+        return SourceOutcome(list(cached), "ok")
 
     async with httpx.AsyncClient(timeout=DEFAULT_TIMEOUT) as client:
         try:
@@ -718,6 +770,9 @@ async def _fetch_marketaux(
                 return SourceOutcome([], "empty", "MarketAux had no articles for this symbol")
 
             logger.info("MarketAux: %d articles for %s", len(news_articles), ticker)
+            # Only successes are cached. Caching an empty or failed result
+            # would turn one bad minute into half an hour of nothing.
+            _marketaux_cache.set(cache_key, list(news_articles))
             return SourceOutcome(news_articles, "ok")
 
         except httpx.HTTPStatusError as exc:
@@ -731,6 +786,16 @@ async def _fetch_marketaux(
             detail = f"HTTP {code}"
             if code in known:
                 detail += f" — {known[code]}"
+            if code in (402, 429):
+                # The quota is per account, so every ticker backs off, not just
+                # the one that happened to hit the wall.
+                _marketaux_blocked_until = (
+                    time.monotonic() + _seconds_until_utc_midnight()
+                )
+                logger.warning(
+                    "MarketAux quota exhausted (%s); pausing until UTC midnight", detail
+                )
+                return SourceOutcome([], "error", f"{detail} — {MARKETAUX_QUOTA_MESSAGE}")
             logger.warning("MarketAux failed for %s: %s", ticker, detail)
             return SourceOutcome([], "error", detail)
         except httpx.TimeoutException:

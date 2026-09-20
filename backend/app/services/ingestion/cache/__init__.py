@@ -1,10 +1,15 @@
 """
 Cache Services Package
 
-Services for caching API responses (news, Reddit) to minimize rate limiting.
-"""
+Caches API responses to stay inside upstream rate limits.
 
-# Note: These services require database models to be available.
-# Import from submodules directly:
-#   from app.services.ingestion.cache.news_cache_service import get_news_with_cache
-#   from app.services.ingestion.cache.reddit_cache_service import get_reddit_posts_with_cache
+    from app.services.ingestion.cache.reddit_cache_service import get_reddit_posts_with_cache
+
+`news_cache_service` used to live here and was removed: it cached NewsAPI,
+which this project no longer uses; it imported two functions that had since
+been deleted, so the module could not even be loaded; and every function took
+a database session, which production does not have. Three independent reasons
+it could never have run, and it sat here long enough to be mistaken for
+protection that existed. In-process caching for the live sources lives in
+`sentiment/sentiment_data_fetcher.py` instead.
+"""

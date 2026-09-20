@@ -9,6 +9,8 @@ and "this company had a quiet week" produce identical output.
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
+
 import httpx
 import pytest
 
@@ -580,3 +582,97 @@ def _patch_settings(
         REDDIT_CLIENT_SECRET = reddit[1]
 
     monkeypatch.setattr(fetcher, "get_settings", lambda: _Stub())
+
+
+class TestMarketauxQuotaProtection:
+    """MarketAux was the only source with a hard quota and no cache."""
+
+    @pytest.fixture(autouse=True)
+    def _reset(self):
+        fetcher._marketaux_cache.clear()
+        fetcher._marketaux_blocked_until = 0.0
+        yield
+        fetcher._marketaux_cache.clear()
+        fetcher._marketaux_blocked_until = 0.0
+
+    @staticmethod
+    def _article():
+        return {
+            "uuid": "1",
+            "title": "Something happened",
+            "url": "https://example.com/1",
+            "published_at": "2026-09-20T10:00:00.000000Z",
+            "source": "example",
+            "entities": [{"symbol": "AAPL", "sentiment_score": 0.2}],
+        }
+
+    def test_the_breaker_expires_at_the_reset_not_after_a_fixed_delay(self):
+        # A fixed cooldown is wrong in both directions: too short and it
+        # resumes hammering a spent quota, too long and it sits out a fresh day.
+        after = datetime(2026, 9, 20, 0, 1, tzinfo=timezone.utc)
+        before = datetime(2026, 9, 20, 23, 59, tzinfo=timezone.utc)
+        assert fetcher._seconds_until_utc_midnight(after) > 23 * 3600
+        assert fetcher._seconds_until_utc_midnight(before) < 120
+        # Never zero, which would make the breaker a no-op.
+        assert fetcher._seconds_until_utc_midnight(
+            datetime(2026, 9, 20, 0, 0, tzinfo=timezone.utc)
+        ) > 0
+
+    @pytest.mark.asyncio
+    async def test_a_repeat_request_is_served_from_cache(self, monkeypatch):
+        _patch_settings(monkeypatch, marketaux="key")
+        calls = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            calls.append(str(request.url))
+            return httpx.Response(200, json={"data": [self._article()]})
+
+        _patch_httpx(monkeypatch, handler)
+
+        first = await fetcher._fetch_marketaux("AAPL", skip_full_text=True)
+        second = await fetcher._fetch_marketaux("AAPL", skip_full_text=True)
+
+        assert first.status == "ok" and second.status == "ok"
+        assert len(calls) == 1, "the second request should not reach MarketAux"
+
+    @pytest.mark.asyncio
+    async def test_a_402_stops_every_ticker_not_just_the_one_that_hit_it(self, monkeypatch):
+        _patch_settings(monkeypatch, marketaux="key")
+        calls = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            calls.append(str(request.url))
+            return httpx.Response(402, json={"error": {"message": "limit"}})
+
+        _patch_httpx(monkeypatch, handler)
+
+        first = await fetcher._fetch_marketaux("AAPL")
+        assert first.status == "error" and "quota" in first.detail.lower()
+
+        # The quota is per account, so a different ticker must back off too.
+        second = await fetcher._fetch_marketaux("NVDA")
+        assert second.status == "error"
+        assert len(calls) == 1, "nothing should reach MarketAux once the quota is spent"
+
+    @pytest.mark.asyncio
+    async def test_a_failure_is_not_cached(self, monkeypatch):
+        # Caching an empty result would turn one bad minute into half an hour
+        # of nothing.
+        _patch_settings(monkeypatch, marketaux="key")
+        _patch_httpx(monkeypatch, lambda r: httpx.Response(500, json={}))
+        await fetcher._fetch_marketaux("AAPL", skip_full_text=True)
+        assert fetcher._marketaux_cache.get("AAPL:10:1") is None
+
+    @pytest.mark.asyncio
+    async def test_different_limits_do_not_share_a_cache_entry(self, monkeypatch):
+        _patch_settings(monkeypatch, marketaux="key")
+        seen = []
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            seen.append(request.url.params.get("limit"))
+            return httpx.Response(200, json={"data": []})
+
+        _patch_httpx(monkeypatch, handler)
+        await fetcher._fetch_marketaux("AAPL", limit=3, skip_full_text=True)
+        await fetcher._fetch_marketaux("AAPL", limit=10, skip_full_text=True)
+        assert seen == ["3", "10"], "a request for ten must not be served from three"
