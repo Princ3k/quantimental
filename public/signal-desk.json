@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-21T20:10:24.597272+00:00",
+  "as_of": "2026-09-21T20:38:56.667162+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,21 +9,10 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-9.2%",
-      "change_percent": -9.17,
-      "z_score": -1.34,
+      "delta": "-9.4%",
+      "change_percent": -9.35,
+      "z_score": -1.37,
       "risk_tone": "neutral",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.8%",
-      "change_percent": 0.77,
-      "z_score": 1.17,
-      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -38,13 +27,24 @@
       "notable": true
     },
     {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.8%",
+      "change_percent": 0.76,
+      "z_score": 1.16,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
       "category": "VOL",
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "14.8",
-      "change_percent": -13.57,
-      "z_score": -1.04,
+      "delta": "14.9",
+      "change_percent": -13.04,
+      "z_score": -1.0,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.2%",
-      "change_percent": 0.18,
-      "z_score": 0.27,
+      "change_percent": 0.19,
+      "z_score": 0.3,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.7%",
-      "change_percent": 0.68,
-      "z_score": 0.08,
+      "delta": "+0.6%",
+      "change_percent": 0.62,
+      "z_score": 0.07,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 5.73,
+        "change_percent": 5.74,
         "z_score": 1.4
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.73,
-        "z_score": 0.11
+        "change_percent": 0.75,
+        "z_score": 0.12
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.01,
-        "z_score": -0.12
+        "change_percent": 0.03,
+        "z_score": -0.11
       }
     ],
     "laggards": [
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -3.24,
-        "z_score": -1.33
+        "change_percent": -3.21,
+        "z_score": -1.32
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -2.99,
-        "z_score": -1.62
+        "change_percent": -2.96,
+        "z_score": -1.6
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.8,
-        "z_score": -1.33
+        "change_percent": -2.77,
+        "z_score": -1.32
       }
     ],
     "breadth": 30,
@@ -140,12 +140,12 @@
       },
       {
         "name": "Volatility index",
-        "effect": 6.2,
+        "effect": 6.0,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 4.3,
+        "effect": 4.4,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": -0.5,
+        "effect": -0.4,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     16.0,
     51.8,
     39.7,
-    50.2
+    50.1
   ],
   "narrative": {
-    "text": "Crude oil dropped 9.2% and energy stocks lagged. Technology rose 5.7% and volatility eased.",
-    "short": "Oil prices fell sharply while technology stocks led the market higher.",
+    "text": "Crude oil slid 9.3% and the energy sector dropped 3.2%. Technology stocks rose 5.7%, making them the strongest sector.",
+    "short": "Oil prices fell sharply while technology stocks led market gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-21T20:10:25.120446+00:00"
+  "generated_at": "2026-09-21T20:38:57.313932+00:00"
 }
