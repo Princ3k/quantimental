@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-21T21:39:36.629156+00:00",
+  "as_of": "2026-09-21T22:34:03.793476+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,10 +9,21 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-9.3%",
-      "change_percent": -9.29,
-      "z_score": -1.36,
+      "delta": "-9.4%",
+      "change_percent": -9.35,
+      "z_score": -1.37,
       "risk_tone": "neutral",
+      "notable": true
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+1.0%",
+      "change_percent": 0.97,
+      "z_score": 1.17,
+      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -24,17 +35,6 @@
       "change_percent": 0.76,
       "z_score": 1.16,
       "risk_tone": "risk_on",
-      "notable": true
-    },
-    {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+1.0%",
-      "change_percent": 0.96,
-      "z_score": 1.15,
-      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.7%",
-      "change_percent": 0.67,
-      "z_score": 0.08,
+      "delta": "+0.9%",
+      "change_percent": 0.86,
+      "z_score": 0.13,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -6.9,
+        "effect": -7.0,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": -0.5,
+        "effect": -0.8,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     16.0,
     51.8,
     39.7,
-    50.2
+    49.8
   ],
   "narrative": {
-    "text": "Crude oil slid 9.3% and energy stocks dropped 3.2%. Technology gained 5.7% and the dollar strengthened 1.0%.",
-    "short": "Oil prices fell sharply while technology stocks led the market higher.",
+    "text": "Crude oil dropped 9.3% and energy stocks lagged. Technology gained 5.7% and the US dollar strengthened 1.0%.",
+    "short": "Oil prices fell sharply while technology stocks and the US dollar rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-21T21:39:37.116723+00:00"
+  "generated_at": "2026-09-21T22:34:04.553787+00:00"
 }
