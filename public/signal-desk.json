@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-21T15:39:07.364003+00:00",
+  "as_of": "2026-09-21T16:10:21.529949+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -20,21 +20,10 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.93,
-      "z_score": 1.12,
+      "delta": "+1.0%",
+      "change_percent": 0.95,
+      "z_score": 1.14,
       "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "14.8",
-      "change_percent": -13.51,
-      "z_score": -1.04,
-      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -43,8 +32,19 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.7%",
-      "change_percent": 0.65,
-      "z_score": 1.01,
+      "change_percent": 0.68,
+      "z_score": 1.04,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "14.9",
+      "change_percent": -12.98,
+      "z_score": -1.0,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.25,
-      "z_score": 0.44,
+      "delta": "+0.2%",
+      "change_percent": 0.24,
+      "z_score": 0.41,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.88,
-      "z_score": 0.13,
+      "delta": "+0.7%",
+      "change_percent": 0.72,
+      "z_score": 0.09,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,34 +88,34 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 4.98,
-        "z_score": 1.19
+        "change_percent": 5.1,
+        "z_score": 1.22
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.61,
-        "z_score": 0.06
+        "change_percent": 0.71,
+        "z_score": 0.1
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.07,
-        "z_score": -0.09
+        "change_percent": 0.31,
+        "z_score": 0.03
       }
     ],
     "laggards": [
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -2.88,
+        "change_percent": -2.9,
         "z_score": -1.22
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -2.83,
-        "z_score": -1.54
+        "change_percent": -2.59,
+        "z_score": -1.42
       },
       {
         "symbol": "XLU",
@@ -135,17 +135,17 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -6.7,
+        "effect": -6.8,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 6.2,
+        "effect": 6.0,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 4.4,
+        "effect": 4.3,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": -0.8,
+        "effect": -0.5,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     16.0,
     51.8,
     39.7,
-    50.2
+    50.1
   ],
   "narrative": {
-    "text": "Crude oil dropped 9% and the dollar strengthened. Technology stocks rose 5% while energy and consumer staples lagged.",
-    "short": "Crude oil fell 9% while technology stocks led gains and volatility eased.",
+    "text": "Crude oil dropped 9% and the dollar rose 0.9%. Technology led sector gains at 5.1%, while energy fell 2.9%.",
+    "short": "Crude oil fell 9% while technology stocks gained 5.1% over five days.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-21T15:39:07.914055+00:00"
+  "generated_at": "2026-09-21T16:10:22.041742+00:00"
 }
