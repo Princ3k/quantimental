@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-21T21:10:11.794026+00:00",
+  "as_of": "2026-09-21T21:39:36.629156+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -24,6 +24,17 @@
       "change_percent": 0.76,
       "z_score": 1.16,
       "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+1.0%",
+      "change_percent": 0.96,
+      "z_score": 1.15,
+      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -118,10 +129,15 @@
     "total": 10
   },
   "composite": {
-    "score": 56,
+    "score": 49,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
+      {
+        "name": "US dollar index",
+        "effect": -6.9,
+        "tone": "risk_off"
+      },
       {
         "name": "Volatility index",
         "effect": 6.0,
@@ -144,12 +160,43 @@
       }
     ]
   },
-  "history": [],
+  "history": [
+    35.7,
+    39.1,
+    65.2,
+    54.9,
+    48.8,
+    50.8,
+    64.4,
+    39.2,
+    39.2,
+    55.8,
+    63.6,
+    42.8,
+    56.3,
+    52.6,
+    50.0,
+    28.7,
+    35.0,
+    48.8,
+    48.6,
+    52.7,
+    59.4,
+    45.1,
+    15.3,
+    24.4,
+    20.9,
+    17.5,
+    16.0,
+    51.8,
+    39.7,
+    50.2
+  ],
   "narrative": {
-    "text": "Crude oil slid 9.3 percent, dragging down the energy sector. Technology stocks gained 5.7 percent, and overall market volatility eased.",
+    "text": "Crude oil slid 9.3% and energy stocks dropped 3.2%. Technology gained 5.7% and the dollar strengthened 1.0%.",
     "short": "Oil prices fell sharply while technology stocks led the market higher.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-21T21:10:12.252778+00:00"
+  "generated_at": "2026-09-21T21:39:37.116723+00:00"
 }
