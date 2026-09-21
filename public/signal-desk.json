@@ -1,29 +1,40 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-18T21:50:28.009790+00:00",
+  "as_of": "2026-09-21T13:10:23.547582+00:00",
   "lookback_days": 5,
   "signals": [
-    {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+1.1%",
-      "change_percent": 1.1,
-      "z_score": 1.33,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
     {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.6%",
-      "change_percent": -4.58,
-      "z_score": -0.76,
+      "delta": "-7.6%",
+      "change_percent": -7.61,
+      "z_score": -1.14,
       "risk_tone": "neutral",
+      "notable": true
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "14.9",
+      "change_percent": -13.04,
+      "z_score": -1.0,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+0.8%",
+      "change_percent": 0.8,
+      "z_score": 0.95,
+      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -32,31 +43,9 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.36,
-      "z_score": 0.59,
+      "change_percent": 0.38,
+      "z_score": 0.62,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "14.8",
-      "change_percent": -6.5,
-      "z_score": -0.54,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-0.1%",
-      "change_percent": -0.09,
-      "z_score": -0.31,
-      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -64,9 +53,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.16,
-      "z_score": -0.06,
+      "delta": "+1.1%",
+      "change_percent": 1.05,
+      "z_score": 0.18,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,10 +64,21 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+2bp",
-      "change_percent": 0.46,
-      "z_score": 0.04,
+      "delta": "+1bp",
+      "change_percent": 0.12,
+      "z_score": -0.14,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.0,
+      "z_score": -0.12,
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -86,42 +86,42 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 1.83,
-        "z_score": 0.61
-      },
-      {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 1.03,
-        "z_score": 0.11
+        "change_percent": 2.89,
+        "z_score": 0.62
       },
       {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": -0.7,
-        "z_score": -0.45
+        "symbol": "XLV",
+        "name": "Health Care",
+        "change_percent": 0.38,
+        "z_score": -0.04
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -0.11,
+        "z_score": -0.17
       }
     ],
     "laggards": [
       {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": -3.04,
-        "z_score": -1.46
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -3.7,
+        "z_score": -1.81
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.43,
-        "z_score": -1.42
+        "change_percent": -2.05,
+        "z_score": -1.2
       },
       {
-        "symbol": "XLB",
-        "name": "Materials",
-        "change_percent": -1.88,
-        "z_score": -0.9
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": -1.92,
+        "z_score": -1.08
       }
     ],
     "breadth": 20,
@@ -129,14 +129,14 @@
     "total": 10
   },
   "composite": {
-    "score": 40,
+    "score": 46,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
-        "name": "US dollar index",
-        "effect": -8.0,
-        "tone": "risk_off"
+        "name": "Volatility index",
+        "effect": 6.0,
+        "tone": "risk_on"
       },
       {
         "name": "Sector breadth",
@@ -144,59 +144,59 @@
         "tone": "risk_off"
       },
       {
-        "name": "Volatility index",
-        "effect": 3.2,
-        "tone": "risk_on"
+        "name": "US dollar index",
+        "effect": -5.7,
+        "tone": "risk_off"
       },
       {
-        "name": "Credit complex",
-        "effect": 0.8,
+        "name": "Investment-grade credit",
+        "effect": 3.7,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -0.4,
+        "effect": -1.1,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
-    50.1,
-    35.9,
+    35.7,
+    39.1,
+    65.2,
+    54.9,
+    48.8,
+    50.8,
+    64.4,
     39.2,
-    65.3,
-    55.0,
-    48.9,
-    50.9,
-    64.5,
     39.3,
-    39.4,
-    55.9,
-    63.8,
-    43.0,
-    56.5,
+    55.8,
+    63.7,
+    42.8,
+    56.4,
+    52.6,
+    50.0,
+    28.7,
+    35.0,
+    48.8,
+    48.6,
     52.7,
-    50.2,
-    28.8,
-    35.1,
-    49.0,
-    48.7,
-    52.9,
-    59.6,
-    45.3,
-    15.4,
-    24.5,
-    21.0,
-    17.6,
-    16.1,
-    52.0,
-    40.2
+    59.5,
+    45.2,
+    15.3,
+    24.4,
+    20.9,
+    17.5,
+    16.0,
+    51.8,
+    39.7,
+    45.6
   ],
   "narrative": {
-    "text": "The dollar strengthened significantly while crude oil and utilities declined. Health care and technology were the only sectors to gain ground.",
-    "short": "Dollar surged while crude oil and utilities fell sharply.",
+    "text": "Crude oil dropped 7.6% as volatility eased and the dollar strengthened. Technology gained 2.9%, but communications and financials declined.",
+    "short": "Oil prices fell sharply while technology stocks led a mixed market.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-18T21:50:28.467776+00:00"
+  "generated_at": "2026-09-21T13:10:24.082501+00:00"
 }
