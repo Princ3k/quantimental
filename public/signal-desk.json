@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-22T20:10:02.807040+00:00",
+  "as_of": "2026-09-22T20:28:29.878440+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-2.1\u03c3",
-      "change_percent": -15.34,
-      "z_score": -2.13,
+      "change_percent": -15.1,
+      "z_score": -2.1,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "14.3",
-      "change_percent": -17.03,
-      "z_score": -1.28,
+      "delta": "14.2",
+      "change_percent": -17.44,
+      "z_score": -1.31,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.79,
-      "z_score": 1.2,
+      "change_percent": 0.78,
+      "z_score": 1.18,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.9%",
-      "change_percent": 0.9,
-      "z_score": 1.07,
+      "change_percent": 0.89,
+      "z_score": 1.06,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+1.6%",
-      "change_percent": 1.6,
-      "z_score": 0.32,
+      "delta": "+1.5%",
+      "change_percent": 1.49,
+      "z_score": 0.29,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -94,7 +94,7 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.73,
+        "change_percent": 1.72,
         "z_score": 0.55
       },
       {
@@ -108,7 +108,7 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -5.75,
+        "change_percent": -5.74,
         "z_score": -2.13
       },
       {
@@ -120,7 +120,7 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -1.2,
+        "change_percent": -1.19,
         "z_score": -0.56
       }
     ],
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": 7.7,
+        "effect": 7.9,
         "tone": "risk_on"
       },
       {
@@ -145,7 +145,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": 5.7,
+        "effect": 5.6,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": -1.9,
+        "effect": -1.7,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     51.8,
     39.6,
     51.9,
-    58.1
+    58.5
   ],
   "narrative": {
-    "text": "Crude oil slid 15.3% and volatility eased. Technology stocks rose 6.9% while energy fell 5.8%.",
-    "short": "Crude oil fell sharply while technology stocks led gains.",
+    "text": "Crude oil slid 15.1% and energy stocks dropped 5.7%. Technology rose 6.9% as volatility eased and the dollar strengthened.",
+    "short": "Oil prices fell sharply while technology stocks led the market higher.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-22T20:10:03.323063+00:00"
+  "generated_at": "2026-09-22T20:28:30.516605+00:00"
 }
