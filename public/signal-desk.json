@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-22T20:39:34.007697+00:00",
+  "as_of": "2026-09-22T21:09:04.989555+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-2.1\u03c3",
-      "change_percent": -15.06,
-      "z_score": -2.09,
+      "change_percent": -15.12,
+      "z_score": -2.1,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.9%",
-      "change_percent": 0.9,
-      "z_score": 1.07,
+      "change_percent": 0.89,
+      "z_score": 1.06,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -76,8 +76,8 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+1.5%",
-      "change_percent": 1.49,
-      "z_score": 0.29,
+      "change_percent": 1.47,
+      "z_score": 0.28,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 58,
+    "score": 59,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -190,13 +190,13 @@
     51.8,
     39.6,
     51.9,
-    58.4
+    58.5
   ],
   "narrative": {
-    "text": "Crude oil dropped 15.1% and the energy sector fell 5.7%. Technology stocks rose 6.9% and volatility eased.",
-    "short": "Oil prices fell sharply while technology stocks led market gains.",
+    "text": "Crude oil dropped 15.1% over five days, making energy the weakest sector. Technology stocks rose 6.9%, and volatility eased as the dollar strengthened.",
+    "short": "Crude oil prices fell sharply while technology stocks led sector gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-22T20:39:34.689801+00:00"
+  "generated_at": "2026-09-22T21:09:05.581698+00:00"
 }
