@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-22T17:37:13.590357+00:00",
+  "as_of": "2026-09-22T17:38:39.402510+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.9\u03c3",
-      "change_percent": -13.75,
-      "z_score": -1.93,
+      "change_percent": -13.92,
+      "z_score": -1.95,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "14.3",
-      "change_percent": -16.98,
-      "z_score": -1.28,
+      "change_percent": -16.92,
+      "z_score": -1.27,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -33,7 +33,7 @@
       "direction": "up",
       "delta": "+1.0%",
       "change_percent": 1.04,
-      "z_score": 1.25,
+      "z_score": 1.24,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.31,
-      "z_score": 0.57,
+      "change_percent": 0.32,
+      "z_score": 0.58,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -65,8 +65,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-2bp",
-      "change_percent": -0.36,
-      "z_score": -0.41,
+      "change_percent": -0.32,
+      "z_score": -0.39,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -77,7 +77,7 @@
       "direction": "up",
       "delta": "+1.0%",
       "change_percent": 0.97,
-      "z_score": 0.16,
+      "z_score": 0.15,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,20 +88,20 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 6.55,
+        "change_percent": 6.56,
         "z_score": 1.61
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.82,
+        "change_percent": 1.83,
         "z_score": 0.6
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
         "change_percent": 1.53,
-        "z_score": 0.64
+        "z_score": 0.65
       }
     ],
     "laggards": [
@@ -114,14 +114,14 @@
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -3.06,
-        "z_score": -1.75
+        "change_percent": -3.04,
+        "z_score": -1.74
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -0.81,
-        "z_score": -0.38
+        "change_percent": -0.82,
+        "z_score": -0.39
       }
     ],
     "breadth": 50,
@@ -135,12 +135,12 @@
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": 7.7,
+        "effect": 7.6,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -7.5,
+        "effect": -7.4,
         "tone": "risk_off"
       },
       {
@@ -150,12 +150,12 @@
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 2.5,
+        "effect": 2.3,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -1.0,
+        "effect": -0.9,
         "tone": "risk_off"
       }
     ]
@@ -193,10 +193,10 @@
     56.3
   ],
   "narrative": {
-    "text": "Crude oil slid 13.8% and energy stocks dropped 4.7%. Technology rose 6.5% and the dollar strengthened.",
-    "short": "Crude oil fell sharply while technology stocks led the market higher.",
+    "text": "Crude oil slid 13.9% and energy stocks dropped 4.7%. Technology gained 6.6% and volatility eased 16.9%.",
+    "short": "Oil prices fell sharply while technology stocks led the market higher.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-22T17:37:14.091481+00:00"
+  "generated_at": "2026-09-22T17:38:40.000707+00:00"
 }
