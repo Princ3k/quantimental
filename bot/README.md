@@ -15,6 +15,7 @@ tests. Anything this bot phrased itself would not be.
 | `/filings` | The 8-Ks companies filed this session. |
 | `/market` | What the market as a whole did today. |
 | `/misses` | Tickers people asked for that are not covered. Bot owner only. |
+| `/stats` | How the bot is being used. Bot owner only. |
 
 One post a day, after the close: unusual moves, 8-K filings, then the server's
 watchlist. Each section appears only when it has something, which is what makes
@@ -182,3 +183,24 @@ this cannot message anyone.** Every `/my` reply is ephemeral and follows a
 command the person just typed. Push delivery would need the real id, and that
 is a separate decision with its own consent — not something to slide in behind
 this one.
+
+## Counting usage without following anyone
+
+`usage.py` answers whether anyone is using this, what for, and which companies
+they ask about — per day, as counts.
+
+Counting distinct people needs a way to tell two commands apart, which is the
+one thing the rest of this bot avoids. The digest is therefore made from **the
+day and the id together**, so the same person produces a different value
+tomorrow. That buys a real answer to "nine people used it on Tuesday" while
+making "did any of them come back on Wednesday" unanswerable — not merely
+undisclosed, but unreconstructable, because nothing links the two digests and
+the id was never held.
+
+So `/stats` reports **person-days, not people**. Returning visitors are counted
+again rather than deduplicated, and the readout says so rather than quietly
+overstating reach.
+
+Retention would be more useful than reach. It is not worth a per-person history
+to get it, and `/privacy` describes this arrangement before any of it is
+collected.

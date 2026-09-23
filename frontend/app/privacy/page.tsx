@@ -35,7 +35,7 @@ export default function PrivacyPage() {
         </Link>
 
         <h1 className="mt-6 text-2xl font-medium tracking-tight">Privacy</h1>
-        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 18 September 2026</p>
+        <p className="text-ink-3 mt-2 text-[0.875rem]">Last updated 22 September 2026</p>
 
         <div className="mt-8 space-y-8">
           <Section title="There are no accounts">
@@ -111,6 +111,29 @@ export default function PrivacyPage() {
             <p>
               <code>/my clear</code> deletes it immediately and completely. There
               is nothing else of yours to delete.
+            </p>
+          </Section>
+
+          <Section title="Counting how the bot is used">
+            <p>
+              We count how often each command is run and which tickers are asked
+              about, so we know what people find useful and which companies are
+              worth covering. These are totals for a day, not a record of who did
+              what.
+            </p>
+            <p>
+              To count how many distinct people and servers used it on a given
+              day without being able to follow anyone between days, the digest we
+              count is made from the day and the ID together. That means the same
+              person produces a completely different value tomorrow. We can say
+              &ldquo;nine people used it on Tuesday&rdquo;; we cannot say whether
+              any of them came back on Wednesday, and we could not reconstruct it
+              later if we wanted to.
+            </p>
+            <p>
+              Nothing about an individual is kept: no usernames, no history of
+              what any one person looked up, no link between a person and a
+              ticker. What is stored is a set of counts per day.
             </p>
           </Section>
 

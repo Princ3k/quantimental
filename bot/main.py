@@ -27,6 +27,7 @@ import schedule
 from client import ApiUnavailable, QuantimentalClient
 from misses import Misses
 from personal import MAX_PER_PERSON, Personal
+from usage import Usage
 from store import MAX_PER_GUILD, Watchlists, check_durability
 
 logging.basicConfig(
@@ -54,6 +55,8 @@ class QuantimentalBot(discord.Client):
         self.misses = Misses()
         # Watchlists that belong to a person, keyed by a digest of their id.
         self.personal = Personal()
+        # Per-day counts of how the bot is used. Never a per-person history.
+        self.usage = Usage()
 
     async def setup_hook(self) -> None:
         # Says in the deploy logs whether watchlists will survive a redeploy.
@@ -183,6 +186,8 @@ async def stock(interaction: discord.Interaction, ticker: str) -> None:
         await interaction.followup.send("Quantimental is unreachable right now.")
         return
 
+    bot.usage.record("stock", user_id=interaction.user.id,
+                     guild_id=interaction.guild_id, tickers=[ticker])
     found = batch.by_ticker().get(ticker.strip().upper())
     if not found:
         # The answer to "should the universe expand, and to what" is this list.
@@ -198,6 +203,7 @@ async def stock(interaction: discord.Interaction, ticker: str) -> None:
 @bot.tree.command(description="Stocks that moved far beyond their own normal today.")
 async def unusual(interaction: discord.Interaction) -> None:
     await interaction.response.defer()
+    bot.usage.record("unusual", user_id=interaction.user.id, guild_id=interaction.guild_id)
     try:
         feed = await bot.api.unusual()
     except ApiUnavailable:
@@ -209,12 +215,14 @@ async def unusual(interaction: discord.Interaction) -> None:
 @bot.tree.command(description="What this bot does and what you can ask it.")
 async def help(interaction: discord.Interaction) -> None:
     """Ephemeral: a channel does not need everyone's help output in it."""
+    bot.usage.record("help", user_id=interaction.user.id, guild_id=interaction.guild_id)
     await interaction.response.send_message(embed=render.help_embed(), ephemeral=True)
 
 
 @bot.tree.command(description="The 8-K filings companies made this session.")
 async def filings(interaction: discord.Interaction) -> None:
     await interaction.response.defer()
+    bot.usage.record("filings", user_id=interaction.user.id, guild_id=interaction.guild_id)
     try:
         feed = await bot.api.filings()
     except ApiUnavailable:
@@ -226,6 +234,7 @@ async def filings(interaction: discord.Interaction) -> None:
 @bot.tree.command(description="What the market as a whole did today.")
 async def market(interaction: discord.Interaction) -> None:
     await interaction.response.defer()
+    bot.usage.record("market", user_id=interaction.user.id, guild_id=interaction.guild_id)
     try:
         payload = await bot.api.desk()
     except ApiUnavailable:
@@ -264,11 +273,63 @@ async def misses(interaction: discord.Interaction) -> None:
     await interaction.response.send_message(body[:1900], ephemeral=True)
 
 
+@bot.tree.command(description="How the bot is being used. Bot owner only.")
+async def stats(interaction: discord.Interaction) -> None:
+    """Counts, not a history. See usage.py for why that distinction is load-bearing."""
+    app = await bot.application_info()
+    owner = app.team.owner_id if app.team else app.owner.id
+    if interaction.user.id != owner:
+        await interaction.response.send_message(
+            "That one is for whoever runs the bot.", ephemeral=True
+        )
+        return
+
+    week = bot.usage.summary(days=7)
+    trend = bot.usage.daily_counts(days=14)
+
+    lines = [
+        f"**Today** — {week['today']['commands']} commands, "
+        f"{week['today']['people']} people, {week['today']['servers']} servers",
+        "",
+        f"**Last 7 days** — {week['total_commands']} commands over "
+        f"{week['days_with_activity']} active day(s)",
+        f"{week['person_days']} person-days · {week['server_days']} server-days",
+    ]
+
+    if week["commands"]:
+        lines += ["", "**Commands**"] + [
+            f"`/{name.replace('_', ' ')}` — {n}" for name, n in week["commands"].items()
+        ]
+
+    if week["tickers"]:
+        top = list(week["tickers"].items())[:10]
+        lines += [
+            "",
+            f"**Most asked ({week['distinct_tickers']} distinct)**",
+            " · ".join(f"{sym} {n}" for sym, n in top),
+        ]
+
+    if len(trend) > 1:
+        lines += ["", "**By day** (commands / people)"]
+        lines += [f"`{d}`  {c} / {p}" for d, c, p in trend[-7:]]
+
+    lines += [
+        "",
+        f"Personal lists held: {bot.personal.people()}",
+        "_Person-days, not people: the daily digests cannot be compared across "
+        "days, so returning visitors are counted again rather than deduplicated._",
+    ]
+
+    await interaction.response.send_message("\n".join(lines)[:1900], ephemeral=True)
+
+
 mine = app_commands.Group(name="my", description="Your own watchlist, private to you.")
 
 
 @mine.command(name="add", description="Add a ticker to your own list.")
 async def my_add(interaction: discord.Interaction, ticker: str) -> None:
+    bot.usage.record("my_add", user_id=interaction.user.id,
+                     guild_id=interaction.guild_id, tickers=[ticker])
     _, message = bot.personal.add(interaction.user.id, ticker)
     await interaction.response.send_message(message, ephemeral=True)
 
@@ -306,6 +367,7 @@ async def my_list(interaction: discord.Interaction) -> None:
 
 @mine.command(name="today", description="What your own stocks did this session.")
 async def my_today(interaction: discord.Interaction) -> None:
+    bot.usage.record("my_today", user_id=interaction.user.id, guild_id=interaction.guild_id)
     watched = bot.personal.get(interaction.user.id)
     if not watched:
         await interaction.response.send_message(
@@ -349,6 +411,8 @@ async def watch_add(interaction: discord.Interaction, ticker: str) -> None:
             ephemeral=True,
         )
         return
+    bot.usage.record("watch_add", user_id=interaction.user.id,
+                     guild_id=interaction.guild_id, tickers=[ticker])
     _, message = bot.lists.add(interaction.guild_id, ticker)
     await interaction.response.send_message(message)
 
