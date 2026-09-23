@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-22T23:14:55.740826+00:00",
+  "as_of": "2026-09-23T13:07:37.054138+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.1\u03c3",
-      "change_percent": -15.2,
-      "z_score": -2.11,
+      "delta": "-1.6\u03c3",
+      "change_percent": -10.96,
+      "z_score": -1.56,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "14.2",
-      "change_percent": -17.38,
-      "z_score": -1.31,
+      "delta": "14.3",
+      "change_percent": -19.2,
+      "z_score": -1.43,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.8%",
-      "change_percent": 0.78,
-      "z_score": 1.18,
+      "delta": "+0.6%",
+      "change_percent": 0.61,
+      "z_score": 0.94,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -42,20 +42,20 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.89,
-      "z_score": 1.06,
+      "delta": "+0.6%",
+      "change_percent": 0.59,
+      "z_score": 0.68,
       "risk_tone": "risk_off",
-      "notable": true
+      "notable": false
     },
     {
       "category": "CREDIT",
       "name": "High-yield credit",
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.37,
-      "z_score": 0.69,
+      "delta": "+0.3%",
+      "change_percent": 0.33,
+      "z_score": 0.61,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,21 +64,21 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-3bp",
-      "change_percent": -0.56,
-      "z_score": -0.52,
+      "delta": "-2bp",
+      "change_percent": -0.32,
+      "z_score": -0.38,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Gold",
-      "text": "Gold bid \u2014 a defensive tilt",
-      "direction": "up",
-      "delta": "+1.6%",
-      "change_percent": 1.6,
-      "z_score": 0.32,
-      "risk_tone": "risk_off",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-1.0%",
+      "change_percent": -1.01,
+      "z_score": -0.35,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -88,115 +88,115 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 6.94,
-        "z_score": 1.71
-      },
-      {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 1.72,
-        "z_score": 0.55
+        "change_percent": 6.06,
+        "z_score": 1.46
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 1.53,
-        "z_score": 0.65
+        "change_percent": 2.08,
+        "z_score": 0.86
+      },
+      {
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": 1.88,
+        "z_score": 0.96
       }
     ],
     "laggards": [
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -5.74,
-        "z_score": -2.13
+        "change_percent": -1.87,
+        "z_score": -0.87
       },
       {
-        "symbol": "XLF",
-        "name": "Financials",
-        "change_percent": -3.26,
-        "z_score": -1.86
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": -1.05,
+        "z_score": -0.62
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -1.19,
-        "z_score": -0.56
+        "change_percent": -0.87,
+        "z_score": -0.4
       }
     ],
-    "breadth": 50,
-    "advancing": 5,
+    "breadth": 60,
+    "advancing": 6,
     "total": 10
   },
   "composite": {
-    "score": 58,
-    "label": "Mixed",
-    "tone": "neutral",
+    "score": 66,
+    "label": "Risk-on",
+    "tone": "risk_on",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": 7.9,
+        "effect": 8.6,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
+        "effect": 4.7,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -6.4,
+        "effect": -4.1,
         "tone": "risk_off"
       },
       {
-        "name": "Credit complex",
-        "effect": 5.6,
-        "tone": "risk_on"
-      },
-      {
         "name": "10-year Treasury yield",
-        "effect": 3.1,
+        "effect": 2.3,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -1.9,
-        "tone": "risk_off"
+        "effect": 2.1,
+        "tone": "risk_on"
       }
     ]
   },
   "history": [
-    39.0,
-    65.1,
-    54.9,
+    65.0,
+    54.8,
     48.7,
-    50.8,
-    64.4,
-    39.2,
-    39.2,
-    55.7,
+    50.7,
+    64.3,
+    39.1,
+    39.1,
+    55.6,
     63.5,
-    42.8,
-    56.3,
+    42.7,
+    56.2,
     52.5,
-    50.0,
+    49.9,
     28.6,
-    35.0,
-    48.8,
+    34.9,
+    48.7,
     48.5,
-    52.7,
-    59.4,
-    45.1,
-    15.3,
-    24.4,
-    20.9,
-    17.5,
+    52.6,
+    59.3,
+    45.0,
+    15.2,
+    24.3,
+    20.8,
+    17.4,
     15.9,
+    51.7,
+    39.5,
     51.8,
-    39.6,
-    51.9,
-    58.3
+    58.7,
+    65.6
   ],
   "narrative": {
-    "text": "Crude oil dropped 15.2% and energy stocks fell 5.7%. Technology gained 6.9% and volatility eased.",
-    "short": "Oil prices fell sharply while technology stocks led the market higher.",
+    "text": "Technology stocks gained 6.1% while crude oil dropped 11%. Volatility eased and credit markets strengthened, indicating improved investor confidence.",
+    "short": "Oil prices fell 11% as tech stocks led a broader market rally.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-22T23:14:56.339687+00:00"
+  "generated_at": "2026-09-23T13:07:37.582284+00:00"
 }
