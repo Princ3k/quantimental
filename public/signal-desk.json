@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-23T13:39:53.250664+00:00",
+  "as_of": "2026-09-23T14:09:19.488609+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.5\u03c3",
-      "change_percent": -10.84,
-      "z_score": -1.54,
+      "delta": "-10.2%",
+      "change_percent": -10.22,
+      "z_score": -1.46,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "14.3",
-      "change_percent": -19.42,
-      "z_score": -1.45,
+      "delta": "14.4",
+      "change_percent": -18.97,
+      "z_score": -1.41,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -31,54 +31,54 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.53,
-      "z_score": 0.61,
+      "delta": "+0.7%",
+      "change_percent": 0.7,
+      "z_score": 0.82,
       "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.27,
-      "z_score": 0.43,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
-      "direction": "down",
-      "delta": "-2bp",
-      "change_percent": -0.32,
-      "z_score": -0.38,
-      "risk_tone": "risk_on",
-      "notable": false
+      "notable": true
     },
     {
       "category": "COMMODITIES",
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.9%",
-      "change_percent": -0.89,
-      "z_score": -0.32,
+      "delta": "-1.5%",
+      "change_percent": -1.48,
+      "z_score": -0.48,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "CREDIT",
       "name": "High-yield credit",
-      "text": "High-yield credit bid \u2014 appetite for risk improving",
+      "text": "High-yield credit little changed",
+      "direction": "flat",
+      "delta": "-0.0%",
+      "change_percent": -0.04,
+      "z_score": -0.22,
+      "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.11,
+      "delta": "+3bp",
+      "change_percent": 0.62,
       "z_score": 0.13,
-      "risk_tone": "risk_on",
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit little changed",
+      "direction": "flat",
+      "delta": "-0.0%",
+      "change_percent": -0.04,
+      "z_score": -0.03,
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -88,74 +88,74 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 6.64,
-        "z_score": 1.62
+        "change_percent": 6.14,
+        "z_score": 1.49
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 2.03,
-        "z_score": 0.69
+        "change_percent": 1.75,
+        "z_score": 0.56
       },
       {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": 1.18,
-        "z_score": 0.51
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": 1.52,
+        "z_score": 0.61
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.32,
-        "z_score": -1.1
+        "change_percent": -2.69,
+        "z_score": -1.27
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -2.17,
-        "z_score": -0.96
+        "change_percent": -1.77,
+        "z_score": -0.83
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.62,
-        "z_score": -0.96
+        "change_percent": -1.53,
+        "z_score": -0.91
       }
     ],
-    "breadth": 60,
-    "advancing": 6,
+    "breadth": 50,
+    "advancing": 5,
     "total": 10
   },
   "composite": {
-    "score": 63,
+    "score": 56,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": 8.7,
+        "effect": 8.5,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -3.7,
+        "effect": -4.9,
         "tone": "risk_off"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": 2.3,
+        "name": "Gold",
+        "effect": 2.9,
         "tone": "risk_on"
+      },
+      {
+        "name": "10-year Treasury yield",
+        "effect": -0.8,
+        "tone": "risk_off"
       },
       {
         "name": "Sector breadth",
-        "effect": 2.0,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Gold",
-        "effect": 1.9,
+        "effect": 0.0,
         "tone": "risk_on"
       }
     ]
@@ -184,19 +184,19 @@
     15.2,
     24.3,
     20.8,
-    17.4,
+    17.5,
     15.9,
     51.7,
     39.6,
     51.8,
-    58.7,
-    63.0
+    58.8,
+    54.9
   ],
   "narrative": {
-    "text": "Crude oil dropped 10.8% and volatility eased. Technology gained 6.6%, while utilities and energy lagged.",
-    "short": "Oil prices fell sharply while technology stocks led a mixed market.",
+    "text": "Crude oil slid 10.2% and volatility eased 19.0%. Technology led gains at 6.1%, while utilities fell 2.7%.",
+    "short": "Crude oil dropped 10.2% while technology stocks rose 6.1%.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-23T13:39:53.814331+00:00"
+  "generated_at": "2026-09-23T14:09:20.060205+00:00"
 }
