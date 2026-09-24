@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-24T20:38:14.241319+00:00",
+  "as_of": "2026-09-24T21:09:40.298990+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,9 +42,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.1%",
-      "change_percent": 1.08,
-      "z_score": 1.3,
+      "delta": "+1.0%",
+      "change_percent": 1.02,
+      "z_score": 1.22,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-6.6%",
-      "change_percent": -6.59,
-      "z_score": -0.99,
+      "delta": "-7.0%",
+      "change_percent": -7.02,
+      "z_score": -1.04,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-2.3%",
-      "change_percent": -2.25,
-      "z_score": -0.67,
+      "delta": "-2.0%",
+      "change_percent": -2.04,
+      "z_score": -0.62,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -145,12 +145,12 @@
       },
       {
         "name": "US dollar index",
-        "effect": -7.8,
+        "effect": -7.3,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 4.0,
+        "effect": 3.7,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     51.9,
     58.8,
     43.0,
-    15.7
+    15.9
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose and corporate debt prices fell over the last five days. The US dollar strengthened while crude oil prices slid.",
-    "short": "Long-term government bond yields climbed as investors fled risky assets.",
+    "text": "Government bond yields rose while investment-grade and high-yield credit fell. Technology led gains, but utilities and energy declined.",
+    "short": "Long-term rates climbed and credit markets sold off as risk appetite faded.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-24T20:38:14.768013+00:00"
+  "generated_at": "2026-09-24T21:09:40.819079+00:00"
 }
