@@ -55,7 +55,11 @@ def main() -> int:
 
     # Deliberately not next to the published JSON: Railway's root directory is
     # `backend`, so a file at the repository root is not in the deployed image.
-    _append_history(Path(__file__).resolve().parent.parent / "data" / "signal-desk-history.json", desk)
+    # Beside the other published artefacts, not inside backend/ — see
+    # macro_signal_service._versus_history for why that distinction matters.
+    _append_history(
+        Path(__file__).resolve().parents[2] / "public" / "signal-desk-history.json", desk
+    )
 
     composite = desk["composite"]
     logger.info(

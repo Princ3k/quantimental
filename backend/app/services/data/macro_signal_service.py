@@ -166,7 +166,11 @@ class MacroSignalService:
 
         Returns None when there is too little history to say anything honest.
         """
-        path = Path(__file__).resolve().parents[3] / "data" / "signal-desk-history.json"
+        # Published data, not source. It lives under public/ so that the
+        # half-hourly signal-desk publish does not modify backend/ — that
+        # rebuilt and restarted the API eighteen times a day, which among
+        # other things wiped every in-process cache each time.
+        path = Path(__file__).resolve().parents[4] / "public" / "signal-desk-history.json"
         try:
             history = json.loads(path.read_text())
         except (OSError, json.JSONDecodeError):
