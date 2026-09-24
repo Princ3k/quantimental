@@ -57,7 +57,7 @@ jobs:
         run: |
           # The history file accumulates one record per day, so it changes even
           # when the headline reading does not.
-          if git diff --quiet -- public/signal-desk.json backend/data/signal-desk-history.json; then
+          if git diff --quiet -- public/signal-desk.json public/signal-desk-history.json; then
             echo "No change in the market reading; nothing to commit."
             exit 0
           fi
@@ -81,7 +81,7 @@ jobs:
           # merge. The newest scan is simply the one we want: take the freshest
           # main and replant our output on top of it.
           for attempt in 1 2 3; do
-            git add public/signal-desk.json backend/data/signal-desk-history.json
+            git add public/signal-desk.json public/signal-desk-history.json
             git commit -q -m "chore: update signal desk [skip ci]" || true
 
             if git push; then
@@ -90,14 +90,14 @@ jobs:
 
             echo "::notice::Push rejected (attempt $attempt); replanting on the newest main."
             mkdir -p "$RUNNER_TEMP/publish"
-            for f in public/signal-desk.json backend/data/signal-desk-history.json; do
+            for f in public/signal-desk.json public/signal-desk-history.json; do
               cp "$f" "$RUNNER_TEMP/publish/$(basename "$f")"
             done
 
             git fetch origin main
             git reset --hard origin/main
 
-            for f in public/signal-desk.json backend/data/signal-desk-history.json; do
+            for f in public/signal-desk.json public/signal-desk-history.json; do
               mkdir -p "$(dirname "$f")"
               cp "$RUNNER_TEMP/publish/$(basename "$f")" "$f"
             done
