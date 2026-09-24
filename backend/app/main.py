@@ -208,6 +208,14 @@ app.include_router(news.router, prefix="/api/v1/news", tags=["News"])
 app.include_router(market.router, prefix="/api/v1/market", tags=["Market"])
 
 
+# When this process started. Restarts are not a curiosity here: every deploy
+# replaces the process and wipes every in-process cache with it, and a stretch
+# of unexplained upstream quota burn turned out to be the API being rebuilt
+# eighteen times a day by a data file committed into backend/. Uptime makes
+# that visible instead of something to be inferred from a rate limit.
+_STARTED_AT = time.time()
+
+
 @app.get("/health", tags=["System"])
 async def health_check() -> dict:
     """
@@ -220,6 +228,7 @@ async def health_check() -> dict:
         "status": "healthy",
         "service": "quantimental-api",
         "version": settings.VERSION,
+        "uptime_seconds": round(time.time() - _STARTED_AT, 1),
         "subsystems": {
             "market_data": True,
             "database": await check_connection(),

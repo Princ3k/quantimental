@@ -1,5 +1,7 @@
 """The published-file endpoints: cheap, cached, and no upstream fan-out."""
 
+import time
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -125,3 +127,21 @@ class TestFilings:
         from app.services.data import snapshot_service
         monkeypatch.setattr(snapshot_service, "get_snapshot", lambda *a, **k: None)
         assert TestClient(app).get("/api/v1/market/filings").json()["available"] is False
+
+
+class TestUptime:
+    """Restarts wipe every in-process cache, so they should be visible."""
+
+    def test_health_reports_uptime(self):
+        body = TestClient(app).get("/health").json()
+        assert "uptime_seconds" in body
+        assert isinstance(body["uptime_seconds"], (int, float))
+        assert body["uptime_seconds"] >= 0
+
+    def test_it_increases_within_one_process(self):
+        # The whole point: a value that resets to zero is how a restart is
+        # spotted, and one that never moves would hide it.
+        client = TestClient(app)
+        first = client.get("/health").json()["uptime_seconds"]
+        time.sleep(0.05)
+        assert client.get("/health").json()["uptime_seconds"] >= first
