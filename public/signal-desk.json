@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-24T16:38:24.394984+00:00",
+  "as_of": "2026-09-24T17:08:15.087845+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-2.2\u03c3",
-      "change_percent": -0.97,
-      "z_score": -2.23,
+      "delta": "-2.3\u03c3",
+      "change_percent": -0.98,
+      "z_score": -2.26,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Long-term rates climbing",
       "direction": "up",
       "delta": "+1.9\u03c3",
-      "change_percent": 3.84,
-      "z_score": 1.88,
+      "change_percent": 3.92,
+      "z_score": 1.92,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.0%",
-      "change_percent": 0.95,
-      "z_score": 1.14,
+      "change_percent": 1.01,
+      "z_score": 1.21,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -54,7 +54,7 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-7.4%",
-      "change_percent": -7.44,
+      "change_percent": -7.42,
       "z_score": -1.1,
       "risk_tone": "neutral",
       "notable": true
@@ -65,7 +65,7 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-2.0%",
-      "change_percent": -2.0,
+      "change_percent": -2.03,
       "z_score": -0.61,
       "risk_tone": "risk_on",
       "notable": false
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "15.7",
-      "change_percent": 1.42,
-      "z_score": 0.04,
+      "delta": "15.4",
+      "change_percent": 0.06,
+      "z_score": -0.05,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.6,
-        "z_score": 0.78
+        "change_percent": 3.78,
+        "z_score": 0.83
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 1.56,
-        "z_score": 0.8
+        "change_percent": 1.75,
+        "z_score": 0.89
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.07,
-        "z_score": 0.26
+        "change_percent": 0.79,
+        "z_score": 0.13
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -4.38,
-        "z_score": -2.05
-      },
-      {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": -2.27,
-        "z_score": -0.99
+        "change_percent": -4.21,
+        "z_score": -1.97
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -2.12,
-        "z_score": -1.21
+        "change_percent": -2.29,
+        "z_score": -1.3
+      },
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": -2.05,
+        "z_score": -0.92
       }
     ],
     "breadth": 40,
@@ -129,23 +129,23 @@
     "total": 10
   },
   "composite": {
-    "score": 20,
+    "score": 19,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "Credit complex",
-        "effect": -13.1,
+        "effect": -13.2,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -11.3,
+        "effect": -11.5,
         "tone": "risk_off"
       },
       {
         "name": "US dollar index",
-        "effect": -6.8,
+        "effect": -7.3,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     51.9,
     58.8,
     43.0,
-    20.2
+    20.0
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose and both high-yield and investment-grade corporate debt fell. Technology and communications were the only sectors to gain ground.",
-    "short": "Long-term government bond yields climbed while corporate debt sold off sharply.",
+    "text": "Long-term government bond yields climbed while high-yield and investment-grade credit prices fell. The dollar strengthened, and crude oil prices slid.",
+    "short": "Bond yields rose and credit markets sold off as investors fled to the dollar.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-24T16:38:24.877254+00:00"
+  "generated_at": "2026-09-24T17:08:15.584854+00:00"
 }
