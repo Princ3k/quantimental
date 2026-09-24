@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-24T21:09:40.298990+00:00",
+  "as_of": "2026-09-24T21:27:46.558269+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.0%",
-      "change_percent": 1.02,
-      "z_score": 1.22,
+      "change_percent": 1.04,
+      "z_score": 1.25,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -145,7 +145,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -7.3,
+        "effect": -7.5,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     51.9,
     58.8,
     43.0,
-    15.9
+    15.7
   ],
   "narrative": {
-    "text": "Government bond yields rose while investment-grade and high-yield credit fell. Technology led gains, but utilities and energy declined.",
-    "short": "Long-term rates climbed and credit markets sold off as risk appetite faded.",
+    "text": "Long-term rates climbed while corporate debt sold off. Technology stocks rose, but utilities and energy fell.",
+    "short": "Long-term rates climbed as investors fled risky assets for safety.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-24T21:09:40.819079+00:00"
+  "generated_at": "2026-09-24T21:27:47.028244+00:00"
 }
