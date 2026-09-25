@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-09-25T20:18:03.024160+00:00",
+  "generated_at": "2026-09-25T21:18:13.890883+00:00",
   "as_of": "2026-09-25",
   "scanned": 503,
   "universe": 503,
@@ -16,7 +16,7 @@
       "multiple": 2.3,
       "direction": "up",
       "period_percent": 1.99,
-      "volume": 4599890,
+      "volume": 4602713,
       "company": "Costco",
       "sector": "Consumer Staples",
       "headline": "Costco is up 2.9% today, 2.3x its typical 1.3% daily move.",
@@ -32,7 +32,7 @@
       "multiple": 1.2,
       "direction": "down",
       "period_percent": -28.55,
-      "volume": 29650709,
+      "volume": 29672441,
       "company": "Gen Digital",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology rose 0.7% \u2014 so Gen Digital moved against its sector."
@@ -45,7 +45,7 @@
       "multiple": 1.1,
       "direction": "up",
       "period_percent": 1.39,
-      "volume": 11111708,
+      "volume": 11119165,
       "company": "ON Semiconductor",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology rose 0.7%, so most of this was specific to ON Semiconductor."
@@ -58,7 +58,7 @@
       "multiple": 1.6,
       "direction": "up",
       "period_percent": 6.05,
-      "volume": 8871575,
+      "volume": 9622192,
       "company": "Microchip Technology",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology rose 0.7%, so most of this was specific to Microchip Technology."
@@ -71,20 +71,20 @@
       "multiple": 0.9,
       "direction": "up",
       "period_percent": 11.31,
-      "volume": 1173766,
+      "volume": 1175543,
       "company": "Generac",
       "sector": "Industrials",
       "context": "The market was flat today and Industrials rose 0.7%, so most of this was specific to Generac."
     },
     {
       "ticker": "DELL",
-      "price": 562.9,
+      "price": 562.89,
       "change_percent": 5.01,
       "typical_percent": 5.81,
       "multiple": 0.9,
       "direction": "up",
-      "period_percent": -0.77,
-      "volume": 8680957,
+      "period_percent": -0.78,
+      "volume": 8694381,
       "company": "Dell Technologies",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology rose 0.7%, so most of this was specific to Dell Technologies."
@@ -97,7 +97,7 @@
       "multiple": 1.9,
       "direction": "up",
       "period_percent": -5.84,
-      "volume": 15722541,
+      "volume": 15762746,
       "company": "CVS Health",
       "sector": "Health Care",
       "context": "The market was flat today and Health Care was flat, so most of this was specific to CVS Health."
@@ -116,17 +116,17 @@
       "context": "The market was flat today and Information Technology rose 0.7%, so most of this was specific to Gartner."
     },
     {
-      "ticker": "HUM",
-      "price": 398.13,
-      "change_percent": 4.68,
-      "typical_percent": 3.26,
-      "multiple": 1.4,
+      "ticker": "PYPL",
+      "price": 55.04,
+      "change_percent": 4.64,
+      "typical_percent": 2.65,
+      "multiple": 1.8,
       "direction": "up",
-      "period_percent": -2.85,
-      "volume": 1933321,
-      "company": "Humana",
-      "sector": "Health Care",
-      "context": "The market was flat today and Health Care was flat, so most of this was specific to Humana."
+      "period_percent": 2.46,
+      "volume": 20326878,
+      "company": "PayPal",
+      "sector": "Financials",
+      "context": "The market was flat today and Financials rose 0.7%, so most of this was specific to PayPal."
     }
   ],
   "threshold": {
