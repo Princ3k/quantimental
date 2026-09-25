@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T21:30:48.518200+00:00",
+  "as_of": "2026-09-25T21:41:02.381171+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     26.1
   ],
   "narrative": {
-    "text": "Long-term rates climbed while investment-grade and high-yield credit fell. Technology led gains, but utilities and energy lagged.",
-    "short": "Long-term rates climbed while credit markets sold off.",
+    "text": "Long-term rates climbed and credit markets sold off, while crude oil fell. Technology and communications were the strongest sectors.",
+    "short": "Long-term rates climbed while credit markets sold off and crude oil fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T21:30:49.026884+00:00"
+  "generated_at": "2026-09-25T21:41:02.987854+00:00"
 }
