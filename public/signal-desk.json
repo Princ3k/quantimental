@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T21:09:31.393966+00:00",
+  "as_of": "2026-09-25T21:30:48.518200+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-7.8%",
-      "change_percent": -7.81,
-      "z_score": -1.14,
+      "change_percent": -7.84,
+      "z_score": -1.15,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -65,7 +65,7 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-2.4%",
-      "change_percent": -2.35,
+      "change_percent": -2.36,
       "z_score": -0.69,
       "risk_tone": "risk_on",
       "notable": false
@@ -193,10 +193,10 @@
     26.1
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose while corporate debt prices fell. Technology stocks gained, but utilities and energy stocks declined.",
-    "short": "Long-term government bond yields climbed as investors sold off corporate debt.",
+    "text": "Long-term rates climbed while investment-grade and high-yield credit fell. Technology led gains, but utilities and energy lagged.",
+    "short": "Long-term rates climbed while credit markets sold off.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T21:09:32.073237+00:00"
+  "generated_at": "2026-09-25T21:30:49.026884+00:00"
 }
