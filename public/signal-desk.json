@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T15:40:00.776787+00:00",
+  "as_of": "2026-09-25T16:08:03.993523+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,20 +9,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-2.5\u03c3",
-      "change_percent": -1.76,
-      "z_score": -2.47,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-2.3\u03c3",
-      "change_percent": -1.02,
-      "z_score": -2.3,
+      "delta": "-2.1\u03c3",
+      "change_percent": -1.48,
+      "z_score": -2.06,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +20,20 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+2.1\u03c3",
-      "change_percent": 4.38,
-      "z_score": 2.14,
+      "delta": "+2.0\u03c3",
+      "change_percent": 4.18,
+      "z_score": 2.03,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-1.9\u03c3",
+      "change_percent": -0.81,
+      "z_score": -1.87,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-6.1%",
-      "change_percent": -6.14,
-      "z_score": -0.93,
+      "delta": "-7.0%",
+      "change_percent": -7.0,
+      "z_score": -1.04,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.79,
-      "z_score": 0.92,
+      "change_percent": 0.82,
+      "z_score": 0.96,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-2.5%",
-      "change_percent": -2.49,
-      "z_score": -0.73,
+      "delta": "-2.4%",
+      "change_percent": -2.44,
+      "z_score": -0.72,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "15.4",
-      "change_percent": 3.85,
-      "z_score": 0.22,
+      "delta": "15.5",
+      "change_percent": 4.79,
+      "z_score": 0.29,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,115 +88,115 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.36,
-        "z_score": 0.71
+        "change_percent": 3.89,
+        "z_score": 0.86
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.06,
-        "z_score": 1.04
+        "change_percent": 2.4,
+        "z_score": 1.21
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.31,
-        "z_score": 0.38
+        "change_percent": 1.33,
+        "z_score": 0.39
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -4.01,
-        "z_score": -1.85
+        "change_percent": -3.69,
+        "z_score": -1.7
+      },
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": -3.2,
+        "z_score": -1.28
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.96,
-        "z_score": -1.12
-      },
-      {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": -0.86,
-        "z_score": -0.53
+        "change_percent": -1.66,
+        "z_score": -0.95
       }
     ],
-    "breadth": 44,
-    "advancing": 4,
-    "total": 9
+    "breadth": 50,
+    "advancing": 5,
+    "total": 10
   },
   "composite": {
-    "score": 19,
+    "score": 23,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
-        "name": "Credit complex",
-        "effect": -14.3,
+        "name": "10-year Treasury yield",
+        "effect": -12.2,
         "tone": "risk_off"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": -12.8,
+        "name": "Credit complex",
+        "effect": -11.8,
         "tone": "risk_off"
       },
       {
         "name": "US dollar index",
-        "effect": -5.5,
+        "effect": -5.8,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 4.4,
+        "effect": 4.3,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": -1.3,
+        "effect": -1.7,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
-    47.0,
     49.0,
-    62.4,
-    37.5,
-    37.5,
-    53.8,
+    51.0,
+    64.4,
+    39.5,
+    39.5,
+    55.8,
     63.5,
     43.0,
     56.4,
     52.7,
-    48.3,
-    27.3,
-    33.6,
-    47.2,
-    46.9,
-    51.0,
+    50.3,
+    29.3,
+    35.5,
+    49.2,
+    48.9,
+    53.0,
     59.5,
-    43.4,
-    14.0,
-    23.1,
-    19.6,
-    16.3,
+    45.4,
+    15.9,
+    25.0,
+    21.5,
+    18.2,
     16.6,
     51.9,
     39.9,
     52.0,
     58.8,
-    43.3,
-    16.3,
-    18.4
+    43.2,
+    16.2,
+    24.9
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose and investment-grade credit fell. Technology and communications led gains, while utilities and financials lagged.",
-    "short": "Long-term government bond yields climbed while credit markets sold off.",
+    "text": "Long-term borrowing costs climbed significantly, coinciding with a drop in investment-grade credit. Technology was the strongest sector, while utilities and energy lagged.",
+    "short": "Long-term borrowing costs rose sharply while investment-grade credit fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T15:40:02.126412+00:00"
+  "generated_at": "2026-09-25T16:08:04.576578+00:00"
 }
