@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T20:38:21.276294+00:00",
+  "as_of": "2026-09-25T21:09:31.393966+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-7.6%",
-      "change_percent": -7.61,
-      "z_score": -1.12,
+      "delta": "-7.8%",
+      "change_percent": -7.81,
+      "z_score": -1.14,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.8,
-      "z_score": 0.94,
+      "change_percent": 0.81,
+      "z_score": 0.95,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-2.3%",
-      "change_percent": -2.29,
-      "z_score": -0.68,
+      "delta": "-2.4%",
+      "change_percent": -2.35,
+      "z_score": -0.69,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -145,7 +145,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.6,
+        "effect": -5.7,
         "tone": "risk_off"
       },
       {
@@ -193,10 +193,10 @@
     26.1
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose and credit markets fell. Technology and communications were the strongest sectors, while utilities and energy lagged.",
-    "short": "Long-term government bond yields climbed while credit markets sold off.",
+    "text": "Long-term government bond yields rose while corporate debt prices fell. Technology stocks gained, but utilities and energy stocks declined.",
+    "short": "Long-term government bond yields climbed as investors sold off corporate debt.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T20:38:21.820265+00:00"
+  "generated_at": "2026-09-25T21:09:32.073237+00:00"
 }
