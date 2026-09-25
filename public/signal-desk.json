@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T17:39:01.700311+00:00",
+  "as_of": "2026-09-25T17:55:49.120209+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Investment-grade credit softening",
       "direction": "down",
       "delta": "-2.4\u03c3",
-      "change_percent": -1.74,
-      "z_score": -2.44,
+      "change_percent": -1.69,
+      "z_score": -2.37,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-2.4\u03c3",
-      "change_percent": -1.05,
-      "z_score": -2.36,
+      "delta": "-2.3\u03c3",
+      "change_percent": -1.03,
+      "z_score": -2.32,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+1.9\u03c3",
-      "change_percent": 4.0,
-      "z_score": 1.93,
+      "delta": "+2.0\u03c3",
+      "change_percent": 4.04,
+      "z_score": 1.96,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-8.2%",
-      "change_percent": -8.23,
-      "z_score": -1.2,
+      "delta": "-8.1%",
+      "change_percent": -8.08,
+      "z_score": -1.18,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.84,
-      "z_score": 0.98,
+      "change_percent": 0.82,
+      "z_score": 0.95,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -76,8 +76,8 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "15.0",
-      "change_percent": 1.35,
-      "z_score": 0.04,
+      "change_percent": 1.22,
+      "z_score": 0.03,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.81,
-        "z_score": 0.84
+        "change_percent": 3.84,
+        "z_score": 0.85
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.25,
-        "z_score": 1.14
+        "change_percent": 2.14,
+        "z_score": 1.08
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.32,
-        "z_score": 0.38
+        "change_percent": 1.34,
+        "z_score": 0.39
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.64,
-        "z_score": -1.68
+        "change_percent": -3.54,
+        "z_score": -1.63
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -3.45,
+        "change_percent": -3.43,
         "z_score": -1.36
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.6,
-        "z_score": -0.93
+        "change_percent": -1.59,
+        "z_score": -0.92
       }
     ],
     "breadth": 40,
@@ -135,17 +135,17 @@
     "contributions": [
       {
         "name": "Credit complex",
-        "effect": -14.4,
+        "effect": -14.1,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -11.6,
+        "effect": -11.8,
         "tone": "risk_off"
       },
       {
         "name": "US dollar index",
-        "effect": -5.9,
+        "effect": -5.7,
         "tone": "risk_off"
       },
       {
@@ -188,15 +188,15 @@
     39.9,
     52.0,
     58.8,
-    43.3,
+    43.2,
     16.3,
-    20.0
+    20.4
   ],
   "narrative": {
-    "text": "Long-term borrowing costs climbed and credit markets weakened over the last five days. Technology and communications were the only sectors to gain ground.",
-    "short": "Long-term borrowing costs rose sharply while credit markets sold off.",
+    "text": "Long-term rates climbed and credit markets sold off. Technology and communications were the only sectors to gain.",
+    "short": "Long-term rates climbed and credit markets sold off as risk appetite fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T17:39:02.227936+00:00"
+  "generated_at": "2026-09-25T17:55:49.742450+00:00"
 }
