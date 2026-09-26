@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-25T21:41:02.381171+00:00",
+  "as_of": "2026-09-26T00:08:13.634315+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-2.0\u03c3",
-      "change_percent": -1.42,
-      "z_score": -1.99,
+      "delta": "-2.1\u03c3",
+      "change_percent": -1.48,
+      "z_score": -2.07,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-1.9\u03c3",
-      "change_percent": -0.85,
-      "z_score": -1.94,
+      "change_percent": -0.81,
+      "z_score": -1.86,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -86,50 +86,50 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLK",
-        "name": "Technology",
-        "change_percent": 3.64,
-        "z_score": 0.79
-      },
-      {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.28,
-        "z_score": 1.15
+        "change_percent": 3.21,
+        "z_score": 1.6
+      },
+      {
+        "symbol": "XLK",
+        "name": "Technology",
+        "change_percent": 2.81,
+        "z_score": 0.57
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.76,
-        "z_score": 0.6
+        "change_percent": 1.26,
+        "z_score": 0.37
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.16,
-        "z_score": -1.45
+        "change_percent": -3.53,
+        "z_score": -1.62
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -2.96,
-        "z_score": -1.21
+        "change_percent": -2.08,
+        "z_score": -0.93
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.48,
-        "z_score": -0.86
+        "change_percent": -2.04,
+        "z_score": -1.16
       }
     ],
-    "breadth": 50,
-    "advancing": 5,
+    "breadth": 30,
+    "advancing": 3,
     "total": 10
   },
   "composite": {
-    "score": 26,
+    "score": 22,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
@@ -154,8 +154,8 @@
         "tone": "risk_on"
       },
       {
-        "name": "Volatility index",
-        "effect": -0.2,
+        "name": "Sector breadth",
+        "effect": -4.0,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     58.9,
     43.2,
     16.2,
-    26.1
+    22.1
   ],
   "narrative": {
-    "text": "Long-term rates climbed and credit markets sold off, while crude oil fell. Technology and communications were the strongest sectors.",
-    "short": "Long-term rates climbed while credit markets sold off and crude oil fell.",
+    "text": "Long-term government bond yields rose while investment-grade and high-yield corporate debt prices dropped. Communications and technology stocks gained, but utilities and energy stocks declined.",
+    "short": "Long-term government bond yields climbed as corporate debt prices fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-25T21:41:02.987854+00:00"
+  "generated_at": "2026-09-26T00:08:14.262536+00:00"
 }
