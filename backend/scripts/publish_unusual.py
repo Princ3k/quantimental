@@ -37,7 +37,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.services.scan import attention_archive  # noqa: E402
-from app.services.scan.attention_service import measure_attention  # noqa: E402
+from app.services.scan.attention_service import (  # noqa: E402
+    SWEEP_COMPLETE_FRACTION,
+    measure_attention,
+)
 from app.services.ingestion.filings import filing_fetcher  # noqa: E402
 from app.services.scan.unusual_service import UNUSUAL_MULTIPLE, scan  # noqa: E402
 
@@ -87,7 +90,12 @@ def main() -> int:
     # files and the archive describe the same session.
     archive_days: int | None = None
 
-    if with_attention:
+    # The workflow asks for a sweep on the post-close run. Whether one is
+    # *needed* is a question about what the archive already holds, not about
+    # which trigger fired — see _already_swept.
+    sweep = with_attention and not _already_swept(result["as_of"], len(snapshot_rows))
+
+    if sweep:
         attention = _record_attention(snapshot_rows, result["as_of"])
         archive_days = _archive_days()
         for row in snapshot_rows:
@@ -114,6 +122,11 @@ def main() -> int:
         # coverage moves slowly enough that yesterday's reading beats none, and
         # an hourly run publishing a snapshot with no `v` field would make the
         # attention data appear and disappear through the day.
+        #
+        # This is also where a skipped sweep lands. The carry-forward reads this
+        # session's own readings back out of the archive, so the snapshot comes
+        # out the same as a re-sweep would have made it, without spending
+        # another nine minutes of Yahoo's budget to get there.
         _carry_forward_attention(snapshot_rows, result["as_of"])
         archive_days = _archive_days()
 
@@ -261,6 +274,59 @@ def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
             "measure.",
             filled, len(rows),
         )
+
+
+def _already_swept(as_of: str | None, universe: int) -> bool:
+    """
+    Whether the archive already holds a complete reading for this session.
+
+    The sweep is meant to run once a day, after the close, and the workflow used
+    to enforce that by checking which cron fired. That cannot work: the scan is
+    triggered from two places, and on 2026-09-26 GitHub started the post-close
+    cron 2h24m late — after the external dispatcher had already swept on time.
+    The run swept a second time, measured nothing, and published a snapshot with
+    no coverage on any of 503 rows. Asking the archive what it holds is a
+    question that stays correct however late a trigger arrives.
+
+    A partial reading is not enough to skip on. A sweep the limiter cut off is
+    precisely the case where measuring again is worth the budget, so the bar is
+    the same fraction attention_service uses to call a sweep short.
+    """
+    if not as_of:
+        return False
+
+    try:
+        # One day is all this asks about, and `load` truncates each series to
+        # the same window — so a ticker measured earlier today ends in its
+        # reading, and one that was missed ends in None.
+        archive = attention_archive.load(window=1)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Could not read the attention archive: %s", exc)
+        return False
+
+    dates = archive.get("dates") or []
+    if not dates or dates[-1] != as_of:
+        return False
+
+    measured = sum(
+        1
+        for series in archive["velocity"].values()
+        if series and series[-1] is not None
+    )
+
+    if measured < universe * SWEEP_COMPLETE_FRACTION:
+        logger.info(
+            "The archive holds only %d of %d readings for %s — sweeping again.",
+            measured, universe, as_of,
+        )
+        return False
+
+    logger.info(
+        "The archive already holds %d readings for %s; skipping the sweep and "
+        "carrying them forward instead.",
+        measured, as_of,
+    )
+    return True
 
 
 def _record_attention(rows: list[dict], as_of: str | None) -> dict[str, dict]:

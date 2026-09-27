@@ -63,6 +63,12 @@ REQUEST_SPACING_SECONDS = 0.34
 MAX_RETRIES = 3
 BACKOFF_BASE_SECONDS = 5.0
 
+# A sweep that reached less than this share of the universe was cut off by the
+# limiter rather than finished. Used twice: to say so in the log, and to decide
+# whether a session already in the archive is complete enough that measuring it
+# again would only spend Yahoo's budget to learn the same thing.
+SWEEP_COMPLETE_FRACTION = 0.8
+
 # A span shorter than this is treated as this long. Ten articles inside a few
 # minutes is a wire-service burst republishing one story, and dividing by a
 # near-zero window turns that into an implausible velocity.
@@ -200,7 +206,7 @@ def measure_attention(
         "Measured %d of %d tickers in %.0fs",
         len(measured), len(ordered), time.monotonic() - started,
     )
-    if len(measured) < len(ordered) * 0.8:
+    if len(measured) < len(ordered) * SWEEP_COMPLETE_FRACTION:
         logger.warning(
             "Only %.0f%% of the universe was measured — likely rate limited. "
             "Tomorrow's sweep starts elsewhere in the list, so the shortfall "

@@ -146,6 +146,12 @@ jobs:
       # exist in the public checkout, so every one of them republished the
       # snapshot with no `v` and archive_days: 0 — wiping, within the hour, what
       # the post-close sweep had just measured.
+      #
+      # This condition is a first filter, not the guarantee. It cannot be: the
+      # scan is triggered from two places, and a cron GitHub starts late still
+      # matches its own schedule. publish_unusual.py makes the final call by
+      # asking the archive whether this session is already measured, which is
+      # the question that stays correct however late a trigger arrives.
       - name: Scan for unusual moves
         if: ${{ !(github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention) }}
         env:
