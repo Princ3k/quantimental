@@ -22,6 +22,7 @@ import discord
 from discord import app_commands
 from discord.ext import tasks
 
+import errors
 import render
 import schedule
 from client import ApiUnavailable, QuantimentalClient
@@ -472,6 +473,47 @@ async def watch_here(interaction: discord.Interaction) -> None:
 
 
 bot.tree.add_command(watch)
+
+
+# -- the backstop ----------------------------------------------------------
+
+
+@bot.tree.error
+async def on_command_error(
+    interaction: discord.Interaction,
+    error: app_commands.AppCommandError,
+) -> None:
+    """
+    Answer every failure, however it failed.
+
+    Each command guards the one error it expects — ApiUnavailable — and nothing
+    else. Anything past that used to reach discord.py's default handler, which
+    logs a traceback and leaves the deferred interaction showing "thinking" until
+    it expires. See errors.py for what that cost.
+
+    This does not make the commands correct; it makes them audible. A failure
+    that says so in the channel gets reported, and one that hangs does not.
+    """
+    original = errors.unwrap(error)
+    command = interaction.command.name if interaction.command else "unknown"
+    logger.error("/%s failed: %r", command, original, exc_info=original)
+
+    try:
+        if interaction.response.is_done():
+            # Already deferred, so the "thinking" state is the thing that needs
+            # resolving. A plain followup is the surest way to resolve it.
+            await interaction.followup.send(errors.message_for(error))
+        else:
+            # Nothing has been sent yet, so this can be private to whoever ran
+            # it — a channel does not need everyone's failures in it.
+            await interaction.response.send_message(
+                errors.message_for(error), ephemeral=True
+            )
+    except Exception:  # noqa: BLE001
+        # Reporting is itself what failed: a revoked permission, a deleted
+        # channel, an interaction that already expired. Log and stop — raising
+        # here would only arrive back at this same handler.
+        logger.exception("Could not report the failure to the channel.")
 
 
 def _is_manager(interaction: discord.Interaction) -> bool:
