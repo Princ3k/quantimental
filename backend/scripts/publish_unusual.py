@@ -96,6 +96,19 @@ def main() -> int:
                 row["v"] = reading["velocity"]
                 if reading.get("multiple") is not None:
                     row["vx"] = reading["multiple"]
+
+        # A sweep that measured nothing must not erase what the last one found.
+        # measure_attention omits tickers it could not reach rather than zeroing
+        # them, so a row with no `v` here means "we failed to look", never "no
+        # coverage" — and the archive's last reading is a better answer than the
+        # field vanishing from the snapshot.
+        #
+        # This is not hypothetical. On 2026-09-26 GitHub started the post-close
+        # cron 2h24m late, after the sweep had already run on time; the second
+        # sweep came back empty, published a snapshot with no coverage on any of
+        # 503 rows, and — being the last publish before the weekend — left the
+        # site that way for two days.
+        _carry_forward_attention(snapshot_rows, result["as_of"])
     else:
         # Carry forward the last sweep's figures rather than dropping them —
         # coverage moves slowly enough that yesterday's reading beats none, and
@@ -202,7 +215,16 @@ def _attach_filings(rows: list[dict], as_of: str | None) -> None:
 
 
 def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
-    """Fill each row's velocity from the most recent archived reading."""
+    """
+    Fill each row's velocity from the most recent archived reading.
+
+    Only rows that have none. A row already carrying `v` was measured by this
+    run, and today's reading always beats the archive's.
+    """
+    missing = [row for row in rows if row.get("v") is None]
+    if not missing:
+        return
+
     try:
         # Only enough history to compute a baseline. This runs hourly and the
         # store is kept forever, so reading every shard would mean parsing
@@ -217,7 +239,8 @@ def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
     if not archive.get("dates"):
         return
 
-    for row in rows:
+    filled = 0
+    for row in missing:
         series = archive["velocity"].get(row["t"]) or []
         latest = next((v for v in reversed(series) if v is not None), None)
         if latest is None:
@@ -226,6 +249,18 @@ def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
         multiple = attention_archive.attention_multiple(archive, row["t"], latest)
         if multiple is not None:
             row["vx"] = multiple
+        filled += 1
+
+    # Said out loud, and at warning level when it is most of the universe. A
+    # fallback that repairs the snapshot silently is a fallback that hides a
+    # sweep which has stopped working.
+    if filled:
+        log = logger.warning if len(missing) > len(rows) * 0.2 else logger.info
+        log(
+            "Carried coverage forward for %d of %d rows that this run did not "
+            "measure.",
+            filled, len(rows),
+        )
 
 
 def _record_attention(rows: list[dict], as_of: str | None) -> dict[str, dict]:
