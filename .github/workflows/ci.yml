@@ -48,6 +48,57 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/backend
 
+  bot:
+    name: Bot
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bot
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: bot/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      # pytest.ini sets `pythonpath = .`, so the modules resolve without help
+      # here — the bot is a flat package, not installed.
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Check the command tree builds without a token
+        # The step that would have caught client methods accidentally nested
+        # inside another function's body: valid Python, imports cleanly, and the
+        # command is simply absent. A live smoke test found that, not the suite —
+        # so the absence of a command is now something CI can see.
+        run: |
+          python - <<'EOF'
+          import main
+
+          names = sorted(command.name for command in main.bot.tree.get_commands())
+          expected = {
+              "filings", "help", "market", "misses",
+              "my", "stats", "stock", "unusual", "watch",
+          }
+          missing = expected - set(names)
+          assert not missing, f"commands missing from the tree: {sorted(missing)}"
+
+          # The backstop is a decorator on a module-level function, which is the
+          # kind of thing a refactor drops without any test noticing.
+          handler = main.bot.tree.on_error.__name__
+          assert handler == "on_command_error", f"error handler is {handler}"
+
+          print(f"{len(names)} commands registered: {names}")
+          EOF
+
   frontend:
     name: Frontend
     runs-on: ubuntu-latest

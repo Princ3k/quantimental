@@ -1,0 +1,12 @@
+# Test-only dependencies.
+#
+#   pip install -r requirements.txt -r requirements-dev.txt
+#
+# Kept out of requirements.txt so the deployed bot does not ship a test runner.
+#
+# Pinned to what the bot's own venv runs rather than to the backend's pins. The
+# two packages are installed separately and never share an interpreter, and CI
+# is only worth having if it runs the same runner the tests were written against.
+
+pytest==9.1.1
+pytest-asyncio==1.4.0
