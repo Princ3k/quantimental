@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-28T20:10:32.049575+00:00",
+  "as_of": "2026-09-28T20:39:59.736674+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-3.5\u03c3",
-      "change_percent": -2.5,
-      "z_score": -3.45,
+      "delta": "-3.4\u03c3",
+      "change_percent": -2.49,
+      "z_score": -3.44,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-3.2\u03c3",
-      "change_percent": -1.46,
-      "z_score": -3.18,
+      "change_percent": -1.45,
+      "z_score": -3.15,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-5.2%",
-      "change_percent": -5.2,
-      "z_score": -1.41,
+      "delta": "-5.3%",
+      "change_percent": -5.32,
+      "z_score": -1.44,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.79,
-      "z_score": 0.9,
+      "change_percent": 0.77,
+      "z_score": 0.88,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "16.2",
-      "change_percent": 8.74,
-      "z_score": 0.57,
+      "delta": "16.1",
+      "change_percent": 8.07,
+      "z_score": 0.52,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.7%",
-      "change_percent": -2.71,
-      "z_score": -0.5,
+      "delta": "-2.6%",
+      "change_percent": -2.63,
+      "z_score": -0.48,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -94,8 +94,8 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 0.45,
-        "z_score": 0.14
+        "change_percent": 0.44,
+        "z_score": 0.13
       },
       {
         "symbol": "XLK",
@@ -108,20 +108,20 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.42,
-        "z_score": -1.56
+        "change_percent": -3.47,
+        "z_score": -1.58
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -3.1,
-        "z_score": -1.52
+        "change_percent": -3.11,
+        "z_score": -1.53
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -3.04,
-        "z_score": -1.69
+        "change_percent": -3.06,
+        "z_score": -1.7
       }
     ],
     "breadth": 20,
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 9,
+    "score": 10,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
@@ -145,7 +145,7 @@
       },
       {
         "name": "Gold",
-        "effect": 8.5,
+        "effect": 8.6,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.4,
+        "effect": -5.3,
         "tone": "risk_off"
       }
     ]
@@ -170,7 +170,7 @@
     43.2,
     56.5,
     52.8,
-    50.5,
+    50.4,
     29.7,
     35.9,
     49.6,
@@ -190,13 +190,13 @@
     43.6,
     16.9,
     27.2,
-    9.2
+    9.8
   ],
   "narrative": {
-    "text": "Long-term rates climbed while corporate debt sold off sharply. Only health care and consumer staples advanced.",
-    "short": "Long-term rates climbed as investors fled risky assets for safety.",
+    "text": "Corporate debt and gold prices fell while the US dollar strengthened. Only two of ten stock sectors advanced.",
+    "short": "Long-term government bond yields climbed sharply as investors fled risky assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-28T20:10:32.632814+00:00"
+  "generated_at": "2026-09-28T20:40:00.238570+00:00"
 }
