@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-28T20:39:59.736674+00:00",
+  "as_of": "2026-09-28T21:10:13.713232+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,9 +42,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-5.3%",
-      "change_percent": -5.32,
-      "z_score": -1.44,
+      "delta": "-5.4%",
+      "change_percent": -5.37,
+      "z_score": -1.46,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.77,
-      "z_score": 0.88,
+      "change_percent": 0.76,
+      "z_score": 0.87,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -76,7 +76,7 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-2.6%",
-      "change_percent": -2.63,
+      "change_percent": -2.6,
       "z_score": -0.48,
       "risk_tone": "neutral",
       "notable": false
@@ -145,7 +145,7 @@
       },
       {
         "name": "Gold",
-        "effect": 8.6,
+        "effect": 8.8,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.3,
+        "effect": -5.2,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     43.6,
     16.9,
     27.2,
-    9.8
+    10.0
   ],
   "narrative": {
-    "text": "Corporate debt and gold prices fell while the US dollar strengthened. Only two of ten stock sectors advanced.",
-    "short": "Long-term government bond yields climbed sharply as investors fled risky assets.",
+    "text": "Long-term government bond yields climbed, and both investment-grade and high-yield credit prices dropped. Only two of ten stock sectors gained value.",
+    "short": "Bond yields rose sharply while credit markets sold off and stocks fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-28T20:40:00.238570+00:00"
+  "generated_at": "2026-09-28T21:10:14.215714+00:00"
 }
