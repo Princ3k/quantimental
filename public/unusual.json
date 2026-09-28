@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-09-28T20:17:44.539704+00:00",
+  "generated_at": "2026-09-28T20:32:12.874327+00:00",
   "as_of": "2026-09-28",
   "scanned": 503,
   "universe": 503,
@@ -67,12 +67,12 @@
     },
     {
       "ticker": "CVNA",
-      "price": 60.5,
-      "change_percent": -7.01,
+      "price": 60.47,
+      "change_percent": -7.06,
       "typical_percent": 4.42,
       "multiple": 1.6,
       "direction": "down",
-      "period_percent": -14.63,
+      "period_percent": -14.67,
       "volume": 15428841,
       "company": "Carvana",
       "sector": "Consumer Discretionary",
