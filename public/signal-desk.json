@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-28T20:06:10.089148+00:00",
+  "as_of": "2026-09-28T20:10:32.049575+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -54,7 +54,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.78,
+      "change_percent": 0.79,
       "z_score": 0.9,
       "risk_tone": "risk_off",
       "notable": true
@@ -64,9 +64,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "16.1",
-      "change_percent": 8.47,
-      "z_score": 0.55,
+      "delta": "16.2",
+      "change_percent": 8.74,
+      "z_score": 0.57,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.9%",
-      "change_percent": -2.92,
-      "z_score": -0.52,
+      "delta": "-2.7%",
+      "change_percent": -2.71,
+      "z_score": -0.5,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -190,13 +190,13 @@
     43.6,
     16.9,
     27.2,
-    9.3
+    9.2
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices fell while long-term government bond yields rose. Only two of ten sectors advanced, with utilities and communications leading losses.",
-    "short": "Long-term government bond yields climbed sharply as credit markets sold off.",
+    "text": "Long-term rates climbed while corporate debt sold off sharply. Only health care and consumer staples advanced.",
+    "short": "Long-term rates climbed as investors fled risky assets for safety.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-28T20:06:10.603705+00:00"
+  "generated_at": "2026-09-28T20:10:32.632814+00:00"
 }
