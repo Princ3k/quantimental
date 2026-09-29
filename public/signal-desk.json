@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-off reading in 13 days of records.",
-  "as_of": "2026-09-29T21:40:29.949253+00:00",
+  "as_of": "2026-09-29T22:35:25.255531+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,7 +43,7 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.7%",
-      "change_percent": -3.69,
+      "change_percent": -3.7,
       "z_score": -1.02,
       "risk_tone": "risk_on",
       "notable": true
@@ -53,9 +53,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-6.0%",
-      "change_percent": -5.97,
-      "z_score": -0.91,
+      "delta": "-6.2%",
+      "change_percent": -6.24,
+      "z_score": -0.95,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -65,8 +65,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.78,
-      "z_score": 0.9,
+      "change_percent": 0.77,
+      "z_score": 0.88,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.4,
+        "effect": -5.3,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     17.6,
     27.8,
     9.5,
-    2.8
+    2.9
   ],
   "narrative": {
-    "text": "Long-term rates climbed while high-yield credit and investment-grade debt sold off. Only one of ten stock sectors advanced, with Materials and Consumer Discretionary falling 2.8%.",
-    "short": "Long-term rates climbed while high-yield credit and investment-grade debt sold off.",
+    "text": "Long-term government bond yields rose significantly, and both high-yield and investment-grade credit prices dropped. Only health care stocks advanced, while materials and consumer discretionary sectors fell.",
+    "short": "Bond yields climbed while credit markets and oil prices fell sharply.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-29T21:40:31.075766+00:00"
+  "generated_at": "2026-09-29T22:35:25.828410+00:00"
 }
