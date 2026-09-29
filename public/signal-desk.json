@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-off reading in 13 days of records.",
-  "as_of": "2026-09-29T20:39:33.743268+00:00",
+  "as_of": "2026-09-29T21:10:05.340602+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,10 +42,21 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.8%",
-      "change_percent": -3.83,
-      "z_score": -1.06,
+      "delta": "-3.7%",
+      "change_percent": -3.69,
+      "z_score": -1.03,
       "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude sliding",
+      "direction": "down",
+      "delta": "-6.0%",
+      "change_percent": -5.97,
+      "z_score": -0.91,
+      "risk_tone": "neutral",
       "notable": true
     },
     {
@@ -54,20 +65,9 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.83,
-      "z_score": 0.96,
+      "change_percent": 0.78,
+      "z_score": 0.89,
       "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude sliding",
-      "direction": "down",
-      "delta": "-5.9%",
-      "change_percent": -5.94,
-      "z_score": -0.91,
-      "risk_tone": "neutral",
       "notable": true
     },
     {
@@ -150,12 +150,12 @@
       },
       {
         "name": "Gold",
-        "effect": 6.4,
+        "effect": 6.2,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -5.8,
+        "effect": -5.3,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     17.6,
     27.8,
     4.1,
-    2.7
+    2.9
   ],
   "narrative": {
-    "text": "Long-term rates rose while high-yield and investment-grade credit fell. Only one of ten stock sectors advanced.",
-    "short": "Long-term rates climbed and credit markets sold off sharply.",
+    "text": "High-yield and investment-grade credit fell significantly while long-term government bond yields rose. Only one of ten stock sectors advanced during this period.",
+    "short": "Credit markets sold off sharply as long-term government bond yields climbed.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-29T20:39:34.226441+00:00"
+  "generated_at": "2026-09-29T21:10:05.826286+00:00"
 }
