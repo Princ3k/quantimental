@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-off reading in 13 days of records.",
-  "as_of": "2026-09-29T17:39:13.912444+00:00",
+  "as_of": "2026-09-29T18:10:03.264565+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-3.9\u03c3",
-      "change_percent": -1.86,
-      "z_score": -3.9,
+      "delta": "-3.8\u03c3",
+      "change_percent": -1.81,
+      "z_score": -3.8,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-3.8\u03c3",
-      "change_percent": -2.83,
-      "z_score": -3.79,
+      "delta": "-3.7\u03c3",
+      "change_percent": -2.79,
+      "z_score": -3.74,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Long-term rates climbing",
       "direction": "up",
       "delta": "+3.1\u03c3",
-      "change_percent": 6.46,
-      "z_score": 3.14,
+      "change_percent": 6.38,
+      "z_score": 3.1,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-4.5%",
-      "change_percent": -4.52,
-      "z_score": -1.24,
+      "change_percent": -4.47,
+      "z_score": -1.23,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "16.4",
-      "change_percent": 15.27,
-      "z_score": 1.03,
+      "delta": "16.3",
+      "change_percent": 14.99,
+      "z_score": 1.01,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -75,11 +75,11 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.5%",
-      "change_percent": -4.51,
-      "z_score": -0.72,
+      "delta": "-4.8%",
+      "change_percent": -4.81,
+      "z_score": -0.76,
       "risk_tone": "neutral",
-      "notable": false
+      "notable": true
     }
   ],
   "sectors": {
@@ -88,40 +88,40 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.05,
-        "z_score": -0.18
+        "change_percent": 0.12,
+        "z_score": -0.15
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -0.32,
-        "z_score": -0.36
+        "change_percent": -0.38,
+        "z_score": -0.38
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.88,
+        "change_percent": -0.89,
         "z_score": -0.54
       }
     ],
     "laggards": [
       {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": -3.06,
-        "z_score": -1.16
-      },
-      {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": -2.96,
-        "z_score": -1.33
+        "change_percent": -3.04,
+        "z_score": -1.37
+      },
+      {
+        "symbol": "XLY",
+        "name": "Consumer Discretionary",
+        "change_percent": -2.9,
+        "z_score": -1.1
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -2.59,
-        "z_score": -1.16
+        "change_percent": -2.38,
+        "z_score": -1.06
       }
     ],
     "breadth": 10,
@@ -177,26 +177,26 @@
     53.6,
     59.9,
     45.9,
-    17.2,
-    26.3,
-    22.8,
+    17.1,
+    26.2,
+    22.7,
     19.5,
     17.7,
-    52.1,
+    52.2,
     40.3,
     52.2,
     58.9,
     44.1,
-    17.8,
+    17.7,
     27.9,
     4.2,
     0.4
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit both fell over 2%, and long-term government bond yields rose. Consumer spending and materials stocks were the weakest sectors.",
-    "short": "Credit markets sold off sharply while long-term government bond yields climbed.",
+    "text": "Long-term rates climbed sharply while high-yield and investment-grade credit sold off. Only one of ten sectors advanced, with materials and consumer discretionary leading losses.",
+    "short": "Long-term rates climbed sharply as credit markets sold off.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-29T17:39:14.421974+00:00"
+  "generated_at": "2026-09-29T18:10:03.939642+00:00"
 }
