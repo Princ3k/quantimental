@@ -1,31 +1,9 @@
 {
   "available": true,
   "context": null,
-  "as_of": "2026-09-28T21:37:58.191194+00:00",
+  "as_of": "2026-09-29T00:21:24.599880+00:00",
   "lookback_days": 5,
   "signals": [
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit softening",
-      "direction": "down",
-      "delta": "-3.4\u03c3",
-      "change_percent": -2.49,
-      "z_score": -3.44,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-3.2\u03c3",
-      "change_percent": -1.45,
-      "z_score": -3.15,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
     {
       "category": "RATES",
       "name": "10-year Treasury yield",
@@ -38,13 +16,35 @@
       "notable": true
     },
     {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit softening",
+      "direction": "down",
+      "delta": "-2.5\u03c3",
+      "change_percent": -1.79,
+      "z_score": -2.48,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-2.3\u03c3",
+      "change_percent": -1.04,
+      "z_score": -2.32,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
       "category": "COMMODITIES",
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-5.4%",
-      "change_percent": -5.37,
-      "z_score": -1.46,
+      "delta": "-5.3%",
+      "change_percent": -5.26,
+      "z_score": -1.43,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.77,
-      "z_score": 0.88,
+      "change_percent": 0.81,
+      "z_score": 0.93,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.6%",
-      "change_percent": -2.6,
-      "z_score": -0.48,
+      "delta": "-2.4%",
+      "change_percent": -2.39,
+      "z_score": -0.45,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,115 +88,115 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.33,
-        "z_score": 0.42
-      },
-      {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 0.44,
-        "z_score": 0.13
+        "change_percent": 1.0,
+        "z_score": 0.27
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.16,
-        "z_score": -0.24
+        "change_percent": 0.73,
+        "z_score": -0.0
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": 0.26,
+        "z_score": 0.01
       }
     ],
     "laggards": [
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": -3.47,
-        "z_score": -1.58
-      },
-      {
-        "symbol": "XLC",
-        "name": "Communications",
-        "change_percent": -3.11,
-        "z_score": -1.53
+        "change_percent": -2.83,
+        "z_score": -1.28
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -3.06,
-        "z_score": -1.7
+        "change_percent": -1.9,
+        "z_score": -1.08
+      },
+      {
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -1.56,
+        "z_score": -0.76
       }
     ],
-    "breadth": 20,
-    "advancing": 2,
+    "breadth": 50,
+    "advancing": 5,
     "total": 10
   },
   "composite": {
-    "score": 10,
+    "score": 19,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
-      {
-        "name": "Credit complex",
-        "effect": -18.0,
-        "tone": "risk_off"
-      },
       {
         "name": "10-year Treasury yield",
         "effect": -16.4,
         "tone": "risk_off"
       },
       {
-        "name": "Gold",
-        "effect": 8.8,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Sector breadth",
-        "effect": -6.0,
+        "name": "Credit complex",
+        "effect": -14.4,
         "tone": "risk_off"
       },
       {
+        "name": "Gold",
+        "effect": 8.6,
+        "tone": "risk_on"
+      },
+      {
         "name": "US dollar index",
-        "effect": -5.3,
+        "effect": -5.6,
+        "tone": "risk_off"
+      },
+      {
+        "name": "Volatility index",
+        "effect": -3.1,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
-    51.3,
+    51.2,
     64.6,
-    39.9,
     39.8,
+    39.7,
     56.0,
     63.6,
     43.2,
     56.5,
-    52.8,
+    52.9,
     50.4,
-    29.7,
-    35.9,
-    49.6,
-    49.2,
-    53.3,
+    29.6,
+    35.8,
+    49.5,
+    49.1,
+    53.2,
     59.7,
-    45.7,
-    16.5,
-    25.6,
-    22.1,
-    18.8,
-    17.1,
+    45.6,
+    16.4,
+    25.5,
+    21.9,
+    18.6,
+    17.0,
     52.1,
     40.1,
     52.2,
-    58.9,
-    43.6,
-    16.9,
-    27.2,
-    9.9
+    59.0,
+    43.5,
+    16.7,
+    27.0,
+    19.1
   ],
   "narrative": {
-    "text": "Long-term government bond yields climbed while investment-grade and high-yield credit prices fell. Only two of ten stock sectors gained ground.",
-    "short": "Bond yields rose and credit markets sold off as risk appetite hit a low.",
+    "text": "Long-term government bond yields rose significantly, causing investment-grade and high-yield credit to fall. Health Care and Technology were the strongest sectors, while Utilities and Financials lagged.",
+    "short": "Long-term government bond yields climbed sharply while credit markets softened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-28T21:37:58.809884+00:00"
+  "generated_at": "2026-09-29T00:21:25.091880+00:00"
 }
