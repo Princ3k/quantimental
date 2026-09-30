@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-09-30T20:14:34.420887+00:00",
+  "generated_at": "2026-09-30T21:15:52.653021+00:00",
   "as_of": "2026-09-30",
   "scanned": 503,
   "universe": 503,
@@ -10,47 +10,47 @@
   "movers": [
     {
       "ticker": "JBL",
-      "price": 286.84,
-      "change_percent": -10.04,
+      "price": 286.86,
+      "change_percent": -10.03,
       "typical_percent": 3.87,
       "multiple": 2.6,
       "direction": "down",
-      "period_percent": -3.5,
-      "volume": 4493653,
+      "period_percent": -3.49,
+      "volume": 4917854,
       "company": "Jabil",
       "sector": "Information Technology",
       "headline": "Jabil is down 10.0% today, 2.6x its typical 3.9% daily move.",
-      "context": "The market fell 0.8% today and Information Technology was flat, so most of this was specific to Jabil."
+      "context": "The market fell 0.9% today and Information Technology was flat, so most of this was specific to Jabil."
     },
     {
       "ticker": "ITW",
-      "price": 257.43,
-      "change_percent": -3.61,
+      "price": 257.28,
+      "change_percent": -3.67,
       "typical_percent": 1.73,
       "multiple": 2.1,
       "direction": "down",
-      "period_percent": -3.7,
-      "volume": 1579733,
+      "period_percent": -3.76,
+      "volume": 2215101,
       "company": "Illinois Tool Works",
       "sector": "Industrials",
-      "headline": "Illinois Tool Works is down 3.6% today, 2.1x its typical 1.7% daily move.",
-      "context": "The market fell 0.8% today and Industrials fell 1.1%, so most of this was specific to Illinois Tool Works."
+      "headline": "Illinois Tool Works is down 3.7% today, 2.1x its typical 1.7% daily move.",
+      "context": "The market fell 0.9% today and Industrials fell 1.1%, so most of this was specific to Illinois Tool Works."
     }
   ],
   "biggest": [
     {
       "ticker": "JBL",
-      "price": 286.84,
-      "change_percent": -10.04,
+      "price": 286.86,
+      "change_percent": -10.03,
       "typical_percent": 3.87,
       "multiple": 2.6,
       "direction": "down",
-      "period_percent": -3.5,
-      "volume": 4493653,
+      "period_percent": -3.49,
+      "volume": 4917854,
       "company": "Jabil",
       "sector": "Information Technology",
       "headline": "Jabil is down 10.0% today, 2.6x its typical 3.9% daily move.",
-      "context": "The market fell 0.8% today and Information Technology was flat, so most of this was specific to Jabil."
+      "context": "The market fell 0.9% today and Information Technology was flat, so most of this was specific to Jabil."
     },
     {
       "ticker": "GEN",
@@ -60,10 +60,10 @@
       "multiple": 0.9,
       "direction": "up",
       "period_percent": -28.16,
-      "volume": 18938422,
+      "volume": 19356475,
       "company": "Gen Digital",
       "sector": "Information Technology",
-      "context": "The market fell 0.8% today and Information Technology was flat, so most of this was specific to Gen Digital."
+      "context": "The market fell 0.9% today and Information Technology was flat, so most of this was specific to Gen Digital."
     },
     {
       "ticker": "MRNA",
@@ -73,23 +73,23 @@
       "multiple": 0.9,
       "direction": "down",
       "period_percent": 32.24,
-      "volume": 19676991,
+      "volume": 20584644,
       "company": "Moderna",
       "sector": "Health Care",
-      "context": "The market fell 0.8% today and Health Care fell 1.0%, so most of this was specific to Moderna."
+      "context": "The market fell 0.9% today and Health Care fell 1.0%, so most of this was specific to Moderna."
     },
     {
       "ticker": "CBOE",
-      "price": 275.06,
-      "change_percent": 5.09,
+      "price": 275.29,
+      "change_percent": 5.17,
       "typical_percent": 3.95,
       "multiple": 1.3,
       "direction": "up",
-      "period_percent": 1.71,
-      "volume": 1960089,
+      "period_percent": 1.8,
+      "volume": 2285262,
       "company": "Cboe Global Markets",
       "sector": "Financials",
-      "context": "The market fell 0.8% today and Financials fell 1.0% \u2014 so Cboe Global Markets moved against its sector."
+      "context": "The market fell 0.9% today and Financials fell 1.0% \u2014 so Cboe Global Markets moved against its sector."
     },
     {
       "ticker": "APP",
@@ -99,23 +99,23 @@
       "multiple": 1.0,
       "direction": "down",
       "period_percent": -11.06,
-      "volume": 6101960,
+      "volume": 6352688,
       "company": "AppLovin",
       "sector": "Communication Services",
-      "context": "The market fell 0.8% today and Communication Services was flat, so most of this was specific to AppLovin."
+      "context": "The market fell 0.9% today and Communication Services was flat, so most of this was specific to AppLovin."
     },
     {
       "ticker": "GIS",
       "price": 32.16,
-      "change_percent": -4.9,
+      "change_percent": -4.91,
       "typical_percent": 2.99,
       "multiple": 1.6,
       "direction": "down",
-      "period_percent": -12.62,
-      "volume": 10091805,
+      "period_percent": -12.63,
+      "volume": 12271398,
       "company": "General Mills",
       "sector": "Consumer Staples",
-      "context": "The market fell 0.8% today and Consumer Staples fell 1.4%, so most of this was specific to General Mills."
+      "context": "The market fell 0.9% today and Consumer Staples fell 1.4%, so most of this was specific to General Mills."
     },
     {
       "ticker": "SNPS",
@@ -125,10 +125,10 @@
       "multiple": 1.5,
       "direction": "up",
       "period_percent": 14.92,
-      "volume": 4359710,
+      "volume": 4458179,
       "company": "Synopsys",
       "sector": "Information Technology",
-      "context": "The market fell 0.8% today and Information Technology was flat, so most of this was specific to Synopsys."
+      "context": "The market fell 0.9% today and Information Technology was flat, so most of this was specific to Synopsys."
     },
     {
       "ticker": "GM",
@@ -138,10 +138,10 @@
       "multiple": 1.3,
       "direction": "down",
       "period_percent": -8.65,
-      "volume": 7488678,
+      "volume": 9764091,
       "company": "General Motors",
       "sector": "Consumer Discretionary",
-      "context": "The market fell 0.8% today and Consumer Discretionary fell 1.0%, so most of this was specific to General Motors."
+      "context": "The market fell 0.9% today and Consumer Discretionary fell 0.9%, so most of this was specific to General Motors."
     }
   ],
   "threshold": {
