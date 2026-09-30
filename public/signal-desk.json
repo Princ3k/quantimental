@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-09-30T21:39:08.899426+00:00",
+  "as_of": "2026-09-30T22:34:33.728682+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,9 +42,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.0%",
-      "change_percent": -2.99,
-      "z_score": -0.83,
+      "delta": "-3.1%",
+      "change_percent": -3.07,
+      "z_score": -0.85,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.0%",
-      "change_percent": -1.97,
-      "z_score": -0.4,
+      "delta": "-2.2%",
+      "change_percent": -2.16,
+      "z_score": -0.42,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.35,
-      "z_score": 0.35,
+      "delta": "+0.4%",
+      "change_percent": 0.36,
+      "z_score": 0.36,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -150,7 +150,7 @@
       },
       {
         "name": "Gold",
-        "effect": 5.0,
+        "effect": 5.1,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     28.0,
     9.6,
     4.3,
-    18.9
+    19.0
   ],
   "narrative": {
-    "text": "Long-term government bond yields climbed while corporate debt prices fell. Only one of ten stock sectors gained value this week.",
-    "short": "Bond yields rose and credit markets sold off as investors turned cautious.",
+    "text": "Long-term government bond yields rose and both high-yield and investment-grade credit prices fell. Only one of ten stock sectors advanced.",
+    "short": "Bond yields climbed while corporate debt sold off sharply.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-09-30T21:39:09.486232+00:00"
+  "generated_at": "2026-09-30T22:34:34.309976+00:00"
 }
