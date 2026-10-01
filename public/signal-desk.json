@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-01T21:10:10.489032+00:00",
+  "as_of": "2026-10-01T21:40:42.117511+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -32,8 +32,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.7%",
-      "change_percent": 0.73,
-      "z_score": 0.83,
+      "change_percent": 0.7,
+      "z_score": 0.8,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -140,7 +140,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.0,
+        "effect": -4.8,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     9.7,
     4.3,
     19.2,
-    28.0
+    28.3
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit both declined while long-term government bond yields climbed. Technology and utilities were the only sectors to gain ground.",
-    "short": "Risk assets fell sharply as borrowing costs rose and the dollar strengthened.",
+    "text": "High-yield and investment-grade debt fell while the dollar and long-term rates climbed. Technology and utilities were the only sectors to gain ground.",
+    "short": "Risk assets declined as government bond yields rose and the dollar strengthened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-01T21:10:11.184248+00:00"
+  "generated_at": "2026-10-01T21:40:42.623445+00:00"
 }
