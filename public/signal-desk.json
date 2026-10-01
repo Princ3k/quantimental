@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-01T20:41:00.542264+00:00",
+  "as_of": "2026-10-01T21:10:10.489032+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -32,8 +32,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.7%",
-      "change_percent": 0.72,
-      "z_score": 0.81,
+      "change_percent": 0.73,
+      "z_score": 0.83,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-2.1%",
-      "change_percent": -2.14,
-      "z_score": -0.61,
+      "change_percent": -2.1,
+      "z_score": -0.6,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -140,7 +140,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -4.9,
+        "effect": -5.0,
         "tone": "risk_off"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "Gold",
-        "effect": 3.7,
+        "effect": 3.6,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     9.7,
     4.3,
     19.2,
-    28.2
+    28.0
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit fell while the dollar strengthened. Technology and utilities were the only sectors to gain ground.",
-    "short": "Risk-off sentiment drove credit down and the dollar up.",
+    "text": "High-yield and investment-grade credit both declined while long-term government bond yields climbed. Technology and utilities were the only sectors to gain ground.",
+    "short": "Risk assets fell sharply as borrowing costs rose and the dollar strengthened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-01T20:41:01.031843+00:00"
+  "generated_at": "2026-10-01T21:10:11.184248+00:00"
 }
