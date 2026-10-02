@@ -93,7 +93,9 @@ def main() -> int:
     # The workflow asks for a sweep on the post-close run. Whether one is
     # *needed* is a question about what the archive already holds, not about
     # which trigger fired — see _already_swept.
-    sweep = with_attention and not _already_swept(result["as_of"], len(snapshot_rows))
+    sweep = with_attention and not _already_swept(
+        result["as_of"], len(snapshot_rows), _last_measured()
+    )
 
     if sweep:
         attention = _record_attention(snapshot_rows, result["as_of"])
@@ -138,6 +140,11 @@ def main() -> int:
     if with_filings:
         _attach_filings(snapshot_rows, result["as_of"])
 
+    # Read again rather than reusing the figure the guard was given: a sweep
+    # that just ran has changed the answer, and publishing the pre-sweep count
+    # would report every successful sweep as the shortfall it just fixed.
+    measured = _last_measured()
+
     snapshot_path = output.parent / "snapshot.json"
     snapshot_path.write_text(json.dumps({
         "as_of": result["as_of"],
@@ -149,6 +156,20 @@ def main() -> int:
         # say, and publishing a count gives away nothing the archive protects.
         "archive_days": archive_days,
         "archive_days_needed": attention_archive.MIN_HISTORY_FOR_BASELINE,
+        # How much of a session the sweep actually reached, and which session
+        # that was. A row's `v` cannot answer this: since coverage carries
+        # forward, a reading may be this run's measurement or the archive's last
+        # good one, and the row looks the same either way. So a sweep reaching
+        # 300 of 503 publishes a snapshot indistinguishable from one reaching
+        # all 503 — which is how that went unnoticed until the sweep guard's
+        # behaviour gave it away.
+        #
+        # Expect this to name the previous session for most of a trading day.
+        # The sweep runs after the close, so until it does, the newest session
+        # the archive can speak for is yesterday's. That is the normal state,
+        # not a fault, which is why the date travels with the count.
+        "coverage_measured": measured[1] if measured else None,
+        "coverage_measured_on": measured[0] if measured else None,
         # Short keys keep this small; this block is the schema.
         "fields": {
             "t": "ticker", "n": "company name", "s": "sector",
@@ -276,7 +297,49 @@ def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
         )
 
 
-def _already_swept(as_of: str | None, universe: int) -> bool:
+def _last_measured() -> tuple[str, int] | None:
+    """
+    The most recent session the archive holds readings for, and how many.
+
+    One question with two callers: the sweep guard asks it to decide whether
+    this session still needs measuring, and the snapshot publishes the answer so
+    the figure is visible without reading a deploy log.
+
+    That second caller is the point. Since coverage carries forward, a row's `v`
+    may be this run's measurement or the archive's last good reading, and
+    nothing on the row tells them apart — so a sweep reaching only part of the
+    universe looks identical to one that reached all of it. Four nights of real
+    data say that is happening on about half of them, and the only reason the
+    archive fills up anyway is that GitHub runs the post-close cron late enough
+    for the guard to order a second sweep. Nobody chose that as a dependency.
+    """
+    try:
+        # One day is all this asks about, and `load` truncates each series to
+        # the same window — so a ticker measured earlier today ends in its
+        # reading, and one that was missed ends in None.
+        # One day is all this asks about, and `load` truncates each series to
+        # the same window — so a ticker measured on that day ends in its
+        # reading, and one that was missed ends in None.
+        archive = attention_archive.load(window=1)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Could not read the attention archive: %s", exc)
+        return None
+
+    dates = archive.get("dates") or []
+    if not dates:
+        return None
+
+    measured = sum(
+        1
+        for series in archive["velocity"].values()
+        if series and series[-1] is not None
+    )
+    return dates[-1], measured
+
+
+def _already_swept(
+    as_of: str | None, universe: int, last: tuple[str, int] | None
+) -> bool:
     """
     Whether the archive already holds a complete reading for this session.
 
@@ -292,27 +355,12 @@ def _already_swept(as_of: str | None, universe: int) -> bool:
     precisely the case where measuring again is worth the budget, so the bar is
     the same fraction attention_service uses to call a sweep short.
     """
-    if not as_of:
+    if not as_of or last is None:
         return False
 
-    try:
-        # One day is all this asks about, and `load` truncates each series to
-        # the same window — so a ticker measured earlier today ends in its
-        # reading, and one that was missed ends in None.
-        archive = attention_archive.load(window=1)
-    except Exception as exc:  # noqa: BLE001
-        logger.warning("Could not read the attention archive: %s", exc)
+    measured_on, measured = last
+    if measured_on != as_of:
         return False
-
-    dates = archive.get("dates") or []
-    if not dates or dates[-1] != as_of:
-        return False
-
-    measured = sum(
-        1
-        for series in archive["velocity"].values()
-        if series and series[-1] is not None
-    )
 
     if measured < universe * SWEEP_COMPLETE_FRACTION:
         logger.info(

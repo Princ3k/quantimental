@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { SiteHeader } from '@/components/site-header'
 import {
   SCHEDULES,
+  SWEEP_COMPLETE_FRACTION,
   describeAge,
   getOps,
   minutesSince,
@@ -110,6 +111,33 @@ export default async function OpsPage() {
                   {snapshot.withCoverage} / {snapshot.count}
                 </Status>
               </Row>
+              {/* The row above counts readings the snapshot carries; this one
+                  counts readings a sweep actually took. They differ because
+                  coverage carries forward, and the gap between them is the only
+                  visible sign of a sweep that is reaching part of the universe.
+                  The date is shown only when it is not the published session —
+                  for most of a trading day the newest measured session is
+                  yesterday's, because the sweep runs after the close, and a row
+                  that looked wrong every morning would be a row nobody reads. */}
+              {snapshot.coverageMeasured !== null && (
+                <Row label="Measured by a sweep">
+                  <Status
+                    ok={
+                      snapshot.coverageMeasured >=
+                      snapshot.count * SWEEP_COMPLETE_FRACTION
+                    }
+                  >
+                    {snapshot.coverageMeasured} / {snapshot.count}
+                    {snapshot.coverageMeasuredOn &&
+                      snapshot.coverageMeasuredOn !== snapshot.as_of && (
+                        <span className="text-ink-3">
+                          {' '}
+                          · {sessionLabel(snapshot.coverageMeasuredOn)}
+                        </span>
+                      )}
+                  </Status>
+                </Row>
+              )}
               <Row label="8-K filings attached">{snapshot.withFilings}</Row>
             </>
           ) : (

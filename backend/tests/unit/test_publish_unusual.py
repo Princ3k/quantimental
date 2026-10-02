@@ -210,3 +210,62 @@ class TestTheSessionIsSweptOnce:
         _, _, swept = published(measured={}, archive=NOT_YET_SWEPT, flags=())
 
         assert swept == []
+
+
+class TestTheMeasuredCountIsPublished:
+    """
+    The snapshot has to say how much of a session a sweep actually reached.
+
+    Without it the two cases are indistinguishable from outside: a sweep that
+    measured all 503 and a sweep that measured 300 both publish a snapshot with
+    `v` on ~503 rows, because the carry-forward fills the rest from the archive.
+    That is the whole reason a half-reaching sweep went unnoticed.
+    """
+
+    def test_a_complete_sweep_publishes_its_count_and_session(self, published):
+        snapshot, _, _ = published(
+            measured={
+                "AAPL": _reading(20.0),
+                "MSFT": _reading(30.0),
+                "ZZZ": _reading(40.0),
+            },
+            archive=ALREADY_SWEPT,
+        )
+
+        assert snapshot["coverage_measured"] == 3
+        assert snapshot["coverage_measured_on"] == AS_OF
+
+    def test_a_partial_session_publishes_the_smaller_count(self, published):
+        # SWEPT_PARTIALLY holds AS_OF with one of three tickers measured. The
+        # count has to show 1, not the 3 that `v` will report once the
+        # carry-forward has done its work.
+        snapshot, rows, _ = published(measured={}, archive=SWEPT_PARTIALLY)
+
+        assert snapshot["coverage_measured"] == 1
+        with_v = len([r for r in snapshot["stocks"] if r.get("v") is not None])
+        assert with_v == 3, "carry-forward should still fill the rows"
+
+    def test_the_two_counts_disagree_and_that_is_the_point(self, published):
+        # Stated as its own test because the gap between them is the signal.
+        snapshot, _, _ = published(measured={}, archive=SWEPT_PARTIALLY)
+
+        assert snapshot["coverage_measured"] == 1
+        assert snapshot["count"] == 3
+
+    def test_an_unmeasured_session_names_the_one_it_can_speak_for(self, published):
+        # For most of a trading day the sweep has not run, so the newest measured
+        # session is the previous one. Reporting the date alongside the count is
+        # what stops the page reading that normal state as a fault.
+        snapshot, _, _ = published(measured={}, archive=NOT_YET_SWEPT)
+
+        assert snapshot["as_of"] == AS_OF
+        assert snapshot["coverage_measured_on"] == "2026-09-24"
+        assert snapshot["coverage_measured"] == 1
+
+    def test_an_unreadable_archive_publishes_nothing_rather_than_zero(self, published):
+        # Zero would read as "the sweep measured nothing", which is a different
+        # and much louder claim than "we could not find out".
+        snapshot, _, _ = published(measured={}, archive={"dates": [], "velocity": {}})
+
+        assert snapshot["coverage_measured"] is None
+        assert snapshot["coverage_measured_on"] is None

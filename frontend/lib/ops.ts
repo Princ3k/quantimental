@@ -95,6 +95,8 @@ export interface Ops {
     withFilings: number
     archiveDays: number | null
     archiveNeeded: number | null
+    coverageMeasured: number | null
+    coverageMeasuredOn: string | null
   } | null
   health: {
     status: string
@@ -114,6 +116,17 @@ async function grab<T>(url: string, revalidate: number): Promise<T | null> {
     return null
   }
 }
+
+/**
+ * The share of the universe a sweep has to reach before it counts as complete.
+ *
+ * Mirrors SWEEP_COMPLETE_FRACTION in the backend's attention_service, which is
+ * the figure the sweep guard uses to decide a session still needs measuring.
+ * The two are read in different languages from different processes, so they
+ * cannot share a constant — but they have to agree, or this page calls a sweep
+ * short that the scan considers finished.
+ */
+export const SWEEP_COMPLETE_FRACTION = 0.8
 
 export async function getOps(): Promise<Ops> {
   const [snap, health, runs] = await Promise.all([
@@ -136,6 +149,8 @@ export async function getOps(): Promise<Ops> {
           withFilings: stocks.filter((s) => s.f !== undefined).length,
           archiveDays: (snap.archive_days as number) ?? null,
           archiveNeeded: (snap.archive_days_needed as number) ?? null,
+          coverageMeasured: (snap.coverage_measured as number) ?? null,
+          coverageMeasuredOn: (snap.coverage_measured_on as string) ?? null,
         }
       : null,
     health: health
