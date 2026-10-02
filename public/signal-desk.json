@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-02T20:38:35.500625+00:00",
+  "as_of": "2026-10-02T21:09:55.244958+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -32,8 +32,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.9%",
-      "change_percent": 0.93,
-      "z_score": 1.09,
+      "change_percent": 0.95,
+      "z_score": 1.1,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.0%",
-      "change_percent": -1.04,
-      "z_score": -0.27,
+      "delta": "-1.2%",
+      "change_percent": -1.24,
+      "z_score": -0.3,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -140,7 +140,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -6.5,
+        "effect": -6.6,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     4.2,
     19.1,
     32.1,
-    31.9
+    31.8
   ],
   "narrative": {
-    "text": "Long-term government bond yields climbed while high-yield and investment-grade credit fell. Technology and energy were the only sectors to gain ground.",
-    "short": "Bond yields rose and credit markets weakened as investors shunned risk.",
+    "text": "High-yield credit dropped 0.8% and the dollar gained 0.9%. Technology and energy were the only sectors to advance.",
+    "short": "Bond yields rose and risky assets fell as investors moved to safety.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-02T20:38:36.079953+00:00"
+  "generated_at": "2026-10-02T21:09:55.970475+00:00"
 }
