@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-02T21:41:54.041916+00:00",
+  "as_of": "2026-10-02T22:31:45.771409+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     31.8
   ],
   "narrative": {
-    "text": "Long-term government bond yields rose while high-yield and investment-grade credit prices fell. Technology and energy stocks gained, but health care and financials lagged.",
-    "short": "Bond yields climbed and credit markets sold off as investors shied away from risk.",
+    "text": "Long-term rates climbed while high-yield and investment-grade credit fell. Technology and energy were the only strong sectors, while health care and financials lagged.",
+    "short": "Long-term rates climbed and credit markets sold off as risk appetite fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-02T21:41:54.608104+00:00"
+  "generated_at": "2026-10-02T22:31:46.896756+00:00"
 }
