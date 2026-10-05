@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-05T21:15:21.178216+00:00",
+  "as_of": "2026-10-05T21:41:55.601665+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     44.6
   ],
   "narrative": {
-    "text": "Technology and Energy stocks led gains while the US dollar strengthened. Health Care and Consumer Staples lagged.",
-    "short": "Technology and Energy stocks led gains as the US dollar strengthened.",
+    "text": "Technology and energy stocks rose while health care and consumer staples declined. The US dollar gained value and crude oil prices dropped over the last five days.",
+    "short": "Tech and energy led gains as the dollar strengthened and oil prices fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-05T21:15:21.663224+00:00"
+  "generated_at": "2026-10-05T21:41:56.102973+00:00"
 }
