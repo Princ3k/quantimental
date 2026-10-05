@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-05T20:43:41.498955+00:00",
+  "as_of": "2026-10-05T21:15:21.178216+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.9%",
-      "change_percent": 0.94,
-      "z_score": 1.12,
+      "change_percent": 0.91,
+      "z_score": 1.08,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.7%",
-      "change_percent": -3.68,
-      "z_score": -0.61,
+      "delta": "-3.6%",
+      "change_percent": -3.56,
+      "z_score": -0.6,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,7 +76,7 @@
       "text": "Gold little changed",
       "direction": "flat",
       "delta": "-0.0%",
-      "change_percent": -0.03,
+      "change_percent": -0.02,
       "z_score": -0.05,
       "risk_tone": "neutral",
       "notable": false
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -6.7,
+        "effect": -6.5,
         "tone": "risk_off"
       },
       {
@@ -167,7 +167,7 @@
     52.7,
     50.5,
     30.2,
-    36.4,
+    36.3,
     49.9,
     49.5,
     53.5,
@@ -185,18 +185,18 @@
     43.9,
     17.6,
     27.8,
-    9.4,
+    9.3,
     4.0,
     18.8,
     31.8,
     31.8,
-    44.4
+    44.6
   ],
   "narrative": {
-    "text": "The dollar strengthened and long-term rates climbed over the last five days. Crude oil prices fell, while technology stocks led sector gains.",
-    "short": "Dollar rose and long-term rates climbed while crude oil fell.",
+    "text": "Technology and Energy stocks led gains while the US dollar strengthened. Health Care and Consumer Staples lagged.",
+    "short": "Technology and Energy stocks led gains as the US dollar strengthened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-05T20:43:42.008937+00:00"
+  "generated_at": "2026-10-05T21:15:21.663224+00:00"
 }
