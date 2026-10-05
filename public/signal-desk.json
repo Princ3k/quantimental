@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-05T17:40:00.569497+00:00",
+  "as_of": "2026-10-05T18:08:45.185023+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.0%",
-      "change_percent": 1.03,
-      "z_score": 1.23,
+      "change_percent": 1.0,
+      "z_score": 1.19,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.49,
-      "z_score": -1.05,
+      "change_percent": -0.46,
+      "z_score": -1.0,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Investment-grade credit softening",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.51,
-      "z_score": -0.59,
+      "change_percent": -0.48,
+      "z_score": -0.55,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.5",
-      "change_percent": -3.48,
-      "z_score": -0.3,
+      "delta": "15.6",
+      "change_percent": -3.24,
+      "z_score": -0.29,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.26,
-      "z_score": -0.11,
+      "delta": "-0.1%",
+      "change_percent": -0.13,
+      "z_score": -0.07,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.1,
-        "z_score": 0.65
+        "change_percent": 3.16,
+        "z_score": 0.66
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 2.28,
-        "z_score": 0.48
+        "change_percent": 2.54,
+        "z_score": 0.57
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 2.13,
-        "z_score": 1.11
+        "change_percent": 2.03,
+        "z_score": 1.06
       }
     ],
     "laggards": [
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": -2.45,
-        "z_score": -1.33
+        "change_percent": -2.47,
+        "z_score": -1.34
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -1.78,
-        "z_score": -0.97
+        "change_percent": -1.66,
+        "z_score": -0.91
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -0.66,
-        "z_score": -0.39
+        "change_percent": -0.6,
+        "z_score": -0.36
       }
     ],
     "breadth": 70,
@@ -129,18 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 39,
+    "score": 40,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -7.4,
+        "effect": -7.1,
         "tone": "risk_off"
       },
       {
         "name": "Credit complex",
-        "effect": -4.9,
+        "effect": -4.7,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": 1.8,
+        "effect": 1.7,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     18.9,
     31.8,
     31.8,
-    39.5
+    39.7
   ],
   "narrative": {
-    "text": "The dollar and government bond yields climbed, while crude oil and corporate debt prices dropped. Technology and energy were the strongest sectors.",
-    "short": "Dollar and long-term rates rose while oil and credit markets fell.",
+    "text": "The dollar strengthened and long-term rates climbed. High-yield credit and crude oil prices declined. Technology and energy were the strongest sectors.",
+    "short": "Dollar and long-term rates rose while high-yield credit fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-05T17:40:01.106104+00:00"
+  "generated_at": "2026-10-05T18:08:45.662050+00:00"
 }
