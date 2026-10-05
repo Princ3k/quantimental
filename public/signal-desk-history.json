@@ -100,5 +100,11 @@
     "score": 32,
     "label": "Risk-off",
     "tone": "risk_off"
+  },
+  {
+    "date": "2026-10-05",
+    "score": 38,
+    "label": "Mixed",
+    "tone": "neutral"
   }
 ]
