@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-09-22.",
-  "as_of": "2026-10-06T13:09:19.107586+00:00",
+  "as_of": "2026-10-06T13:42:06.774570+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,9 +10,20 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.49,
-      "z_score": 0.55,
+      "change_percent": 0.5,
+      "z_score": 0.56,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit bid \u2014 appetite for risk improving",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.22,
+      "z_score": 0.39,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -20,9 +31,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.5%",
-      "change_percent": -2.54,
-      "z_score": -0.47,
+      "delta": "-1.8%",
+      "change_percent": -1.8,
+      "z_score": -0.37,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -31,21 +42,21 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.3",
-      "change_percent": -4.55,
-      "z_score": -0.38,
+      "delta": "15.4",
+      "change_percent": -3.93,
+      "z_score": -0.34,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit little changed",
-      "direction": "flat",
-      "delta": "-0.0%",
-      "change_percent": -0.05,
-      "z_score": -0.16,
-      "risk_tone": "neutral",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.1%",
+      "change_percent": 0.05,
+      "z_score": 0.18,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -53,20 +64,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates climbing",
       "direction": "up",
-      "delta": "+2bp",
-      "change_percent": 0.34,
-      "z_score": -0.09,
-      "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit softening",
-      "direction": "down",
-      "delta": "-0.1%",
-      "change_percent": -0.14,
-      "z_score": -0.08,
+      "delta": "+3bp",
+      "change_percent": 0.59,
+      "z_score": 0.04,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.45,
-      "z_score": 0.07,
+      "delta": "+0.3%",
+      "change_percent": 0.28,
+      "z_score": 0.03,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,81 +88,81 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.31,
-        "z_score": 0.7
+        "change_percent": 3.99,
+        "z_score": 0.89
+      },
+      {
+        "symbol": "XLU",
+        "name": "Utilities",
+        "change_percent": 2.61,
+        "z_score": 1.33
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 3.1,
-        "z_score": 0.75
-      },
-      {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": 1.16,
-        "z_score": 0.5
+        "change_percent": 2.4,
+        "z_score": 0.52
       }
     ],
     "laggards": [
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": -1.97,
-        "z_score": -1.1
+        "change_percent": -1.31,
+        "z_score": -0.79
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -0.99,
-        "z_score": -0.57
+        "change_percent": -0.62,
+        "z_score": -0.39
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -0.24,
-        "z_score": -0.16
+        "change_percent": 0.09,
+        "z_score": 0.02
       }
     ],
-    "breadth": 70,
-    "advancing": 7,
+    "breadth": 80,
+    "advancing": 8,
     "total": 10
   },
   "composite": {
-    "score": 52,
+    "score": 56,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Sector breadth",
-        "effect": 4.0,
+        "effect": 6.0,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -3.3,
+        "effect": -3.4,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": 2.3,
+        "effect": 2.0,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
+        "effect": 1.7,
         "tone": "risk_on"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": -0.5,
-        "tone": "risk_off"
-      },
-      {
-        "name": "Investment-grade credit",
-        "effect": -0.5,
+        "effect": -0.2,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
     43.1,
-    56.4,
+    56.3,
     52.7,
     50.5,
     30.1,
@@ -190,13 +190,13 @@
     31.8,
     31.8,
     44.6,
-    52.4
+    56.0
   ],
   "narrative": {
-    "text": "Technology and energy stocks rose while health care fell. The US dollar gained and market volatility declined over the last five trading days.",
-    "short": "Tech and energy led gains as the dollar strengthened and volatility eased.",
+    "text": "Technology and utilities outperformed while health care lagged. The US dollar rose and crude oil declined over the last five days.",
+    "short": "Tech stocks led gains as the dollar strengthened and oil prices fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-06T13:09:19.755306+00:00"
+  "generated_at": "2026-10-06T13:42:07.680099+00:00"
 }
