@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-09-22.",
-  "as_of": "2026-10-06T20:41:56.856552+00:00",
+  "as_of": "2026-10-06T21:09:45.319912+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -16,17 +16,6 @@
       "notable": false
     },
     {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.47,
-      "z_score": 0.52,
-      "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
       "category": "VOL",
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
@@ -35,6 +24,17 @@
       "change_percent": -6.42,
       "z_score": -0.51,
       "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+0.5%",
+      "change_percent": 0.47,
+      "z_score": 0.51,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.48,
-      "z_score": -0.08,
+      "delta": "+0.6%",
+      "change_percent": 0.58,
+      "z_score": -0.06,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.03,
+      "change_percent": 0.32,
+      "z_score": 0.04,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -139,14 +139,14 @@
         "tone": "risk_on"
       },
       {
-        "name": "US dollar index",
-        "effect": -3.1,
-        "tone": "risk_off"
-      },
-      {
         "name": "Volatility index",
         "effect": 3.1,
         "tone": "risk_on"
+      },
+      {
+        "name": "US dollar index",
+        "effect": -3.1,
+        "tone": "risk_off"
       },
       {
         "name": "Credit complex",
@@ -193,10 +193,10 @@
     57.4
   ],
   "narrative": {
-    "text": "Technology and utilities posted the strongest sector gains. Volatility fell while high-yield and investment-grade credit prices rose.",
+    "text": "Technology and utilities were the strongest sectors. Volatility fell while high-yield and investment-grade credit prices rose.",
     "short": "Tech and utilities led gains as volatility eased and credit markets firmed.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-06T20:41:57.478147+00:00"
+  "generated_at": "2026-10-06T21:09:45.905213+00:00"
 }
