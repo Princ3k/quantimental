@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-09-22.",
-  "as_of": "2026-10-06T20:11:22.293677+00:00",
+  "as_of": "2026-10-06T20:41:56.856552+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.35,
-      "z_score": 0.65,
+      "change_percent": 0.33,
+      "z_score": 0.61,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -21,7 +21,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.48,
+      "change_percent": 0.47,
       "z_score": 0.52,
       "risk_tone": "risk_off",
       "notable": false
@@ -31,9 +31,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.1",
-      "change_percent": -6.17,
-      "z_score": -0.5,
+      "delta": "15.0",
+      "change_percent": -6.42,
+      "z_score": -0.51,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -43,8 +43,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.2%",
-      "change_percent": 0.15,
-      "z_score": 0.32,
+      "change_percent": 0.17,
+      "z_score": 0.34,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -65,8 +65,8 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.5,
-      "z_score": -0.07,
+      "change_percent": 0.48,
+      "z_score": -0.08,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.07,
+      "delta": "+0.3%",
+      "change_percent": 0.29,
+      "z_score": 0.03,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,20 +88,20 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.83,
-        "z_score": 0.84
+        "change_percent": 3.86,
+        "z_score": 0.85
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.64,
-        "z_score": 1.82
+        "change_percent": 3.65,
+        "z_score": 1.83
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 3.54,
-        "z_score": 0.89
+        "change_percent": 3.59,
+        "z_score": 0.91
       }
     ],
     "laggards": [
@@ -114,14 +114,14 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -0.1,
-        "z_score": -0.12
+        "change_percent": -0.06,
+        "z_score": -0.11
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -0.02,
-        "z_score": -0.05
+        "change_percent": 0.0,
+        "z_score": -0.04
       }
     ],
     "breadth": 70,
@@ -145,7 +145,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": 3.0,
+        "effect": 3.1,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     31.8,
     31.8,
     44.6,
-    57.1
+    57.4
   ],
   "narrative": {
-    "text": "Technology and utilities were the strongest sectors. High-yield credit prices rose while the dollar strengthened and volatility eased.",
-    "short": "Tech and utilities led gains as high-yield credit prices improved.",
+    "text": "Technology and utilities posted the strongest sector gains. Volatility fell while high-yield and investment-grade credit prices rose.",
+    "short": "Tech and utilities led gains as volatility eased and credit markets firmed.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-06T20:11:22.974890+00:00"
+  "generated_at": "2026-10-06T20:41:57.478147+00:00"
 }
