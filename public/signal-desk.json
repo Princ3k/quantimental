@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-09-22.",
-  "as_of": "2026-10-06T19:37:41.138124+00:00",
+  "as_of": "2026-10-06T20:11:22.293677+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.33,
-      "z_score": 0.61,
+      "change_percent": 0.35,
+      "z_score": 0.65,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -21,8 +21,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.46,
-      "z_score": 0.5,
+      "change_percent": 0.48,
+      "z_score": 0.52,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -32,8 +32,8 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "15.1",
-      "change_percent": -6.11,
-      "z_score": -0.49,
+      "change_percent": -6.17,
+      "z_score": -0.5,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -43,8 +43,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.2%",
-      "change_percent": 0.21,
-      "z_score": 0.4,
+      "change_percent": 0.15,
+      "z_score": 0.32,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.31,
-      "z_score": -0.1,
+      "delta": "+0.5%",
+      "change_percent": 0.5,
+      "z_score": -0.07,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.52,
-      "z_score": 0.09,
+      "delta": "+0.4%",
+      "change_percent": 0.41,
+      "z_score": 0.07,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 3.9,
-        "z_score": 0.86
-      },
-      {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": 3.84,
-        "z_score": 0.99
+        "change_percent": 3.83,
+        "z_score": 0.84
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.31,
-        "z_score": 1.67
+        "change_percent": 3.64,
+        "z_score": 1.82
+      },
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": 3.54,
+        "z_score": 0.89
       }
     ],
     "laggards": [
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": -2.22,
-        "z_score": -1.21
+        "change_percent": -2.13,
+        "z_score": -1.18
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": -0.07,
-        "z_score": -0.11
+        "change_percent": -0.1,
+        "z_score": -0.12
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -0.06,
-        "z_score": -0.06
+        "change_percent": -0.02,
+        "z_score": -0.05
       }
     ],
     "breadth": 70,
@@ -139,17 +139,17 @@
         "tone": "risk_on"
       },
       {
-        "name": "Credit complex",
-        "effect": 3.0,
-        "tone": "risk_on"
-      },
-      {
         "name": "US dollar index",
-        "effect": -3.0,
+        "effect": -3.1,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
+        "effect": 3.0,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
         "effect": 2.9,
         "tone": "risk_on"
       },
@@ -170,7 +170,7 @@
     49.9,
     49.4,
     53.5,
-    59.9,
+    59.8,
     45.8,
     16.9,
     26.1,
@@ -190,13 +190,13 @@
     31.8,
     31.8,
     44.6,
-    57.2
+    57.1
   ],
   "narrative": {
-    "text": "Technology and energy were the strongest sectors, while health care lagged. Volatility fell and high-yield credit prices rose over the last five days.",
-    "short": "Tech and energy led gains as volatility eased and risk appetite improved.",
+    "text": "Technology and utilities were the strongest sectors. High-yield credit prices rose while the dollar strengthened and volatility eased.",
+    "short": "Tech and utilities led gains as high-yield credit prices improved.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-06T19:37:41.689814+00:00"
+  "generated_at": "2026-10-06T20:11:22.974890+00:00"
 }
