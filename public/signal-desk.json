@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-05T21:41:55.601665+00:00",
+  "as_of": "2026-10-06T01:44:54.181194+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.91,
-      "z_score": 1.08,
+      "delta": "+0.8%",
+      "change_percent": 0.85,
+      "z_score": 1.0,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.6%",
-      "change_percent": -3.56,
-      "z_score": -0.6,
+      "delta": "-3.3%",
+      "change_percent": -3.26,
+      "z_score": -0.56,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -73,12 +73,12 @@
     {
       "category": "COMMODITIES",
       "name": "Gold",
-      "text": "Gold little changed",
-      "direction": "flat",
-      "delta": "-0.0%",
-      "change_percent": -0.02,
-      "z_score": -0.05,
-      "risk_tone": "neutral",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-0.1%",
+      "change_percent": -0.13,
+      "z_score": -0.08,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 44,
+    "score": 45,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -6.5,
+        "effect": -6.0,
         "tone": "risk_off"
       },
       {
@@ -166,7 +166,7 @@
     56.3,
     52.7,
     50.5,
-    30.2,
+    30.1,
     36.3,
     49.9,
     49.5,
@@ -190,13 +190,13 @@
     18.8,
     31.8,
     31.8,
-    44.6
+    45.2
   ],
   "narrative": {
-    "text": "Technology and energy stocks rose while health care and consumer staples declined. The US dollar gained value and crude oil prices dropped over the last five days.",
+    "text": "Technology and energy stocks rose while the dollar gained. Oil prices dropped and long-term government bond yields climbed.",
     "short": "Tech and energy led gains as the dollar strengthened and oil prices fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-05T21:41:56.102973+00:00"
+  "generated_at": "2026-10-06T01:44:54.879643+00:00"
 }
