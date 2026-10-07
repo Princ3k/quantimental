@@ -62,6 +62,37 @@ class TestRecording:
         assert result["dates"] == ["2026-09-10"]
         assert result["velocity"]["AAPL"] == [9.0]
 
+    def test_a_sweep_that_measured_nothing_is_not_a_session(self, archive_path):
+        # Yahoo's news endpoint started returning an empty list on 2026-09-30.
+        # measure_one returns None for every ticker, measure_attention returns
+        # {}, and this used to append a date with a null for each of them —
+        # five such days reached the archive before anyone noticed, because a
+        # dead sweep and a working one look the same from outside once coverage
+        # carries forward.
+        record({"AAPL": _reading(5.0)}, on="2026-09-30", path=archive_path)
+        result = record({}, on="2026-10-01", path=archive_path)
+
+        assert result["dates"] == ["2026-09-30"]
+        assert result["velocity"]["AAPL"] == [5.0]
+
+    def test_a_partial_sweep_is_still_a_session(self, archive_path):
+        # The rule is about nothing, not about not-everything. One real reading
+        # is a real observation, and baseline() already counts observations
+        # rather than days, so a thin session cannot overstate anyone's history.
+        record({"AAPL": _reading(5.0), "MSFT": _reading(3.0)}, on="2026-09-30", path=archive_path)
+        result = record({"AAPL": _reading(6.0)}, on="2026-10-01", path=archive_path)
+
+        assert result["dates"] == ["2026-09-30", "2026-10-01"]
+        assert result["velocity"]["MSFT"] == [3.0, None]
+
+    def test_a_failed_rerun_does_not_erase_the_day_it_already_holds(self, archive_path):
+        # The sweep runs more than once some nights. A later empty one must not
+        # undo what an earlier good one recorded for the same session.
+        record({"AAPL": _reading(5.0)}, on="2026-10-01", path=archive_path)
+        result = record({}, on="2026-10-01", path=archive_path)
+
+        assert result["velocity"]["AAPL"] == [5.0]
+
     def test_an_unmeasured_ticker_is_null_not_zero(self, archive_path):
         # This is the one that would quietly poison every median: a stock we
         # failed to reach is not a stock nobody wrote about.

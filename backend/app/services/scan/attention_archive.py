@@ -256,7 +256,29 @@ def record(
     whole baseline window, which matters most in January: a shard read alone
     would hold a handful of days and every baseline would disappear for a
     month at each New Year.
+
+    A sweep that reached nothing is not recorded at all — see below.
     """
+    if not measurements:
+        # A day with no readings is not a session. Appending the date anyway
+        # writes a null for every ticker: nothing a baseline can use, and one
+        # more entry in every count of "sessions recorded" — including the
+        # figure the site publishes as progress towards `vx`.
+        #
+        # Yahoo's news endpoint began returning an empty list on 2026-09-30 and
+        # five such days reached the archive before anyone noticed, because a
+        # sweep that measures nothing is indistinguishable from one that works
+        # once coverage carries forward. The archive is the one asset here that
+        # cannot be rebuilt from public sources, so it holds observations only.
+        #
+        # A *partial* sweep still records: those readings are real, and
+        # baseline() already counts non-null observations rather than days.
+        logger.error(
+            "The sweep measured nothing; not recording a session. The archive "
+            "still holds %s.", path.parent,
+        )
+        return load(path, window=BASELINE_WINDOW_DAYS)
+
     directory = path.parent
     directory.mkdir(parents=True, exist_ok=True)
 

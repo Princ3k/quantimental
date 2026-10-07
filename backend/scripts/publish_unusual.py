@@ -203,12 +203,37 @@ def main() -> int:
 
 
 def _archive_days() -> int | None:
-    """How many sessions the attention archive holds, or None if unreadable."""
+    """
+    How many sessions the archive actually holds readings for.
+
+    Counting dates is a different question, and for a while it was the one being
+    answered. A sweep that measured nothing appended a date with every ticker
+    null, and five of those reached the archive before anyone noticed — each one
+    adding to the figure the site publishes as progress towards `vx`.
+
+    The gate was never fooled: baseline() counts non-null observations, so `vx`
+    stayed correctly absent. Only the published count was wrong, which is its
+    own kind of harm — a progress figure that reaches 20 while the thing it is
+    counting towards does not arrive reads as a bug in `vx`.
+
+    record() no longer writes empty sessions, but the ones already written are
+    in a repository this cannot edit, so the count has to discount them here.
+    """
     try:
-        return len(attention_archive.load()["dates"])
+        archive = attention_archive.load()
     except Exception as exc:  # noqa: BLE001
         logger.warning("Could not measure the archive: %s", exc)
         return None
+
+    dates = archive.get("dates") or []
+    series = list(archive.get("velocity", {}).values())
+    # Positional: every series is padded to align with `dates`, so column i is
+    # that date for every ticker.
+    return sum(
+        1
+        for i in range(len(dates))
+        if any(i < len(s) and s[i] is not None for s in series)
+    )
 
 
 def _attach_filings(rows: list[dict], as_of: str | None) -> None:

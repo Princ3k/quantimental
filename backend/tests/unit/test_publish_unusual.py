@@ -269,3 +269,57 @@ class TestTheMeasuredCountIsPublished:
 
         assert snapshot["coverage_measured"] is None
         assert snapshot["coverage_measured_on"] is None
+
+
+class TestTheSessionCountDiscountsEmptyDays:
+    """
+    Built against a real archive on disk rather than a stub.
+
+    The stub in this file encodes what I believed the archive's shape to be, and
+    believing it is how `coverage_measured` was read as a bug in the counter for
+    a week while it was correctly reporting a dead sweep. These tests use
+    attention_archive itself, so they fail if that belief is wrong.
+    """
+
+    @pytest.fixture
+    def real_archive(self, tmp_path, monkeypatch):
+        from app.services.scan import attention_archive as archive_mod
+
+        path = tmp_path / "attention-history.json"
+        # Capture the real `load` before replacing it: the patched attribute is
+        # the same object record() reaches for internally, so a replacement that
+        # called archive_mod.load would call itself.
+        real_load = archive_mod.load
+
+        def load_from_tmp(p=None, window=None):
+            return real_load(path=p if p is not None else path, window=window)
+
+        monkeypatch.setattr(archive_mod, "load", load_from_tmp)
+        return path, archive_mod
+
+    def test_a_day_with_no_readings_is_not_counted(self, real_archive):
+        path, archive_mod = real_archive
+        r = lambda v: {"velocity": v, "articles": 10, "span_hours": 24.0}
+
+        archive_mod.record({"AAPL": r(5.0)}, on="2026-09-29", path=path)
+        archive_mod.record({"AAPL": r(6.0)}, on="2026-09-30", path=path)
+        assert pu._archive_days() == 2
+
+        # Written by hand: record() now refuses these, but five are already in
+        # the real archive and the published count has to discount them.
+        shard = path.parent / "attention-2026.json"
+        payload = json.loads(shard.read_text())
+        payload["dates"].append("2026-10-01")
+        payload["velocity"]["AAPL"].append(None)
+        shard.write_text(json.dumps(payload))
+
+        assert pu._archive_days() == 2, "the empty day must not count"
+
+    def test_a_day_one_ticker_reached_still_counts(self, real_archive):
+        path, archive_mod = real_archive
+        r = lambda v: {"velocity": v, "articles": 10, "span_hours": 24.0}
+
+        archive_mod.record({"AAPL": r(5.0), "MSFT": r(3.0)}, on="2026-09-30", path=path)
+        archive_mod.record({"MSFT": r(4.0)}, on="2026-10-01", path=path)
+
+        assert pu._archive_days() == 2
