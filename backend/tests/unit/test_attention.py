@@ -11,12 +11,13 @@ judged.
 from __future__ import annotations
 
 import json
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
 from app.services.scan import attention_archive as archive_mod
-from app.services.scan.attention_service import _rotate
+from app.services.scan import attention_service as service_mod
+from app.services.scan.attention_service import ARTICLES_RETURNED, _rotate, measure_one
 from app.services.scan.attention_archive import (
     BASELINE_WINDOW_DAYS,
     MIN_HISTORY_FOR_BASELINE,
@@ -387,3 +388,88 @@ class TestViewer:
         assert {(r["session"], r["ticker"]) for r in rows} == {
             ("2026-09-10", "AAPL"), ("2026-09-10", "MSFT"), ("2026-09-11", "AAPL"),
         }
+
+
+class TestMeasuringOne:
+    """
+    The measurement itself, which had no tests until it silently stopped working.
+
+    On 2026-09-30 `Ticker(...).news` began returning an empty list — no error,
+    just nothing. Every ticker fell through the two-article guard, the sweep
+    recorded a universe of silence, and carry-forward kept serving the last good
+    numbers as though they were current. Six trading days passed. Nothing here
+    calls the network; the point is the shapes Yahoo can hand back.
+    """
+
+    @staticmethod
+    def _epoch_article(hours_ago: float) -> dict:
+        when = datetime.now(timezone.utc) - timedelta(hours=hours_ago)
+        return {"providerPublishTime": str(int(when.timestamp())), "title": "x"}
+
+    @staticmethod
+    def _iso_article(hours_ago: float) -> dict:
+        when = datetime.now(timezone.utc) - timedelta(hours=hours_ago)
+        return {"content": {"pubDate": when.isoformat(), "title": "x"}}
+
+    def test_the_search_endpoints_epoch_times_are_read(self, monkeypatch):
+        monkeypatch.setattr(
+            service_mod, "_fetch_news",
+            lambda t: [self._epoch_article(h) for h in (1, 5, 9)],
+        )
+        result = measure_one("AAPL")
+
+        assert result is not None
+        assert result["articles"] == 3
+        assert result["span_hours"] == pytest.approx(8.0, abs=0.1)
+
+    def test_the_old_endpoints_iso_times_still_work(self, monkeypatch):
+        # So that a Yahoo which restores `Ticker(...).news` needs no change.
+        monkeypatch.setattr(
+            service_mod, "_fetch_news",
+            lambda t: [self._iso_article(h) for h in (2, 6)],
+        )
+        result = measure_one("AAPL")
+
+        assert result is not None
+        assert result["articles"] == 2
+
+    def test_an_article_with_no_usable_time_is_dropped(self, monkeypatch):
+        # Dropped, never guessed at: an invented timestamp would put a fabricated
+        # number into a record whose only value is that it is real.
+        monkeypatch.setattr(
+            service_mod, "_fetch_news",
+            lambda t: [self._epoch_article(1), {"title": "undated"}, self._epoch_article(5)],
+        )
+        result = measure_one("AAPL")
+
+        assert result["articles"] == 2
+
+    def test_the_article_cap_is_enforced_whatever_the_source_returns(self, monkeypatch):
+        # The comparability guarantee. Velocity is a count over the span that
+        # count covers, so a source handing back twenty articles instead of ten
+        # would rescale every reading and silently break every comparison with
+        # what is already archived. The cap used to be Yahoo's page size,
+        # documented here and enforced nowhere.
+        monkeypatch.setattr(
+            service_mod, "_fetch_news",
+            lambda t: [self._epoch_article(h) for h in range(1, 21)],
+        )
+        result = measure_one("AAPL")
+
+        assert result["articles"] == ARTICLES_RETURNED
+        # The newest ten, so the span is theirs — not the full twenty hours.
+        assert result["span_hours"] == pytest.approx(9.0, abs=0.1)
+
+    def test_an_empty_response_measures_nothing_rather_than_zero(self, monkeypatch):
+        # Exactly what production returned for six days. None, never a reading:
+        # "we could not look" and "nobody is writing" are different facts.
+        monkeypatch.setattr(service_mod, "_fetch_news", lambda t: [])
+
+        assert measure_one("AAPL") is None
+
+    def test_one_article_is_not_a_span(self, monkeypatch):
+        monkeypatch.setattr(
+            service_mod, "_fetch_news", lambda t: [self._epoch_article(3)]
+        )
+
+        assert measure_one("AAPL") is None

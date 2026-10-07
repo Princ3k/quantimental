@@ -124,6 +124,64 @@ def _rotate(tickers: list[str], on: Optional[str] = None) -> list[str]:
     return tickers[offset:] + tickers[:offset]
 
 
+def _fetch_news(ticker: str) -> list[dict[str, Any]]:
+    """
+    Yahoo's news for one ticker.
+
+    Through the search endpoint rather than `Ticker(...).news`, which began
+    returning an empty list on 2026-09-30 — no exception, just nothing. Every
+    ticker then failed the two-article guard in measure_one, the nightly sweep
+    recorded a universe of silence, and because coverage carries forward the
+    site went on showing the last good readings as though they were current. It
+    ran that way for six trading days.
+
+    `news_count` asks for the article cap the velocity figure depends on. That
+    cap used to be Yahoo's own page size — documented in this module and
+    enforced nowhere — so asking for it explicitly is what keeps a reading taken
+    today comparable with one taken in September.
+    """
+    import yfinance as yf
+
+    search = yf.Search(
+        ticker,
+        news_count=ARTICLES_RETURNED,
+        # Everything else this endpoint will return is payload we would throw
+        # away: quote matches, user lists, recommendations, navigation.
+        max_results=0,
+        lists_count=0,
+        recommended=0,
+        include_cb=False,
+    )
+    return search.news or []
+
+
+def _article_times(articles: list[dict[str, Any]]) -> list[datetime]:
+    """
+    Publication times, out of whichever shape Yahoo returned.
+
+    Two are in play. The search endpoint gives `providerPublishTime`, a unix
+    epoch; the per-ticker endpoint gave ISO strings nested under `content`.
+    Both are read, so a Yahoo that restores the second one needs no change here
+    — and an article carrying neither is dropped rather than guessed at, since
+    a fabricated timestamp would put an invented number into a record whose
+    only value is that it is real.
+    """
+    times: list[datetime] = []
+    for article in articles:
+        content = article.get("content", article)
+        epoch = content.get("providerPublishTime", article.get("providerPublishTime"))
+        if epoch is not None:
+            try:
+                times.append(datetime.fromtimestamp(int(epoch), tz=timezone.utc))
+                continue
+            except (TypeError, ValueError, OSError, OverflowError):
+                pass
+        parsed = _parse_time(content.get("pubDate") or content.get("displayTime") or "")
+        if parsed:
+            times.append(parsed)
+    return times
+
+
 def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[str, Any]]:
     """
     Measure one ticker's news velocity.
@@ -132,14 +190,12 @@ def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[st
     articles gives no span, and inventing one would put a fabricated number
     into a historical record whose whole value is that it is real.
     """
-    import yfinance as yf
-
     articles = None
     for attempt in range(MAX_RETRIES):
         if pacer:
             pacer.wait()
         try:
-            articles = yf.Ticker(ticker).news or []
+            articles = _fetch_news(ticker)
             break
         except Exception as exc:  # noqa: BLE001
             if "rate limit" not in str(exc).lower() or attempt == MAX_RETRIES - 1:
@@ -150,17 +206,17 @@ def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[st
     if articles is None:
         return None
 
-    times: list[datetime] = []
-    for article in articles:
-        content = article.get("content", article)
-        parsed = _parse_time(content.get("pubDate") or content.get("displayTime") or "")
-        if parsed:
-            times.append(parsed)
-
+    times = _article_times(articles)
     if len(times) < 2:
         return None
 
     times.sort(reverse=True)
+    # The newest N, which is what the per-ticker endpoint used to hand back by
+    # itself. Velocity is a count over the span that count covers, so letting
+    # the number of articles vary with whichever endpoint supplied them would
+    # change the scale of every reading and quietly break comparability with
+    # everything already in the archive.
+    times = times[:ARTICLES_RETURNED]
     now = datetime.now(timezone.utc)
 
     span_hours = (times[0] - times[-1]).total_seconds() / 3600.0
