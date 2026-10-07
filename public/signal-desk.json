@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 19 days of records.",
-  "as_of": "2026-10-07T20:37:42.706643+00:00",
+  "as_of": "2026-10-07T21:11:24.494666+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.82,
-      "z_score": 0.97,
+      "change_percent": 0.81,
+      "z_score": 0.95,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -61,24 +61,24 @@
     },
     {
       "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
+      "name": "Crude oil",
+      "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.2%",
-      "change_percent": -1.15,
-      "z_score": -0.33,
-      "risk_tone": "risk_on",
+      "delta": "-1.6%",
+      "change_percent": -1.64,
+      "z_score": -0.35,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
       "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude sliding",
+      "name": "Gold",
+      "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.29,
-      "z_score": -0.31,
-      "risk_tone": "neutral",
+      "delta": "-1.2%",
+      "change_percent": -1.19,
+      "z_score": -0.35,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 66,
+    "score": 67,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
@@ -140,7 +140,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.8,
+        "effect": -5.7,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     31.7,
     44.5,
     57.7,
-    66.5
+    66.7
   ],
   "narrative": {
-    "text": "The US dollar gained 0.8% while the volatility index dropped 7.7%. Utilities and energy led the market, with every sector posting gains.",
-    "short": "All 10 stock sectors rose as the dollar strengthened and volatility eased.",
+    "text": "The US dollar strengthened while long-term government bond yields fell. Utilities and energy led gains, with every sector advancing.",
+    "short": "All stock sectors rose as investors bought riskier assets and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-07T20:37:43.407314+00:00"
+  "generated_at": "2026-10-07T21:11:24.935324+00:00"
 }
