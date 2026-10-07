@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 19 days of records.",
-  "as_of": "2026-10-07T20:11:39.048912+00:00",
+  "as_of": "2026-10-07T20:37:42.706643+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -22,20 +22,9 @@
       "direction": "up",
       "delta": "+0.4%",
       "change_percent": 0.41,
-      "z_score": 0.78,
+      "z_score": 0.76,
       "risk_tone": "risk_on",
       "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.37,
-      "z_score": 0.62,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "VOL",
@@ -43,8 +32,19 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "15.1",
-      "change_percent": -7.77,
-      "z_score": -0.61,
+      "change_percent": -7.71,
+      "z_score": -0.6,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.4%",
+      "change_percent": 0.35,
+      "z_score": 0.6,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.34,
-      "z_score": -0.38,
+      "delta": "-1.2%",
+      "change_percent": -1.15,
+      "z_score": -0.33,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.58,
-      "z_score": -0.34,
+      "delta": "-1.3%",
+      "change_percent": -1.29,
+      "z_score": -0.31,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,19 +88,19 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 4.37,
-        "z_score": 2.15
+        "change_percent": 4.34,
+        "z_score": 2.13
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 3.06,
-        "z_score": 0.73
+        "change_percent": 3.02,
+        "z_score": 0.71
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 2.89,
+        "change_percent": 2.88,
         "z_score": 0.58
       }
     ],
@@ -108,19 +108,19 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.24,
-        "z_score": -0.06
+        "change_percent": 0.23,
+        "z_score": -0.07
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.29,
-        "z_score": 0.15
+        "change_percent": 0.26,
+        "z_score": 0.14
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.53,
+        "change_percent": 0.52,
         "z_score": 0.13
       }
     ],
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 67,
+    "score": 66,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
@@ -145,12 +145,12 @@
       },
       {
         "name": "Credit complex",
-        "effect": 4.2,
+        "effect": 4.1,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": 3.7,
+        "effect": 3.6,
         "tone": "risk_on"
       },
       {
@@ -189,14 +189,14 @@
     31.7,
     31.7,
     44.5,
-    57.6,
-    66.9
+    57.7,
+    66.5
   ],
   "narrative": {
-    "text": "The US dollar strengthened while long-term government bond yields fell. Utilities and energy led gains, with every sector advancing over the last five days.",
-    "short": "All 10 sectors rose as risk appetite improved and volatility eased.",
+    "text": "The US dollar gained 0.8% while the volatility index dropped 7.7%. Utilities and energy led the market, with every sector posting gains.",
+    "short": "All 10 stock sectors rose as the dollar strengthened and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-07T20:11:39.570023+00:00"
+  "generated_at": "2026-10-07T20:37:43.407314+00:00"
 }
