@@ -207,8 +207,14 @@ jobs:
 
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Named once. The same list is needed four times below, and the last
+          # time a published file moved, four stale paths were left behind in a
+          # workflow and the publish broke for days.
+          #
+          # Left unquoted where it expands: these word-split into separate
+          # arguments, and none of the paths contain spaces.
+          publish_files="public/unusual.json public/snapshot.json"
 
           # Two publishers write this branch, and a scan can also race another
           # run of itself: github.sha is pinned when a run is created, so one
@@ -223,30 +229,48 @@ jobs:
           # These files are generated, never edited, so there is nothing to
           # merge. The newest scan is simply the one we want: take the freshest
           # main and replant our output on top of it.
-          for attempt in 1 2 3; do
-            git add public/unusual.json public/snapshot.json
+          for attempt in 1 2 3 4 5; do
+            # shellcheck disable=SC2086
+            git add $publish_files
             git commit -q -m "chore: update unusual moves [skip ci]" || true
 
             if git push; then
               exit 0
             fi
 
-            echo "::notice::Push rejected (attempt $attempt); replanting on the newest main."
+            echo "::notice::Push rejected (attempt $attempt of 5); replanting on the newest main."
+
+            # Somewhere a hard reset cannot reach.
             mkdir -p "$RUNNER_TEMP/publish"
-            for f in public/unusual.json public/snapshot.json; do
+            # shellcheck disable=SC2086
+            for f in $publish_files; do
               cp "$f" "$RUNNER_TEMP/publish/$(basename "$f")"
             done
 
-            git fetch origin main
-            git reset --hard origin/main
+            # Guarded deliberately. GitHub runs these blocks under `bash -e`, so
+            # an unguarded fetch that fails takes the whole step down with git's
+            # own exit code instead of trying again — which is how this died
+            # with 128 on 2026-10-05, while the identical race half an hour
+            # earlier merely exhausted its attempts. A refused or interrupted
+            # fetch is a reason to retry, not to stop publishing.
+            if git fetch origin main && git reset --hard origin/main; then
+              # shellcheck disable=SC2086
+              for f in $publish_files; do
+                mkdir -p "$(dirname "$f")"
+                cp "$RUNNER_TEMP/publish/$(basename "$f")" "$f"
+              done
+            else
+              echo "::notice::Could not reach origin (attempt $attempt); keeping this tree and retrying."
+            fi
 
-            for f in public/unusual.json public/snapshot.json; do
-              mkdir -p "$(dirname "$f")"
-              cp "$RUNNER_TEMP/publish/$(basename "$f")" "$f"
-            done
+            # Backing off matters more than it looks. Both publishers push this
+            # branch on overlapping schedules, and on 2026-10-05 a single push
+            # was taking around 200 seconds; three immediate retries lose the
+            # same race three times.
+            sleep $((attempt * 5))
           done
 
-          echo "::error::Could not push after 3 attempts."
+          echo "::error::Could not push after 5 attempts."
           exit 1
 
       # The sweep degrades quietly on purpose: a dead token must not take the
