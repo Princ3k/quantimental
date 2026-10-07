@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-07T13:38:24.179504+00:00",
+  "as_of": "2026-10-07T14:09:15.426560+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.0%",
-      "change_percent": 0.97,
-      "z_score": 1.16,
+      "delta": "+0.9%",
+      "change_percent": 0.9,
+      "z_score": 1.07,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,43 +20,10 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.7%",
-      "change_percent": -1.71,
-      "z_score": -0.48,
+      "delta": "-1.6%",
+      "change_percent": -1.57,
+      "z_score": -0.44,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates climbing",
-      "direction": "up",
-      "delta": "+6bp",
-      "change_percent": 1.19,
-      "z_score": 0.35,
-      "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "15.8",
-      "change_percent": -3.18,
-      "z_score": -0.28,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit softening",
-      "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.25,
-      "z_score": -0.23,
-      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -64,21 +31,54 @@
       "name": "High-yield credit",
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.11,
-      "z_score": 0.17,
+      "delta": "+0.2%",
+      "change_percent": 0.2,
+      "z_score": 0.34,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "15.7",
+      "change_percent": -3.67,
+      "z_score": -0.31,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Crude oil",
-      "text": "Crude pushing higher",
-      "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.12,
-      "z_score": -0.13,
+      "text": "Crude sliding",
+      "direction": "down",
+      "delta": "-0.1%",
+      "change_percent": -0.1,
+      "z_score": -0.15,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.01,
+      "z_score": 0.13,
+      "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates climbing",
+      "direction": "up",
+      "delta": "+4bp",
+      "change_percent": 0.7,
+      "z_score": 0.09,
+      "risk_tone": "risk_off",
       "notable": false
     }
   ],
@@ -86,42 +86,42 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": 4.62,
-        "z_score": 1.24
-      },
-      {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 4.02,
-        "z_score": 1.98
+        "change_percent": 3.7,
+        "z_score": 1.84
+      },
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": 3.43,
+        "z_score": 0.85
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 2.23,
-        "z_score": 0.4
+        "change_percent": 2.29,
+        "z_score": 0.42
       }
     ],
     "laggards": [
       {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": -0.17,
-        "z_score": -0.25
-      },
-      {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.06,
-        "z_score": 0.04
+        "change_percent": -0.23,
+        "z_score": -0.11
       },
       {
         "symbol": "XLF",
         "name": "Financials",
         "change_percent": 0.19,
         "z_score": 0.06
+      },
+      {
+        "symbol": "XLV",
+        "name": "Health Care",
+        "change_percent": 0.31,
+        "z_score": -0.02
       }
     ],
     "breadth": 90,
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 53,
+    "score": 58,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -140,22 +140,22 @@
       },
       {
         "name": "US dollar index",
-        "effect": -7.0,
+        "effect": -6.4,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 2.9,
+        "effect": 2.6,
         "tone": "risk_on"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": -2.1,
-        "tone": "risk_off"
+        "name": "High-yield credit",
+        "effect": 2.0,
+        "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": 1.7,
+        "effect": 1.9,
         "tone": "risk_on"
       }
     ]
@@ -165,8 +165,8 @@
     52.7,
     50.5,
     30.0,
-    36.3,
-    49.9,
+    36.2,
+    49.8,
     49.4,
     53.4,
     59.8,
@@ -190,13 +190,13 @@
     31.7,
     44.5,
     57.7,
-    53.3
+    57.0
   ],
   "narrative": {
-    "text": "The dollar and long-term rates climbed over five days. Energy and utilities were the strongest sectors, while health care lagged.",
-    "short": "Dollar and long-term rates rose while energy and utilities led gains.",
+    "text": "The US dollar rose while market volatility declined. Utilities and energy led sector gains, with nine of ten sectors advancing overall.",
+    "short": "Dollar strengthened and volatility eased as nine of ten stock sectors advanced.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-07T13:38:24.709755+00:00"
+  "generated_at": "2026-10-07T14:09:15.957267+00:00"
 }
