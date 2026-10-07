@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 19 days of records.",
-  "as_of": "2026-10-07T21:40:44.957531+00:00",
+  "as_of": "2026-10-07T23:46:57.348563+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.82,
-      "z_score": 0.97,
+      "change_percent": 0.77,
+      "z_score": 0.9,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.64,
-      "z_score": -0.35,
+      "delta": "-1.8%",
+      "change_percent": -1.81,
+      "z_score": -0.37,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-1.2%",
-      "change_percent": -1.19,
-      "z_score": -0.35,
+      "change_percent": -1.15,
+      "z_score": -0.33,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -140,7 +140,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -5.8,
+        "effect": -5.4,
         "tone": "risk_off"
       },
       {
@@ -189,14 +189,14 @@
     31.7,
     31.7,
     44.5,
-    57.7,
-    66.6
+    57.6,
+    66.9
   ],
   "narrative": {
-    "text": "The dollar gained 0.8% while the volatility index dropped 7.7%. Utilities and energy led the market, with every sector advancing.",
-    "short": "All ten stock sectors rose as the dollar strengthened and volatility eased.",
+    "text": "Utilities and energy led gains while the dollar strengthened. Volatility eased and long-term government bond yields fell.",
+    "short": "All 10 stock sectors rose as the dollar strengthened and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-07T21:40:45.569240+00:00"
+  "generated_at": "2026-10-07T23:46:57.804217+00:00"
 }
