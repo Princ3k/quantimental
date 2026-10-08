@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T21:11:23.855488+00:00",
+  "as_of": "2026-10-08T21:40:42.249078+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -76,8 +76,8 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "+0.0%",
-      "change_percent": 0.03,
-      "z_score": -0.05,
+      "change_percent": 0.01,
+      "z_score": -0.07,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -190,13 +190,13 @@
     44.4,
     57.6,
     66.7,
-    66.8
+    67.0
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and Consumer Staples were the strongest performing stock sectors.",
-    "short": "Risk assets rallied as volatility eased and most stock sectors advanced.",
+    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and Consumer Staples were the strongest performing sectors.",
+    "short": "Risk assets rallied as volatility eased and most sectors advanced.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T21:11:24.491662+00:00"
+  "generated_at": "2026-10-08T21:40:42.725328+00:00"
 }
