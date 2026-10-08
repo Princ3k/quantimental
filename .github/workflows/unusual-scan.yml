@@ -289,3 +289,49 @@ jobs:
           echo "Usually DATA_REPO_TOKEN has expired. The scan published without attention;"
           echo "coverage figures on the site are carrying forward from the last good sweep."
           exit 1
+
+      # The sweep's other failure mode, and the one that actually happened.
+      # Yahoo's news endpoint began returning an empty list on 2026-09-30: no
+      # error, no exception, just nothing. The step still took its usual ~200s
+      # walking 503 tickers, the run went green, and because coverage carries
+      # forward the site kept serving the last good figures as though they were
+      # current. Six trading days passed before anyone noticed.
+      #
+      # Same discipline as the step above: publish first, fail afterwards. The
+      # product stays up and GitHub sends the mail it only sends on failure.
+      - name: Fail if the sweep measured nothing
+        if: |
+          (github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention)
+          && (steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success')
+        working-directory: .
+        run: |
+          python3 - <<'CHECK'
+          import json, sys
+
+          snapshot = json.load(open("public/snapshot.json"))
+          session = snapshot["as_of"]
+          measured = snapshot.get("coverage_measured")
+          measured_on = snapshot.get("coverage_measured_on")
+          universe = snapshot["count"]
+
+          # record() refuses to write a session nothing was measured in, so a
+          # sweep that reached nothing leaves the archive's newest date at the
+          # *previous* session. That makes this comparison the exact test for
+          # the failure above — no threshold, no judgement call.
+          if measured_on != session:
+              print(f"::error::The sweep recorded nothing for {session}; the archive "
+                    f"still ends at {measured_on}. Yahoo's news endpoint is the usual "
+                    f"cause — check attention_service._fetch_news against it.")
+              sys.exit(1)
+
+          # A sweep can also come back throttled rather than dead. Half the
+          # universe is the line: below it the source is broken, above it the
+          # sweep guard orders another attempt on the next run, and alarming on
+          # ordinary throttling is how an alarm becomes one nobody reads.
+          if measured < universe // 2:
+              print(f"::error::The sweep reached only {measured} of {universe} tickers "
+                    f"for {session}. That is too few to be throttling.")
+              sys.exit(1)
+
+          print(f"Sweep measured {measured} of {universe} tickers for {session}.")
+          CHECK
