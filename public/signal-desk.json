@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T18:08:08.709168+00:00",
+  "as_of": "2026-10-08T18:40:58.235004+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.37,
-      "z_score": 0.62,
+      "change_percent": 0.41,
+      "z_score": 0.67,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -20,10 +20,43 @@
       "name": "High-yield credit",
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.24,
-      "z_score": 0.42,
+      "delta": "+0.3%",
+      "change_percent": 0.3,
+      "z_score": 0.54,
       "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "15.5",
+      "change_percent": -5.19,
+      "z_score": -0.41,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-1.3%",
+      "change_percent": -1.29,
+      "z_score": -0.37,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude sliding",
+      "direction": "down",
+      "delta": "-1.4%",
+      "change_percent": -1.43,
+      "z_score": -0.33,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -38,47 +71,14 @@
       "notable": false
     },
     {
-      "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude sliding",
-      "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.34,
-      "z_score": -0.31,
-      "risk_tone": "neutral",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-1.1%",
-      "change_percent": -1.05,
-      "z_score": -0.3,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "16.0",
-      "change_percent": -2.26,
-      "z_score": -0.2,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
       "category": "FX",
       "name": "US dollar index",
-      "text": "US dollar index little changed",
-      "direction": "flat",
-      "delta": "+0.0%",
-      "change_percent": 0.01,
-      "z_score": -0.06,
-      "risk_tone": "neutral",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+0.1%",
+      "change_percent": 0.09,
+      "z_score": 0.04,
+      "risk_tone": "risk_off",
       "notable": false
     }
   ],
@@ -86,21 +86,21 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 4.06,
-        "z_score": 1.96
-      },
-      {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 4.05,
-        "z_score": 1.05
+        "change_percent": 4.03,
+        "z_score": 1.04
+      },
+      {
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 3.83,
+        "z_score": 1.85
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.28,
+        "change_percent": 3.29,
         "z_score": 1.62
       }
     ],
@@ -108,20 +108,20 @@
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.38,
-        "z_score": -0.31
+        "change_percent": -0.23,
+        "z_score": -0.24
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.31,
-        "z_score": -0.29
+        "change_percent": -0.13,
+        "z_score": -0.24
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.66,
-        "z_score": 0.13
+        "change_percent": 0.83,
+        "z_score": 0.22
       }
     ],
     "breadth": 80,
@@ -129,9 +129,9 @@
     "total": 10
   },
   "composite": {
-    "score": 64,
-    "label": "Mixed",
-    "tone": "neutral",
+    "score": 66,
+    "label": "Risk-on",
+    "tone": "risk_on",
     "contributions": [
       {
         "name": "Sector breadth",
@@ -140,22 +140,22 @@
       },
       {
         "name": "Credit complex",
-        "effect": 3.1,
+        "effect": 3.6,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Volatility index",
+        "effect": 2.5,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Gold",
+        "effect": 2.2,
         "tone": "risk_on"
       },
       {
         "name": "10-year Treasury yield",
         "effect": 1.9,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Gold",
-        "effect": 1.8,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Volatility index",
-        "effect": 1.2,
         "tone": "risk_on"
       }
     ]
@@ -168,7 +168,7 @@
     49.7,
     49.3,
     53.3,
-    59.8,
+    59.7,
     45.7,
     16.6,
     25.8,
@@ -180,7 +180,7 @@
     51.9,
     58.6,
     43.7,
-    17.3,
+    17.2,
     27.5,
     9.0,
     3.7,
@@ -190,13 +190,13 @@
     44.4,
     57.6,
     66.7,
-    64.5
+    66.0
   ],
   "narrative": {
-    "text": "Eight of ten sectors advanced, with consumer staples up 4.1%. Technology and industrials were the only sectors to decline.",
-    "short": "Consumer staples and energy led gains while technology lagged.",
+    "text": "Investors bought safer and riskier bonds while volatility dropped. Energy and consumer staples were the strongest sectors, with eight of ten advancing.",
+    "short": "Risk appetite rose as bond yields fell and energy stocks led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T18:08:09.312223+00:00"
+  "generated_at": "2026-10-08T18:40:58.784791+00:00"
 }
