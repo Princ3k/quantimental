@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-10-08T20:16:02.749956+00:00",
+  "generated_at": "2026-10-08T21:17:18.145819+00:00",
   "as_of": "2026-10-08",
   "scanned": 501,
   "universe": 503,
@@ -16,7 +16,7 @@
       "multiple": 2.5,
       "direction": "up",
       "period_percent": 7.0,
-      "volume": 9466474,
+      "volume": 9467084,
       "company": "CoStar Group",
       "sector": "Real Estate",
       "headline": "CoStar Group is up 8.0% today, 2.5x its typical 3.2% daily move.",
@@ -32,7 +32,7 @@
       "multiple": 1.7,
       "direction": "down",
       "period_percent": 4.04,
-      "volume": 9180220,
+      "volume": 9229523,
       "company": "Coherent Corp.",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology fell 1.0%, so most of this was specific to Coherent Corp."
@@ -45,7 +45,7 @@
       "multiple": 2.5,
       "direction": "up",
       "period_percent": 7.0,
-      "volume": 9466474,
+      "volume": 9467084,
       "company": "CoStar Group",
       "sector": "Real Estate",
       "headline": "CoStar Group is up 8.0% today, 2.5x its typical 3.2% daily move.",
@@ -59,7 +59,7 @@
       "multiple": 1.4,
       "direction": "down",
       "period_percent": -0.86,
-      "volume": 8992522,
+      "volume": 9018827,
       "company": "Corning Inc.",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology fell 1.0%, so most of this was specific to Corning Inc."
@@ -72,7 +72,7 @@
       "multiple": 1.7,
       "direction": "down",
       "period_percent": 13.19,
-      "volume": 11164072,
+      "volume": 11278074,
       "company": "Vistra Corp.",
       "sector": "Utilities",
       "context": "The market rose 0.9% today and Utilities was flat, so most of this was specific to Vistra Corp."
@@ -85,7 +85,7 @@
       "multiple": 1.8,
       "direction": "up",
       "period_percent": 2.09,
-      "volume": 70447544,
+      "volume": 70870702,
       "company": "Chipotle Mexican Grill",
       "sector": "Consumer Discretionary",
       "context": "The market rose 0.9% today and Consumer Discretionary rose 1.6%, so most of this was specific to Chipotle Mexican Grill."
@@ -98,7 +98,7 @@
       "multiple": 1.2,
       "direction": "up",
       "period_percent": 2.36,
-      "volume": 1806524,
+      "volume": 1831274,
       "company": "GoDaddy",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology fell 1.0% \u2014 so GoDaddy moved against its sector."
@@ -111,7 +111,7 @@
       "multiple": 1.2,
       "direction": "up",
       "period_percent": 17.45,
-      "volume": 11740837,
+      "volume": 12043190,
       "company": "Accenture",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology fell 1.0% \u2014 so Accenture moved against its sector."
@@ -124,7 +124,7 @@
       "multiple": 1.0,
       "direction": "down",
       "period_percent": 12.87,
-      "volume": 4850345,
+      "volume": 4855776,
       "company": "Lumentum",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology fell 1.0%, so most of this was specific to Lumentum."
