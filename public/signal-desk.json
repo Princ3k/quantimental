@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T21:40:42.249078+00:00",
+  "as_of": "2026-10-08T23:56:00.674298+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,7 +43,7 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.8%",
-      "change_percent": -1.82,
+      "change_percent": -1.84,
       "z_score": -0.38,
       "risk_tone": "neutral",
       "notable": false
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.0%",
-      "change_percent": -1.05,
-      "z_score": -0.3,
+      "delta": "-0.9%",
+      "change_percent": -0.87,
+      "z_score": -0.26,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "+0.0%",
-      "change_percent": 0.01,
-      "z_score": -0.07,
+      "change_percent": 0.04,
+      "z_score": -0.03,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.8,
+        "effect": 1.6,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     44.4,
     57.6,
     66.7,
-    67.0
+    66.4
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and Consumer Staples were the strongest performing sectors.",
-    "short": "Risk assets rallied as volatility eased and most sectors advanced.",
+    "text": "Eight of ten stock sectors rose, led by energy and consumer staples. Volatility dropped while government bond yields eased.",
+    "short": "Investors favored safer stocks as market anxiety eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T21:40:42.725328+00:00"
+  "generated_at": "2026-10-08T23:56:01.241852+00:00"
 }
