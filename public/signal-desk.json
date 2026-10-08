@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T18:40:58.235004+00:00",
+  "as_of": "2026-10-08T19:11:55.379781+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.67,
+      "delta": "+0.5%",
+      "change_percent": 0.47,
+      "z_score": 0.75,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -27,23 +27,23 @@
       "notable": false
     },
     {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "15.5",
-      "change_percent": -5.19,
-      "z_score": -0.41,
+      "delta": "-1bp",
+      "change_percent": -0.19,
+      "z_score": -0.39,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "-1.3%",
-      "change_percent": -1.29,
+      "delta": "15.6",
+      "change_percent": -4.58,
       "z_score": -0.37,
       "risk_tone": "risk_on",
       "notable": false
@@ -53,32 +53,32 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.4%",
-      "change_percent": -1.43,
-      "z_score": -0.33,
+      "delta": "-1.6%",
+      "change_percent": -1.6,
+      "z_score": -0.35,
       "risk_tone": "neutral",
       "notable": false
     },
     {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0bp",
-      "change_percent": -0.08,
-      "z_score": -0.32,
+      "delta": "-1.1%",
+      "change_percent": -1.14,
+      "z_score": -0.33,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "FX",
       "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.09,
-      "z_score": 0.04,
-      "risk_tone": "risk_off",
+      "text": "US dollar index little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.03,
+      "z_score": -0.04,
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -88,40 +88,40 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 4.03,
-        "z_score": 1.04
+        "change_percent": 4.27,
+        "z_score": 1.12
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.83,
-        "z_score": 1.85
+        "change_percent": 4.1,
+        "z_score": 1.98
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.29,
-        "z_score": 1.62
+        "change_percent": 3.45,
+        "z_score": 1.7
       }
     ],
     "laggards": [
       {
-        "symbol": "XLI",
-        "name": "Industrials",
-        "change_percent": -0.23,
-        "z_score": -0.24
-      },
-      {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.13,
-        "z_score": -0.24
+        "change_percent": -0.36,
+        "z_score": -0.31
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -0.29,
+        "z_score": -0.26
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 0.83,
-        "z_score": 0.22
+        "change_percent": 0.99,
+        "z_score": 0.29
       }
     ],
     "breadth": 80,
@@ -140,22 +140,22 @@
       },
       {
         "name": "Credit complex",
-        "effect": 3.6,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Volatility index",
-        "effect": 2.5,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Gold",
-        "effect": 2.2,
+        "effect": 3.9,
         "tone": "risk_on"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 1.9,
+        "effect": 2.3,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Volatility index",
+        "effect": 2.2,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Gold",
+        "effect": 2.0,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     44.4,
     57.6,
     66.7,
-    66.0
+    66.6
   ],
   "narrative": {
-    "text": "Investors bought safer and riskier bonds while volatility dropped. Energy and consumer staples were the strongest sectors, with eight of ten advancing.",
-    "short": "Risk appetite rose as bond yields fell and energy stocks led gains.",
+    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and consumer staples were the strongest sectors, while technology lagged.",
+    "short": "Risk assets rallied as volatility eased and energy stocks led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T18:40:58.784791+00:00"
+  "generated_at": "2026-10-08T19:11:55.828021+00:00"
 }
