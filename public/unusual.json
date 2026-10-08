@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-10-08T00:09:42.975873+00:00",
+  "generated_at": "2026-10-08T01:17:38.484344+00:00",
   "as_of": "2026-10-07",
   "scanned": 501,
   "universe": 503,
@@ -98,8 +98,8 @@
       "ticker": "CTVA",
       "price": 13.91,
       "change_percent": 12.27,
-      "typical_percent": 52.68,
-      "multiple": 0.2,
+      "typical_percent": 127.56,
+      "multiple": 0.1,
       "direction": "up",
       "period_percent": -82.69,
       "volume": 45132500,
