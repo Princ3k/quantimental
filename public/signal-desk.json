@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T19:15:18.536069+00:00",
+  "as_of": "2026-10-08T19:41:32.332884+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -21,8 +21,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.52,
+      "change_percent": 0.33,
+      "z_score": 0.61,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -31,9 +31,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.6",
-      "change_percent": -4.64,
-      "z_score": -0.37,
+      "delta": "15.5",
+      "change_percent": -5.49,
+      "z_score": -0.44,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -42,21 +42,10 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.59,
-      "z_score": -0.35,
+      "delta": "-1.7%",
+      "change_percent": -1.67,
+      "z_score": -0.36,
       "risk_tone": "neutral",
-      "notable": false
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
-      "direction": "down",
-      "delta": "-1bp",
-      "change_percent": -0.11,
-      "z_score": -0.34,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -64,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.2%",
-      "change_percent": -1.18,
-      "z_score": -0.34,
+      "delta": "-1.1%",
+      "change_percent": -1.11,
+      "z_score": -0.32,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -76,8 +65,8 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "+0.0%",
-      "change_percent": 0.02,
-      "z_score": -0.05,
+      "change_percent": 0.04,
+      "z_score": -0.03,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,40 +77,40 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 4.3,
-        "z_score": 1.13
+        "change_percent": 4.14,
+        "z_score": 1.08
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 4.03,
-        "z_score": 1.94
+        "change_percent": 4.08,
+        "z_score": 1.97
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.4,
-        "z_score": 1.68
+        "change_percent": 3.52,
+        "z_score": 1.73
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.37,
-        "z_score": -0.31
+        "change_percent": -0.27,
+        "z_score": -0.28
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.28,
-        "z_score": -0.26
+        "change_percent": -0.26,
+        "z_score": -0.25
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.01,
-        "z_score": 0.3
+        "change_percent": 1.06,
+        "z_score": 0.33
       }
     ],
     "breadth": 80,
@@ -129,9 +118,9 @@
     "total": 10
   },
   "composite": {
-    "score": 66,
-    "label": "Risk-on",
-    "tone": "risk_on",
+    "score": 65,
+    "label": "Mixed",
+    "tone": "neutral",
     "contributions": [
       {
         "name": "Sector breadth",
@@ -140,63 +129,27 @@
       },
       {
         "name": "Credit complex",
-        "effect": 3.8,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": 2.2,
-        "tone": "risk_on"
-      },
-      {
-        "name": "10-year Treasury yield",
-        "effect": 2.0,
+        "effect": 2.6,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": 2.0,
+        "effect": 1.9,
         "tone": "risk_on"
       }
     ]
   },
-  "history": [
-    52.6,
-    50.4,
-    29.9,
-    36.1,
-    49.7,
-    49.3,
-    53.3,
-    59.7,
-    45.7,
-    16.6,
-    25.8,
-    22.3,
-    19.0,
-    17.1,
-    51.8,
-    39.9,
-    51.9,
-    58.6,
-    43.7,
-    17.2,
-    27.5,
-    9.0,
-    3.7,
-    18.5,
-    31.6,
-    31.6,
-    44.4,
-    57.6,
-    66.7,
-    66.4
-  ],
+  "history": [],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and Consumer Staples led gains, while Technology lagged.",
-    "short": "Risk assets rose as volatility eased and most sectors advanced.",
+    "text": "Energy and consumer stocks rose 4.1 percent while technology and industrials fell slightly. Volatility eased and crude oil prices slid over the last five days.",
+    "short": "8 of 10 sectors advanced as energy and consumer staples led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T19:15:19.104318+00:00"
+  "generated_at": "2026-10-08T19:41:32.941048+00:00"
 }
