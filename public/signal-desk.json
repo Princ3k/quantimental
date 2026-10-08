@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-07.",
-  "as_of": "2026-10-08T20:09:03.624727+00:00",
+  "as_of": "2026-10-08T20:39:36.764129+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.42,
-      "z_score": 0.69,
+      "change_percent": 0.43,
+      "z_score": 0.71,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -21,8 +21,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.33,
-      "z_score": 0.61,
+      "change_percent": 0.31,
+      "z_score": 0.57,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -31,9 +31,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.6",
-      "change_percent": -4.94,
-      "z_score": -0.4,
+      "delta": "15.4",
+      "change_percent": -5.98,
+      "z_score": -0.47,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.9%",
-      "change_percent": -1.92,
-      "z_score": -0.39,
+      "delta": "-2.2%",
+      "change_percent": -2.21,
+      "z_score": -0.43,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.1%",
-      "change_percent": -1.08,
-      "z_score": -0.31,
+      "delta": "-1.0%",
+      "change_percent": -1.01,
+      "z_score": -0.29,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "+0.0%",
-      "change_percent": 0.01,
-      "z_score": -0.07,
+      "change_percent": 0.02,
+      "z_score": -0.06,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 4.02,
-        "z_score": 1.03
+        "change_percent": 4.05,
+        "z_score": 1.05
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.81,
-        "z_score": 1.84
+        "change_percent": 3.85,
+        "z_score": 1.86
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 3.48,
-        "z_score": 1.72
+        "change_percent": 3.5,
+        "z_score": 1.73
       }
     ],
     "laggards": [
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.15,
+        "change_percent": -0.14,
         "z_score": -0.2
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.01,
-        "z_score": -0.21
+        "change_percent": -0.02,
+        "z_score": -0.22
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.17,
-        "z_score": 0.37
+        "change_percent": 1.18,
+        "z_score": 0.38
       }
     ],
     "breadth": 80,
@@ -140,12 +140,12 @@
       },
       {
         "name": "Credit complex",
-        "effect": 3.9,
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": 2.4,
+        "effect": 2.8,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.9,
+        "effect": 1.7,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     44.4,
     57.6,
     66.7,
-    66.6
+    66.8
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit both rose while the volatility index fell. Energy and Consumer Staples were the strongest sectors, with eight of ten sectors advancing.",
-    "short": "Risk assets rallied as volatility eased and credit markets strengthened.",
+    "text": "Investment-grade and high-yield credit prices rose while the volatility index fell. Energy and Consumer Staples led sector gains.",
+    "short": "Risk appetite rose as credit markets firmed and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-08T20:09:04.078885+00:00"
+  "generated_at": "2026-10-08T20:39:37.342010+00:00"
 }
