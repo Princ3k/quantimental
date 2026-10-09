@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-10-09T21:14:21.396777+00:00",
+  "generated_at": "2026-10-09T21:48:17.981136+00:00",
   "as_of": "2026-10-09",
-  "scanned": 500,
+  "scanned": 501,
   "universe": 503,
   "unusual_count": 8,
   "rising": 4,
@@ -118,7 +118,7 @@
       "company": "HP Inc.",
       "sector": "Information Technology",
       "headline": "HP Inc. is down 6.9% today, 2.0x its typical 3.5% daily move.",
-      "context": "The market was flat today and Information Technology rose 0.7% \u2014 so HP Inc. moved against its sector."
+      "context": "The market was flat today and Information Technology rose 0.8% \u2014 so HP Inc. moved against its sector."
     }
   ],
   "biggest": [
