@@ -124,5 +124,11 @@
     "score": 66,
     "label": "Risk-on",
     "tone": "risk_on"
+  },
+  {
+    "date": "2026-10-09",
+    "score": 60,
+    "label": "Mixed",
+    "tone": "neutral"
   }
 ]
