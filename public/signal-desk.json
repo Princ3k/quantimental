@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
-  "as_of": "2026-10-09T20:40:30.267973+00:00",
+  "as_of": "2026-10-09T21:09:14.996005+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+1.4%",
-      "change_percent": 1.41,
-      "z_score": 0.34,
+      "change_percent": 1.37,
+      "z_score": 0.33,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.29,
+      "change_percent": 0.3,
+      "z_score": 0.3,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -76,7 +76,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.58,
+      "change_percent": 0.6,
       "z_score": -0.07,
       "risk_tone": "neutral",
       "notable": false
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -1.7,
+        "effect": -1.8,
         "tone": "risk_off"
       }
     ]
@@ -193,10 +193,10 @@
     62.5
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose while long-term government bond yields eased. Utilities and energy were the strongest stock sectors.",
-    "short": "Long-term government bond yields fell as credit markets strengthened.",
+    "text": "Investment-grade and high-yield credit prices rose while the 10-year Treasury yield fell. Utilities and energy were the strongest stock sectors, while technology lagged.",
+    "short": "Credit markets firmed and long-term government bond yields eased over the last five days.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-09T20:40:30.760917+00:00"
+  "generated_at": "2026-10-09T21:09:15.703693+00:00"
 }
