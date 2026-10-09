@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
-  "as_of": "2026-10-09T21:40:56.866432+00:00",
+  "as_of": "2026-10-09T23:11:52.273165+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     62.5
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose over five days. Utilities and energy led sector gains, while technology lagged.",
-    "short": "Credit markets firmed while long-term government bond yields eased.",
+    "text": "Defensive sectors outperformed while technology lagged. Eight of ten sectors advanced, and long-term government bond yields fell.",
+    "short": "Utilities and energy led gains as investors favored defensive stocks.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-09T21:40:57.254088+00:00"
+  "generated_at": "2026-10-09T23:11:52.730350+00:00"
 }
