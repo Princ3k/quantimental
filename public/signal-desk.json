@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
-  "as_of": "2026-10-09T21:09:14.996005+00:00",
+  "as_of": "2026-10-09T21:40:56.866432+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,7 +43,7 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+1.4%",
-      "change_percent": 1.37,
+      "change_percent": 1.39,
       "z_score": 0.33,
       "risk_tone": "risk_off",
       "notable": false
@@ -193,10 +193,10 @@
     62.5
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit prices rose while the 10-year Treasury yield fell. Utilities and energy were the strongest stock sectors, while technology lagged.",
-    "short": "Credit markets firmed and long-term government bond yields eased over the last five days.",
+    "text": "Investment-grade and high-yield credit prices rose over five days. Utilities and energy led sector gains, while technology lagged.",
+    "short": "Credit markets firmed while long-term government bond yields eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-09T21:09:15.703693+00:00"
+  "generated_at": "2026-10-09T21:40:57.254088+00:00"
 }
