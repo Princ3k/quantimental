@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
-  "as_of": "2026-10-09T19:41:22.706045+00:00",
+  "as_of": "2026-10-09T20:11:09.909557+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.52,
-      "z_score": 0.82,
+      "delta": "+0.6%",
+      "change_percent": 0.58,
+      "z_score": 0.92,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.77,
+      "change_percent": 0.4,
+      "z_score": 0.75,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,7 +43,7 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+1.4%",
-      "change_percent": 1.38,
+      "change_percent": 1.37,
       "z_score": 0.33,
       "risk_tone": "risk_off",
       "notable": false
@@ -65,8 +65,8 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "14.8",
-      "change_percent": -3.07,
-      "z_score": -0.25,
+      "change_percent": -3.33,
+      "z_score": -0.27,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.27,
-      "z_score": -0.11,
+      "delta": "+0.5%",
+      "change_percent": 0.53,
+      "z_score": -0.08,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 4.0,
-        "z_score": 1.95
+        "change_percent": 3.92,
+        "z_score": 1.91
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 3.68,
-        "z_score": 0.92
+        "change_percent": 3.61,
+        "z_score": 0.89
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.68,
-        "z_score": 1.76
+        "change_percent": 3.58,
+        "z_score": 1.7
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.59,
-        "z_score": -0.37
+        "change_percent": -0.52,
+        "z_score": -0.35
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.32,
-        "z_score": -0.28
+        "change_percent": -0.41,
+        "z_score": -0.33
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 0.24,
-        "z_score": 0.12
+        "change_percent": 0.03,
+        "z_score": 0.02
       }
     ],
     "breadth": 80,
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 62,
+    "score": 63,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -140,7 +140,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": 4.8,
+        "effect": 5.0,
         "tone": "risk_on"
       },
       {
@@ -165,7 +165,7 @@
     29.8,
     36.1,
     49.7,
-    49.2,
+    49.3,
     53.3,
     59.7,
     45.6,
@@ -174,7 +174,7 @@
     22.2,
     18.9,
     17.0,
-    51.8,
+    51.9,
     39.9,
     51.9,
     58.7,
@@ -189,14 +189,14 @@
     44.4,
     57.6,
     66.7,
-    66.7,
-    62.3
+    66.8,
+    62.7
   ],
   "narrative": {
-    "text": "Investment-grade and high-yield credit both rose, and long-term government bond yields fell. Utilities and energy were the strongest stock sectors.",
-    "short": "Credit markets rallied while long-term government bond yields eased.",
+    "text": "Utilities and energy were the strongest sectors. Technology and industrials lagged while eight of ten sectors advanced.",
+    "short": "Utilities and energy led gains as long-term borrowing costs eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-09T19:41:23.465684+00:00"
+  "generated_at": "2026-10-09T20:11:10.372884+00:00"
 }
