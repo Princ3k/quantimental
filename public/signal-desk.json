@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-12T21:11:58.672593+00:00",
+  "as_of": "2026-10-12T21:37:28.576828+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     60.9
   ],
   "narrative": {
-    "text": "Long-term rates eased and investment-grade credit firmed. Consumer staples and utilities were the strongest sectors, while technology lagged.",
-    "short": "Long-term rates eased while consumer staples and utilities led sector gains.",
+    "text": "Long-term government bond yields eased and crude oil prices rose. Consumer staples and utilities were the strongest sectors, while technology lagged.",
+    "short": "Long-term government bond yields eased while crude oil prices rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-12T21:11:59.120618+00:00"
+  "generated_at": "2026-10-12T21:37:29.136771+00:00"
 }
