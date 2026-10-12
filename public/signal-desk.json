@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-12T19:11:46.293594+00:00",
+  "as_of": "2026-10-12T19:40:05.482050+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.7%",
-      "change_percent": 0.67,
-      "z_score": 1.05,
+      "change_percent": 0.68,
+      "z_score": 1.06,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -42,9 +42,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+4.7%",
-      "change_percent": 4.66,
-      "z_score": 0.45,
+      "delta": "+4.6%",
+      "change_percent": 4.62,
+      "z_score": 0.44,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -54,7 +54,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.41,
+      "change_percent": 0.4,
       "z_score": 0.43,
       "risk_tone": "risk_off",
       "notable": false
@@ -65,7 +65,7 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+0.8%",
-      "change_percent": 0.83,
+      "change_percent": 0.84,
       "z_score": 0.2,
       "risk_tone": "risk_off",
       "notable": false
@@ -86,6 +86,12 @@
     "available": true,
     "leaders": [
       {
+        "symbol": "XLU",
+        "name": "Utilities",
+        "change_percent": 4.02,
+        "z_score": 1.94
+      },
+      {
         "symbol": "XLE",
         "name": "Energy",
         "change_percent": 3.93,
@@ -94,34 +100,28 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.91,
-        "z_score": 1.86
-      },
-      {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": 3.89,
-        "z_score": 1.88
+        "change_percent": 3.93,
+        "z_score": 1.87
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -2.5,
-        "z_score": -0.89
+        "change_percent": -2.3,
+        "z_score": -0.84
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.56,
-        "z_score": -0.4
+        "change_percent": -0.58,
+        "z_score": -0.41
       },
       {
-        "symbol": "XLC",
-        "name": "Communications",
-        "change_percent": -0.17,
-        "z_score": -0.08
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": -0.2,
+        "z_score": -0.2
       }
     ],
     "breadth": 60,
@@ -190,13 +190,13 @@
     66.8,
     66.9,
     62.9,
-    60.3
+    60.4
   ],
   "narrative": {
-    "text": "Long-term borrowing costs fell and energy stocks rose. Technology and industrials declined, while six of ten sectors advanced.",
-    "short": "Energy and staples led gains while technology lagged as borrowing costs eased.",
+    "text": "Long-term borrowing costs eased and credit markets strengthened. Energy and utilities were the strongest sectors, while technology declined.",
+    "short": "Long-term borrowing costs fell while energy and utilities led market gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-12T19:11:47.152642+00:00"
+  "generated_at": "2026-10-12T19:40:13.304604+00:00"
 }
