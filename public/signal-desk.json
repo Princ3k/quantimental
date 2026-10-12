@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-12T20:41:05.146678+00:00",
+  "as_of": "2026-10-12T21:11:58.672593+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.43,
+      "change_percent": 0.4,
+      "z_score": 0.42,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -54,7 +54,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+4.2%",
-      "change_percent": 4.18,
+      "change_percent": 4.17,
       "z_score": 0.39,
       "risk_tone": "neutral",
       "notable": false
@@ -65,7 +65,7 @@
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
       "delta": "+0.9%",
-      "change_percent": 0.92,
+      "change_percent": 0.94,
       "z_score": 0.23,
       "risk_tone": "risk_off",
       "notable": false
@@ -124,12 +124,12 @@
         "z_score": -0.06
       }
     ],
-    "breadth": 56,
-    "advancing": 5,
-    "total": 9
+    "breadth": 60,
+    "advancing": 6,
+    "total": 10
   },
   "composite": {
-    "score": 60,
+    "score": 61,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -145,28 +145,28 @@
       },
       {
         "name": "US dollar index",
-        "effect": -2.6,
+        "effect": -2.5,
         "tone": "risk_off"
+      },
+      {
+        "name": "Sector breadth",
+        "effect": 2.0,
+        "tone": "risk_on"
       },
       {
         "name": "Gold",
         "effect": -1.4,
         "tone": "risk_off"
-      },
-      {
-        "name": "Sector breadth",
-        "effect": 1.2,
-        "tone": "risk_on"
       }
     ]
   },
   "history": [
     29.7,
     36.0,
-    47.7,
+    49.7,
     49.2,
-    51.2,
-    57.8,
+    53.2,
+    59.8,
     45.5,
     16.1,
     25.5,
@@ -187,16 +187,16 @@
     31.4,
     44.4,
     57.7,
-    64.8,
-    64.9,
-    60.9,
-    58.8
+    66.8,
+    66.9,
+    62.9,
+    60.9
   ],
   "narrative": {
-    "text": "Government bond yields eased and credit markets strengthened. Consumer staples and utilities were the top performers, while technology stocks declined.",
-    "short": "Long-term borrowing costs fell while consumer staples and utilities led gains.",
+    "text": "Long-term rates eased and investment-grade credit firmed. Consumer staples and utilities were the strongest sectors, while technology lagged.",
+    "short": "Long-term rates eased while consumer staples and utilities led sector gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-12T20:41:05.676728+00:00"
+  "generated_at": "2026-10-12T21:11:59.120618+00:00"
 }
