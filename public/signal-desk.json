@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
-  "as_of": "2026-10-12T15:08:13.465406+00:00",
+  "as_of": "2026-10-12T15:41:02.838857+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.7%",
-      "change_percent": 0.67,
-      "z_score": 1.04,
+      "change_percent": 0.69,
+      "z_score": 1.07,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.77,
+      "change_percent": 0.44,
+      "z_score": 0.84,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,7 +43,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+4.9%",
-      "change_percent": 4.9,
+      "change_percent": 4.92,
       "z_score": 0.48,
       "risk_tone": "neutral",
       "notable": false
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.28,
+      "change_percent": 0.33,
+      "z_score": 0.33,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.7%",
-      "change_percent": 0.74,
-      "z_score": 0.18,
+      "delta": "+0.8%",
+      "change_percent": 0.8,
+      "z_score": 0.19,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
-      "delta": "15.3",
-      "change_percent": -1.68,
-      "z_score": -0.14,
+      "delta": "15.2",
+      "change_percent": -2.06,
+      "z_score": -0.17,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -86,42 +86,42 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": 3.87,
-        "z_score": 1.87
-      },
-      {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 3.59,
-        "z_score": 0.88
+        "change_percent": 4.06,
+        "z_score": 1.03
+      },
+      {
+        "symbol": "XLU",
+        "name": "Utilities",
+        "change_percent": 4.05,
+        "z_score": 1.95
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.42,
-        "z_score": 1.62
+        "change_percent": 3.57,
+        "z_score": 1.69
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -2.32,
-        "z_score": -0.84
+        "change_percent": -2.38,
+        "z_score": -0.86
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.14,
-        "z_score": -0.19
+        "change_percent": -0.08,
+        "z_score": -0.16
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -0.04,
-        "z_score": -0.01
+        "change_percent": -0.07,
+        "z_score": -0.03
       }
     ],
     "breadth": 70,
@@ -140,7 +140,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": 5.4,
+        "effect": 5.7,
         "tone": "risk_on"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -1.7,
+        "effect": -2.0,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     66.8,
     66.9,
     62.9,
-    63.6
+    63.7
   ],
   "narrative": {
-    "text": "Utilities and Energy were the strongest sectors. Technology and Industrials lagged while long-term borrowing costs eased.",
-    "short": "Utilities and Energy led gains as long-term borrowing costs fell.",
+    "text": "Crude oil rose nearly 5 percent, driving energy stocks higher. Technology shares fell while most other sectors advanced.",
+    "short": "Energy and utilities led gains as long-term borrowing costs eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-12T15:08:13.971075+00:00"
+  "generated_at": "2026-10-12T15:41:03.339745+00:00"
 }
