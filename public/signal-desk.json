@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-13T20:42:02.590162+00:00",
+  "as_of": "2026-10-13T21:12:23.155585+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -32,8 +32,8 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+6.0%",
-      "change_percent": 6.05,
-      "z_score": 0.63,
+      "change_percent": 5.98,
+      "z_score": 0.62,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -54,7 +54,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.37,
+      "change_percent": 0.36,
       "z_score": 0.38,
       "risk_tone": "risk_off",
       "notable": false
@@ -76,8 +76,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.14,
-      "z_score": -0.05,
+      "change_percent": -0.07,
+      "z_score": -0.03,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -190,13 +190,13 @@
     66.9,
     62.9,
     61.1,
-    56.7
+    56.6
   ],
   "narrative": {
-    "text": "Energy led market gains as crude oil prices climbed. Technology and industrials were the weakest sectors, though most others advanced.",
-    "short": "Energy stocks and crude oil prices rose while technology shares fell.",
+    "text": "Crude oil prices climbed 6% and energy stocks gained 5.4%. Technology shares dropped 2.8% while government bond yields eased.",
+    "short": "Energy stocks led gains as crude oil prices rose and technology shares fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-13T20:42:03.228791+00:00"
+  "generated_at": "2026-10-13T21:12:23.704652+00:00"
 }
