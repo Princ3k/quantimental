@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-13T14:08:54.656315+00:00",
+  "as_of": "2026-10-13T14:40:02.383913+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-5bp",
-      "change_percent": -0.87,
-      "z_score": -0.77,
+      "change_percent": -0.95,
+      "z_score": -0.81,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,20 +21,9 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.36,
-      "z_score": 0.62,
+      "change_percent": 0.42,
+      "z_score": 0.69,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.45,
-      "z_score": 0.48,
-      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -43,8 +32,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.2%",
-      "change_percent": -0.17,
-      "z_score": -0.41,
+      "change_percent": -0.23,
+      "z_score": -0.53,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -53,10 +42,21 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+4.4%",
-      "change_percent": 4.38,
-      "z_score": 0.41,
+      "delta": "+4.8%",
+      "change_percent": 4.81,
+      "z_score": 0.47,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+0.4%",
+      "change_percent": 0.43,
+      "z_score": 0.46,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.18,
-      "z_score": 0.03,
+      "delta": "+0.1%",
+      "change_percent": 0.09,
+      "z_score": 0.01,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 4.39,
-        "z_score": 1.14
+        "change_percent": 4.69,
+        "z_score": 1.24
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.03,
-        "z_score": 1.41
+        "change_percent": 2.99,
+        "z_score": 1.39
       },
       {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 1.54,
-        "z_score": 0.53
+        "symbol": "XLF",
+        "name": "Financials",
+        "change_percent": 1.81,
+        "z_score": 0.91
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -2.94,
-        "z_score": -1.0
+        "change_percent": -3.12,
+        "z_score": -1.06
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -2.24,
-        "z_score": -1.21
+        "change_percent": -2.25,
+        "z_score": -1.22
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": -0.57,
-        "z_score": -0.35
+        "change_percent": -0.66,
+        "z_score": -0.39
       }
     ],
     "breadth": 70,
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 4.6,
+        "effect": 4.9,
         "tone": "risk_on"
       },
       {
@@ -145,12 +145,12 @@
       },
       {
         "name": "US dollar index",
-        "effect": -2.9,
+        "effect": -2.8,
         "tone": "risk_off"
       },
       {
         "name": "Credit complex",
-        "effect": 0.6,
+        "effect": 0.5,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     66.9,
     62.9,
     61.1,
-    55.7
+    56.0
   ],
   "narrative": {
-    "text": "Crude oil rose 4.4%, driving energy stocks up. Technology and industrials lagged.",
-    "short": "Energy stocks surged as crude oil prices climbed and tech shares fell.",
+    "text": "Crude oil prices climbed 4.8% and energy stocks gained 4.7%. Technology stocks fell 3.1% while government bond yields dropped.",
+    "short": "Energy stocks led gains as crude oil prices rose and long-term borrowing costs eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-13T14:08:55.203638+00:00"
+  "generated_at": "2026-10-13T14:40:03.108320+00:00"
 }
