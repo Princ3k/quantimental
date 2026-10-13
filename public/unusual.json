@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-10-12T22:07:15.457342+00:00",
+  "generated_at": "2026-10-13T02:42:59.113220+00:00",
   "as_of": "2026-10-12",
   "scanned": 502,
   "universe": 503,
@@ -16,7 +16,7 @@
       "multiple": 2.0,
       "direction": "down",
       "period_percent": 17.67,
-      "volume": 3310596,
+      "volume": 3318700,
       "company": "Ciena",
       "sector": "Information Technology",
       "headline": "Ciena is down 9.9% today, 2.0x its typical 4.9% daily move.",
@@ -32,7 +32,7 @@
       "multiple": 1.3,
       "direction": "up",
       "period_percent": -12.0,
-      "volume": 1962355,
+      "volume": 2003600,
       "company": "Fair Isaac",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology fell 1.3% \u2014 so Fair Isaac moved against its sector."
@@ -45,7 +45,7 @@
       "multiple": 2.0,
       "direction": "down",
       "period_percent": 17.67,
-      "volume": 3310596,
+      "volume": 3318700,
       "company": "Ciena",
       "sector": "Information Technology",
       "headline": "Ciena is down 9.9% today, 2.0x its typical 4.9% daily move.",
@@ -59,7 +59,7 @@
       "multiple": 1.7,
       "direction": "down",
       "period_percent": 8.04,
-      "volume": 6420881,
+      "volume": 6430600,
       "company": "Lumentum",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology fell 1.3%, so most of this was specific to Lumentum."
@@ -72,7 +72,7 @@
       "multiple": 1.2,
       "direction": "down",
       "period_percent": 1.97,
-      "volume": 7406287,
+      "volume": 7418000,
       "company": "Coherent Corp.",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology fell 1.3%, so most of this was specific to Coherent Corp."
@@ -85,7 +85,7 @@
       "multiple": 1.4,
       "direction": "down",
       "period_percent": -1.59,
-      "volume": 9180282,
+      "volume": 9184300,
       "company": "Carvana",
       "sector": "Consumer Discretionary",
       "context": "The market was flat today and Consumer Discretionary was flat, so most of this was specific to Carvana."
@@ -98,7 +98,7 @@
       "multiple": 1.2,
       "direction": "down",
       "period_percent": -2.84,
-      "volume": 7976398,
+      "volume": 7987500,
       "company": "Corning Inc.",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology fell 1.3%, so most of this was specific to Corning Inc."
@@ -111,7 +111,7 @@
       "multiple": 1.1,
       "direction": "down",
       "period_percent": -13.17,
-      "volume": 8663985,
+      "volume": 8687300,
       "company": "Sandisk",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology fell 1.3%, so most of this was specific to Sandisk."
@@ -124,7 +124,7 @@
       "multiple": 0.7,
       "direction": "down",
       "period_percent": 8.34,
-      "volume": 12832909,
+      "volume": 12848200,
       "company": "Moderna",
       "sector": "Health Care",
       "context": "The market was flat today and Health Care rose 0.9% \u2014 so Moderna moved against its sector."
