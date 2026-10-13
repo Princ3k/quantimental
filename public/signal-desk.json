@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-13T21:12:23.155585+00:00",
+  "as_of": "2026-10-13T21:39:18.935661+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -54,7 +54,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.36,
+      "change_percent": 0.37,
       "z_score": 0.38,
       "risk_tone": "risk_off",
       "notable": false
@@ -193,10 +193,10 @@
     56.6
   ],
   "narrative": {
-    "text": "Crude oil prices climbed 6% and energy stocks gained 5.4%. Technology shares dropped 2.8% while government bond yields eased.",
-    "short": "Energy stocks led gains as crude oil prices rose and technology shares fell.",
+    "text": "Energy was the strongest sector, gaining 5.4%, while technology was the weakest, dropping 2.8%. Crude oil prices increased 6.0% over the last five trading days.",
+    "short": "Energy stocks and crude oil prices rose while technology shares fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-13T21:12:23.704652+00:00"
+  "generated_at": "2026-10-13T21:39:19.464730+00:00"
 }
