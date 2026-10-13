@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-13T19:50:42.600832+00:00",
+  "as_of": "2026-10-13T20:11:03.328152+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -21,8 +21,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.44,
-      "z_score": 0.72,
+      "change_percent": 0.4,
+      "z_score": 0.67,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -31,9 +31,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+5.6%",
-      "change_percent": 5.59,
-      "z_score": 0.57,
+      "delta": "+5.8%",
+      "change_percent": 5.84,
+      "z_score": 0.6,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -43,8 +43,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.2%",
-      "change_percent": -0.22,
-      "z_score": -0.52,
+      "change_percent": -0.23,
+      "z_score": -0.54,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -54,8 +54,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.35,
-      "z_score": 0.36,
+      "change_percent": 0.37,
+      "z_score": 0.38,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold little changed",
       "direction": "flat",
-      "delta": "+0.0%",
-      "change_percent": 0.04,
-      "z_score": -0.01,
+      "delta": "-0.0%",
+      "change_percent": -0.02,
+      "z_score": -0.02,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,64 +88,64 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 5.42,
-        "z_score": 1.47
+        "change_percent": 5.36,
+        "z_score": 1.45
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
         "change_percent": 2.91,
-        "z_score": 1.35
+        "z_score": 1.36
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 1.69,
-        "z_score": 0.85
+        "change_percent": 1.68,
+        "z_score": 0.84
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -2.96,
-        "z_score": -1.01
+        "change_percent": -2.85,
+        "z_score": -0.98
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -1.67,
-        "z_score": -0.93
+        "change_percent": -1.69,
+        "z_score": -0.94
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 0.01,
-        "z_score": -0.11
+        "change_percent": -0.06,
+        "z_score": -0.14
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
-    "score": 59,
+    "score": 56,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
-      {
-        "name": "Sector breadth",
-        "effect": 6.0,
-        "tone": "risk_on"
-      },
       {
         "name": "10-year Treasury yield",
         "effect": 5.0,
         "tone": "risk_on"
       },
       {
+        "name": "Sector breadth",
+        "effect": 4.0,
+        "tone": "risk_on"
+      },
+      {
         "name": "US dollar index",
-        "effect": -2.2,
+        "effect": -2.3,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": 0.6,
+        "effect": 0.4,
         "tone": "risk_on"
       }
     ]
@@ -164,19 +164,19 @@
     36.0,
     49.7,
     49.2,
-    53.2,
+    53.3,
     59.8,
     45.5,
     16.0,
     25.5,
     21.9,
     18.6,
-    16.7,
+    16.8,
     52.0,
-    39.9,
+    40.0,
     52.1,
     58.9,
-    43.8,
+    43.9,
     16.9,
     27.2,
     8.7,
@@ -184,19 +184,19 @@
     18.2,
     31.4,
     31.4,
-    44.3,
+    44.4,
     57.7,
-    66.8,
+    66.9,
     66.9,
     62.9,
     61.1,
-    58.6
+    56.4
   ],
   "narrative": {
-    "text": "Energy stocks rose sharply while technology lagged. Long-term borrowing costs fell and the dollar gained value over the last five days.",
-    "short": "Energy led gains as long-term borrowing costs eased and the dollar strengthened.",
+    "text": "Crude oil rose 5.8%, driving energy stocks up 5.4%. Technology and industrials lagged, while investment-grade credit firmed.",
+    "short": "Energy stocks surged as crude oil prices climbed.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-13T19:50:43.249156+00:00"
+  "generated_at": "2026-10-13T20:11:03.897715+00:00"
 }
