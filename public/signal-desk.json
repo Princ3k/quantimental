@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-14T20:41:15.266503+00:00",
+  "as_of": "2026-10-14T21:08:21.006037+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -53,9 +53,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+7.6%",
-      "change_percent": 7.58,
-      "z_score": 0.82,
+      "delta": "+7.7%",
+      "change_percent": 7.75,
+      "z_score": 0.84,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -65,8 +65,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.29,
-      "z_score": 0.27,
+      "change_percent": 0.28,
+      "z_score": 0.26,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.47,
-      "z_score": -0.13,
+      "delta": "-0.3%",
+      "change_percent": -0.34,
+      "z_score": -0.1,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 55,
+    "score": 54,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 0.8,
+        "effect": 0.6,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     62.9,
     61.1,
     57.1,
-    54.5
+    54.4
   ],
   "narrative": {
-    "text": "Energy and consumer staples led gains, while technology lagged. Long-term government bond yields dropped and crude oil prices rose.",
-    "short": "Energy stocks surged while technology shares fell and borrowing costs eased.",
+    "text": "Long-term government bond yields eased and crude oil prices climbed. Technology stocks declined while energy and consumer staples led sector gains.",
+    "short": "Energy and staples led gains while tech fell and volatility rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-14T20:41:15.885139+00:00"
+  "generated_at": "2026-10-14T21:08:21.530459+00:00"
 }
