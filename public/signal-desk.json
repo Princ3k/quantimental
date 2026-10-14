@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-14T21:36:30.734308+00:00",
+  "as_of": "2026-10-14T21:40:37.653114+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -65,7 +65,7 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.3%",
-      "change_percent": 0.3,
+      "change_percent": 0.31,
       "z_score": 0.29,
       "risk_tone": "risk_off",
       "notable": false
@@ -193,10 +193,10 @@
     54.2
   ],
   "narrative": {
-    "text": "Energy and consumer staples posted the strongest sector gains. Technology was the weakest sector, falling 5.4%.",
-    "short": "Energy and staples led gains while tech fell as volatility rose.",
+    "text": "Crude oil prices rose, driving strong gains in the energy sector. Technology stocks declined, and overall market uncertainty increased.",
+    "short": "Energy stocks surged while technology shares fell sharply.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-14T21:36:31.226577+00:00"
+  "generated_at": "2026-10-14T21:40:38.152218+00:00"
 }
