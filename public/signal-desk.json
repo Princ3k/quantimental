@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 25 days of records.",
-  "as_of": "2026-10-15T21:17:44.666173+00:00",
+  "as_of": "2026-10-15T21:39:14.856566+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -55,7 +55,7 @@
       "direction": "down",
       "delta": "-0.1%",
       "change_percent": -0.13,
-      "z_score": -0.27,
+      "z_score": -0.26,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -193,10 +193,10 @@
     68.1
   ],
   "narrative": {
-    "text": "Government bond yields dropped while health care and consumer staples led gains. Technology stocks declined, and the dollar weakened slightly.",
-    "short": "Long-term borrowing costs fell as investors rotated into defensive sectors.",
+    "text": "Government bond yields dropped while investment-grade credit prices rose. Health care and consumer staples led gains, while technology stocks declined.",
+    "short": "Long-term borrowing costs fell as investors rotated into health care and staples.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-15T21:17:45.220461+00:00"
+  "generated_at": "2026-10-15T21:39:15.379240+00:00"
 }
