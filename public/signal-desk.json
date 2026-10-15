@@ -1,7 +1,7 @@
 {
   "available": true,
-  "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-15T13:10:24.422752+00:00",
+  "context": "More risk-on than most days on record \u2014 the highest since 2026-10-08.",
+  "as_of": "2026-10-15T13:42:00.817342+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,20 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-2.0\u03c3",
-      "change_percent": -3.27,
-      "z_score": -2.04,
+      "delta": "-2.2\u03c3",
+      "change_percent": -3.56,
+      "z_score": -2.19,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+1.5\u03c3",
+      "change_percent": 1.01,
+      "z_score": 1.5,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,8 +32,8 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "17.5",
-      "change_percent": 13.5,
-      "z_score": 0.99,
+      "change_percent": 13.76,
+      "z_score": 1.01,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,21 +42,21 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-0.4%",
-      "change_percent": -0.43,
-      "z_score": -0.93,
+      "delta": "-0.3%",
+      "change_percent": -0.28,
+      "z_score": -0.63,
       "risk_tone": "risk_off",
-      "notable": true
+      "notable": false
     },
     {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.19,
-      "z_score": 0.38,
-      "risk_tone": "risk_on",
+      "delta": "+3.5%",
+      "change_percent": 3.48,
+      "z_score": 0.29,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -54,20 +65,9 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.09,
-      "z_score": -0.22,
+      "change_percent": -0.07,
+      "z_score": -0.19,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude pushing higher",
-      "direction": "up",
-      "delta": "+2.7%",
-      "change_percent": 2.73,
-      "z_score": 0.19,
-      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -86,117 +86,117 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": 3.66,
-        "z_score": 0.88
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 5.2,
+        "z_score": 2.42
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 3.45,
-        "z_score": 1.42
+        "change_percent": 5.17,
+        "z_score": 2.21
       },
       {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 3.16,
-        "z_score": 1.44
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": 3.3,
+        "z_score": 0.76
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -3.72,
-        "z_score": -1.19
-      },
-      {
-        "symbol": "XLC",
-        "name": "Communications",
-        "change_percent": -1.12,
-        "z_score": -0.54
+        "change_percent": -5.48,
+        "z_score": -1.67
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.81,
-        "z_score": -0.51
+        "change_percent": -1.34,
+        "z_score": -0.76
+      },
+      {
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -0.62,
+        "z_score": -0.29
       }
     ],
-    "breadth": 60,
-    "advancing": 6,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
-    "score": 57,
+    "score": 64,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 12.2,
+        "effect": 13.1,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": -5.9,
+        "effect": -6.1,
         "tone": "risk_off"
       },
       {
         "name": "Sector breadth",
-        "effect": 2.0,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": -1.6,
-        "tone": "risk_off"
+        "effect": 2.6,
+        "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 1.3,
+        "effect": 1.1,
         "tone": "risk_on"
       }
     ]
   },
   "history": [
-    49.4,
+    49.3,
     53.3,
     59.9,
     45.6,
     16.2,
-    25.6,
+    25.7,
     22.1,
     18.8,
     16.9,
-    52.1,
+    52.0,
     40.0,
     52.1,
-    59.0,
+    58.9,
     44.0,
     17.1,
     27.4,
-    8.8,
+    8.9,
     3.4,
     18.4,
     31.5,
     31.5,
     44.4,
-    57.8,
+    57.7,
     66.9,
-    67.0,
+    66.9,
     62.9,
     61.1,
     57.1,
     54.9,
-    57.4
+    64.3
   ],
   "narrative": {
-    "text": "Long-term government bond yields eased and technology stocks declined over the last five days. Energy and health care were the strongest sectors.",
+    "text": "Long-term government bond yields eased and investment-grade credit strengthened. Technology and industrial stocks declined, while consumer staples and health care led gains.",
     "short": "Long-term government bond yields fell while technology stocks dropped.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-15T13:10:24.881985+00:00"
+  "generated_at": "2026-10-15T13:42:01.471244+00:00"
 }
