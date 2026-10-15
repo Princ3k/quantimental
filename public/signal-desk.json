@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 25 days of records.",
-  "as_of": "2026-10-15T21:07:55.133867+00:00",
+  "as_of": "2026-10-15T21:17:44.666173+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -53,9 +53,9 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.2%",
-      "change_percent": -0.16,
-      "z_score": -0.3,
+      "delta": "-0.1%",
+      "change_percent": -0.13,
+      "z_score": -0.27,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,8 +64,8 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+0.8%",
-      "change_percent": 0.83,
+      "delta": "+0.9%",
+      "change_percent": 0.85,
       "z_score": 0.21,
       "risk_tone": "risk_off",
       "notable": false
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": 1.8,
+        "effect": 1.6,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     61.1,
     57.1,
     54.9,
-    68.4
+    68.1
   ],
   "narrative": {
-    "text": "Long-term government bond yields declined and health care stocks rose. Technology stocks fell, and eight of ten sectors advanced.",
-    "short": "Long-term government bond yields fell while health care stocks led gains.",
+    "text": "Government bond yields dropped while health care and consumer staples led gains. Technology stocks declined, and the dollar weakened slightly.",
+    "short": "Long-term borrowing costs fell as investors rotated into defensive sectors.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-15T21:07:55.675810+00:00"
+  "generated_at": "2026-10-15T21:17:45.220461+00:00"
 }
