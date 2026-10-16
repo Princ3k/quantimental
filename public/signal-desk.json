@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-16T20:03:20.741254+00:00",
+  "as_of": "2026-10-16T20:11:42.507274+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "+2.7\u03c3",
-      "change_percent": 36.93,
-      "z_score": 2.71,
+      "delta": "+2.6\u03c3",
+      "change_percent": 35.18,
+      "z_score": 2.58,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+7.8%",
-      "change_percent": 7.77,
-      "z_score": 0.83,
+      "delta": "+7.7%",
+      "change_percent": 7.66,
+      "z_score": 0.82,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -65,8 +65,8 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.4%",
-      "change_percent": -0.39,
-      "z_score": -0.6,
+      "change_percent": -0.42,
+      "z_score": -0.64,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.6%",
-      "change_percent": -0.63,
-      "z_score": -0.18,
+      "delta": "-0.7%",
+      "change_percent": -0.65,
+      "z_score": -0.19,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 52,
+    "score": 53,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -16.3,
+        "effect": -15.5,
         "tone": "risk_off"
       },
       {
@@ -145,7 +145,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": 3.6,
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
@@ -164,9 +164,9 @@
     53.4,
     59.9,
     45.7,
-    16.5,
+    16.4,
     25.8,
-    22.3,
+    22.2,
     18.9,
     17.0,
     52.0,
@@ -174,7 +174,7 @@
     52.1,
     58.9,
     44.0,
-    17.3,
+    17.2,
     27.5,
     9.0,
     3.5,
@@ -190,13 +190,13 @@
     57.1,
     55.0,
     69.1,
-    52.4
+    53.4
   ],
   "narrative": {
-    "text": "Uncertainty rose sharply as technology stocks dropped and energy climbed. Government bond yields eased, and six of ten sectors advanced.",
-    "short": "Volatility spiked while tech stocks fell and energy rose.",
+    "text": "Uncertainty rose sharply as long-term borrowing costs fell. Energy and consumer staples led gains, while technology stocks declined.",
+    "short": "Volatility surged while long-term government bond yields eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-16T20:03:21.247030+00:00"
+  "generated_at": "2026-10-16T20:11:43.371316+00:00"
 }
