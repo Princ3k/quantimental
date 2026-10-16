@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-16T21:10:12.831643+00:00",
+  "as_of": "2026-10-16T21:39:48.794386+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     53.6
   ],
   "narrative": {
-    "text": "Volatility rose sharply while long-term government bond yields eased. Technology was the weakest sector, while consumer staples and energy led gains.",
-    "short": "Volatility spiked and tech stocks fell as crude oil and staples rose.",
+    "text": "Uncertainty rose while long-term borrowing costs eased. Energy and consumer staples led gains, while technology stocks suffered the steepest losses.",
+    "short": "Volatility spiked and tech stocks fell as energy and staples gained.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-16T21:10:13.359598+00:00"
+  "generated_at": "2026-10-16T21:39:49.451722+00:00"
 }
