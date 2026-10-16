@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-16T21:39:48.794386+00:00",
+  "as_of": "2026-10-16T22:47:24.491724+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     53.6
   ],
   "narrative": {
-    "text": "Uncertainty rose while long-term borrowing costs eased. Energy and consumer staples led gains, while technology stocks suffered the steepest losses.",
-    "short": "Volatility spiked and tech stocks fell as energy and staples gained.",
+    "text": "Uncertainty rose sharply as technology stocks dropped 7.7%. Energy and consumer staples gained, while long-term borrowing costs eased.",
+    "short": "Volatility surged while technology stocks fell and energy rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-16T21:39:49.451722+00:00"
+  "generated_at": "2026-10-16T22:47:25.010828+00:00"
 }
