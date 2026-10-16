@@ -1,7 +1,7 @@
 {
   "available": true,
-  "context": "More risk-on than most days on record \u2014 the highest since 2026-10-15.",
-  "as_of": "2026-10-16T13:37:42.438840+00:00",
+  "context": "The most risk-on reading in 26 days of records.",
+  "as_of": "2026-10-16T14:07:34.250896+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-1.5\u03c3",
-      "change_percent": -2.27,
-      "z_score": -1.51,
+      "delta": "-1.8\u03c3",
+      "change_percent": -2.75,
+      "z_score": -1.76,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.89,
-      "z_score": 1.34,
+      "delta": "+1.7\u03c3",
+      "change_percent": 1.14,
+      "z_score": 1.67,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -31,31 +31,20 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.4%",
-      "change_percent": -0.4,
-      "z_score": -0.61,
+      "delta": "-0.6%",
+      "change_percent": -0.55,
+      "z_score": -0.81,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-0.2%",
-      "change_percent": -0.23,
-      "z_score": -0.54,
-      "risk_tone": "risk_off",
-      "notable": false
+      "notable": true
     },
     {
       "category": "VOL",
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "15.9",
-      "change_percent": 7.01,
-      "z_score": 0.5,
+      "delta": "16.0",
+      "change_percent": 8.09,
+      "z_score": 0.58,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -65,9 +54,20 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+4.5%",
-      "change_percent": 4.54,
+      "change_percent": 4.53,
       "z_score": 0.42,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-0.2%",
+      "change_percent": -0.16,
+      "z_score": -0.39,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.9%",
-      "change_percent": -0.93,
-      "z_score": -0.26,
+      "delta": "-0.2%",
+      "change_percent": -0.24,
+      "z_score": -0.08,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,82 +88,82 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 5.02,
-        "z_score": 2.31
+        "change_percent": 5.19,
+        "z_score": 2.39
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 4.05,
-        "z_score": 1.68
+        "change_percent": 4.12,
+        "z_score": 1.71
       },
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": 3.58,
-        "z_score": 0.85
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": 3.97,
+        "z_score": 1.49
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -5.93,
-        "z_score": -1.77
+        "change_percent": -6.22,
+        "z_score": -1.85
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -0.5,
-        "z_score": -0.36
+        "change_percent": 0.08,
+        "z_score": -0.08
       },
       {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": 0.97,
-        "z_score": 0.5
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": 1.35,
+        "z_score": 0.68
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
+    "breadth": 90,
+    "advancing": 9,
     "total": 10
   },
   "composite": {
-    "score": 70,
+    "score": 74,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 9.1,
+        "effect": 10.6,
         "tone": "risk_on"
       },
       {
         "name": "Sector breadth",
-        "effect": 6.0,
+        "effect": 8.0,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 3.7,
+        "effect": 4.9,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": -3.0,
+        "effect": -3.5,
         "tone": "risk_off"
-      },
-      {
-        "name": "Credit complex",
-        "effect": 2.4,
-        "tone": "risk_on"
       }
     ]
   },
   "history": [
     53.3,
     59.9,
-    45.6,
+    45.5,
     16.2,
     25.6,
     22.1,
@@ -174,29 +174,29 @@
     52.1,
     59.0,
     44.0,
-    17.1,
+    17.2,
     27.4,
-    8.8,
+    8.9,
     3.4,
     18.4,
     31.5,
     31.6,
     44.4,
-    57.8,
+    57.7,
     66.9,
-    67.0,
+    66.9,
     62.9,
     61.1,
     57.1,
     54.9,
     69.0,
-    69.7
+    74.3
   ],
   "narrative": {
-    "text": "Consumer staples and health care rose while technology dropped. Long-term government bond yields eased and the US dollar weakened.",
-    "short": "Defensive sectors led gains as technology stocks fell sharply.",
+    "text": "Long-term government borrowing costs eased while consumer staples and health care stocks rose. Technology shares declined, and crude oil prices increased.",
+    "short": "Government bond yields fell and consumer stocks led gains as tech lagged.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-16T13:37:43.013737+00:00"
+  "generated_at": "2026-10-16T14:07:34.752025+00:00"
 }
