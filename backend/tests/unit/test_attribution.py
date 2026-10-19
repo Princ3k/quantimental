@@ -13,6 +13,7 @@ import pytest
 
 from app.engines import attribution
 from app.engines.attribution import (
+    MIN_BENCHMARK_MEMBERS,
     MIN_SECTOR_MEMBERS,
     decompose,
     explain,
@@ -209,3 +210,69 @@ class TestBenchmarkBasket:
         assert attribution.decompose(rows, sectors, benchmark=set())["BM000"][
             "market_percent"
         ] == 0.5
+
+
+class TestAWiderUniverseDoesNotRedefineTheTerms:
+    """
+    Coverage grew past the S&P 500 on 2026-10-19: nineteen global technology
+    companies, scanned and priced like any other row, outside the benchmark.
+
+    The risk that creates is definitional, not numerical. "The market was flat"
+    and "Information Technology was flat" are claims about a named basket, and
+    if the basket silently becomes "whatever we happened to scan", those
+    sentences change meaning in every row — including the five hundred that
+    were there before — with nothing on the page to show it.
+    """
+
+    def _rows(self, moves: dict[str, float]) -> list[dict]:
+        return [
+            {"ticker": t, "change_percent": c, "typical_percent": 2.0}
+            for t, c in moves.items()
+        ]
+
+    def test_an_addition_does_not_move_the_sector_it_joins(self):
+        # Sized against the real thresholds. A median shrugs off a handful of
+        # outliers — eight members at zero plus four additions at ten still
+        # medians to zero, and an earlier version of this test proved nothing
+        # because of it. And the basket needs MIN_BENCHMARK_MEMBERS before the
+        # market median uses it at all, so a toy index falls back to the whole
+        # scan and the market assertion tests the fallback instead.
+        index = {f"IDX{i}": 0.0 for i in range(MIN_BENCHMARK_MEMBERS)}
+        additions = {f"ADD{i}": 10.0 for i in range(MIN_BENCHMARK_MEMBERS)}
+
+        widened = {**index, **additions}
+        sectors = {t: "Information Technology" for t in widened}
+        result = decompose(self._rows(widened), sectors, benchmark=set(index))
+
+        # Unpinned, both of these are 5.0: the median of a scan half of which
+        # is not in the index.
+        assert result["IDX0"]["sector_percent"] == 0.0, (
+            "an index member's sector must not move because coverage widened"
+        )
+        assert result["IDX0"]["market_percent"] == 0.0
+
+    def test_an_addition_is_still_measured_against_that_sector(self):
+        # Excluded from the vote, not from the comparison. The whole point of
+        # scanning it is to say what it did relative to its peers.
+        index = {f"IDX{i}": 1.0 for i in range(10)}
+        widened = dict(index, NBIS=9.0)
+        sectors = {t: "Information Technology" for t in widened}
+
+        result = decompose(self._rows(widened), sectors, benchmark=set(index))
+
+        assert "NBIS" in result
+        assert result["NBIS"]["sector_percent"] == 1.0
+        assert result["NBIS"]["gap"] == 8.0
+        assert result["NBIS"]["diverged"] is True
+
+    def test_without_a_benchmark_the_whole_scan_still_votes(self):
+        # The old behaviour, which stays correct while the two sets are equal
+        # and is what every caller that passes no basket relies on.
+        moves = {f"T{i}": 0.0 for i in range(10)}
+        moves["HOT"] = 50.0
+        sectors = {t: "Information Technology" for t in moves}
+
+        result = decompose(self._rows(moves), sectors)
+
+        assert result["T0"]["sector_percent"] == 0.0
+        assert result["HOT"]["sector_percent"] == 0.0

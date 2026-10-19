@@ -1,14 +1,19 @@
 {
-  "source": "S&P 500 constituents, https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+  "source": "S&P 500 constituents, https://en.wikipedia.org/wiki/List_of_S%26P_500_companies, plus listed global technology companies outside the index",
   "captured": "2026-09-12",
-  "note": "Baked in rather than scraped at runtime: the scan must not fail because Wikipedia changed a table layout. Refresh with scripts/refresh_universe.py. `benchmark` marks the members that define \"the market\" in attribution sentences \u2014 today every row, because the universe is exactly the S&P 500. Anything added from another source must leave the flag out, or the market median silently starts describing a different market.",
-  "count": 503,
+  "note": "Baked in rather than scraped at runtime: the scan must not fail because Wikipedia changed a table layout. Refresh with scripts/refresh_universe.py, which rewrites the index members and carries everything else over. `benchmark` marks the members that define \"the market\" in attribution sentences \u2014 the S&P 500 and nothing else. The universe is deliberately wider than the benchmark: rows without the flag are scanned and priced like any other, and are excluded from the market and sector medians so that adding coverage never moves the thing coverage is measured against. Anything added from another source must leave the flag out.",
+  "count": 522,
   "constituents": [
     {
       "ticker": "A",
       "name": "Agilent Technologies",
       "sector": "Health Care",
       "benchmark": true
+    },
+    {
+      "ticker": "AAOI",
+      "name": "Applied Optoelectronics",
+      "sector": "Information Technology"
     },
     {
       "ticker": "AAPL",
@@ -263,6 +268,16 @@
       "benchmark": true
     },
     {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "sector": "Information Technology"
+    },
+    {
+      "ticker": "ASML",
+      "name": "ASML Holding",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "ATO",
       "name": "Atmos Energy",
       "sector": "Utilities",
@@ -309,6 +324,11 @@
       "name": "Boeing",
       "sector": "Industrials",
       "benchmark": true
+    },
+    {
+      "ticker": "BABA",
+      "name": "Alibaba Group",
+      "sector": "Consumer Discretionary"
     },
     {
       "ticker": "BAC",
@@ -1247,6 +1267,11 @@
       "benchmark": true
     },
     {
+      "ticker": "GLBE",
+      "name": "Global-E Online",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "GLW",
       "name": "Corning Inc.",
       "sector": "Information Technology",
@@ -1287,6 +1312,11 @@
       "name": "Global Payments",
       "sector": "Financials",
       "benchmark": true
+    },
+    {
+      "ticker": "GRAB",
+      "name": "Grab Holdings",
+      "sector": "Information Technology"
     },
     {
       "ticker": "GRMN",
@@ -1485,6 +1515,11 @@
       "name": "Invitation Homes",
       "sector": "Real Estate",
       "benchmark": true
+    },
+    {
+      "ticker": "IOT",
+      "name": "Samsara",
+      "sector": "Information Technology"
     },
     {
       "ticker": "IP",
@@ -1817,6 +1852,11 @@
       "benchmark": true
     },
     {
+      "ticker": "MELI",
+      "name": "MercadoLibre",
+      "sector": "Consumer Discretionary"
+    },
+    {
       "ticker": "MET",
       "name": "MetLife",
       "sector": "Financials",
@@ -1949,6 +1989,11 @@
       "benchmark": true
     },
     {
+      "ticker": "NBIS",
+      "name": "Nebius Group",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "NCLH",
       "name": "Norwegian Cruise Line Holdings",
       "sector": "Consumer Discretionary",
@@ -1977,6 +2022,11 @@
       "name": "Newmont",
       "sector": "Materials",
       "benchmark": true
+    },
+    {
+      "ticker": "NET",
+      "name": "Cloudflare",
+      "sector": "Information Technology"
     },
     {
       "ticker": "NFLX",
@@ -2309,6 +2359,11 @@
       "benchmark": true
     },
     {
+      "ticker": "RBLX",
+      "name": "Roblox",
+      "sector": "Communication Services"
+    },
+    {
       "ticker": "RCL",
       "name": "Royal Caribbean Group",
       "sector": "Consumer Discretionary",
@@ -2417,6 +2472,16 @@
       "benchmark": true
     },
     {
+      "ticker": "SE",
+      "name": "Sea Limited",
+      "sector": "Consumer Discretionary"
+    },
+    {
+      "ticker": "SHOP",
+      "name": "Shopify",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "SHW",
       "name": "Sherwin-Williams",
       "sector": "Materials",
@@ -2453,6 +2518,11 @@
       "benchmark": true
     },
     {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "SNPS",
       "name": "Synopsys",
       "sector": "Information Technology",
@@ -2483,6 +2553,11 @@
       "benchmark": true
     },
     {
+      "ticker": "SPOT",
+      "name": "Spotify Technology",
+      "sector": "Communication Services"
+    },
+    {
       "ticker": "SRE",
       "name": "Sempra",
       "sector": "Utilities",
@@ -2499,6 +2574,11 @@
       "name": "Steel Dynamics",
       "sector": "Materials",
       "benchmark": true
+    },
+    {
+      "ticker": "STNE",
+      "name": "StoneCo",
+      "sector": "Information Technology"
     },
     {
       "ticker": "STT",
@@ -2681,6 +2761,11 @@
       "benchmark": true
     },
     {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Manufacturing",
+      "sector": "Information Technology"
+    },
+    {
       "ticker": "TSN",
       "name": "Tyson Foods",
       "sector": "Consumer Staples",
@@ -2721,6 +2806,11 @@
       "name": "Tyler Technologies",
       "sector": "Information Technology",
       "benchmark": true
+    },
+    {
+      "ticker": "U",
+      "name": "Unity Software",
+      "sector": "Information Technology"
     },
     {
       "ticker": "UAL",
@@ -2919,6 +3009,11 @@
       "name": "Wells Fargo",
       "sector": "Financials",
       "benchmark": true
+    },
+    {
+      "ticker": "WIX",
+      "name": "Wix.com",
+      "sector": "Information Technology"
     },
     {
       "ticker": "WM",

@@ -119,9 +119,9 @@ def decompose(
         measurements: Scan rows, each with `ticker`, `change_percent` and
             `typical_percent`.
         sectors: Ticker to GICS sector.
-        benchmark: The tickers that define "the market". Omit and the whole
-            scan is used, which is correct only while the two are the same
-            set — see `_market_move`.
+        benchmark: The tickers that define "the market" and each sector. Omit
+            and the whole scan is used, which is correct only while the two are
+            the same set — see `_market_move`.
 
     Returns:
         Per ticker: the market move, the sector move, the gap between the stock
@@ -134,8 +134,23 @@ def decompose(
 
     market = _market_move(measurements, benchmark)
 
+    # Sectors are medians of the same basket as the market, for the same
+    # reason. _market_move explains why "the market" must not drift as the
+    # universe grows; "Information Technology was flat" has exactly that
+    # problem and is easier to trip, because coverage is added in themes. The
+    # first nineteen companies added outside the index were all technology, so
+    # a sector median taken over whatever was scanned would have moved that
+    # one sector and left the rest alone — and the sentence in every Apple row
+    # would have quietly changed basket with it.
+    #
+    # Rows outside the basket are still scanned, still priced, still compared
+    # against the sector. They just do not get a vote on what the sector did.
+    wanted = set(benchmark) if benchmark else None
+
     by_sector: dict[str, list[float]] = {}
     for row in measurements:
+        if wanted is not None and row["ticker"] not in wanted:
+            continue
         sector = sectors.get(row["ticker"], "")
         if sector:
             by_sector.setdefault(sector, []).append(row["change_percent"])

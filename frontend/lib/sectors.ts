@@ -54,7 +54,19 @@ export async function getSectors(): Promise<Sector[]> {
   for (const [name, members] of grouped) {
     if (members.length < MIN_MEMBERS) continue
 
-    const change = median(members.map((m) => m.c))
+    // The backend's own figure, not a recount of what is on screen.
+    //
+    // Since coverage grew past the S&P 500, the rows in a sector and the rows
+    // that define that sector are no longer the same set: additions are
+    // scanned and shown, and excluded from the median so that widening
+    // coverage never moves the thing coverage is measured against. Recounting
+    // here would quietly reinstate the drift the backend just removed, and the
+    // sector page would disagree with every stock page in it.
+    //
+    // Falls back to the median of what is present for snapshots published
+    // before `sec` existed.
+    const published = members.find((m) => m.sec !== undefined)?.sec
+    const change = published ?? median(members.map((m) => m.c))
     const byDistance = [...members].sort(
       (a, b) => Math.abs(b.c - change) - Math.abs(a.c - change),
     )
