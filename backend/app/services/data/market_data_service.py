@@ -14,6 +14,13 @@ Two things matter here beyond the fetch itself:
 2. **Honest failure.** When Yahoo has no data for a symbol we return a result
    with `available: False` rather than inventing numbers. The API layer turns
    that into a clear "we couldn't price this" instead of a fabricated signal.
+
+3. **Two different failures.** "This symbol does not exist" and "we could not
+   reach Yahoo just now" look identical at the fetch — both end in no rows —
+   and they are not the same claim. One is permanent and about the symbol; the
+   other is temporary and about us. Telling a reader that MSFT is not a real
+   ticker, next to a button that removes it from their watchlist, is the worse
+   of the two errors to get wrong, so they are kept apart from here up.
 """
 
 from __future__ import annotations
@@ -41,6 +48,17 @@ HISTORY_PERIOD = "1y"
 
 QUOTE_TTL_SECONDS = 60
 PROFILE_TTL_SECONDS = 24 * 60 * 60
+
+
+class MarketDataUnavailable(RuntimeError):
+    """
+    The fetch itself failed — a timeout, a refused connection, a throttle.
+
+    Distinct from a symbol Yahoo simply has no rows for. This one says nothing
+    about whether the ticker is real, so it must never be cached as though it
+    did: a rate-limited burst would otherwise pin "check the symbol is correct"
+    onto a screenful of perfectly good tickers for the next minute.
+    """
 
 
 # Kept as a module-level alias so existing references still resolve.
@@ -71,8 +89,11 @@ class MarketDataService:
         try:
             history = yf.Ticker(ticker).history(period=period, auto_adjust=True)
         except Exception as exc:
+            # Raised, not swallowed into an empty frame. An empty frame here is
+            # indistinguishable from a symbol that does not exist, and the two
+            # produce very different sentences for a reader.
             logger.error("Error fetching history for %s: %s", ticker, exc)
-            return pd.DataFrame()
+            raise MarketDataUnavailable(str(exc)) from exc
 
         if history.empty:
             logger.warning("No price history returned for %s", ticker)
@@ -133,19 +154,41 @@ class MarketDataService:
         if cached is not None:
             return cached
 
-        history = self.get_historical_data(symbol)
+        try:
+            history = self.get_historical_data(symbol)
+        except MarketDataUnavailable:
+            # Deliberately not cached. This says nothing about the symbol, and
+            # caching it would hold a wrong sentence in front of the reader for
+            # the full TTL after Yahoo had already recovered — which is how a
+            # momentary throttle turned into a minute of telling people their
+            # own holdings were not real tickers.
+            return {
+                "ticker": symbol,
+                "available": False,
+                "transient": True,
+                "reason": (
+                    f"Could not reach our market data for {symbol} just now. "
+                    "Try again shortly."
+                ),
+                "price": None,
+                "company": {"name": symbol},
+                "indicators": {},
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
 
         if history.empty or "Close" not in history:
             result = {
                 "ticker": symbol,
                 "available": False,
+                "transient": False,
                 "reason": f"No market data available for {symbol}. Check the symbol is correct.",
                 "price": None,
                 "company": {"name": symbol},
                 "indicators": {},
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
-            # Cache the miss too: a bad symbol shouldn't re-hit Yahoo on every
+            # Cached, because this one is about the symbol and will still be
+            # true in a minute: a bad symbol shouldn't re-hit Yahoo on every
             # keystroke of a search box.
             self._quote_cache.set(symbol, result)
             return result

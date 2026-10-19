@@ -35,6 +35,14 @@ from app.services.data.market_data_service import market_data_service
 
 logger = logging.getLogger(__name__)
 
+# How many tickers may be in flight upstream at once.
+#
+# Not a performance knob — a correctness one. Yahoo throttles bursts, and a
+# throttled fetch used to surface as a confident claim that the ticker was not
+# real. Six keeps a default dashboard effectively parallel while keeping the
+# burst small enough not to trip anything.
+MAX_CONCURRENT_FETCHES = 6
+
 DEPTH_FAST = "fast"
 DEPTH_FULL = "full"
 
@@ -103,6 +111,9 @@ class LiveSignalService:
             return {
                 "ticker": symbol,
                 "available": False,
+                # Carried through rather than recomputed: only the fetch knows
+                # whether it failed or found nothing.
+                "transient": bool(quote.get("transient", False)),
                 "reason": quote.get("reason", f"No market data available for {symbol}."),
                 "analyzed_at": datetime.now(timezone.utc).isoformat(),
             }
@@ -343,8 +354,24 @@ class LiveSignalService:
         if not symbols:
             return [], []
 
+        # Bounded. This used to fan every ticker out at once, so a default
+        # watchlist opened six simultaneous Yahoo fetches and a full one opened
+        # sixty — and a throttled burst came back as "check the symbol is
+        # correct" against a screenful of real companies.
+        #
+        # The attention sweep learned this already and paces itself at three
+        # workers; prices are a cheaper endpoint and quotes are cached for a
+        # minute, so this sits higher. A dozen tickers still finish well inside
+        # a second when warm, and a cold sixty trades a few seconds for
+        # actually arriving.
+        limiter = asyncio.Semaphore(MAX_CONCURRENT_FETCHES)
+
+        async def one(symbol: str) -> dict[str, Any]:
+            async with limiter:
+                return await self.generate(symbol, depth)
+
         results = await asyncio.gather(
-            *(self.generate(symbol, depth) for symbol in symbols),
+            *(one(symbol) for symbol in symbols),
             return_exceptions=True,
         )
 
@@ -354,9 +381,19 @@ class LiveSignalService:
         for symbol, result in zip(symbols, results):
             if isinstance(result, Exception):
                 logger.error("Failed to analyze %s: %s", symbol, result, exc_info=result)
-                failures.append({"ticker": symbol, "reason": "Analysis failed unexpectedly."})
+                # An exception reaching here is ours, never a verdict on the
+                # ticker, so it is transient by construction.
+                failures.append({
+                    "ticker": symbol,
+                    "reason": "Analysis failed unexpectedly.",
+                    "transient": True,
+                })
             elif not result.get("available"):
-                failures.append({"ticker": symbol, "reason": result.get("reason", "Unavailable.")})
+                failures.append({
+                    "ticker": symbol,
+                    "reason": result.get("reason", "Unavailable."),
+                    "transient": bool(result.get("transient", False)),
+                })
             else:
                 signals.append(result)
 

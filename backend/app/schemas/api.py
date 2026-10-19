@@ -64,6 +64,11 @@ class SignalFailure(BaseModel):
 
     ticker: str
     reason: str
+    # Whether the failure was about us rather than the symbol. A client should
+    # not invite someone to delete a holding over a throttled fetch, and these
+    # two are indistinguishable from the message alone once it has been
+    # translated for a reader.
+    transient: bool = False
 
 
 class AnalyzeResponse(BaseModel):

@@ -191,19 +191,35 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
             </div>
           )}
 
+          {/* A failure that was ours offers a retry; only one that is about
+              the symbol offers removal. Throttled fetches used to arrive here
+              reading "check the symbol is correct" with a Remove button beside
+              them, which is an invitation to delete a real holding over a blip
+              that was already over. */}
           {failures.length > 0 && (
             <ul className="mb-8 space-y-1.5">
               {failures.map((failure) => (
                 <li key={failure.ticker} className="text-ink-3 flex items-baseline gap-3 text-[0.8125rem]">
                   <span className="font-mono">{failure.ticker}</span>
                   <span className="flex-1">{failure.reason}</span>
-                  <button
-                    type="button"
-                    onClick={() => remove(failure.ticker)}
-                    className="hover:text-ink transition-colors"
-                  >
-                    Remove
-                  </button>
+                  {failure.transient ? (
+                    <button
+                      type="button"
+                      onClick={() => void refresh()}
+                      disabled={refreshing}
+                      className="hover:text-ink transition-colors disabled:opacity-40"
+                    >
+                      {refreshing ? 'Retrying…' : 'Retry'}
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => remove(failure.ticker)}
+                      className="hover:text-ink transition-colors"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>

@@ -191,6 +191,14 @@ export interface StockSignal {
 export interface SignalFailure {
   ticker: string
   reason: string
+  /**
+   * The failure was ours, not a verdict on the ticker.
+   *
+   * Absent on older responses, so it defaults to false — which keeps the
+   * cautious reading: offer to remove only when we are sure the symbol is the
+   * problem.
+   */
+  transient?: boolean
 }
 
 export interface BatchResponse {
