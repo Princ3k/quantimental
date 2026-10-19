@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-19T21:11:56.397601+00:00",
+  "as_of": "2026-10-19T21:39:56.782387+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.6%",
-      "change_percent": -0.59,
-      "z_score": -0.84,
+      "change_percent": -0.58,
+      "z_score": -0.83,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -190,13 +190,13 @@
     55.1,
     69.1,
     53.3,
-    54.9
+    54.8
   ],
   "narrative": {
-    "text": "Volatility rose 21.2% and technology stocks dropped 5.3%. Consumer staples gained 3.3% and long-term government bond yields eased.",
-    "short": "Volatility surged and tech stocks fell while consumer staples led gains.",
+    "text": "Uncertainty rose sharply as technology and industrials lagged. Consumer staples and materials led gains, while long-term borrowing costs eased.",
+    "short": "Volatility surged while technology stocks fell and staples rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-19T21:11:56.910765+00:00"
+  "generated_at": "2026-10-19T21:39:57.406211+00:00"
 }
