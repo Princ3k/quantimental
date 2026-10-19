@@ -34,6 +34,32 @@ OUTPUT = Path(__file__).resolve().parent.parent / "data" / "universe.json"
 MIN_EXPECTED = 400
 
 
+def _non_benchmark_rows(path: Path, refreshed: set[str]) -> list[dict]:
+    """
+    Rows in the existing universe that this script is not responsible for.
+
+    Only entries without `benchmark` are kept, and only when the refreshed
+    index does not already contain that ticker. Those two conditions are what
+    stop a company that has just joined the S&P 500 from appearing twice, once
+    as a constituent and once as a leftover addition.
+    """
+    if not path.exists():
+        return []
+    try:
+        existing = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as exc:
+        # Refusing here would make a corrupt file unfixable by the very script
+        # meant to rewrite it; losing additions is the lesser harm, said aloud.
+        logger.warning("Could not read the existing universe (%s); additions not carried over.", exc)
+        return []
+
+    return [
+        row
+        for row in existing.get("constituents", [])
+        if not row.get("benchmark", False) and row.get("ticker") not in refreshed
+    ]
+
+
 def main() -> int:
     try:
         response = httpx.get(SOURCE, timeout=30.0, headers={"User-Agent": "quantimental/1.0"})
@@ -61,11 +87,26 @@ def main() -> int:
         }
         for _, row in table.iterrows()
     ]
-    rows.sort(key=lambda r: r["ticker"])
-
     if len(rows) < MIN_EXPECTED:
         logger.error("Only parsed %d constituents; refusing to overwrite.", len(rows))
         return 1
+
+    # Anything in the universe that this script did not put there is carried
+    # over. The file is rewritten wholesale, so without this a ticker added
+    # from any other source disappears the next time the S&P list is
+    # refreshed — silently, and weeks later, with the scan simply covering
+    # less than it did the day before.
+    #
+    # Rows are matched on ticker: a company that joins the index stops being
+    # an addition and becomes a constituent, keeping its benchmark flag.
+    kept = _non_benchmark_rows(OUTPUT, {row["ticker"] for row in rows})
+    if kept:
+        logger.info(
+            "Carrying over %d ticker(s) from outside the index: %s",
+            len(kept), ", ".join(sorted(row["ticker"] for row in kept)),
+        )
+    rows.extend(kept)
+    rows.sort(key=lambda r: r["ticker"])
 
     OUTPUT.write_text(json.dumps({
         "source": f"S&P 500 constituents, {SOURCE}",
