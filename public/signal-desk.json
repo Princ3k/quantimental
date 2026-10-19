@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-19T16:40:05.926018+00:00",
+  "as_of": "2026-10-19T17:11:05.667118+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,20 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "17.9",
-      "change_percent": 17.69,
-      "z_score": 1.27,
+      "delta": "18.2",
+      "change_percent": 19.4,
+      "z_score": 1.4,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-0.6%",
+      "change_percent": -0.6,
+      "z_score": -1.27,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,21 +31,10 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-9bp",
-      "change_percent": -1.79,
-      "z_score": -1.24,
+      "delta": "-10bp",
+      "change_percent": -1.83,
+      "z_score": -1.26,
       "risk_tone": "risk_on",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.55,
-      "z_score": -1.17,
-      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -44,30 +44,30 @@
       "direction": "down",
       "delta": "-0.6%",
       "change_percent": -0.59,
-      "z_score": -0.85,
+      "z_score": -0.84,
       "risk_tone": "risk_on",
       "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.32,
-      "z_score": 0.55,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+5.3%",
-      "change_percent": 5.33,
-      "z_score": 0.52,
+      "delta": "+5.6%",
+      "change_percent": 5.59,
+      "z_score": 0.55,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.2,
+      "z_score": 0.39,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.7%",
-      "change_percent": -0.68,
-      "z_score": -0.2,
+      "delta": "-0.8%",
+      "change_percent": -0.75,
+      "z_score": -0.22,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.25,
-        "z_score": 1.44
-      },
-      {
-        "symbol": "XLB",
-        "name": "Materials",
-        "change_percent": 2.88,
-        "z_score": 1.05
+        "change_percent": 3.34,
+        "z_score": 1.48
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 2.67,
-        "z_score": 0.55
+        "change_percent": 2.91,
+        "z_score": 0.63
+      },
+      {
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": 2.86,
+        "z_score": 1.04
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -4.86,
-        "z_score": -1.46
+        "change_percent": -5.06,
+        "z_score": -1.51
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -1.27,
-        "z_score": -0.61
+        "change_percent": -1.41,
+        "z_score": -0.68
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -1.14,
-        "z_score": -0.66
+        "change_percent": -1.25,
+        "z_score": -0.71
       }
     ],
     "breadth": 60,
@@ -129,40 +129,40 @@
     "total": 10
   },
   "composite": {
-    "score": 56,
+    "score": 55,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -7.6,
+        "effect": -8.4,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 7.4,
+        "effect": 7.6,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 5.1,
+        "effect": 5.0,
         "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
+        "effect": -2.6,
+        "tone": "risk_off"
       },
       {
         "name": "Sector breadth",
         "effect": 2.0,
         "tone": "risk_on"
-      },
-      {
-        "name": "Credit complex",
-        "effect": -1.9,
-        "tone": "risk_off"
       }
     ]
   },
   "history": [
-    60.0,
-    45.7,
+    60.1,
+    45.8,
     16.5,
     25.9,
     22.4,
@@ -187,16 +187,16 @@
     63.1,
     61.2,
     57.2,
-    55.0,
+    55.1,
     69.1,
     53.3,
-    56.2
+    54.9
   ],
   "narrative": {
-    "text": "Volatility rose 17.7% and technology stocks fell 4.9%. Consumer staples gained 3.2% as government bond yields eased.",
-    "short": "Volatility rose 17.7% while technology stocks fell 4.9%.",
+    "text": "Technology and communications sectors led losses while consumer staples and energy gained. Volatility increased and long-term government bond yields eased over the last five days.",
+    "short": "Tech stocks fell sharply as volatility rose and oil prices climbed.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-19T16:40:06.447007+00:00"
+  "generated_at": "2026-10-19T17:11:06.138550+00:00"
 }
