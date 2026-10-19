@@ -157,9 +157,9 @@ export function Dashboard({ sectorRows }: { sectorRows: SectorSummaryRow[] }) {
             </div>
             <div className="flex items-end gap-5">
               <TickerSearch
-                onSelect={(t) => add(t, 'search')}
+                onAdd={(t: string) => add(t, 'search')}
                 existing={tickers}
-                disabled={isFull}
+                addDisabled={isFull}
               />
               <button
                 type="button"
