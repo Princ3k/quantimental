@@ -301,15 +301,15 @@ class TestTheSessionCountDiscountsEmptyDays:
         path, archive_mod = real_archive
         r = lambda v: {"velocity": v, "articles": 10, "span_hours": 24.0}
 
-        archive_mod.record({"AAPL": r(5.0)}, on="2026-09-29", path=path)
-        archive_mod.record({"AAPL": r(6.0)}, on="2026-09-30", path=path)
+        archive_mod.record({"AAPL": r(5.0)}, on="2026-10-07", path=path)
+        archive_mod.record({"AAPL": r(6.0)}, on="2026-10-08", path=path)
         assert pu._archive_days() == 2
 
         # Written by hand: record() now refuses these, but five are already in
         # the real archive and the published count has to discount them.
         shard = path.parent / "attention-2026.json"
         payload = json.loads(shard.read_text())
-        payload["dates"].append("2026-10-01")
+        payload["dates"].append("2026-10-09")
         payload["velocity"]["AAPL"].append(None)
         shard.write_text(json.dumps(payload))
 
@@ -319,7 +319,22 @@ class TestTheSessionCountDiscountsEmptyDays:
         path, archive_mod = real_archive
         r = lambda v: {"velocity": v, "articles": 10, "span_hours": 24.0}
 
-        archive_mod.record({"AAPL": r(5.0), "MSFT": r(3.0)}, on="2026-09-30", path=path)
-        archive_mod.record({"MSFT": r(4.0)}, on="2026-10-01", path=path)
+        archive_mod.record({"AAPL": r(5.0), "MSFT": r(3.0)}, on="2026-10-07", path=path)
+        archive_mod.record({"MSFT": r(4.0)}, on="2026-10-08", path=path)
 
         assert pu._archive_days() == 2
+
+    def test_sessions_from_a_superseded_source_are_not_counted(self, real_archive):
+        # This number exists to say how close `vx` is, and a baseline will not
+        # use a reading the current news source did not take. Counting those
+        # days would put the site back where it was last week: a progress
+        # figure reaching 20 while `vx` never arrives, which reads as a bug in
+        # `vx` rather than in the count.
+        path, archive_mod = real_archive
+        r = lambda v: {"velocity": v, "articles": 10, "span_hours": 24.0}
+
+        for day in ("2026-09-28", "2026-09-29", "2026-09-30"):
+            archive_mod.record({"AAPL": r(5.0)}, on=day, path=path)
+        archive_mod.record({"AAPL": r(8.0)}, on="2026-10-07", path=path)
+
+        assert pu._archive_days() == 1

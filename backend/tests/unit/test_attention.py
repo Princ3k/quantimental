@@ -19,6 +19,7 @@ from app.services.scan import attention_archive as archive_mod
 from app.services.scan import attention_service as service_mod
 from app.services.scan.attention_service import ARTICLES_RETURNED, _rotate, measure_one
 from app.services.scan.attention_archive import (
+    ATTENTION_SOURCE_CHANGED,
     BASELINE_WINDOW_DAYS,
     MIN_HISTORY_FOR_BASELINE,
     attention_multiple,
@@ -257,9 +258,19 @@ class TestRecording:
 
 
 class TestBaseline:
-    def _with_history(self, path, values, ticker="AAPL"):
+    def _with_history(self, path, values, ticker="AAPL", start=None):
+        """
+        An archive holding `values`, one per consecutive day.
+
+        Dated from the current news source's first session by default. A
+        baseline ignores anything older — see ATTENTION_SOURCE_CHANGED — so a
+        helper that dated its history to January would be writing readings no
+        baseline can use, and every test here would pass by returning None.
+        """
+        first = date.fromisoformat(start or ATTENTION_SOURCE_CHANGED)
         for index, value in enumerate(values):
-            record({ticker: _reading(value)}, on=f"2026-{(index // 28) + 1:02d}-{(index % 28) + 1:02d}", path=path)
+            day = (first + timedelta(days=index)).isoformat()
+            record({ticker: _reading(value)}, on=day, path=path)
         return load(path)
 
     def test_no_baseline_until_there_is_enough_history(self, archive_path):
@@ -292,6 +303,46 @@ class TestBaseline:
     def test_an_unknown_ticker_has_no_baseline(self, archive_path):
         arc = self._with_history(archive_path, [4.0] * 30)
         assert baseline(arc, "NOSUCH") is None
+
+    def test_readings_from_a_superseded_source_do_not_set_the_normal(self, archive_path):
+        # Yahoo's per-ticker news endpoint died on 2026-09-30 and the search
+        # endpoint that replaced it reads about 1.6x higher. A median spanning
+        # both measures the instruments, not the stock: on 2026-10-16 it put
+        # the typical S&P 500 company at 1.90x its own normal and called 29% of
+        # the index unusually covered, on a day nothing had happened.
+        for index in range(21):
+            day = (date(2026, 9, 1) + timedelta(days=index)).isoformat()
+            record({"AAPL": _reading(10.0)}, on=day, path=archive_path)
+        for index in range(21):
+            day = (date.fromisoformat(ATTENTION_SOURCE_CHANGED) + timedelta(days=index)).isoformat()
+            record({"AAPL": _reading(16.0)}, on=day, path=archive_path)
+
+        arc = load(archive_path)
+        # 16.0, not the 10.0 the older and more numerous readings would give.
+        assert baseline(arc, "AAPL") == 16.0
+        assert attention_multiple(arc, "AAPL", 16.0) == 1.0
+
+    def test_a_long_old_history_does_not_substitute_for_a_short_new_one(self, archive_path):
+        # The whole point of the gate. Plenty of observations, almost none of
+        # them taken by the instrument in use today, so the honest answer is
+        # that we do not know this stock's normal yet.
+        for index in range(40):
+            day = (date(2026, 8, 1) + timedelta(days=index)).isoformat()
+            record({"AAPL": _reading(10.0)}, on=day, path=archive_path)
+        for index in range(8):
+            day = (date.fromisoformat(ATTENTION_SOURCE_CHANGED) + timedelta(days=index)).isoformat()
+            record({"AAPL": _reading(16.0)}, on=day, path=archive_path)
+
+        arc = load(archive_path)
+        assert baseline(arc, "AAPL") is None
+        assert attention_multiple(arc, "AAPL", 16.0) is None
+
+    def test_the_boundary_day_itself_counts_as_current(self, archive_path):
+        # ATTENTION_SOURCE_CHANGED names the first session the current source
+        # measured, so that day's reading is one of its own.
+        arc = self._with_history(archive_path, [4.0] * 30)
+        assert arc["dates"][0] == ATTENTION_SOURCE_CHANGED
+        assert baseline(arc, "AAPL") == 4.0
 
 
 class TestArchiveLocation:

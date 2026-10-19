@@ -218,6 +218,13 @@ def _archive_days() -> int | None:
 
     record() no longer writes empty sessions, but the ones already written are
     in a repository this cannot edit, so the count has to discount them here.
+
+    Sessions measured by a superseded news source are discounted for the same
+    reason — see ATTENTION_SOURCE_CHANGED. They are real readings and they stay
+    in the archive, but a baseline will not use them, and this number exists to
+    say how close `vx` is. Counting days that cannot contribute would put the
+    site back where it was last week: a progress figure reaching 20 while the
+    thing it counts towards never arrives, which reads as a bug in `vx`.
     """
     try:
         archive = attention_archive.load()
@@ -231,8 +238,9 @@ def _archive_days() -> int | None:
     # that date for every ticker.
     return sum(
         1
-        for i in range(len(dates))
-        if any(i < len(s) and s[i] is not None for s in series)
+        for i, day in enumerate(dates)
+        if day >= attention_archive.ATTENTION_SOURCE_CHANGED
+        and any(i < len(s) and s[i] is not None for s in series)
     )
 
 

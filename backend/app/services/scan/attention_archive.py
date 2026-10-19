@@ -88,6 +88,25 @@ MIN_HISTORY_FOR_BASELINE = 20
 # than the 2.0x the price scan uses.
 UNUSUAL_ATTENTION_MULTIPLE = 3.0
 
+# The first session measured by the news source in use today.
+#
+# Readings before this came from Yahoo's per-ticker news endpoint, which
+# stopped answering on 2026-09-30; everything since comes from its search
+# endpoint. Same corpus, different scale: across 501 paired readings the newer
+# source ran about 1.6x higher, and whether that is the instrument or the news
+# cycle can no longer be established, because the old endpoint is gone and both
+# can never be read on the same day again.
+#
+# A median taken across that boundary compares today against a normal that was
+# measured with a different instrument. On 2026-10-16, with thirteen old-source
+# sessions and eight new ones, it put the median stock at 1.90x its own normal
+# and called 29% of the S&P 500 unusually covered. Nothing had happened.
+#
+# The old readings stay in the archive. They are real observations of real days
+# and nothing can replace them; they are excluded from baselines only, and this
+# constant moves again the next time the source does.
+ATTENTION_SOURCE_CHANGED = "2026-10-07"
+
 
 def _empty() -> dict[str, Any]:
     return {"dates": [], "velocity": {}}
@@ -344,10 +363,23 @@ def baseline(archive: dict[str, Any], ticker: str, exclude_last: bool = True) ->
         return None
 
     history = series[:-1] if exclude_last and len(series) > 1 else series
+    # Pair each reading with the day it was taken. Every series is padded to
+    # align with `dates` by position, and `history` is at most one shorter, so
+    # zip pairs them correctly and drops the excluded last day.
+    dated = list(zip(archive.get("dates") or [], history))
+
     # The archive keeps everything; a baseline reads the recent window. A
     # company that changed character three years ago should not still be
     # setting its own normal.
-    observed = [v for v in history[-BASELINE_WINDOW_DAYS:] if v is not None]
+    #
+    # And only readings taken by the current news source — see
+    # ATTENTION_SOURCE_CHANGED. A baseline spanning two instruments measures
+    # the instruments, not the stock.
+    observed = [
+        value
+        for day, value in dated[-BASELINE_WINDOW_DAYS:]
+        if value is not None and day >= ATTENTION_SOURCE_CHANGED
+    ]
 
     if len(observed) < MIN_HISTORY_FOR_BASELINE:
         return None
