@@ -149,6 +149,17 @@ function formatCoverage(perDay: number): string {
  * "after the previous close" is the difference between a reader trusting the
  * date and thinking we mismatched it.
  */
+function signedPercent(percent: number): string {
+  return `${percent > 0 ? '+' : ''}${percent.toFixed(2)}%`
+}
+
+/** Flat is not a direction: colouring a 0.02% move green claims something. */
+function moveTone(percent: number): string {
+  if (percent > 0.05) return 'text-up'
+  if (percent < -0.05) return 'text-down'
+  return 'text-ink-3'
+}
+
 function filingTiming(acceptedAt: string): string {
   const accepted = new Date(acceptedAt)
   if (Number.isNaN(accepted.getTime())) return ''
@@ -258,6 +269,44 @@ export default async function StockPage({
                 {stock.x >= 2 ? ' — an unusually large day for it.' : '.'}
               </p>
             )}
+
+            {/* The figures behind the sentence above.
+                `ctx` says this move "tracked the market rather than anything
+                specific" — and then never shows the market. These four numbers
+                are already in the row the page is rendering; the reader was
+                being asked to take the comparison on trust while the terms of
+                it sat unused. Market and sector are muted because they are the
+                backdrop, not the subject. */}
+            <dl className="border-rule mt-6 grid grid-cols-2 gap-x-6 gap-y-3.5 border-t pt-5 sm:grid-cols-4">
+              <div>
+                <dt className="eyebrow">Today</dt>
+                <dd className={`tnum mt-1 text-[0.9375rem] ${moveTone(stock.c)}`}>
+                  {signedPercent(stock.c)}
+                </dd>
+              </div>
+              <div>
+                <dt className="eyebrow">Two weeks</dt>
+                <dd className={`tnum mt-1 text-[0.9375rem] ${moveTone(stock.w)}`}>
+                  {signedPercent(stock.w)}
+                </dd>
+              </div>
+              {stock.mkt !== undefined && (
+                <div>
+                  <dt className="eyebrow">Market today</dt>
+                  <dd className="text-ink-3 tnum mt-1 text-[0.9375rem]">
+                    {signedPercent(stock.mkt)}
+                  </dd>
+                </div>
+              )}
+              {stock.sec !== undefined && stock.s && (
+                <div className="min-w-0">
+                  <dt className="eyebrow truncate">{stock.s} today</dt>
+                  <dd className="text-ink-3 tnum mt-1 text-[0.9375rem]">
+                    {signedPercent(stock.sec)}
+                  </dd>
+                </div>
+              )}
+            </dl>
 
             {stock.ctx && (
               <div className="border-rule-strong mt-5 border-l-2 pl-3.5">
