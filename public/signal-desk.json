@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-20T21:10:28.751904+00:00",
+  "as_of": "2026-10-20T21:33:19.003163+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     62.5
   ],
   "narrative": {
-    "text": "Government bond yields eased and investment-grade credit strengthened. Technology and communications sectors led losses, while health care and consumer staples gained.",
-    "short": "Long-term borrowing costs fell while technology stocks dropped sharply.",
+    "text": "Long-term government bond yields eased while tech stocks dropped. Health care and consumer staples led gains, and seven of ten sectors advanced.",
+    "short": "Long-term government bond yields eased as tech stocks fell and health care rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-20T21:10:29.316985+00:00"
+  "generated_at": "2026-10-20T21:33:19.574559+00:00"
 }
