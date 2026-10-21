@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-15.",
-  "as_of": "2026-10-21T21:35:27.498723+00:00",
+  "as_of": "2026-10-21T21:40:27.895879+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,7 +10,7 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.8%",
-      "change_percent": -0.82,
+      "change_percent": -0.83,
       "z_score": -1.14,
       "risk_tone": "risk_on",
       "notable": true
@@ -193,10 +193,10 @@
     70.1
   ],
   "narrative": {
-    "text": "Consumer and materials stocks led gains while tech lagged. Eight of ten sectors advanced as borrowing costs fell.",
-    "short": "Risk assets rallied as the dollar weakened and long-term rates eased.",
+    "text": "Consumer Discretionary and Materials led gains while Technology lagged. Eight of ten sectors advanced as investors favored riskier investments.",
+    "short": "Risk assets rallied as the dollar weakened and long-term borrowing costs eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-21T21:35:28.027364+00:00"
+  "generated_at": "2026-10-21T21:40:28.520951+00:00"
 }
