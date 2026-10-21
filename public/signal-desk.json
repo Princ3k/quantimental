@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-15.",
-  "as_of": "2026-10-21T20:10:02.343460+00:00",
+  "as_of": "2026-10-21T20:41:55.895844+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,7 +10,7 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.8%",
-      "change_percent": -0.83,
+      "change_percent": -0.84,
       "z_score": -1.15,
       "risk_tone": "risk_on",
       "notable": true
@@ -43,8 +43,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.2%",
-      "change_percent": 0.2,
-      "z_score": 0.39,
+      "change_percent": 0.22,
+      "z_score": 0.43,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,21 +53,10 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+1.1%",
-      "change_percent": 1.09,
-      "z_score": 0.26,
+      "delta": "+1.0%",
+      "change_percent": 1.04,
+      "z_score": 0.25,
       "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility easing \u2014 a calmer tape",
-      "direction": "down",
-      "delta": "16.6",
-      "change_percent": -1.42,
-      "z_score": -0.18,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,10 +64,21 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+2.7%",
-      "change_percent": 2.74,
-      "z_score": 0.18,
+      "delta": "+2.6%",
+      "change_percent": 2.62,
+      "z_score": 0.17,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
+      "delta": "16.7",
+      "change_percent": -1.13,
+      "z_score": -0.15,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -88,13 +88,13 @@
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 3.62,
-        "z_score": 1.45
+        "change_percent": 3.61,
+        "z_score": 1.44
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 3.31,
+        "change_percent": 3.32,
         "z_score": 1.21
       },
       {
@@ -108,20 +108,20 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -1.66,
+        "change_percent": -1.67,
         "z_score": -0.8
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.98,
+        "change_percent": -0.99,
         "z_score": -0.41
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 0.72,
-        "z_score": 0.37
+        "change_percent": 0.67,
+        "z_score": 0.35
       }
     ],
     "breadth": 80,
@@ -150,12 +150,12 @@
       },
       {
         "name": "Credit complex",
-        "effect": 3.7,
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -1.6,
+        "effect": -1.5,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     53.2,
     54.9,
     62.3,
-    70.4
+    70.5
   ],
   "narrative": {
-    "text": "Consumer and materials stocks led gains while tech lagged. Eight of ten sectors advanced as investors favored riskier investments.",
-    "short": "Risky assets rallied as the dollar weakened and long-term borrowing costs eased.",
+    "text": "Consumer Discretionary and Materials led gains while Technology lagged. Eight of ten sectors advanced over the last five days.",
+    "short": "Risk assets rallied as the dollar weakened and long-term rates eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-21T20:10:02.814202+00:00"
+  "generated_at": "2026-10-21T20:41:56.406446+00:00"
 }
