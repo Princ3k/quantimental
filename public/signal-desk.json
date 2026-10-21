@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-15.",
-  "as_of": "2026-10-21T21:10:12.791059+00:00",
+  "as_of": "2026-10-21T21:35:27.498723+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,7 +10,7 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.8%",
-      "change_percent": -0.83,
+      "change_percent": -0.82,
       "z_score": -1.14,
       "risk_tone": "risk_on",
       "notable": true
@@ -193,10 +193,10 @@
     70.1
   ],
   "narrative": {
-    "text": "The US dollar fell while investment-grade and high-yield credit prices rose. Consumer Discretionary and Materials sectors posted the strongest sector gains.",
-    "short": "Risk assets rallied as the dollar weakened and consumer stocks led gains.",
+    "text": "Consumer and materials stocks led gains while tech lagged. Eight of ten sectors advanced as borrowing costs fell.",
+    "short": "Risk assets rallied as the dollar weakened and long-term rates eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-21T21:10:13.658690+00:00"
+  "generated_at": "2026-10-21T21:35:28.027364+00:00"
 }
