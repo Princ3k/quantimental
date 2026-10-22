@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-22T20:41:30.664201+00:00",
+  "as_of": "2026-10-22T21:08:20.988489+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -42,9 +42,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.2%",
-      "change_percent": -3.17,
-      "z_score": -0.87,
+      "delta": "-3.1%",
+      "change_percent": -3.11,
+      "z_score": -0.86,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.35,
-      "z_score": -0.53,
+      "delta": "-0.4%",
+      "change_percent": -0.37,
+      "z_score": -0.56,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -76,7 +76,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+1.1%",
-      "change_percent": 1.12,
+      "change_percent": 1.13,
       "z_score": -0.02,
       "risk_tone": "neutral",
       "notable": false
@@ -190,13 +190,13 @@
     54.8,
     62.3,
     69.8,
-    68.9
+    69.1
   ],
   "narrative": {
-    "text": "Long-term government bond yields fell while consumer staples and utilities rose. Technology and communications stocks declined.",
-    "short": "Long-term government bond yields fell and defensive sectors outperformed.",
+    "text": "Government bond yields dropped while defensive stocks like utilities rose. Technology and communications shares declined, and market uncertainty increased.",
+    "short": "Long-term borrowing costs fell as investors moved into defensive sectors.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-22T20:41:31.289012+00:00"
+  "generated_at": "2026-10-22T21:08:21.547484+00:00"
 }
