@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "More risk-on than most days on record \u2014 the highest since 2026-10-15.",
-  "as_of": "2026-10-21T21:40:27.895879+00:00",
+  "as_of": "2026-10-22T00:11:48.464770+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.8%",
-      "change_percent": -0.83,
-      "z_score": -1.14,
+      "change_percent": -0.85,
+      "z_score": -1.17,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.54,
-      "z_score": 0.84,
+      "change_percent": 0.55,
+      "z_score": 0.85,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -38,14 +38,14 @@
       "notable": false
     },
     {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit bid \u2014 appetite for risk improving",
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.22,
-      "z_score": 0.43,
-      "risk_tone": "risk_on",
+      "delta": "+3.1%",
+      "change_percent": 3.09,
+      "z_score": 0.23,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -53,21 +53,10 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+1.3%",
-      "change_percent": 1.26,
-      "z_score": 0.31,
+      "delta": "+0.8%",
+      "change_percent": 0.79,
+      "z_score": 0.19,
       "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude pushing higher",
-      "direction": "up",
-      "delta": "+2.8%",
-      "change_percent": 2.76,
-      "z_score": 0.18,
-      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -80,6 +69,17 @@
       "z_score": -0.15,
       "risk_tone": "risk_on",
       "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.03,
+      "z_score": 0.02,
+      "risk_tone": "neutral",
+      "notable": false
     }
   ],
   "sectors": {
@@ -88,44 +88,44 @@
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 3.61,
-        "z_score": 1.44
-      },
-      {
-        "symbol": "XLB",
-        "name": "Materials",
-        "change_percent": 3.32,
-        "z_score": 1.21
+        "change_percent": 3.59,
+        "z_score": 1.43
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 2.86,
-        "z_score": 1.1
+        "change_percent": 3.37,
+        "z_score": 1.33
+      },
+      {
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": 3.14,
+        "z_score": 1.14
       }
     ],
     "laggards": [
       {
-        "symbol": "XLC",
-        "name": "Communications",
-        "change_percent": -1.67,
-        "z_score": -0.8
-      },
-      {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.99,
-        "z_score": -0.41
+        "change_percent": -2.62,
+        "z_score": -0.84
       },
       {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": 0.67,
-        "z_score": 0.35
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -0.57,
+        "z_score": -0.26
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -0.14,
+        "z_score": -0.17
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
@@ -135,12 +135,12 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": 6.8,
+        "effect": 7.0,
         "tone": "risk_on"
       },
       {
-        "name": "Sector breadth",
-        "effect": 6.0,
+        "name": "Investment-grade credit",
+        "effect": 5.1,
         "tone": "risk_on"
       },
       {
@@ -149,13 +149,13 @@
         "tone": "risk_on"
       },
       {
-        "name": "Credit complex",
-        "effect": 3.8,
+        "name": "Sector breadth",
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -1.9,
+        "effect": -1.1,
         "tone": "risk_off"
       }
     ]
@@ -167,7 +167,7 @@
     19.2,
     17.3,
     52.3,
-    40.2,
+    40.3,
     52.3,
     59.1,
     44.3,
@@ -190,13 +190,13 @@
     53.2,
     54.9,
     62.3,
-    70.1
+    67.8
   ],
   "narrative": {
-    "text": "Consumer Discretionary and Materials led gains while Technology lagged. Eight of ten sectors advanced as investors favored riskier investments.",
-    "short": "Risk assets rallied as the dollar weakened and long-term borrowing costs eased.",
+    "text": "Consumer discretionary and health care sectors advanced, while technology declined. The US dollar faded and long-term government bond yields eased.",
+    "short": "Consumer stocks led gains as tech lagged and the dollar weakened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-21T21:40:28.520951+00:00"
+  "generated_at": "2026-10-22T00:11:48.965852+00:00"
 }
