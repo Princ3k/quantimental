@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-22T21:29:43.364656+00:00",
+  "as_of": "2026-10-22T21:39:11.854958+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     69.0
   ],
   "narrative": {
-    "text": "Long-term borrowing costs fell and investment-grade credit prices rose. Technology and communications sectors declined, while consumer staples and utilities gained.",
-    "short": "Long-term borrowing costs fell while tech stocks dropped.",
+    "text": "Long-term borrowing costs fell while tech stocks declined and staples gained. Volatility rose, and seven of ten sectors advanced.",
+    "short": "Long-term borrowing costs eased as tech stocks fell and staples rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-22T21:29:44.080392+00:00"
+  "generated_at": "2026-10-22T21:39:12.430706+00:00"
 }
