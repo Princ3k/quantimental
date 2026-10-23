@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 31 days of records.",
-  "as_of": "2026-10-23T20:37:56.948626+00:00",
+  "as_of": "2026-10-23T21:12:15.037313+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -21,8 +21,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-4.1%",
-      "change_percent": -4.08,
-      "z_score": -1.11,
+      "change_percent": -4.09,
+      "z_score": -1.12,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -62,12 +62,12 @@
     {
       "category": "FX",
       "name": "US dollar index",
-      "text": "US dollar index little changed",
-      "direction": "flat",
-      "delta": "-0.0%",
-      "change_percent": -0.02,
-      "z_score": -0.11,
-      "risk_tone": "neutral",
+      "text": "Dollar fading",
+      "direction": "down",
+      "delta": "-0.1%",
+      "change_percent": -0.09,
+      "z_score": -0.19,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+1.7%",
-      "change_percent": 1.74,
-      "z_score": 0.06,
+      "delta": "+2.0%",
+      "change_percent": 2.0,
+      "z_score": 0.09,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 74,
+    "score": 75,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
@@ -190,13 +190,13 @@
     62.2,
     69.7,
     68.2,
-    74.9
+    75.4
   ],
   "narrative": {
-    "text": "Government bond yields dropped and volatility eased. Energy and health care were the strongest sectors, while communications lagged.",
-    "short": "Long-term borrowing costs fell while energy stocks led gains.",
+    "text": "Government bond yields dropped and volatility eased, signaling a calmer market. Energy and Health Care led gains, while Communications and Industrials lagged.",
+    "short": "Risk appetite improved as government bond yields fell and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-23T20:37:57.453011+00:00"
+  "generated_at": "2026-10-23T21:12:15.605455+00:00"
 }
