@@ -1,7 +1,7 @@
 {
   "available": true,
-  "context": "More risk-on than most days on record \u2014 the highest since 2026-10-22.",
-  "as_of": "2026-10-23T13:38:03.164645+00:00",
+  "context": "The most risk-on reading in 31 days of records.",
+  "as_of": "2026-10-23T14:11:27.138757+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,20 +9,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-1.6\u03c3",
-      "change_percent": -2.55,
-      "z_score": -1.6,
-      "risk_tone": "risk_on",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.7%",
-      "change_percent": 0.66,
-      "z_score": 1.0,
+      "delta": "-12bp",
+      "change_percent": -2.28,
+      "z_score": -1.46,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -31,9 +20,20 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.3%",
-      "change_percent": -3.28,
-      "z_score": -0.9,
+      "delta": "-3.5%",
+      "change_percent": -3.54,
+      "z_score": -0.97,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.5%",
+      "change_percent": 0.49,
+      "z_score": 0.77,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,20 +43,20 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.1%",
-      "change_percent": -0.12,
-      "z_score": -0.24,
+      "change_percent": -0.1,
+      "z_score": -0.2,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "CREDIT",
       "name": "High-yield credit",
-      "text": "High-yield credit bid \u2014 appetite for risk improving",
-      "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.12,
-      "z_score": 0.23,
-      "risk_tone": "risk_on",
+      "text": "High-yield credit little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.05,
+      "z_score": 0.07,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.3,
-      "z_score": -0.13,
+      "delta": "+0.9%",
+      "change_percent": 0.95,
+      "z_score": -0.05,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "20.1",
-      "change_percent": 0.4,
-      "z_score": -0.05,
+      "change_percent": 0.75,
+      "z_score": -0.02,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -86,90 +86,90 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 2.57,
-        "z_score": 1.08
-      },
-      {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.76,
-        "z_score": 0.59
+        "change_percent": 1.58,
+        "z_score": 0.51
+      },
+      {
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 1.3,
+        "z_score": 0.47
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 1.4,
-        "z_score": 0.66
+        "change_percent": 0.91,
+        "z_score": 0.4
       }
     ],
     "laggards": [
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -3.84,
-        "z_score": -1.84
+        "change_percent": -3.61,
+        "z_score": -1.73
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -2.64,
-        "z_score": -1.37
+        "change_percent": -2.7,
+        "z_score": -1.4
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.88,
-        "z_score": -0.37
+        "change_percent": -0.28,
+        "z_score": -0.21
       }
     ],
-    "breadth": 60,
-    "advancing": 6,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
-    "score": 72,
+    "score": 74,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 9.6,
+        "effect": 8.8,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": 5.4,
+        "effect": 5.8,
         "tone": "risk_on"
       },
       {
-        "name": "Credit complex",
-        "effect": 3.7,
+        "name": "Investment-grade credit",
+        "effect": 4.6,
         "tone": "risk_on"
       },
       {
         "name": "Sector breadth",
-        "effect": 2.0,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 1.4,
+        "effect": 1.2,
         "tone": "risk_on"
       }
     ]
   },
   "history": [
     22.4,
-    19.2,
+    19.1,
     17.2,
     52.2,
-    40.1,
+    40.2,
     52.2,
     59.0,
     44.2,
-    17.6,
+    17.5,
     27.8,
     9.3,
     3.8,
@@ -179,24 +179,24 @@
     44.6,
     57.9,
     67.0,
-    67.0,
-    62.9,
+    67.1,
+    63.0,
     61.1,
     57.1,
     54.9,
-    68.9,
-    53.0,
+    69.0,
+    53.1,
     54.7,
     62.2,
-    69.7,
+    69.8,
     68.2,
     72.4
   ],
   "narrative": {
-    "text": "Government bond yields dropped while investment-grade credit prices rose. Consumer staples and health care led gains, while communications stocks declined.",
-    "short": "Long-term borrowing costs fell as investors favored safe, steady stocks.",
+    "text": "Government bond yields dropped while gold prices eased. Health Care and Consumer Staples led gains, while Communications and Industrials lagged.",
+    "short": "Long-term borrowing costs fell as investors favored defensive sectors.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-23T13:38:03.737412+00:00"
+  "generated_at": "2026-10-23T14:11:27.789273+00:00"
 }
