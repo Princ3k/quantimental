@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 31 days of records.",
-  "as_of": "2026-10-23T21:20:10.995335+00:00",
+  "as_of": "2026-10-23T21:38:02.478177+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     75.4
   ],
   "narrative": {
-    "text": "Government bond yields dropped while investment-grade and high-yield credit prices rose. Energy and Health Care were the strongest sectors.",
-    "short": "Long-term borrowing costs fell and riskier debt prices rose.",
+    "text": "Government bond yields dropped and volatility eased over the last five days. Energy and Health Care led gains, while Communications lagged.",
+    "short": "Risk assets rallied as government bond yields fell and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-23T21:20:11.727679+00:00"
+  "generated_at": "2026-10-23T21:38:03.079938+00:00"
 }
