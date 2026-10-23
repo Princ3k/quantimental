@@ -1,7 +1,7 @@
 {
   "available": true,
-  "context": "The most risk-on reading in 31 days of records.",
-  "as_of": "2026-10-23T18:09:14.417453+00:00",
+  "context": "Roughly calmer with the last two weeks.",
+  "as_of": "2026-10-23T18:40:11.550520+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-11bp",
-      "change_percent": -2.24,
-      "z_score": -1.44,
+      "change_percent": -2.2,
+      "z_score": -1.42,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-4.0%",
-      "change_percent": -4.02,
-      "z_score": -1.1,
+      "change_percent": -3.97,
+      "z_score": -1.09,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,10 +32,10 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.5,
-      "z_score": 0.79,
+      "change_percent": 0.45,
+      "z_score": 0.72,
       "risk_tone": "risk_on",
-      "notable": true
+      "notable": false
     },
     {
       "category": "CREDIT",
@@ -43,8 +43,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.2%",
-      "change_percent": 0.21,
-      "z_score": 0.4,
+      "change_percent": 0.22,
+      "z_score": 0.43,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -54,20 +54,20 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "-0.0%",
-      "change_percent": -0.02,
-      "z_score": -0.11,
+      "change_percent": -0.04,
+      "z_score": -0.12,
       "risk_tone": "neutral",
       "notable": false
     },
     {
       "category": "VOL",
       "name": "Volatility index",
-      "text": "Volatility rising \u2014 more uncertainty priced in",
-      "direction": "up",
+      "text": "Volatility easing \u2014 a calmer tape",
+      "direction": "down",
       "delta": "20.0",
-      "change_percent": 0.2,
-      "z_score": -0.06,
-      "risk_tone": "risk_off",
+      "change_percent": -0.15,
+      "z_score": -0.09,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+1.4%",
-      "change_percent": 1.44,
-      "z_score": 0.02,
+      "delta": "+1.8%",
+      "change_percent": 1.77,
+      "z_score": 0.06,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,75 +88,75 @@
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 1.67,
-        "z_score": 0.22
+        "change_percent": 1.27,
+        "z_score": 0.09
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 1.27,
-        "z_score": 0.37
+        "change_percent": 1.22,
+        "z_score": 0.34
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 1.19,
-        "z_score": 0.34
+        "change_percent": 1.16,
+        "z_score": 0.33
       }
     ],
     "laggards": [
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -3.72,
-        "z_score": -1.78
+        "change_percent": -3.91,
+        "z_score": -1.87
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -1.59,
+        "change_percent": -1.6,
         "z_score": -0.87
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 0.02,
-        "z_score": -0.13
+        "change_percent": -0.06,
+        "z_score": -0.16
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
-    "score": 74,
+    "score": 73,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 8.6,
+        "effect": 8.5,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": 6.6,
+        "effect": 6.5,
         "tone": "risk_on"
       },
       {
         "name": "Sector breadth",
-        "effect": 6.0,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 3.6,
+        "effect": 3.5,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": -0.4,
-        "tone": "risk_off"
+        "effect": 0.5,
+        "tone": "risk_on"
       }
     ]
   },
@@ -190,13 +190,13 @@
     62.2,
     69.8,
     68.2,
-    75.8
+    73.8
   ],
   "narrative": {
-    "text": "Government bond yields dropped while investment-grade and high-yield credit prices rose. Energy and health care led gains, while communications and industrials lagged.",
-    "short": "Long-term borrowing costs fell as investors bought credit and energy stocks.",
+    "text": "Long-term government bond yields fell while gold eased back. Energy and health care led gains, while communications and industrials lagged.",
+    "short": "Long-term government bond yields eased as investors favored energy and health care.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-23T18:09:14.928148+00:00"
+  "generated_at": "2026-10-23T18:40:12.451044+00:00"
 }
