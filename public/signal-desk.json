@@ -1,7 +1,7 @@
 {
   "available": true,
-  "context": "The most risk-on reading in 31 days of records.",
-  "as_of": "2026-10-23T13:10:14.218302+00:00",
+  "context": "More risk-on than most days on record \u2014 the highest since 2026-10-22.",
+  "as_of": "2026-10-23T13:38:03.164645+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-1.6\u03c3",
-      "change_percent": -2.63,
-      "z_score": -1.64,
+      "change_percent": -2.55,
+      "z_score": -1.6,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.9%",
-      "change_percent": 0.85,
-      "z_score": 1.26,
+      "delta": "+0.7%",
+      "change_percent": 0.66,
+      "z_score": 1.0,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,41 +32,41 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.3%",
-      "change_percent": -3.32,
-      "z_score": -0.91,
+      "change_percent": -3.28,
+      "z_score": -0.9,
       "risk_tone": "risk_on",
       "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit bid \u2014 appetite for risk improving",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.31,
-      "z_score": 0.61,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "FX",
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.2%",
-      "change_percent": -0.19,
-      "z_score": -0.32,
+      "delta": "-0.1%",
+      "change_percent": -0.12,
+      "z_score": -0.24,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit bid \u2014 appetite for risk improving",
+      "direction": "up",
+      "delta": "+0.1%",
+      "change_percent": 0.12,
+      "z_score": 0.23,
       "risk_tone": "risk_on",
       "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Crude oil",
-      "text": "Crude sliding",
-      "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.3,
-      "z_score": -0.21,
+      "text": "Crude pushing higher",
+      "direction": "up",
+      "delta": "+0.3%",
+      "change_percent": 0.3,
+      "z_score": -0.13,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "20.3",
-      "change_percent": 1.4,
-      "z_score": 0.03,
+      "delta": "20.1",
+      "change_percent": 0.4,
+      "z_score": -0.05,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 2.7,
-        "z_score": 1.14
+        "change_percent": 2.57,
+        "z_score": 1.08
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 2.6,
-        "z_score": 0.97
+        "change_percent": 1.76,
+        "z_score": 0.59
       },
       {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": 2.27,
-        "z_score": 0.91
+        "symbol": "XLF",
+        "name": "Financials",
+        "change_percent": 1.4,
+        "z_score": 0.66
       }
     ],
     "laggards": [
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -2.63,
-        "z_score": -1.25
+        "change_percent": -3.84,
+        "z_score": -1.84
       },
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": -0.98,
-        "z_score": -0.64
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": -2.64,
+        "z_score": -1.37
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -0.62,
-        "z_score": -0.3
+        "change_percent": -0.88,
+        "z_score": -0.37
       }
     ],
     "breadth": 60,
@@ -129,23 +129,23 @@
     "total": 10
   },
   "composite": {
-    "score": 75,
+    "score": 72,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 9.8,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Credit complex",
-        "effect": 5.6,
+        "effect": 9.6,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": 5.5,
+        "effect": 5.4,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Credit complex",
+        "effect": 3.7,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": 1.9,
+        "effect": 1.4,
         "tone": "risk_on"
       }
     ]
@@ -177,7 +177,7 @@
     31.7,
     31.8,
     44.6,
-    57.8,
+    57.9,
     67.0,
     67.0,
     62.9,
@@ -187,16 +187,16 @@
     68.9,
     53.0,
     54.7,
-    62.1,
+    62.2,
     69.7,
     68.2,
-    74.7
+    72.4
   ],
   "narrative": {
-    "text": "Long-term borrowing costs eased while investment-grade and high-yield credit prices rose. Consumer staples and health care led gains, while communications and energy lagged.",
-    "short": "Long-term borrowing costs fell and investors rotated into defensive sectors.",
+    "text": "Government bond yields dropped while investment-grade credit prices rose. Consumer staples and health care led gains, while communications stocks declined.",
+    "short": "Long-term borrowing costs fell as investors favored safe, steady stocks.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-23T13:10:14.767758+00:00"
+  "generated_at": "2026-10-23T13:38:03.737412+00:00"
 }
