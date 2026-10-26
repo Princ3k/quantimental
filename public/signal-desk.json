@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 32 days of records.",
-  "as_of": "2026-10-26T19:11:01.663626+00:00",
+  "as_of": "2026-10-26T19:12:58.659811+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-1.8\u03c3",
-      "change_percent": -3.0,
-      "z_score": -1.82,
+      "change_percent": -2.92,
+      "z_score": -1.78,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+1.5\u03c3",
-      "change_percent": 1.07,
-      "z_score": 1.55,
+      "change_percent": 1.06,
+      "z_score": 1.53,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.3%",
-      "change_percent": -3.27,
-      "z_score": -0.9,
+      "change_percent": -3.29,
+      "z_score": -0.91,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -60,25 +60,25 @@
       "notable": false
     },
     {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "US dollar index little changed",
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility index little changed",
       "direction": "flat",
-      "delta": "-0.0%",
-      "change_percent": -0.01,
+      "delta": "18.4",
+      "change_percent": 0.0,
       "z_score": -0.08,
       "risk_tone": "neutral",
       "notable": false
     },
     {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility rising \u2014 more uncertainty priced in",
-      "direction": "up",
-      "delta": "18.5",
-      "change_percent": 0.05,
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "US dollar index little changed",
+      "direction": "flat",
+      "delta": "+0.0%",
+      "change_percent": 0.0,
       "z_score": -0.07,
-      "risk_tone": "risk_off",
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -88,40 +88,40 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 2.85,
+        "change_percent": 2.84,
         "z_score": 1.34
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 2.74,
-        "z_score": 0.57
+        "change_percent": 2.77,
+        "z_score": 0.58
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 1.75,
-        "z_score": 0.84
+        "change_percent": 1.79,
+        "z_score": 0.86
       }
     ],
     "laggards": [
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -5.74,
-        "z_score": -2.71
+        "change_percent": -5.7,
+        "z_score": -2.69
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": -0.23,
-        "z_score": -0.08
+        "change_percent": -0.18,
+        "z_score": -0.06
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.12,
-        "z_score": -0.04
+        "change_percent": 0.17,
+        "z_score": -0.01
       }
     ],
     "breadth": 80,
@@ -135,12 +135,12 @@
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 10.9,
+        "effect": 10.7,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 7.4,
+        "effect": 7.3,
         "tone": "risk_on"
       },
       {
@@ -150,20 +150,15 @@
       },
       {
         "name": "Gold",
-        "effect": 5.4,
+        "effect": 5.5,
         "tone": "risk_on"
-      },
-      {
-        "name": "Volatility index",
-        "effect": -0.4,
-        "tone": "risk_off"
       }
     ]
   },
   "history": [
     19.0,
     17.1,
-    51.9,
+    52.0,
     39.9,
     52.0,
     58.8,
@@ -190,13 +185,13 @@
     69.5,
     68.0,
     74.8,
-    80.6
+    80.3
   ],
   "narrative": {
-    "text": "Long-term government bond yields dropped while investment-grade and high-yield corporate debt prices rose. Utilities and energy were the strongest sectors.",
-    "short": "Long-term government bond yields fell and riskier corporate debt rose.",
+    "text": "Long-term government bond yields dropped while investment-grade and high-yield credit prices rose. Utilities and energy were the strongest sectors, while communications stocks declined.",
+    "short": "Long-term government bond yields fell as investors bought safer assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-26T19:11:02.203626+00:00"
+  "generated_at": "2026-10-26T19:12:59.173116+00:00"
 }
