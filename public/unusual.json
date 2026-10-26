@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-10-26T21:48:45.062365+00:00",
+  "generated_at": "2026-10-26T23:49:20.276102+00:00",
   "as_of": "2026-10-26",
-  "scanned": 520,
+  "scanned": 519,
   "universe": 522,
   "unusual_count": 3,
   "rising": 0,
@@ -20,7 +20,7 @@
       "company": "StoneCo",
       "sector": "Information Technology",
       "headline": "StoneCo is down 27.4% today, 5.8x its typical 4.7% daily move.",
-      "context": "The market was flat today and Information Technology rose 1.9% \u2014 so StoneCo moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.8% \u2014 so StoneCo moved against its sector."
     },
     {
       "ticker": "MELI",
@@ -48,7 +48,7 @@
       "company": "Fair Isaac",
       "sector": "Information Technology",
       "headline": "Fair Isaac is down 13.2% today, 2.9x its typical 4.5% daily move.",
-      "context": "The market was flat today and Information Technology rose 1.9% \u2014 so Fair Isaac moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.8% \u2014 so Fair Isaac moved against its sector."
     }
   ],
   "biggest": [
@@ -64,7 +64,7 @@
       "company": "StoneCo",
       "sector": "Information Technology",
       "headline": "StoneCo is down 27.4% today, 5.8x its typical 4.7% daily move.",
-      "context": "The market was flat today and Information Technology rose 1.9% \u2014 so StoneCo moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.8% \u2014 so StoneCo moved against its sector."
     },
     {
       "ticker": "FICO",
@@ -78,7 +78,7 @@
       "company": "Fair Isaac",
       "sector": "Information Technology",
       "headline": "Fair Isaac is down 13.2% today, 2.9x its typical 4.5% daily move.",
-      "context": "The market was flat today and Information Technology rose 1.9% \u2014 so Fair Isaac moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.8% \u2014 so Fair Isaac moved against its sector."
     },
     {
       "ticker": "LITE",
@@ -91,7 +91,7 @@
       "volume": 6005727,
       "company": "Lumentum",
       "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 1.9%, so most of this was specific to Lumentum."
+      "context": "The market was flat today and Information Technology rose 1.8%, so most of this was specific to Lumentum."
     },
     {
       "ticker": "MELI",
@@ -131,7 +131,7 @@
       "volume": 11190368,
       "company": "Applied Optoelectronics",
       "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 1.9%, so this move tracked the market rather than anything specific to Applied Optoelectronics."
+      "context": "The market was flat today and Information Technology rose 1.8%, so this move tracked the market rather than anything specific to Applied Optoelectronics."
     },
     {
       "ticker": "ARM",
@@ -144,7 +144,7 @@
       "volume": 4658153,
       "company": "Arm Holdings",
       "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 1.9%, so most of this was specific to Arm Holdings."
+      "context": "The market was flat today and Information Technology rose 1.8%, so most of this was specific to Arm Holdings."
     },
     {
       "ticker": "DASH",
