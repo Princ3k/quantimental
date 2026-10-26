@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "The most risk-on reading in 32 days of records.",
-  "as_of": "2026-10-26T20:08:39.749734+00:00",
+  "as_of": "2026-10-26T20:39:57.522236+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -21,8 +21,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+1.6\u03c3",
-      "change_percent": 1.09,
-      "z_score": 1.58,
+      "change_percent": 1.11,
+      "z_score": 1.6,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.46,
-      "z_score": 0.9,
+      "change_percent": 0.48,
+      "z_score": 0.96,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.2%",
-      "change_percent": -3.19,
-      "z_score": -0.88,
+      "change_percent": -3.21,
+      "z_score": -0.89,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.9%",
-      "change_percent": -1.94,
-      "z_score": -0.42,
+      "delta": "-2.2%",
+      "change_percent": -2.22,
+      "z_score": -0.45,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -65,8 +65,8 @@
       "text": "Volatility easing \u2014 a calmer tape",
       "direction": "down",
       "delta": "18.4",
-      "change_percent": -0.11,
-      "z_score": -0.09,
+      "change_percent": -0.27,
+      "z_score": -0.1,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "US dollar index little changed",
       "direction": "flat",
       "delta": "+0.0%",
-      "change_percent": 0.01,
-      "z_score": -0.06,
+      "change_percent": 0.04,
+      "z_score": -0.02,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,19 +88,19 @@
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 2.91,
-        "z_score": 1.37
+        "change_percent": 2.88,
+        "z_score": 1.36
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": 2.7,
-        "z_score": 0.55
+        "change_percent": 2.71,
+        "z_score": 0.56
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 2.06,
+        "change_percent": 2.07,
         "z_score": 0.72
       }
     ],
@@ -108,14 +108,14 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -5.68,
-        "z_score": -2.68
+        "change_percent": -5.67,
+        "z_score": -2.67
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
         "change_percent": -0.17,
-        "z_score": -0.05
+        "z_score": -0.06
       },
       {
         "symbol": "XLI",
@@ -140,7 +140,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": 7.4,
+        "effect": 7.7,
         "tone": "risk_on"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": 0.5,
+        "effect": 0.6,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     69.5,
     68.0,
     74.8,
-    80.2
+    80.3
   ],
   "narrative": {
-    "text": "Government bond yields dropped while investment-grade and high-yield credit prices rose. Gold and crude oil prices declined over the last five trading days.",
-    "short": "Long-term borrowing costs fell as investors bought credit and sold gold.",
+    "text": "Long-term government bond yields fell while corporate debt prices rose. Utilities and energy were the strongest sectors, while communications stocks declined.",
+    "short": "Long-term government bond yields fell and corporate debt prices rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-26T20:08:40.205757+00:00"
+  "generated_at": "2026-10-26T20:39:58.543590+00:00"
 }
