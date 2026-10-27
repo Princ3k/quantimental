@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-27T16:10:48.697389+00:00",
+  "as_of": "2026-10-27T16:41:26.446321+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "High-yield credit bid \u2014 appetite for risk improving",
       "direction": "up",
       "delta": "+1.6\u03c3",
-      "change_percent": 0.82,
-      "z_score": 1.64,
+      "change_percent": 0.8,
+      "z_score": 1.6,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit firm",
       "direction": "up",
       "delta": "+1.0%",
-      "change_percent": 1.04,
-      "z_score": 1.49,
+      "change_percent": 1.02,
+      "z_score": 1.46,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.5%",
-      "change_percent": 0.5,
-      "z_score": 0.58,
+      "change_percent": 0.52,
+      "z_score": 0.6,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.55,
-      "z_score": -0.44,
+      "delta": "-1.7%",
+      "change_percent": -1.73,
+      "z_score": -0.49,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -65,8 +65,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.9%",
-      "change_percent": -1.86,
-      "z_score": -0.41,
+      "change_percent": -1.94,
+      "z_score": -0.42,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -88,28 +88,28 @@
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": 2.36,
-        "z_score": 0.49
+        "change_percent": 2.18,
+        "z_score": 0.45
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 1.73,
+        "change_percent": 1.72,
         "z_score": 0.82
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 0.98,
-        "z_score": 0.24
+        "change_percent": 0.91,
+        "z_score": 0.21
       }
     ],
     "laggards": [
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -5.71,
-        "z_score": -2.65
+        "change_percent": -5.75,
+        "z_score": -2.67
       },
       {
         "symbol": "XLP",
@@ -120,8 +120,8 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": -0.46,
-        "z_score": -0.44
+        "change_percent": -0.49,
+        "z_score": -0.45
       }
     ],
     "breadth": 60,
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "Credit complex",
-        "effect": 9.4,
+        "effect": 9.2,
         "tone": "risk_on"
       },
       {
@@ -145,12 +145,12 @@
       },
       {
         "name": "US dollar index",
-        "effect": -3.5,
+        "effect": -3.6,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 2.6,
+        "effect": 2.9,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     67.9,
     74.8,
     80.2,
-    69.7
+    69.6
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit rose while the 10-year Treasury yield dropped. Technology was the strongest sector, while communications stocks fell.",
-    "short": "Risky assets rallied as long-term borrowing costs fell and tech stocks led gains.",
+    "text": "High-yield and investment-grade credit prices rose while the 10-year Treasury yield fell. Technology was the strongest sector, while communications stocks declined.",
+    "short": "Risk assets rallied as long-term borrowing costs eased and tech stocks led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-27T16:10:49.677647+00:00"
+  "generated_at": "2026-10-27T16:41:28.498856+00:00"
 }
