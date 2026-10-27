@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-27T20:41:51.248727+00:00",
+  "as_of": "2026-10-27T21:11:32.944530+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.62,
-      "z_score": 0.72,
+      "change_percent": 0.63,
+      "z_score": 0.74,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,8 +64,8 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.5%",
-      "change_percent": -1.53,
+      "delta": "-1.6%",
+      "change_percent": -1.56,
       "z_score": -0.37,
       "risk_tone": "neutral",
       "notable": false
@@ -145,7 +145,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -4.3,
+        "effect": -4.4,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     67.9,
     74.7,
     80.2,
-    70.0
+    69.9
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit prices rose while long-term government bond yields fell. Technology and utilities led sector gains, while communications stocks declined.",
-    "short": "Risk assets rallied as long-term government bond yields eased.",
+    "text": "High-yield and investment-grade credit prices rose, while government bond yields dropped. Utilities and technology led sector gains, while communications stocks fell.",
+    "short": "Risky assets rallied as government bond yields fell and the dollar rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-27T20:41:52.538216+00:00"
+  "generated_at": "2026-10-27T21:11:33.934569+00:00"
 }
