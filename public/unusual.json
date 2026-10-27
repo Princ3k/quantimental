@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-10-27T21:14:43.619528+00:00",
+  "generated_at": "2026-10-27T21:44:44.758180+00:00",
   "as_of": "2026-10-27",
-  "scanned": 519,
+  "scanned": 520,
   "universe": 522,
   "unusual_count": 13,
   "rising": 3,
@@ -174,7 +174,7 @@
       "company": "TE Connectivity",
       "sector": "Information Technology",
       "headline": "TE Connectivity is up 5.4% today, 2.1x its typical 2.5% daily move.",
-      "context": "The market was flat today and Information Technology rose 2.4%, so most of this was specific to TE Connectivity."
+      "context": "The market was flat today and Information Technology rose 2.5%, so most of this was specific to TE Connectivity."
     },
     {
       "ticker": "MPC",
@@ -231,7 +231,7 @@
       "volume": 20404486,
       "company": "Nebius Group",
       "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 2.4%, so most of this was specific to Nebius Group."
+      "context": "The market was flat today and Information Technology rose 2.5%, so most of this was specific to Nebius Group."
     },
     {
       "ticker": "BA",
@@ -262,6 +262,19 @@
       "context": "The market was flat today and Energy fell 0.9%, so most of this was specific to Valero Energy."
     },
     {
+      "ticker": "FLEX",
+      "price": 83.35,
+      "change_percent": 8.26,
+      "typical_percent": 9.02,
+      "multiple": 0.9,
+      "direction": "up",
+      "period_percent": -24.83,
+      "volume": 11507206,
+      "company": "Flex Ltd.",
+      "sector": "Information Technology",
+      "context": "The market was flat today and Information Technology rose 2.5%, so most of this was specific to Flex Ltd."
+    },
+    {
       "ticker": "DELL",
       "price": 501.96,
       "change_percent": 7.47,
@@ -272,7 +285,7 @@
       "volume": 6397101,
       "company": "Dell Technologies",
       "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 2.4%, so most of this was specific to Dell Technologies."
+      "context": "The market was flat today and Information Technology rose 2.5%, so most of this was specific to Dell Technologies."
     },
     {
       "ticker": "MPC",
@@ -287,19 +300,6 @@
       "sector": "Energy",
       "headline": "Marathon Petroleum is down 7.4% today, 2.0x its typical 3.7% daily move.",
       "context": "The market was flat today and Energy fell 0.9%, so most of this was specific to Marathon Petroleum."
-    },
-    {
-      "ticker": "SMCI",
-      "price": 35.09,
-      "change_percent": 7.34,
-      "typical_percent": 8.2,
-      "multiple": 0.9,
-      "direction": "up",
-      "period_percent": -10.19,
-      "volume": 31320298,
-      "company": "Supermicro",
-      "sector": "Information Technology",
-      "context": "The market was flat today and Information Technology rose 2.4%, so most of this was specific to Supermicro."
     }
   ],
   "threshold": {
