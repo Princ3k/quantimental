@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-10-27T21:39:02.355493+00:00",
+  "as_of": "2026-10-27T22:55:30.981261+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,8 +43,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.6%",
-      "change_percent": 0.61,
-      "z_score": 0.71,
+      "change_percent": 0.62,
+      "z_score": 0.73,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-1.7%",
-      "change_percent": -1.68,
-      "z_score": -0.48,
+      "delta": "-1.6%",
+      "change_percent": -1.58,
+      "z_score": -0.45,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.6%",
-      "change_percent": -1.56,
-      "z_score": -0.37,
+      "delta": "-1.9%",
+      "change_percent": -1.87,
+      "z_score": -0.41,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -145,12 +145,12 @@
       },
       {
         "name": "US dollar index",
-        "effect": -4.3,
+        "effect": -4.4,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 2.9,
+        "effect": 2.7,
         "tone": "risk_on"
       },
       {
@@ -167,7 +167,7 @@
     51.9,
     58.7,
     43.9,
-    17.2,
+    17.3,
     27.5,
     9.2,
     3.8,
@@ -190,13 +190,13 @@
     67.9,
     74.7,
     80.2,
-    70.1
+    69.8
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit prices rose while long-term government bond yields dropped. Technology and utilities led sector gains, while communications stocks declined.",
-    "short": "Risky assets rallied as long-term borrowing costs fell and the dollar strengthened.",
+    "text": "High-yield credit rose sharply while long-term government bond yields fell. Utilities and technology were the strongest sectors, while communications lagged.",
+    "short": "High-yield credit surged as long-term government bond yields eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-27T21:39:02.836366+00:00"
+  "generated_at": "2026-10-27T22:55:31.483859+00:00"
 }
