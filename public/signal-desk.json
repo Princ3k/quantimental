@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-28T20:42:24.143976+00:00",
+  "as_of": "2026-10-28T21:07:47.465203+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -39,24 +39,24 @@
     },
     {
       "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-1.9%",
-      "change_percent": -1.87,
-      "z_score": -0.53,
-      "risk_tone": "risk_on",
+      "name": "Crude oil",
+      "text": "Crude pushing higher",
+      "direction": "up",
+      "delta": "+4.9%",
+      "change_percent": 4.89,
+      "z_score": 0.46,
+      "risk_tone": "neutral",
       "notable": false
     },
     {
       "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude pushing higher",
-      "direction": "up",
-      "delta": "+4.8%",
-      "change_percent": 4.85,
-      "z_score": 0.45,
-      "risk_tone": "neutral",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-1.6%",
+      "change_percent": -1.63,
+      "z_score": -0.46,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -65,8 +65,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.4%",
-      "change_percent": 0.36,
-      "z_score": 0.4,
+      "change_percent": 0.35,
+      "z_score": 0.39,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -150,12 +150,12 @@
       },
       {
         "name": "Gold",
-        "effect": 3.2,
+        "effect": 2.8,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": -2.4,
+        "effect": -2.3,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     74.6,
     80.1,
     70.1,
-    70.4
+    70.1
   ],
   "narrative": {
-    "text": "High-yield and investment-grade credit rose while long-term borrowing costs eased. Technology led sector gains, while communications stocks declined.",
-    "short": "Risky assets rallied as long-term borrowing costs fell.",
+    "text": "High-yield and investment-grade credit prices rose while crude oil climbed. Technology led sector gains, while communications stocks fell.",
+    "short": "Risk assets rallied as long-term government bond yields eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-28T20:42:24.764915+00:00"
+  "generated_at": "2026-10-28T21:07:48.041445+00:00"
 }
