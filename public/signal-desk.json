@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-29T21:38:38.803792+00:00",
+  "as_of": "2026-10-29T23:14:24.390277+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -27,25 +27,25 @@
       "notable": true
     },
     {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.32,
-      "z_score": 0.35,
-      "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude pushing higher",
       "direction": "up",
-      "delta": "+3.4%",
-      "change_percent": 3.41,
-      "z_score": 0.27,
+      "delta": "+3.3%",
+      "change_percent": 3.35,
+      "z_score": 0.26,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.24,
+      "z_score": 0.25,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.7%",
-      "change_percent": -0.67,
-      "z_score": -0.2,
+      "delta": "-0.8%",
+      "change_percent": -0.78,
+      "z_score": -0.23,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -129,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 62,
+    "score": 63,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -150,12 +150,12 @@
       },
       {
         "name": "US dollar index",
-        "effect": -2.1,
+        "effect": -1.5,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 1.2,
+        "effect": 1.4,
         "tone": "risk_on"
       }
     ]
@@ -169,7 +169,7 @@
     27.0,
     8.9,
     3.4,
-    18.0,
+    17.9,
     31.0,
     31.0,
     43.9,
@@ -181,7 +181,7 @@
     56.4,
     54.2,
     68.3,
-    52.5,
+    52.4,
     54.1,
     61.6,
     69.2,
@@ -190,13 +190,13 @@
     80.0,
     69.9,
     70.8,
-    62.5
+    63.2
   ],
   "narrative": {
-    "text": "Eight of ten sectors advanced, with technology up 3.5%. Communications fell 5.8% and consumer staples dropped 2.0%.",
-    "short": "Tech and industrials led gains while communications and staples lagged.",
+    "text": "Eight of ten sectors advanced, with technology up 3.5%. High-yield credit prices rose while the volatility index fell 9.6%.",
+    "short": "Tech and industrials led gains as high-yield credit rose and volatility eased.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-29T21:38:39.342627+00:00"
+  "generated_at": "2026-10-29T23:14:25.001176+00:00"
 }
