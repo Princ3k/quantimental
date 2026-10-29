@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-29T20:40:48.295016+00:00",
+  "as_of": "2026-10-29T21:10:42.573042+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -43,7 +43,7 @@
       "text": "Crude pushing higher",
       "direction": "up",
       "delta": "+3.4%",
-      "change_percent": 3.42,
+      "change_percent": 3.41,
       "z_score": 0.27,
       "risk_tone": "neutral",
       "notable": false
@@ -53,9 +53,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-0.6%",
-      "change_percent": -0.56,
-      "z_score": -0.17,
+      "delta": "-0.7%",
+      "change_percent": -0.67,
+      "z_score": -0.2,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -155,7 +155,7 @@
       },
       {
         "name": "Gold",
-        "effect": 1.0,
+        "effect": 1.2,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     80.0,
     69.9,
     70.8,
-    62.6
+    62.8
   ],
   "narrative": {
-    "text": "Eight of ten sectors advanced, driven by tech and industrials. Communications and consumer staples were the weakest performers.",
-    "short": "Tech and industrials led gains while communications and staples lagged.",
+    "text": "High-yield credit and crude oil prices rose while the volatility index eased. Technology and Industrials were the strongest sectors, while Communications and Consumer Staples lagged.",
+    "short": "Technology and Industrials led gains as high-yield credit and crude oil prices rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-29T20:40:48.974471+00:00"
+  "generated_at": "2026-10-29T21:10:43.171274+00:00"
 }
