@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-10-30T21:10:30.548601+00:00",
+  "as_of": "2026-10-30T21:38:25.331401+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -193,10 +193,10 @@
     70.3
   ],
   "narrative": {
-    "text": "Health care and materials led gains while communications and technology lagged. Eight of ten sectors advanced as risk appetite improved.",
-    "short": "Investors favored health care and materials while tech stocks fell.",
+    "text": "Risk appetite improved as high-yield credit prices rose and long-term government bond yields eased. Health care and materials led gains, while communications and technology lagged.",
+    "short": "Investors rotated into health care and materials while tech stocks fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-10-30T21:10:31.359058+00:00"
+  "generated_at": "2026-10-30T21:38:25.896134+00:00"
 }
