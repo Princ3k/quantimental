@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-02T14:38:39.124025+00:00",
+  "as_of": "2026-11-02T15:09:47.140733+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-8bp",
-      "change_percent": -1.64,
-      "z_score": -1.07,
+      "delta": "-9bp",
+      "change_percent": -1.85,
+      "z_score": -1.18,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -27,24 +27,35 @@
       "notable": false
     },
     {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-2.0%",
-      "change_percent": -2.01,
-      "z_score": -0.56,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
       "category": "FX",
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.4%",
       "change_percent": -0.36,
-      "z_score": -0.52,
+      "z_score": -0.53,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-1.8%",
+      "change_percent": -1.8,
+      "z_score": -0.5,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.2%",
+      "change_percent": 0.19,
+      "z_score": 0.31,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,21 +64,10 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "18.9",
-      "change_percent": 2.83,
-      "z_score": 0.16,
+      "delta": "19.2",
+      "change_percent": 4.4,
+      "z_score": 0.27,
       "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.07,
-      "z_score": 0.14,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,9 +75,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit little changed",
       "direction": "flat",
-      "delta": "-0.0%",
-      "change_percent": -0.02,
-      "z_score": -0.12,
+      "delta": "+0.0%",
+      "change_percent": 0.04,
+      "z_score": -0.0,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 3.86,
-        "z_score": 1.41
+        "change_percent": 4.66,
+        "z_score": 1.74
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 3.27,
-        "z_score": 1.29
+        "change_percent": 3.33,
+        "z_score": 1.31
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 2.89,
-        "z_score": 1.08
+        "change_percent": 2.83,
+        "z_score": 1.06
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -3.93,
-        "z_score": -1.2
+        "change_percent": -3.98,
+        "z_score": -1.21
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -3.07,
-        "z_score": -1.34
+        "change_percent": -2.63,
+        "z_score": -1.14
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -1.93,
-        "z_score": -0.96
+        "change_percent": -1.54,
+        "z_score": -0.83
       }
     ],
     "breadth": 70,
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 67,
+    "score": 68,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 6.4,
+        "effect": 7.1,
         "tone": "risk_on"
       },
       {
@@ -144,19 +144,19 @@
         "tone": "risk_on"
       },
       {
-        "name": "Gold",
-        "effect": 3.4,
-        "tone": "risk_on"
-      },
-      {
         "name": "US dollar index",
-        "effect": 3.1,
+        "effect": 3.2,
         "tone": "risk_on"
       },
       {
-        "name": "Volatility index",
-        "effect": -1.0,
-        "tone": "risk_off"
+        "name": "Gold",
+        "effect": 3.0,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Investment-grade credit",
+        "effect": 1.9,
+        "tone": "risk_on"
       }
     ]
   },
@@ -190,13 +190,13 @@
     70.5,
     61.5,
     70.3,
-    66.1
+    66.5
   ],
   "narrative": {
-    "text": "Government bond yields dropped over five days while crude oil and gold prices eased. Materials and consumer discretionary stocks led gains, while technology and communications shares declined.",
-    "short": "Long-term government bond yields fell as investors shifted into materials and discretionary goods.",
+    "text": "Long-term borrowing costs eased over the last five days. Technology and communications stocks fell, while materials and consumer discretionary sectors rose.",
+    "short": "Long-term borrowing costs fell as technology stocks dropped.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-02T14:38:39.876169+00:00"
+  "generated_at": "2026-11-02T15:09:47.690231+00:00"
 }
