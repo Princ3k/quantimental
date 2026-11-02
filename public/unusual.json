@@ -1,11 +1,11 @@
 {
   "available": true,
-  "generated_at": "2026-11-02T21:17:32.434824+00:00",
+  "generated_at": "2026-11-02T21:48:01.522910+00:00",
   "as_of": "2026-11-02",
-  "scanned": 520,
+  "scanned": 519,
   "universe": 522,
-  "unusual_count": 19,
-  "rising": 10,
+  "unusual_count": 18,
+  "rising": 9,
   "falling": 9,
   "movers": [
     {
@@ -86,7 +86,7 @@
       "multiple": 2.3,
       "direction": "up",
       "period_percent": 16.12,
-      "volume": 9825406,
+      "volume": 10623987,
       "company": "CRH plc",
       "sector": "Materials",
       "headline": "CRH plc is up 6.4% today, 2.3x its typical 2.8% daily move.",
@@ -118,7 +118,7 @@
       "company": "Lumentum",
       "sector": "Information Technology",
       "headline": "Lumentum is down 18.6% today, 2.2x its typical 8.5% daily move.",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Lumentum."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Lumentum."
     },
     {
       "ticker": "OXY",
@@ -189,20 +189,6 @@
       "sector": "Industrials",
       "headline": "Pentair is up 6.5% today, 2.1x its typical 3.1% daily move.",
       "context": "The market rose 1.1% today and Industrials rose 2.1%, so most of this was specific to Pentair."
-    },
-    {
-      "ticker": "BRK-B",
-      "price": 556.72,
-      "change_percent": 2.62,
-      "typical_percent": 1.34,
-      "multiple": 2.0,
-      "direction": "up",
-      "period_percent": 4.6,
-      "volume": 5801049,
-      "company": "Berkshire Hathaway",
-      "sector": "Financials",
-      "headline": "Berkshire Hathaway is up 2.6% today, 2.0x its typical 1.3% daily move.",
-      "context": "The market rose 1.1% today and Financials rose 1.7%, so most of this was specific to Berkshire Hathaway."
     },
     {
       "ticker": "COP",
@@ -302,7 +288,7 @@
       "company": "Lumentum",
       "sector": "Information Technology",
       "headline": "Lumentum is down 18.6% today, 2.2x its typical 8.5% daily move.",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Lumentum."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Lumentum."
     },
     {
       "ticker": "MRVL",
@@ -315,7 +301,7 @@
       "volume": 60681550,
       "company": "Marvell Technology",
       "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Marvell Technology."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Marvell Technology."
     },
     {
       "ticker": "CIEN",
@@ -328,7 +314,7 @@
       "volume": 4317822,
       "company": "Ciena",
       "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Ciena."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Ciena."
     },
     {
       "ticker": "AAOI",
@@ -341,20 +327,7 @@
       "volume": 14765369,
       "company": "Applied Optoelectronics",
       "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Applied Optoelectronics."
-    },
-    {
-      "ticker": "ORCL",
-      "price": 119.1,
-      "change_percent": -8.85,
-      "typical_percent": 6.15,
-      "multiple": 1.4,
-      "direction": "down",
-      "period_percent": -8.09,
-      "volume": 57933663,
-      "company": "Oracle Corporation",
-      "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Oracle Corporation."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Applied Optoelectronics."
     },
     {
       "ticker": "INTC",
@@ -367,7 +340,20 @@
       "volume": 226571703,
       "company": "Intel",
       "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Intel."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Intel."
+    },
+    {
+      "ticker": "ORCL",
+      "price": 119.22,
+      "change_percent": -8.76,
+      "typical_percent": 6.15,
+      "multiple": 1.4,
+      "direction": "down",
+      "period_percent": -8.0,
+      "volume": 57933663,
+      "company": "Oracle Corporation",
+      "sector": "Information Technology",
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Oracle Corporation."
     },
     {
       "ticker": "NBIS",
@@ -380,7 +366,7 @@
       "volume": 19956452,
       "company": "Nebius Group",
       "sector": "Information Technology",
-      "context": "The market rose 1.1% today and Information Technology fell 1.8%, so most of this was specific to Nebius Group."
+      "context": "The market rose 1.1% today and Information Technology fell 1.9%, so most of this was specific to Nebius Group."
     }
   ],
   "threshold": {
