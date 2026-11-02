@@ -1,28 +1,28 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-02T13:11:37.896437+00:00",
+  "as_of": "2026-11-02T13:40:59.646130+00:00",
   "lookback_days": 5,
   "signals": [
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
-      "direction": "down",
-      "delta": "-3.2%",
-      "change_percent": -3.24,
-      "z_score": -0.88,
-      "risk_tone": "risk_on",
-      "notable": true
-    },
     {
       "category": "RATES",
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-6bp",
-      "change_percent": -1.14,
-      "z_score": -0.81,
+      "delta": "-7bp",
+      "change_percent": -1.42,
+      "z_score": -0.96,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-2.9%",
+      "change_percent": -2.9,
+      "z_score": -0.79,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.3%",
-      "change_percent": -0.32,
-      "z_score": -0.47,
+      "change_percent": -0.33,
+      "z_score": -0.48,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,10 +53,21 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.2%",
-      "change_percent": -2.2,
-      "z_score": -0.46,
+      "delta": "-2.0%",
+      "change_percent": -1.96,
+      "z_score": -0.43,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility rising \u2014 more uncertainty priced in",
+      "direction": "up",
+      "delta": "19.6",
+      "change_percent": 6.36,
+      "z_score": 0.42,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -68,17 +79,6 @@
       "change_percent": 0.24,
       "z_score": 0.38,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility rising \u2014 more uncertainty priced in",
-      "direction": "up",
-      "delta": "19.4",
-      "change_percent": 5.33,
-      "z_score": 0.34,
-      "risk_tone": "risk_off",
       "notable": false
     }
   ],
@@ -139,18 +139,18 @@
         "tone": "risk_on"
       },
       {
-        "name": "Gold",
-        "effect": 5.3,
+        "name": "10-year Treasury yield",
+        "effect": 5.8,
         "tone": "risk_on"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": 4.9,
+        "name": "Gold",
+        "effect": 4.7,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 2.8,
+        "effect": 2.9,
         "tone": "risk_on"
       },
       {
@@ -163,15 +163,15 @@
   "history": [
     58.1,
     43.3,
-    16.4,
-    26.7,
-    8.6,
-    3.2,
+    16.5,
+    26.8,
+    8.7,
+    3.3,
     17.7,
     30.7,
     30.8,
     43.7,
-    56.9,
+    57.0,
     66.1,
     66.2,
     62.1,
@@ -180,23 +180,23 @@
     54.0,
     68.1,
     52.2,
-    53.9,
-    61.4,
+    53.8,
+    61.3,
     69.0,
     67.4,
     74.2,
     79.7,
     69.7,
-    70.6,
+    70.5,
     61.5,
     70.3,
-    69.7
+    69.6
   ],
   "narrative": {
-    "text": "Eight of ten sectors advanced, led by health care and materials. Technology and communications fell, while gold and crude oil also declined.",
-    "short": "Risk assets rallied as tech and communications lagged.",
+    "text": "Long-term government bond yields dropped while high-yield credit prices rose. Health care and materials led gains, while technology and communications lagged.",
+    "short": "Risk appetite improved as government bond yields eased and tech stocks fell.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-02T13:11:38.426339+00:00"
+  "generated_at": "2026-11-02T13:41:00.430479+00:00"
 }
