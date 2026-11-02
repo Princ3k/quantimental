@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-02T14:11:29.015825+00:00",
+  "as_of": "2026-11-02T14:38:39.124025+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -20,9 +20,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.9%",
-      "change_percent": -3.91,
-      "z_score": -0.68,
+      "delta": "-4.2%",
+      "change_percent": -4.2,
+      "z_score": -0.71,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -31,20 +31,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-2.3%",
-      "change_percent": -2.28,
-      "z_score": -0.63,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit bid \u2014 appetite for risk improving",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.3,
-      "z_score": 0.53,
+      "delta": "-2.0%",
+      "change_percent": -2.01,
+      "z_score": -0.56,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,20 +42,9 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.31,
-      "z_score": -0.47,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.24,
-      "z_score": 0.38,
+      "delta": "-0.4%",
+      "change_percent": -0.36,
+      "z_score": -0.52,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,10 +53,32 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "19.1",
-      "change_percent": 3.86,
-      "z_score": 0.23,
+      "delta": "18.9",
+      "change_percent": 2.83,
+      "z_score": 0.16,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.1%",
+      "change_percent": 0.07,
+      "z_score": 0.14,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit little changed",
+      "direction": "flat",
+      "delta": "-0.0%",
+      "change_percent": -0.02,
+      "z_score": -0.12,
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -86,50 +86,50 @@
     "available": true,
     "leaders": [
       {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 3.12,
-        "z_score": 1.19
-      },
-      {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 2.65,
-        "z_score": 0.91
+        "change_percent": 3.86,
+        "z_score": 1.41
       },
       {
-        "symbol": "XLU",
-        "name": "Utilities",
-        "change_percent": 2.07,
-        "z_score": 0.95
+        "symbol": "XLY",
+        "name": "Consumer Discretionary",
+        "change_percent": 3.27,
+        "z_score": 1.29
+      },
+      {
+        "symbol": "XLV",
+        "name": "Health Care",
+        "change_percent": 2.89,
+        "z_score": 1.08
       }
     ],
     "laggards": [
       {
-        "symbol": "XLC",
-        "name": "Communications",
-        "change_percent": -3.8,
-        "z_score": -1.67
-      },
-      {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -3.66,
-        "z_score": -1.12
+        "change_percent": -3.93,
+        "z_score": -1.2
       },
       {
-        "symbol": "XLI",
-        "name": "Industrials",
-        "change_percent": 0.26,
-        "z_score": 0.02
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -3.07,
+        "z_score": -1.34
+      },
+      {
+        "symbol": "XLE",
+        "name": "Energy",
+        "change_percent": -1.93,
+        "z_score": -0.96
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
+    "breadth": 70,
+    "advancing": 7,
     "total": 10
   },
   "composite": {
-    "score": 70,
+    "score": 67,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
@@ -140,23 +140,23 @@
       },
       {
         "name": "Sector breadth",
-        "effect": 6.0,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": 3.8,
+        "effect": 3.4,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 2.8,
+        "effect": 3.1,
         "tone": "risk_on"
       },
       {
-        "name": "Credit complex",
-        "effect": 2.7,
-        "tone": "risk_on"
+        "name": "Volatility index",
+        "effect": -1.0,
+        "tone": "risk_off"
       }
     ]
   },
@@ -167,8 +167,8 @@
     26.8,
     8.7,
     3.3,
-    17.7,
-    30.7,
+    17.8,
+    30.8,
     30.8,
     43.7,
     57.0,
@@ -190,13 +190,13 @@
     70.5,
     61.5,
     70.3,
-    70.3
+    66.1
   ],
   "narrative": {
-    "text": "Long-term borrowing costs dropped while crude oil and gold eased. Health care and materials led gains, but technology and communications lagged.",
-    "short": "Long-term borrowing costs fell as investors favored health care over tech.",
+    "text": "Government bond yields dropped over five days while crude oil and gold prices eased. Materials and consumer discretionary stocks led gains, while technology and communications shares declined.",
+    "short": "Long-term government bond yields fell as investors shifted into materials and discretionary goods.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-02T14:11:31.670613+00:00"
+  "generated_at": "2026-11-02T14:38:39.876169+00:00"
 }
