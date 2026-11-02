@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-02T13:40:59.646130+00:00",
+  "as_of": "2026-11-02T14:11:29.015825+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,22 +9,33 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-7bp",
-      "change_percent": -1.42,
-      "z_score": -0.96,
+      "delta": "-8bp",
+      "change_percent": -1.64,
+      "z_score": -1.07,
       "risk_tone": "risk_on",
       "notable": true
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Crude oil",
+      "text": "Crude sliding",
+      "direction": "down",
+      "delta": "-3.9%",
+      "change_percent": -3.91,
+      "z_score": -0.68,
+      "risk_tone": "neutral",
+      "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-2.9%",
-      "change_percent": -2.9,
-      "z_score": -0.79,
+      "delta": "-2.3%",
+      "change_percent": -2.28,
+      "z_score": -0.63,
       "risk_tone": "risk_on",
-      "notable": true
+      "notable": false
     },
     {
       "category": "CREDIT",
@@ -43,31 +54,9 @@
       "text": "Dollar fading",
       "direction": "down",
       "delta": "-0.3%",
-      "change_percent": -0.33,
-      "z_score": -0.48,
+      "change_percent": -0.31,
+      "z_score": -0.47,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude sliding",
-      "direction": "down",
-      "delta": "-2.0%",
-      "change_percent": -1.96,
-      "z_score": -0.43,
-      "risk_tone": "neutral",
-      "notable": false
-    },
-    {
-      "category": "VOL",
-      "name": "Volatility index",
-      "text": "Volatility rising \u2014 more uncertainty priced in",
-      "direction": "up",
-      "delta": "19.6",
-      "change_percent": 6.36,
-      "z_score": 0.42,
-      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -79,6 +68,17 @@
       "change_percent": 0.24,
       "z_score": 0.38,
       "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "VOL",
+      "name": "Volatility index",
+      "text": "Volatility rising \u2014 more uncertainty priced in",
+      "direction": "up",
+      "delta": "19.1",
+      "change_percent": 3.86,
+      "z_score": 0.23,
+      "risk_tone": "risk_off",
       "notable": false
     }
   ],
@@ -134,23 +134,23 @@
     "tone": "risk_on",
     "contributions": [
       {
+        "name": "10-year Treasury yield",
+        "effect": 6.4,
+        "tone": "risk_on"
+      },
+      {
         "name": "Sector breadth",
         "effect": 6.0,
         "tone": "risk_on"
       },
       {
-        "name": "10-year Treasury yield",
-        "effect": 5.8,
-        "tone": "risk_on"
-      },
-      {
         "name": "Gold",
-        "effect": 4.7,
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 2.9,
+        "effect": 2.8,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     70.5,
     61.5,
     70.3,
-    69.6
+    70.3
   ],
   "narrative": {
-    "text": "Long-term government bond yields dropped while high-yield credit prices rose. Health care and materials led gains, while technology and communications lagged.",
-    "short": "Risk appetite improved as government bond yields eased and tech stocks fell.",
+    "text": "Long-term borrowing costs dropped while crude oil and gold eased. Health care and materials led gains, but technology and communications lagged.",
+    "short": "Long-term borrowing costs fell as investors favored health care over tech.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-02T13:41:00.430479+00:00"
+  "generated_at": "2026-11-02T14:11:31.670613+00:00"
 }
