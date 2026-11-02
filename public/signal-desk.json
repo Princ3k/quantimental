@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-02T18:12:03.137480+00:00",
+  "as_of": "2026-11-02T18:39:47.122337+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-11bp",
-      "change_percent": -2.25,
-      "z_score": -1.39,
+      "change_percent": -2.13,
+      "z_score": -1.32,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -20,8 +20,8 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-5.8%",
-      "change_percent": -5.77,
+      "delta": "-5.7%",
+      "change_percent": -5.75,
       "z_score": -0.91,
       "risk_tone": "neutral",
       "notable": true
@@ -31,9 +31,20 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "19.8",
-      "change_percent": 7.88,
-      "z_score": 0.54,
+      "delta": "19.7",
+      "change_percent": 7.07,
+      "z_score": 0.48,
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-0.2%",
+      "change_percent": -0.19,
+      "z_score": -0.48,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -43,8 +54,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-1.7%",
-      "change_percent": -1.67,
-      "z_score": -0.46,
+      "change_percent": -1.7,
+      "z_score": -0.47,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -53,9 +64,9 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.3%",
-      "change_percent": -0.28,
-      "z_score": -0.43,
+      "delta": "-0.2%",
+      "change_percent": -0.19,
+      "z_score": -0.31,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,21 +75,10 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.25,
-      "z_score": 0.38,
+      "delta": "+0.1%",
+      "change_percent": 0.1,
+      "z_score": 0.18,
       "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "High-yield credit",
-      "text": "High-yield credit under pressure",
-      "direction": "down",
-      "delta": "-0.1%",
-      "change_percent": -0.08,
-      "z_score": -0.25,
-      "risk_tone": "risk_off",
       "notable": false
     }
   ],
@@ -88,40 +88,40 @@
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 4.62,
-        "z_score": 1.72
+        "change_percent": 4.68,
+        "z_score": 1.74
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 3.93,
-        "z_score": 1.55
+        "change_percent": 3.9,
+        "z_score": 1.54
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 2.98,
-        "z_score": 1.27
+        "change_percent": 3.18,
+        "z_score": 1.37
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -4.56,
-        "z_score": -1.37
+        "change_percent": -4.84,
+        "z_score": -1.44
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -3.05,
-        "z_score": -1.32
+        "change_percent": -2.81,
+        "z_score": -1.24
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -2.82,
-        "z_score": -1.23
+        "change_percent": -2.7,
+        "z_score": -1.17
       }
     ],
     "breadth": 70,
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 65,
+    "score": 63,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "10-year Treasury yield",
-        "effect": 8.3,
+        "effect": 7.9,
         "tone": "risk_on"
       },
       {
@@ -145,7 +145,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": -3.2,
+        "effect": -2.9,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": 2.6,
+        "effect": 1.9,
         "tone": "risk_on"
       }
     ]
@@ -180,8 +180,8 @@
     54.0,
     68.1,
     52.2,
-    53.8,
-    61.3,
+    53.9,
+    61.4,
     69.0,
     67.4,
     74.2,
@@ -190,13 +190,13 @@
     70.5,
     61.5,
     70.3,
-    64.8
+    62.9
   ],
   "narrative": {
-    "text": "Long-term borrowing costs eased and the dollar faded. Technology was the weakest sector, while materials led gains.",
-    "short": "Long-term borrowing costs fell while tech stocks dropped sharply.",
+    "text": "Long-term borrowing costs eased and crude oil slid. Technology was the weakest sector, while materials led gains.",
+    "short": "Long-term borrowing costs fell while technology stocks dropped sharply.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-02T18:12:03.621450+00:00"
+  "generated_at": "2026-11-02T18:39:48.057500+00:00"
 }
