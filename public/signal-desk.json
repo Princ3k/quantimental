@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-03T19:40:46.493821+00:00",
+  "as_of": "2026-11-03T20:04:05.992338+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-1.7\u03c3",
-      "change_percent": -0.81,
-      "z_score": -1.72,
+      "delta": "-1.8\u03c3",
+      "change_percent": -0.83,
+      "z_score": -1.77,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "20.6",
-      "change_percent": 17.81,
-      "z_score": 1.28,
+      "delta": "20.7",
+      "change_percent": 18.26,
+      "z_score": 1.31,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,31 +32,31 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-3.5%",
-      "change_percent": -3.45,
-      "z_score": -0.93,
+      "change_percent": -3.46,
+      "z_score": -0.94,
       "risk_tone": "risk_on",
       "notable": true
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
-      "direction": "down",
-      "delta": "-5bp",
-      "change_percent": -0.94,
-      "z_score": -0.7,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "CREDIT",
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.53,
-      "z_score": -0.69,
+      "delta": "-0.6%",
+      "change_percent": -0.55,
+      "z_score": -0.72,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates easing",
+      "direction": "down",
+      "delta": "-4bp",
+      "change_percent": -0.86,
+      "z_score": -0.66,
+      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -64,7 +64,7 @@
       "name": "US dollar index",
       "text": "Dollar fading",
       "direction": "down",
-      "delta": "-0.5%",
+      "delta": "-0.4%",
       "change_percent": -0.45,
       "z_score": -0.64,
       "risk_tone": "risk_on",
@@ -75,9 +75,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.6%",
-      "change_percent": -3.63,
-      "z_score": -0.64,
+      "delta": "-3.4%",
+      "change_percent": -3.36,
+      "z_score": -0.6,
       "risk_tone": "neutral",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 3.01,
-        "z_score": 1.13
+        "change_percent": 2.87,
+        "z_score": 1.07
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 2.48,
-        "z_score": 1.22
+        "change_percent": 2.42,
+        "z_score": 1.18
       },
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 2.46,
-        "z_score": 1.01
+        "change_percent": 2.36,
+        "z_score": 0.97
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -6.98,
-        "z_score": -1.98
+        "change_percent": -7.15,
+        "z_score": -2.03
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -2.16,
-        "z_score": -0.91
+        "change_percent": -2.45,
+        "z_score": -1.05
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -2.1,
-        "z_score": -1.01
+        "change_percent": -1.94,
+        "z_score": -0.95
       }
     ],
     "breadth": 70,
@@ -129,18 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 53,
+    "score": 52,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -7.7,
+        "effect": -7.9,
         "tone": "risk_off"
       },
       {
         "name": "Credit complex",
-        "effect": -7.2,
+        "effect": -7.5,
         "tone": "risk_off"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 4.2,
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
@@ -190,13 +190,13 @@
     61.5,
     70.3,
     55.7,
-    52.8
+    52.1
   ],
   "narrative": {
-    "text": "High-yield credit and investment-grade debt both declined over the last five days. The volatility index rose, indicating more uncertainty in the market.",
+    "text": "Technology dropped 7.2% over five days, dragging down overall sentiment. Health care and financials rose, while high-yield credit and volatility indices showed stress.",
     "short": "Technology stocks fell sharply while health care and financials led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-03T19:40:47.008661+00:00"
+  "generated_at": "2026-11-03T20:04:06.449291+00:00"
 }
