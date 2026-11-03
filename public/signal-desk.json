@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-03T14:11:31.511821+00:00",
+  "as_of": "2026-11-03T14:38:37.341017+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-1.9\u03c3",
-      "change_percent": -0.91,
-      "z_score": -1.94,
+      "delta": "-1.8\u03c3",
+      "change_percent": -0.85,
+      "z_score": -1.81,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "20.9",
-      "change_percent": 19.29,
-      "z_score": 1.39,
+      "delta": "21.0",
+      "change_percent": 20.15,
+      "z_score": 1.45,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,20 +32,20 @@
       "text": "Long-term rates easing",
       "direction": "down",
       "delta": "-8bp",
-      "change_percent": -1.56,
-      "z_score": -1.03,
+      "change_percent": -1.52,
+      "z_score": -1.0,
       "risk_tone": "risk_on",
       "notable": true
     },
     {
       "category": "COMMODITIES",
-      "name": "Crude oil",
-      "text": "Crude sliding",
+      "name": "Gold",
+      "text": "Gold easing back",
       "direction": "down",
-      "delta": "-5.1%",
-      "change_percent": -5.11,
-      "z_score": -0.83,
-      "risk_tone": "neutral",
+      "delta": "-3.0%",
+      "change_percent": -2.99,
+      "z_score": -0.81,
+      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -54,10 +54,10 @@
       "text": "Investment-grade credit softening",
       "direction": "down",
       "delta": "-0.6%",
-      "change_percent": -0.57,
-      "z_score": -0.74,
+      "change_percent": -0.61,
+      "z_score": -0.8,
       "risk_tone": "risk_off",
-      "notable": false
+      "notable": true
     },
     {
       "category": "FX",
@@ -72,13 +72,13 @@
     },
     {
       "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold easing back",
+      "name": "Crude oil",
+      "text": "Crude sliding",
       "direction": "down",
-      "delta": "-2.5%",
-      "change_percent": -2.54,
-      "z_score": -0.69,
-      "risk_tone": "risk_on",
+      "delta": "-3.6%",
+      "change_percent": -3.58,
+      "z_score": -0.63,
+      "risk_tone": "neutral",
       "notable": false
     }
   ],
@@ -86,42 +86,42 @@
     "available": true,
     "leaders": [
       {
+        "symbol": "XLV",
+        "name": "Health Care",
+        "change_percent": 3.58,
+        "z_score": 1.39
+      },
+      {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 4.22,
-        "z_score": 1.86
+        "change_percent": 2.77,
+        "z_score": 1.16
       },
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": 3.65,
-        "z_score": 1.31
-      },
-      {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 3.02,
-        "z_score": 1.14
+        "change_percent": 2.4,
+        "z_score": 0.8
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -8.06,
-        "z_score": -2.26
+        "change_percent": -7.01,
+        "z_score": -1.99
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -3.21,
-        "z_score": -1.39
+        "change_percent": -3.19,
+        "z_score": -1.38
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -1.41,
-        "z_score": -0.78
+        "change_percent": -1.25,
+        "z_score": -0.73
       }
     ],
     "breadth": 70,
@@ -129,33 +129,33 @@
     "total": 10
   },
   "composite": {
-    "score": 52,
+    "score": 53,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -8.3,
+        "effect": -8.7,
         "tone": "risk_off"
       },
       {
         "name": "Credit complex",
-        "effect": -8.0,
+        "effect": -7.8,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 6.2,
+        "effect": 6.0,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Gold",
+        "effect": 4.9,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
         "effect": 4.3,
-        "tone": "risk_on"
-      },
-      {
-        "name": "Gold",
-        "effect": 4.1,
         "tone": "risk_on"
       }
     ]
@@ -190,13 +190,13 @@
     61.5,
     70.3,
     55.7,
-    52.2
+    52.6
   ],
   "narrative": {
-    "text": "High-yield credit and crude oil prices declined over the last five days. Volatility increased as investors shifted away from technology stocks.",
-    "short": "Technology stocks fell sharply while consumer staples and materials led gains.",
+    "text": "High-yield credit and the volatility index rose, while long-term government bond yields eased. Seven of ten sectors advanced, with technology and communications lagging.",
+    "short": "Technology stocks fell sharply while health care and consumer staples led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-03T14:11:32.062621+00:00"
+  "generated_at": "2026-11-03T14:38:37.877334+00:00"
 }
