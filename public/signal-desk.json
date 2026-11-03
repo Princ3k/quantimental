@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-03T15:11:40.838926+00:00",
+  "as_of": "2026-11-03T15:40:16.973775+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-2.0\u03c3",
-      "change_percent": -0.93,
-      "z_score": -1.96,
+      "delta": "-1.8\u03c3",
+      "change_percent": -0.84,
+      "z_score": -1.8,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,20 +20,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "20.9",
-      "change_percent": 19.01,
-      "z_score": 1.37,
-      "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit softening",
-      "direction": "down",
-      "delta": "-0.8%",
-      "change_percent": -0.75,
-      "z_score": -1.0,
+      "delta": "20.5",
+      "change_percent": 17.24,
+      "z_score": 1.23,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,43 +31,54 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.1%",
-      "change_percent": -3.07,
-      "z_score": -0.83,
+      "delta": "-3.4%",
+      "change_percent": -3.44,
+      "z_score": -0.93,
       "risk_tone": "risk_on",
       "notable": true
     },
     {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit softening",
       "direction": "down",
-      "delta": "-6bp",
-      "change_percent": -1.12,
-      "z_score": -0.8,
-      "risk_tone": "risk_on",
+      "delta": "-0.7%",
+      "change_percent": -0.69,
+      "z_score": -0.91,
+      "risk_tone": "risk_off",
       "notable": true
-    },
-    {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar fading",
-      "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.5,
-      "z_score": -0.71,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "COMMODITIES",
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-4.0%",
-      "change_percent": -3.97,
-      "z_score": -0.68,
+      "delta": "-3.4%",
+      "change_percent": -3.42,
+      "z_score": -0.61,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates easing",
+      "direction": "down",
+      "delta": "-3bp",
+      "change_percent": -0.7,
+      "z_score": -0.58,
+      "risk_tone": "risk_on",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar fading",
+      "direction": "down",
+      "delta": "-0.4%",
+      "change_percent": -0.38,
+      "z_score": -0.55,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -88,40 +88,40 @@
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 3.17,
-        "z_score": 1.2
-      },
-      {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 2.44,
-        "z_score": 1.0
+        "change_percent": 3.34,
+        "z_score": 1.28
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 2.27,
-        "z_score": 1.11
+        "change_percent": 2.51,
+        "z_score": 1.23
+      },
+      {
+        "symbol": "XLP",
+        "name": "Consumer Staples",
+        "change_percent": 2.49,
+        "z_score": 1.03
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -6.93,
-        "z_score": -1.97
+        "change_percent": -7.02,
+        "z_score": -2.0
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": -2.77,
-        "z_score": -1.19
+        "change_percent": -2.5,
+        "z_score": -1.07
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -1.89,
-        "z_score": -0.94
+        "change_percent": -1.58,
+        "z_score": -0.84
       }
     ],
     "breadth": 70,
@@ -135,27 +135,27 @@
     "contributions": [
       {
         "name": "Credit complex",
-        "effect": -8.9,
+        "effect": -8.1,
         "tone": "risk_off"
       },
       {
         "name": "Volatility index",
-        "effect": -8.2,
+        "effect": -7.4,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 5.0,
+        "effect": 5.6,
+        "tone": "risk_on"
+      },
+      {
+        "name": "Sector breadth",
+        "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 4.8,
-        "tone": "risk_on"
-      },
-      {
-        "name": "US dollar index",
-        "effect": 4.3,
+        "effect": 3.5,
         "tone": "risk_on"
       }
     ]
@@ -174,7 +174,7 @@
     66.1,
     66.2,
     62.1,
-    60.2,
+    60.3,
     56.3,
     54.1,
     68.2,
@@ -184,19 +184,19 @@
     69.0,
     67.5,
     74.2,
-    79.7,
+    79.8,
     69.7,
     70.6,
     61.5,
     70.3,
     55.7,
-    51.0
+    50.8
   ],
   "narrative": {
-    "text": "Technology and communications stocks declined, while health care and consumer staples rose. Volatility increased and long-term government bond yields eased.",
-    "short": "Tech stocks fell sharply while health care and staples led gains.",
+    "text": "Technology stocks dropped 7% over five days, while health care and financials rose. High-yield credit and crude oil also declined.",
+    "short": "Tech stocks fell sharply while health care and financials led gains.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-03T15:11:41.537537+00:00"
+  "generated_at": "2026-11-03T15:40:17.540092+00:00"
 }
