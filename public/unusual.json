@@ -1,26 +1,26 @@
 {
   "available": true,
-  "generated_at": "2026-11-03T21:14:40.907463+00:00",
+  "generated_at": "2026-11-03T21:45:29.420559+00:00",
   "as_of": "2026-11-03",
   "scanned": 519,
   "universe": 522,
-  "unusual_count": 13,
+  "unusual_count": 14,
   "rising": 4,
-  "falling": 9,
+  "falling": 10,
   "movers": [
     {
       "ticker": "DD",
-      "price": 153.54,
-      "change_percent": 8.66,
+      "price": 153.46,
+      "change_percent": 8.61,
       "typical_percent": 1.95,
       "multiple": 4.4,
       "direction": "up",
-      "period_percent": 15.48,
-      "volume": 2525037,
+      "period_percent": 15.42,
+      "volume": 2885551,
       "company": "DuPont",
       "sector": "Industrials",
-      "headline": "DuPont is up 8.7% today, 4.4x its typical 1.9% daily move.",
-      "context": "The market fell 0.5% today and Industrials was flat, so most of this was specific to DuPont."
+      "headline": "DuPont is up 8.6% today, 4.4x its typical 1.9% daily move.",
+      "context": "The market was flat today and Industrials was flat, so most of this was specific to DuPont."
     },
     {
       "ticker": "FISV",
@@ -30,81 +30,81 @@
       "multiple": 4.4,
       "direction": "up",
       "period_percent": 21.04,
-      "volume": 19001179,
+      "volume": 19209826,
       "company": "Fiserv",
       "sector": "Financials",
       "headline": "Fiserv is up 12.5% today, 4.4x its typical 2.8% daily move.",
-      "context": "The market fell 0.5% today and Financials fell 0.8% \u2014 so Fiserv moved against its sector."
+      "context": "The market was flat today and Financials fell 0.8% \u2014 so Fiserv moved against its sector."
     },
     {
       "ticker": "SYY",
-      "price": 74.13,
-      "change_percent": -9.31,
+      "price": 74.11,
+      "change_percent": -9.33,
       "typical_percent": 2.12,
       "multiple": 4.4,
       "direction": "down",
-      "period_percent": -10.57,
-      "volume": 7383866,
+      "period_percent": -10.59,
+      "volume": 9398732,
       "company": "Sysco",
       "sector": "Consumer Staples",
       "headline": "Sysco is down 9.3% today, 4.4x its typical 2.1% daily move.",
-      "context": "The market fell 0.5% today and Consumer Staples fell 1.9%, so most of this was specific to Sysco."
+      "context": "The market was flat today and Consumer Staples fell 1.9%, so most of this was specific to Sysco."
     },
     {
       "ticker": "IT",
-      "price": 204.0,
-      "change_percent": -13.29,
+      "price": 204.22,
+      "change_percent": -13.19,
       "typical_percent": 3.79,
       "multiple": 3.5,
       "direction": "down",
-      "period_percent": -7.12,
-      "volume": 2969386,
+      "period_percent": -7.02,
+      "volume": 3218867,
       "company": "Gartner",
       "sector": "Information Technology",
-      "headline": "Gartner is down 13.3% today, 3.5x its typical 3.8% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5% \u2014 so Gartner moved against its sector."
+      "headline": "Gartner is down 13.2% today, 3.5x its typical 3.8% daily move.",
+      "context": "The market was flat today and Information Technology rose 1.5% \u2014 so Gartner moved against its sector."
     },
     {
       "ticker": "BALL",
-      "price": 63.22,
-      "change_percent": -7.13,
+      "price": 63.21,
+      "change_percent": -7.14,
       "typical_percent": 2.43,
       "multiple": 2.9,
       "direction": "down",
-      "period_percent": -1.47,
-      "volume": 3345752,
+      "period_percent": -1.48,
+      "volume": 4160721,
       "company": "Ball Corporation",
       "sector": "Materials",
       "headline": "Ball Corporation is down 7.1% today, 2.9x its typical 2.4% daily move.",
-      "context": "The market fell 0.5% today and Materials fell 1.6%, so most of this was specific to Ball Corporation."
+      "context": "The market was flat today and Materials fell 1.6%, so most of this was specific to Ball Corporation."
     },
     {
       "ticker": "ADM",
-      "price": 70.65,
-      "change_percent": -6.76,
+      "price": 70.6,
+      "change_percent": -6.82,
       "typical_percent": 2.4,
       "multiple": 2.8,
       "direction": "down",
-      "period_percent": -12.19,
-      "volume": 5640158,
+      "period_percent": -12.25,
+      "volume": 7031357,
       "company": "Archer Daniels Midland",
       "sector": "Consumer Staples",
       "headline": "Archer Daniels Midland is down 6.8% today, 2.8x its typical 2.4% daily move.",
-      "context": "The market fell 0.5% today and Consumer Staples fell 1.9%, so most of this was specific to Archer Daniels Midland."
+      "context": "The market was flat today and Consumer Staples fell 1.9%, so most of this was specific to Archer Daniels Midland."
     },
     {
       "ticker": "LDOS",
-      "price": 134.68,
-      "change_percent": -6.58,
+      "price": 134.72,
+      "change_percent": -6.55,
       "typical_percent": 2.45,
       "multiple": 2.7,
       "direction": "down",
-      "period_percent": 5.5,
-      "volume": 2113975,
+      "period_percent": 5.53,
+      "volume": 2383623,
       "company": "Leidos",
       "sector": "Industrials",
-      "headline": "Leidos is down 6.6% today, 2.7x its typical 2.5% daily move.",
-      "context": "The market fell 0.5% today and Industrials was flat, so most of this was specific to Leidos."
+      "headline": "Leidos is down 6.5% today, 2.7x its typical 2.5% daily move.",
+      "context": "The market was flat today and Industrials was flat, so most of this was specific to Leidos."
     },
     {
       "ticker": "KDP",
@@ -114,11 +114,11 @@
       "multiple": 2.6,
       "direction": "down",
       "period_percent": 0.32,
-      "volume": 32432964,
+      "volume": 33261430,
       "company": "Keurig Dr Pepper",
       "sector": "Consumer Staples",
       "headline": "Keurig Dr Pepper is down 5.7% today, 2.6x its typical 2.2% daily move.",
-      "context": "The market fell 0.5% today and Consumer Staples fell 1.9%, so most of this was specific to Keurig Dr Pepper."
+      "context": "The market was flat today and Consumer Staples fell 1.9%, so most of this was specific to Keurig Dr Pepper."
     },
     {
       "ticker": "GRAB",
@@ -128,25 +128,25 @@
       "multiple": 2.5,
       "direction": "up",
       "period_percent": 7.96,
-      "volume": 144841178,
+      "volume": 152909095,
       "company": "Grab Holdings",
       "sector": "Information Technology",
       "headline": "Grab Holdings is up 9.1% today, 2.5x its typical 3.7% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5%, so most of this was specific to Grab Holdings."
+      "context": "The market was flat today and Information Technology rose 1.5%, so most of this was specific to Grab Holdings."
     },
     {
       "ticker": "APTV",
-      "price": 41.35,
-      "change_percent": -6.51,
+      "price": 41.34,
+      "change_percent": -6.53,
       "typical_percent": 2.81,
       "multiple": 2.3,
       "direction": "down",
-      "period_percent": -8.23,
-      "volume": 5939183,
+      "period_percent": -8.26,
+      "volume": 6783740,
       "company": "Aptiv",
       "sector": "Consumer Discretionary",
       "headline": "Aptiv is down 6.5% today, 2.3x its typical 2.8% daily move.",
-      "context": "The market fell 0.5% today and Consumer Discretionary fell 1.0%, so most of this was specific to Aptiv."
+      "context": "The market was flat today and Consumer Discretionary fell 1.1%, so most of this was specific to Aptiv."
     },
     {
       "ticker": "ZBRA",
@@ -156,11 +156,11 @@
       "multiple": 2.3,
       "direction": "down",
       "period_percent": -14.21,
-      "volume": 2058382,
+      "volume": 2062180,
       "company": "Zebra Technologies",
       "sector": "Information Technology",
       "headline": "Zebra Technologies is down 8.8% today, 2.3x its typical 3.7% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5% \u2014 so Zebra Technologies moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.5% \u2014 so Zebra Technologies moved against its sector."
     },
     {
       "ticker": "HSIC",
@@ -170,11 +170,25 @@
       "multiple": 2.2,
       "direction": "down",
       "period_percent": -2.57,
-      "volume": 4391877,
+      "volume": 4417503,
       "company": "Henry Schein",
       "sector": "Health Care",
       "headline": "Henry Schein is down 4.8% today, 2.2x its typical 2.2% daily move.",
-      "context": "The market fell 0.5% today and Health Care was flat, so most of this was specific to Henry Schein."
+      "context": "The market was flat today and Health Care was flat, so most of this was specific to Henry Schein."
+    },
+    {
+      "ticker": "AMCR",
+      "price": 46.96,
+      "change_percent": -4.2,
+      "typical_percent": 2.14,
+      "multiple": 2.0,
+      "direction": "down",
+      "period_percent": 4.99,
+      "volume": 5258884,
+      "company": "Amcor",
+      "sector": "Materials",
+      "headline": "Amcor is down 4.2% today, 2.0x its typical 2.1% daily move.",
+      "context": "The market was flat today and Materials fell 1.6%, so most of this was specific to Amcor."
     },
     {
       "ticker": "FOXA",
@@ -184,27 +198,27 @@
       "multiple": 2.0,
       "direction": "up",
       "period_percent": 0.15,
-      "volume": 9257626,
+      "volume": 9368474,
       "company": "Fox Corporation (Class A)",
       "sector": "Communication Services",
       "headline": "Fox Corporation (Class A) is up 6.9% today, 2.0x its typical 3.4% daily move.",
-      "context": "The market fell 0.5% today and Communication Services rose 1.0%, so most of this was specific to Fox Corporation (Class A)."
+      "context": "The market was flat today and Communication Services rose 1.0%, so most of this was specific to Fox Corporation (Class A)."
     }
   ],
   "biggest": [
     {
       "ticker": "IT",
-      "price": 204.0,
-      "change_percent": -13.29,
+      "price": 204.22,
+      "change_percent": -13.19,
       "typical_percent": 3.79,
       "multiple": 3.5,
       "direction": "down",
-      "period_percent": -7.12,
-      "volume": 2969386,
+      "period_percent": -7.02,
+      "volume": 3218867,
       "company": "Gartner",
       "sector": "Information Technology",
-      "headline": "Gartner is down 13.3% today, 3.5x its typical 3.8% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5% \u2014 so Gartner moved against its sector."
+      "headline": "Gartner is down 13.2% today, 3.5x its typical 3.8% daily move.",
+      "context": "The market was flat today and Information Technology rose 1.5% \u2014 so Gartner moved against its sector."
     },
     {
       "ticker": "FISV",
@@ -214,25 +228,25 @@
       "multiple": 4.4,
       "direction": "up",
       "period_percent": 21.04,
-      "volume": 19001179,
+      "volume": 19209826,
       "company": "Fiserv",
       "sector": "Financials",
       "headline": "Fiserv is up 12.5% today, 4.4x its typical 2.8% daily move.",
-      "context": "The market fell 0.5% today and Financials fell 0.8% \u2014 so Fiserv moved against its sector."
+      "context": "The market was flat today and Financials fell 0.8% \u2014 so Fiserv moved against its sector."
     },
     {
       "ticker": "SYY",
-      "price": 74.13,
-      "change_percent": -9.31,
+      "price": 74.11,
+      "change_percent": -9.33,
       "typical_percent": 2.12,
       "multiple": 4.4,
       "direction": "down",
-      "period_percent": -10.57,
-      "volume": 7383866,
+      "period_percent": -10.59,
+      "volume": 9398732,
       "company": "Sysco",
       "sector": "Consumer Staples",
       "headline": "Sysco is down 9.3% today, 4.4x its typical 2.1% daily move.",
-      "context": "The market fell 0.5% today and Consumer Staples fell 1.9%, so most of this was specific to Sysco."
+      "context": "The market was flat today and Consumer Staples fell 1.9%, so most of this was specific to Sysco."
     },
     {
       "ticker": "GRAB",
@@ -242,11 +256,11 @@
       "multiple": 2.5,
       "direction": "up",
       "period_percent": 7.96,
-      "volume": 144841178,
+      "volume": 152909095,
       "company": "Grab Holdings",
       "sector": "Information Technology",
       "headline": "Grab Holdings is up 9.1% today, 2.5x its typical 3.7% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5%, so most of this was specific to Grab Holdings."
+      "context": "The market was flat today and Information Technology rose 1.5%, so most of this was specific to Grab Holdings."
     },
     {
       "ticker": "ZBRA",
@@ -256,11 +270,11 @@
       "multiple": 2.3,
       "direction": "down",
       "period_percent": -14.21,
-      "volume": 2058382,
+      "volume": 2062180,
       "company": "Zebra Technologies",
       "sector": "Information Technology",
       "headline": "Zebra Technologies is down 8.8% today, 2.3x its typical 3.7% daily move.",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5% \u2014 so Zebra Technologies moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.5% \u2014 so Zebra Technologies moved against its sector."
     },
     {
       "ticker": "SHOP",
@@ -270,37 +284,37 @@
       "multiple": 1.7,
       "direction": "down",
       "period_percent": -17.82,
-      "volume": 24657638,
+      "volume": 24698113,
       "company": "Shopify",
       "sector": "Information Technology",
-      "context": "The market fell 0.5% today and Information Technology rose 1.5% \u2014 so Shopify moved against its sector."
+      "context": "The market was flat today and Information Technology rose 1.5% \u2014 so Shopify moved against its sector."
     },
     {
       "ticker": "DD",
-      "price": 153.54,
-      "change_percent": 8.66,
+      "price": 153.46,
+      "change_percent": 8.61,
       "typical_percent": 1.95,
       "multiple": 4.4,
       "direction": "up",
-      "period_percent": 15.48,
-      "volume": 2525037,
+      "period_percent": 15.42,
+      "volume": 2885551,
       "company": "DuPont",
       "sector": "Industrials",
-      "headline": "DuPont is up 8.7% today, 4.4x its typical 1.9% daily move.",
-      "context": "The market fell 0.5% today and Industrials was flat, so most of this was specific to DuPont."
+      "headline": "DuPont is up 8.6% today, 4.4x its typical 1.9% daily move.",
+      "context": "The market was flat today and Industrials was flat, so most of this was specific to DuPont."
     },
     {
       "ticker": "RVTY",
-      "price": 163.63,
-      "change_percent": 7.94,
+      "price": 163.48,
+      "change_percent": 7.84,
       "typical_percent": 4.3,
       "multiple": 1.8,
       "direction": "up",
-      "period_percent": 4.93,
-      "volume": 2989041,
+      "period_percent": 4.83,
+      "volume": 3372114,
       "company": "Revvity",
       "sector": "Health Care",
-      "context": "The market fell 0.5% today and Health Care was flat, so most of this was specific to Revvity."
+      "context": "The market was flat today and Health Care was flat, so most of this was specific to Revvity."
     }
   ],
   "threshold": {
