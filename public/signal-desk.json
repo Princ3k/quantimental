@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-03T21:39:57.292186+00:00",
+  "as_of": "2026-11-04T00:34:17.180781+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -11,7 +11,7 @@
       "direction": "down",
       "delta": "-1.7\u03c3",
       "change_percent": -0.8,
-      "z_score": -1.7,
+      "z_score": -1.65,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Gold",
       "text": "Gold easing back",
       "direction": "down",
-      "delta": "-3.4%",
-      "change_percent": -3.39,
-      "z_score": -0.92,
+      "delta": "-3.2%",
+      "change_percent": -3.2,
+      "z_score": -0.87,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -44,19 +44,8 @@
       "direction": "down",
       "delta": "-0.6%",
       "change_percent": -0.56,
-      "z_score": -0.72,
+      "z_score": -0.7,
       "risk_tone": "risk_off",
-      "notable": false
-    },
-    {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar fading",
-      "direction": "down",
-      "delta": "-0.5%",
-      "change_percent": -0.45,
-      "z_score": -0.65,
-      "risk_tone": "risk_on",
       "notable": false
     },
     {
@@ -75,22 +64,27 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-3.0%",
-      "change_percent": -2.98,
-      "z_score": -0.55,
+      "delta": "-3.4%",
+      "change_percent": -3.4,
+      "z_score": -0.61,
       "risk_tone": "neutral",
+      "notable": false
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar fading",
+      "direction": "down",
+      "delta": "-0.4%",
+      "change_percent": -0.42,
+      "z_score": -0.6,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
   "sectors": {
     "available": true,
     "leaders": [
-      {
-        "symbol": "XLV",
-        "name": "Health Care",
-        "change_percent": 2.7,
-        "z_score": 0.99
-      },
       {
         "symbol": "XLF",
         "name": "Financials",
@@ -102,6 +96,12 @@
         "name": "Consumer Staples",
         "change_percent": 2.07,
         "z_score": 0.82
+      },
+      {
+        "symbol": "XLI",
+        "name": "Industrials",
+        "change_percent": 2.02,
+        "z_score": 0.86
       }
     ],
     "laggards": [
@@ -124,12 +124,12 @@
         "z_score": -0.87
       }
     ],
-    "breadth": 70,
-    "advancing": 7,
-    "total": 10
+    "breadth": 67,
+    "advancing": 6,
+    "total": 9
   },
   "composite": {
-    "score": 52,
+    "score": 51,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -140,63 +140,63 @@
       },
       {
         "name": "Credit complex",
-        "effect": -7.3,
+        "effect": -7.0,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": 5.5,
+        "effect": 5.2,
         "tone": "risk_on"
       },
       {
-        "name": "Sector breadth",
-        "effect": 4.0,
+        "name": "10-year Treasury yield",
+        "effect": 3.8,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 3.9,
+        "effect": 3.6,
         "tone": "risk_on"
       }
     ]
   },
   "history": [
-    43.4,
-    16.6,
-    26.9,
-    8.7,
-    3.3,
-    17.9,
-    30.8,
-    30.9,
-    43.8,
-    57.0,
-    66.1,
-    66.2,
-    62.1,
-    60.3,
-    56.3,
-    54.1,
-    68.2,
-    52.3,
-    54.0,
-    61.5,
-    69.1,
-    67.5,
-    74.2,
-    79.8,
+    41.5,
+    14.9,
+    25.1,
+    6.8,
+    1.3,
+    18.1,
+    26.6,
+    26.7,
+    39.4,
+    52.6,
+    59.7,
+    64.3,
+    60.2,
+    58.3,
+    54.4,
+    52.2,
+    66.3,
+    50.5,
+    52.1,
+    59.6,
+    67.1,
+    65.6,
+    72.3,
+    77.8,
     69.7,
-    70.6,
-    61.5,
-    70.4,
-    55.7,
-    51.8
+    68.6,
+    59.6,
+    68.4,
+    53.8,
+    49.5
   ],
   "narrative": {
-    "text": "High-yield credit and volatility rose, signaling caution. Seven of ten sectors advanced, with health care up 2.7%.",
-    "short": "Tech stocks fell 6.8% while health care and financials led gains.",
+    "text": "Technology stocks dropped 6.8% over five days, while financials gained 2.3%. Volatility rose 18.9% and high-yield credit fell 0.8%.",
+    "short": "Technology stocks fell sharply while financials and staples rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-03T21:39:57.813904+00:00"
+  "generated_at": "2026-11-04T00:34:17.691178+00:00"
 }
