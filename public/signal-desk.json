@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-04T13:07:37.269150+00:00",
+  "as_of": "2026-11-04T13:40:13.516399+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -22,18 +22,7 @@
       "direction": "down",
       "delta": "-0.9%",
       "change_percent": -0.9,
-      "z_score": -1.22,
-      "risk_tone": "risk_on",
-      "notable": true
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
-      "direction": "down",
-      "delta": "-9bp",
-      "change_percent": -1.84,
-      "z_score": -1.17,
+      "z_score": -1.23,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -42,9 +31,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-7.8%",
-      "change_percent": -7.84,
-      "z_score": -1.17,
+      "delta": "-8.2%",
+      "change_percent": -8.17,
+      "z_score": -1.22,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -53,9 +42,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "18.4",
-      "change_percent": 8.87,
-      "z_score": 0.6,
+      "delta": "18.5",
+      "change_percent": 9.7,
+      "z_score": 0.66,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -73,12 +62,12 @@
     {
       "category": "COMMODITIES",
       "name": "Gold",
-      "text": "Gold bid \u2014 a defensive tilt",
-      "direction": "up",
-      "delta": "+0.1%",
-      "change_percent": 0.08,
-      "z_score": 0.01,
-      "risk_tone": "risk_off",
+      "text": "Gold easing back",
+      "direction": "down",
+      "delta": "-0.1%",
+      "change_percent": -0.13,
+      "z_score": -0.05,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -129,18 +118,13 @@
     "total": 10
   },
   "composite": {
-    "score": 59,
+    "score": 52,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": 7.3,
-        "tone": "risk_on"
-      },
-      {
-        "name": "10-year Treasury yield",
-        "effect": 7.0,
+        "effect": 7.4,
         "tone": "risk_on"
       },
       {
@@ -149,54 +133,28 @@
         "tone": "risk_off"
       },
       {
+        "name": "Volatility index",
+        "effect": -4.0,
+        "tone": "risk_off"
+      },
+      {
         "name": "Sector breadth",
         "effect": 4.0,
         "tone": "risk_on"
       },
       {
-        "name": "Volatility index",
-        "effect": -3.6,
-        "tone": "risk_off"
+        "name": "Gold",
+        "effect": 0.3,
+        "tone": "risk_on"
       }
     ]
   },
-  "history": [
-    16.9,
-    27.1,
-    8.9,
-    3.3,
-    18.1,
-    26.6,
-    26.7,
-    39.4,
-    52.6,
-    61.7,
-    66.3,
-    62.1,
-    60.3,
-    56.4,
-    54.2,
-    68.2,
-    52.4,
-    54.1,
-    61.5,
-    69.1,
-    67.5,
-    74.3,
-    79.7,
-    69.6,
-    70.5,
-    61.5,
-    70.4,
-    55.8,
-    51.7,
-    58.6
-  ],
+  "history": [],
   "narrative": {
-    "text": "Technology stocks dropped 7.6% and crude oil slid 7.8% over the last five days. Consumer staples and health care rose 2.4% as volatility increased.",
-    "short": "Technology stocks fell sharply while defensive sectors gained ground.",
+    "text": "Technology stocks dropped 7.6% and crude oil slid 8.2% over five days. Consumer staples and health care each gained 2.4%, while high-yield credit faced pressure.",
+    "short": "Technology stocks fell sharply while consumer staples and health care rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-04T13:07:37.810766+00:00"
+  "generated_at": "2026-11-04T13:40:18.429795+00:00"
 }
