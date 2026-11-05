@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-05T20:37:09.092622+00:00",
+  "as_of": "2026-11-05T20:40:33.874756+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "+3.6\u03c3",
-      "change_percent": 49.48,
-      "z_score": 3.56,
+      "change_percent": 50.12,
+      "z_score": 3.6,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,9 +32,20 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.6\u03c3",
-      "change_percent": -11.08,
-      "z_score": -1.56,
+      "change_percent": -11.26,
+      "z_score": -1.59,
       "risk_tone": "neutral",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "High-yield credit",
+      "text": "High-yield credit under pressure",
+      "direction": "down",
+      "delta": "-0.4%",
+      "change_percent": -0.37,
+      "z_score": -0.79,
+      "risk_tone": "risk_off",
       "notable": true
     },
     {
@@ -42,9 +53,9 @@
       "name": "Investment-grade credit",
       "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.44,
-      "z_score": 0.67,
+      "delta": "+0.5%",
+      "change_percent": 0.46,
+      "z_score": 0.69,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,9 +75,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+2.1%",
-      "change_percent": 2.11,
-      "z_score": 0.55,
+      "delta": "+1.9%",
+      "change_percent": 1.95,
+      "z_score": 0.51,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -77,40 +88,40 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.62,
-        "z_score": 1.54
+        "change_percent": 3.58,
+        "z_score": 1.52
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 3.03,
-        "z_score": 1.46
+        "change_percent": 3.01,
+        "z_score": 1.45
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 1.14,
-        "z_score": 0.48
+        "change_percent": 1.08,
+        "z_score": 0.45
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -13.44,
-        "z_score": -3.55
+        "change_percent": -13.36,
+        "z_score": -3.53
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -9.55,
-        "z_score": -3.29
+        "change_percent": -9.66,
+        "z_score": -3.32
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -4.43,
-        "z_score": -2.24
+        "change_percent": -4.39,
+        "z_score": -2.22
       }
     ],
     "breadth": 60,
@@ -118,7 +129,7 @@
     "total": 10
   },
   "composite": {
-    "score": 49,
+    "score": 45,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -133,28 +144,59 @@
         "tone": "risk_on"
       },
       {
-        "name": "Investment-grade credit",
-        "effect": 4.0,
-        "tone": "risk_on"
-      },
-      {
         "name": "US dollar index",
         "effect": 4.0,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -3.3,
+        "effect": -3.1,
         "tone": "risk_off"
+      },
+      {
+        "name": "Sector breadth",
+        "effect": 2.0,
+        "tone": "risk_on"
       }
     ]
   },
-  "history": [],
+  "history": [
+    27.2,
+    9.1,
+    3.6,
+    18.3,
+    26.7,
+    26.8,
+    39.4,
+    52.5,
+    61.6,
+    66.2,
+    62.1,
+    60.2,
+    56.4,
+    54.3,
+    68.2,
+    52.7,
+    54.3,
+    61.6,
+    69.0,
+    67.6,
+    74.2,
+    79.7,
+    69.6,
+    70.5,
+    61.5,
+    70.3,
+    55.9,
+    51.9,
+    73.7,
+    45.2
+  ],
   "narrative": {
-    "text": "Technology stocks dropped 13.4% and energy fell 9.6%. Consumer staples gained 3.6% and communications rose 3.0%.",
-    "short": "Technology stocks fell sharply while consumer staples rose.",
+    "text": "Technology and Energy led losses while Consumer Staples gained. Volatility rose sharply as long-term government bond yields eased.",
+    "short": "Technology stocks plunged 13.4% as crude oil prices slid 11.3%.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-05T20:37:09.766482+00:00"
+  "generated_at": "2026-11-05T20:40:34.407719+00:00"
 }
