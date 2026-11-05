@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-11-05T21:04:06.717829+00:00",
+  "generated_at": "2026-11-05T21:14:45.767293+00:00",
   "as_of": "2026-11-05",
   "scanned": 519,
   "universe": 522,
@@ -202,7 +202,7 @@
       "company": "Corpay",
       "sector": "Financials",
       "headline": "Corpay is up 6.6% today, 2.8x its typical 2.4% daily move.",
-      "context": "The market fell 2.2% today and Financials fell 2.2% \u2014 so Corpay moved against its sector."
+      "context": "The market fell 2.2% today and Financials fell 2.1% \u2014 so Corpay moved against its sector."
     },
     {
       "ticker": "NVDA",
@@ -388,17 +388,17 @@
     },
     {
       "ticker": "GS",
-      "price": 868.34,
-      "change_percent": -6.43,
+      "price": 868.24,
+      "change_percent": -6.44,
       "typical_percent": 2.68,
       "multiple": 2.4,
       "direction": "down",
-      "period_percent": -2.58,
-      "volume": 3456468,
+      "period_percent": -2.59,
+      "volume": 3459770,
       "company": "Goldman Sachs",
       "sector": "Financials",
       "headline": "Goldman Sachs is down 6.4% today, 2.4x its typical 2.7% daily move.",
-      "context": "The market fell 2.2% today and Financials fell 2.2%, so most of this was specific to Goldman Sachs."
+      "context": "The market fell 2.2% today and Financials fell 2.1%, so most of this was specific to Goldman Sachs."
     },
     {
       "ticker": "IVZ",
@@ -412,7 +412,7 @@
       "company": "Invesco",
       "sector": "Financials",
       "headline": "Invesco is down 8.0% today, 2.4x its typical 3.3% daily move.",
-      "context": "The market fell 2.2% today and Financials fell 2.2%, so most of this was specific to Invesco."
+      "context": "The market fell 2.2% today and Financials fell 2.1%, so most of this was specific to Invesco."
     },
     {
       "ticker": "KLAC",
@@ -455,6 +455,20 @@
       "sector": "Information Technology",
       "headline": "ASML Holding is down 9.3% today, 2.3x its typical 4.1% daily move.",
       "context": "The market fell 2.2% today and Information Technology fell 7.8%, so this move tracked the market rather than anything specific to ASML Holding."
+    },
+    {
+      "ticker": "MSI",
+      "price": 516.49,
+      "change_percent": 3.92,
+      "typical_percent": 1.73,
+      "multiple": 2.3,
+      "direction": "up",
+      "period_percent": 8.1,
+      "volume": 3011377,
+      "company": "Motorola Solutions",
+      "sector": "Information Technology",
+      "headline": "Motorola Solutions is up 3.9% today, 2.3x its typical 1.7% daily move.",
+      "context": "The market fell 2.2% today and Information Technology fell 7.8% \u2014 so Motorola Solutions moved against its sector."
     },
     {
       "ticker": "NDSN",
@@ -500,13 +514,13 @@
     },
     {
       "ticker": "GLW",
-      "price": 103.4,
-      "change_percent": -12.94,
+      "price": 103.46,
+      "change_percent": -12.89,
       "typical_percent": 5.91,
       "multiple": 2.2,
       "direction": "down",
-      "period_percent": -16.61,
-      "volume": 19611746,
+      "period_percent": -16.56,
+      "volume": 19678067,
       "company": "Corning Inc.",
       "sector": "Information Technology",
       "headline": "Corning Inc. is down 12.9% today, 2.2x its typical 5.9% daily move.",
@@ -524,7 +538,7 @@
       "company": "JPMorgan Chase",
       "sector": "Financials",
       "headline": "JPMorgan Chase is down 4.2% today, 2.2x its typical 1.9% daily move.",
-      "context": "The market fell 2.2% today and Financials fell 2.2%, so most of this was specific to JPMorgan Chase."
+      "context": "The market fell 2.2% today and Financials fell 2.1%, so most of this was specific to JPMorgan Chase."
     },
     {
       "ticker": "MS",
@@ -538,7 +552,7 @@
       "company": "Morgan Stanley",
       "sector": "Financials",
       "headline": "Morgan Stanley is down 5.9% today, 2.2x its typical 2.6% daily move.",
-      "context": "The market fell 2.2% today and Financials fell 2.2%, so most of this was specific to Morgan Stanley."
+      "context": "The market fell 2.2% today and Financials fell 2.1%, so most of this was specific to Morgan Stanley."
     },
     {
       "ticker": "NSC",
@@ -553,20 +567,6 @@
       "sector": "Industrials",
       "headline": "Norfolk Southern is down 4.4% today, 2.2x its typical 2.0% daily move.",
       "context": "The market fell 2.2% today and Industrials fell 3.5%, so this move tracked the market rather than anything specific to Norfolk Southern."
-    },
-    {
-      "ticker": "NUE",
-      "price": 245.74,
-      "change_percent": -8.28,
-      "typical_percent": 3.79,
-      "multiple": 2.2,
-      "direction": "down",
-      "period_percent": -4.77,
-      "volume": 2643050,
-      "company": "Nucor",
-      "sector": "Materials",
-      "headline": "Nucor is down 8.3% today, 2.2x its typical 3.8% daily move.",
-      "context": "The market fell 2.2% today and Materials fell 2.9%, so most of this was specific to Nucor."
     }
   ],
   "biggest": [
@@ -619,7 +619,7 @@
       "multiple": 1.5,
       "direction": "down",
       "period_percent": -32.27,
-      "volume": 9687375,
+      "volume": 9835981,
       "company": "Lumentum",
       "sector": "Information Technology",
       "context": "The market fell 2.2% today and Information Technology fell 7.8%, so most of this was specific to Lumentum."
