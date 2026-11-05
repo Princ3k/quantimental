@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly in line with the last two weeks.",
-  "as_of": "2026-11-04T21:38:32.406390+00:00",
+  "as_of": "2026-11-05T01:02:20.284114+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.9\u03c3",
-      "change_percent": -13.88,
-      "z_score": -1.94,
+      "delta": "-2.0\u03c3",
+      "change_percent": -14.54,
+      "z_score": -2.02,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -28,23 +28,45 @@
     },
     {
       "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.41,
-      "z_score": 0.63,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
       "name": "High-yield credit",
       "text": "High-yield credit under pressure",
       "direction": "down",
-      "delta": "-0.1%",
-      "change_percent": -0.09,
-      "z_score": -0.22,
+      "delta": "-1.6\u03c3",
+      "change_percent": -0.79,
+      "z_score": -1.61,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar fading",
+      "direction": "down",
+      "delta": "-0.8%",
+      "change_percent": -0.78,
+      "z_score": -1.07,
+      "risk_tone": "risk_on",
+      "notable": true
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit softening",
+      "direction": "down",
+      "delta": "-0.3%",
+      "change_percent": -0.34,
+      "z_score": -0.4,
+      "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "COMMODITIES",
+      "name": "Gold",
+      "text": "Gold bid \u2014 a defensive tilt",
+      "direction": "up",
+      "delta": "+1.3%",
+      "change_percent": 1.28,
+      "z_score": 0.33,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -58,39 +80,28 @@
       "z_score": -0.2,
       "risk_tone": "risk_on",
       "notable": false
-    },
-    {
-      "category": "COMMODITIES",
-      "name": "Gold",
-      "text": "Gold bid \u2014 a defensive tilt",
-      "direction": "up",
-      "delta": "+0.5%",
-      "change_percent": 0.49,
-      "z_score": 0.12,
-      "risk_tone": "risk_off",
-      "notable": false
     }
   ],
   "sectors": {
     "available": true,
     "leaders": [
       {
-        "symbol": "XLY",
-        "name": "Consumer Discretionary",
-        "change_percent": 6.07,
-        "z_score": 2.35
-      },
-      {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 5.87,
-        "z_score": 2.64
+        "change_percent": 2.43,
+        "z_score": 1.0
       },
       {
         "symbol": "XLV",
         "name": "Health Care",
-        "change_percent": 5.53,
-        "z_score": 2.27
+        "change_percent": 2.39,
+        "z_score": 0.86
+      },
+      {
+        "symbol": "XLU",
+        "name": "Utilities",
+        "change_percent": 2.19,
+        "z_score": 1.0
       }
     ],
     "laggards": [
@@ -101,24 +112,24 @@
         "z_score": -2.12
       },
       {
-        "symbol": "XLE",
-        "name": "Energy",
-        "change_percent": -7.2,
-        "z_score": -2.61
+        "symbol": "XLC",
+        "name": "Communications",
+        "change_percent": -1.65,
+        "z_score": -0.67
       },
       {
-        "symbol": "XLI",
-        "name": "Industrials",
-        "change_percent": 0.58,
-        "z_score": 0.16
+        "symbol": "XLB",
+        "name": "Materials",
+        "change_percent": 1.41,
+        "z_score": 0.39
       }
     ],
-    "breadth": 80,
-    "advancing": 8,
-    "total": 10
+    "breadth": 78,
+    "advancing": 7,
+    "total": 9
   },
   "composite": {
-    "score": 68,
+    "score": 66,
     "label": "Risk-on",
     "tone": "risk_on",
     "contributions": [
@@ -128,33 +139,64 @@
         "tone": "risk_on"
       },
       {
-        "name": "Sector breadth",
-        "effect": 6.0,
+        "name": "US dollar index",
+        "effect": 6.4,
         "tone": "risk_on"
       },
       {
         "name": "Credit complex",
-        "effect": 1.2,
-        "tone": "risk_on"
+        "effect": -6.0,
+        "tone": "risk_off"
       },
       {
-        "name": "Volatility index",
-        "effect": 1.2,
+        "name": "Sector breadth",
+        "effect": 5.6,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -0.7,
+        "effect": -2.0,
         "tone": "risk_off"
       }
     ]
   },
-  "history": [],
+  "history": [
+    16.9,
+    27.2,
+    8.9,
+    3.3,
+    18.2,
+    24.7,
+    24.7,
+    37.5,
+    50.6,
+    59.7,
+    64.3,
+    60.1,
+    58.2,
+    54.4,
+    52.2,
+    66.2,
+    50.4,
+    52.1,
+    59.5,
+    67.0,
+    65.5,
+    72.2,
+    77.7,
+    67.6,
+    68.5,
+    59.5,
+    68.3,
+    55.8,
+    51.7,
+    64.2
+  ],
   "narrative": {
-    "text": "Crude oil dropped 13.9% and technology stocks fell 7.6%. Consumer discretionary and staples stocks rose, with eight of ten sectors advancing.",
-    "short": "Oil prices fell sharply while consumer stocks led a broad market rally.",
+    "text": "Crude oil dropped 14.5% and technology stocks fell 7.6%. Consumer staples and health care led gains as long-term borrowing costs eased.",
+    "short": "Oil prices plunged while tech stocks fell and staples rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-04T21:38:32.911861+00:00"
+  "generated_at": "2026-11-05T01:02:21.362624+00:00"
 }
