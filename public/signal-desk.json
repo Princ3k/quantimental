@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-05T19:37:55.508072+00:00",
+  "as_of": "2026-11-05T20:11:47.423715+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "+3.6\u03c3",
-      "change_percent": 50.64,
-      "z_score": 3.64,
+      "delta": "+3.0\u03c3",
+      "change_percent": 41.34,
+      "z_score": 2.99,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-1.9\u03c3",
-      "change_percent": -3.21,
-      "z_score": -1.85,
+      "delta": "-1.8\u03c3",
+      "change_percent": -3.09,
+      "z_score": -1.79,
       "risk_tone": "risk_on",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.6\u03c3",
-      "change_percent": -11.35,
-      "z_score": -1.6,
+      "change_percent": -11.15,
+      "z_score": -1.57,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -43,8 +43,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.5,
-      "z_score": -1.04,
+      "change_percent": -0.47,
+      "z_score": -0.99,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -55,18 +55,7 @@
       "direction": "down",
       "delta": "-0.5%",
       "change_percent": -0.48,
-      "z_score": -0.67,
-      "risk_tone": "risk_on",
-      "notable": false
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.36,
-      "z_score": 0.55,
+      "z_score": -0.68,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -75,10 +64,21 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+1.9%",
-      "change_percent": 1.94,
-      "z_score": 0.51,
+      "delta": "+2.2%",
+      "change_percent": 2.23,
+      "z_score": 0.58,
       "risk_tone": "risk_off",
+      "notable": false
+    },
+    {
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
+      "direction": "up",
+      "delta": "+0.3%",
+      "change_percent": 0.3,
+      "z_score": 0.48,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -88,45 +88,45 @@
       {
         "symbol": "XLP",
         "name": "Consumer Staples",
-        "change_percent": 3.86,
-        "z_score": 1.66
+        "change_percent": 3.63,
+        "z_score": 1.55
       },
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 2.92,
-        "z_score": 1.41
+        "change_percent": 2.87,
+        "z_score": 1.38
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": 1.1,
-        "z_score": 0.46
+        "change_percent": 1.01,
+        "z_score": 0.42
       }
     ],
     "laggards": [
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -13.07,
-        "z_score": -3.46
+        "change_percent": -13.33,
+        "z_score": -3.53
       },
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -8.69,
-        "z_score": -3.03
+        "change_percent": -9.0,
+        "z_score": -3.12
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -4.2,
-        "z_score": -2.13
+        "change_percent": -4.46,
+        "z_score": -2.26
       }
     ],
-    "breadth": 56,
-    "advancing": 5,
-    "total": 9
+    "breadth": 60,
+    "advancing": 6,
+    "total": 10
   },
   "composite": {
     "score": 44,
@@ -135,28 +135,28 @@
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -18.0,
+        "effect": -17.9,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 11.1,
+        "effect": 10.7,
         "tone": "risk_on"
       },
       {
         "name": "US dollar index",
-        "effect": 4.0,
+        "effect": 4.1,
         "tone": "risk_on"
       },
       {
         "name": "Gold",
-        "effect": -3.1,
+        "effect": -3.5,
         "tone": "risk_off"
       },
       {
-        "name": "Credit complex",
-        "effect": -1.5,
-        "tone": "risk_off"
+        "name": "Sector breadth",
+        "effect": 2.0,
+        "tone": "risk_on"
       }
     ]
   },
@@ -166,37 +166,37 @@
     3.6,
     18.3,
     26.7,
-    26.8,
-    37.4,
-    50.5,
-    59.6,
-    64.2,
-    60.1,
-    58.2,
-    54.4,
-    52.3,
+    26.7,
+    39.4,
+    52.5,
+    61.6,
     66.2,
-    52.7,
-    52.3,
-    59.6,
-    67.0,
-    65.6,
-    72.2,
+    62.1,
+    60.2,
+    56.4,
+    54.2,
+    68.2,
+    52.6,
+    54.2,
+    61.6,
+    69.0,
+    67.6,
+    74.2,
     79.7,
     69.6,
     70.5,
-    59.5,
-    68.3,
-    53.9,
-    49.9,
-    71.7,
-    42.7
+    61.5,
+    70.3,
+    55.8,
+    51.8,
+    73.7,
+    43.9
   ],
   "narrative": {
-    "text": "Technology and energy led losses while consumer staples gained. Volatility rose sharply and long-term government bond yields eased.",
-    "short": "Technology stocks fell 13% as volatility spiked and crude oil prices slid.",
+    "text": "Technology stocks fell 13.3% and energy dropped 9.0%. Volatility rose 41.3% while crude oil slid 11.2%.",
+    "short": "Technology stocks fell sharply while volatility spiked and oil prices dropped.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-05T19:37:56.136659+00:00"
+  "generated_at": "2026-11-05T20:11:48.037643+00:00"
 }
