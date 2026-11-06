@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-06T13:37:39.777553+00:00",
+  "as_of": "2026-11-06T14:09:21.167752+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "+2.7\u03c3",
-      "change_percent": 39.86,
-      "z_score": 2.74,
+      "delta": "+2.5\u03c3",
+      "change_percent": 36.1,
+      "z_score": 2.48,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -31,10 +31,21 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+4.4%",
-      "change_percent": 4.39,
-      "z_score": 1.16,
+      "delta": "+4.0%",
+      "change_percent": 3.99,
+      "z_score": 1.05,
       "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates easing",
+      "direction": "down",
+      "delta": "-6bp",
+      "change_percent": -1.28,
+      "z_score": -0.86,
+      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -64,9 +75,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.2%",
-      "change_percent": 0.19,
-      "z_score": 0.18,
+      "delta": "+0.3%",
+      "change_percent": 0.35,
+      "z_score": 0.39,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -118,43 +129,74 @@
     "total": 10
   },
   "composite": {
-    "score": 26,
+    "score": 32,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -16.4,
+        "effect": -14.9,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": -7.0,
+        "effect": -6.3,
         "tone": "risk_off"
       },
       {
+        "name": "10-year Treasury yield",
+        "effect": 5.2,
+        "tone": "risk_on"
+      },
+      {
         "name": "US dollar index",
-        "effect": -1.1,
+        "effect": -2.3,
         "tone": "risk_off"
       },
       {
         "name": "Credit complex",
         "effect": 0.5,
         "tone": "risk_on"
-      },
-      {
-        "name": "Sector breadth",
-        "effect": 0.0,
-        "tone": "risk_on"
       }
     ]
   },
-  "history": [],
+  "history": [
+    9.3,
+    3.9,
+    18.5,
+    26.9,
+    26.9,
+    39.5,
+    52.5,
+    61.6,
+    66.3,
+    62.2,
+    60.3,
+    56.5,
+    54.6,
+    68.4,
+    53.3,
+    54.7,
+    61.9,
+    69.2,
+    68.0,
+    74.3,
+    79.8,
+    69.8,
+    70.7,
+    61.5,
+    70.5,
+    56.2,
+    52.3,
+    73.9,
+    45.1,
+    32.0
+  ],
   "narrative": {
-    "text": "Crude oil dropped 12.8% while gold rose 4.4%. Energy and technology were the weakest sectors, while communications and staples gained ground.",
-    "short": "Oil prices fell sharply as investors shifted to defensive assets.",
+    "text": "Crude oil dropped 12.8% while gold rose 4.0% and long-term government bond yields eased. Energy and technology sectors led the decline.",
+    "short": "Oil prices fell sharply as investors moved into defensive assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-06T13:37:40.323572+00:00"
+  "generated_at": "2026-11-06T14:09:21.741265+00:00"
 }
