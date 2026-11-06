@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-11-06T21:16:35.382967+00:00",
+  "generated_at": "2026-11-06T21:47:09.660247+00:00",
   "as_of": "2026-11-06",
   "scanned": 519,
   "universe": 522,
@@ -100,7 +100,7 @@
       "multiple": 1.4,
       "direction": "up",
       "period_percent": -10.96,
-      "volume": 12175583,
+      "volume": 12298099,
       "company": "Vistra Corp.",
       "sector": "Utilities",
       "context": "The market fell 0.7% today and Utilities fell 1.0% \u2014 so Vistra Corp. moved against its sector."
@@ -119,6 +119,19 @@
       "context": "The market fell 0.7% today and Information Technology rose 0.7% \u2014 so Microchip Technology moved against its sector."
     },
     {
+      "ticker": "NET",
+      "price": 268.75,
+      "change_percent": 9.91,
+      "typical_percent": 8.27,
+      "multiple": 1.2,
+      "direction": "up",
+      "period_percent": -17.49,
+      "volume": 9389059,
+      "company": "Cloudflare",
+      "sector": "Information Technology",
+      "context": "The market fell 0.7% today and Information Technology rose 0.7%, so most of this was specific to Cloudflare."
+    },
+    {
       "ticker": "APP",
       "price": 391.22,
       "change_percent": 9.86,
@@ -130,19 +143,6 @@
       "company": "AppLovin",
       "sector": "Communication Services",
       "context": "The market fell 0.7% today and Communication Services was flat, so most of this was specific to AppLovin."
-    },
-    {
-      "ticker": "NET",
-      "price": 268.62,
-      "change_percent": 9.86,
-      "typical_percent": 8.27,
-      "multiple": 1.2,
-      "direction": "up",
-      "period_percent": -17.53,
-      "volume": 9389059,
-      "company": "Cloudflare",
-      "sector": "Information Technology",
-      "context": "The market fell 0.7% today and Information Technology rose 0.7%, so most of this was specific to Cloudflare."
     }
   ],
   "threshold": {
