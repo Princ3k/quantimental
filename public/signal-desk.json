@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-06T14:09:21.167752+00:00",
+  "as_of": "2026-11-06T14:40:44.537592+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "+2.5\u03c3",
-      "change_percent": 36.1,
-      "z_score": 2.48,
+      "delta": "+2.6\u03c3",
+      "change_percent": 38.21,
+      "z_score": 2.63,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -21,8 +21,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.8\u03c3",
-      "change_percent": -12.8,
-      "z_score": -1.77,
+      "change_percent": -12.75,
+      "z_score": -1.76,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+4.0%",
-      "change_percent": 3.99,
-      "z_score": 1.05,
+      "delta": "+3.7%",
+      "change_percent": 3.67,
+      "z_score": 0.97,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -42,21 +42,21 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-6bp",
-      "change_percent": -1.28,
-      "z_score": -0.86,
+      "delta": "-7bp",
+      "change_percent": -1.32,
+      "z_score": -0.88,
       "risk_tone": "risk_on",
       "notable": true
     },
     {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
+      "category": "FX",
+      "name": "US dollar index",
+      "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.37,
-      "z_score": 0.58,
-      "risk_tone": "risk_on",
+      "delta": "+0.5%",
+      "change_percent": 0.46,
+      "z_score": 0.53,
+      "risk_tone": "risk_off",
       "notable": false
     },
     {
@@ -65,20 +65,20 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.2%",
-      "change_percent": -0.19,
-      "z_score": -0.42,
+      "change_percent": -0.17,
+      "z_score": -0.37,
       "risk_tone": "risk_off",
       "notable": false
     },
     {
-      "category": "FX",
-      "name": "US dollar index",
-      "text": "Dollar strengthening",
+      "category": "CREDIT",
+      "name": "Investment-grade credit",
+      "text": "Investment-grade credit firm",
       "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.35,
-      "z_score": 0.39,
-      "risk_tone": "risk_off",
+      "delta": "+0.2%",
+      "change_percent": 0.18,
+      "z_score": 0.31,
+      "risk_tone": "risk_on",
       "notable": false
     }
   ],
@@ -88,75 +88,75 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 4.44,
-        "z_score": 2.08
-      },
-      {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": 2.05,
-        "z_score": 0.78
+        "change_percent": 4.49,
+        "z_score": 2.1
       },
       {
         "symbol": "XLY",
         "name": "Consumer Discretionary",
-        "change_percent": 1.96,
-        "z_score": 0.75
+        "change_percent": 1.79,
+        "z_score": 0.68
+      },
+      {
+        "symbol": "XLF",
+        "name": "Financials",
+        "change_percent": 1.27,
+        "z_score": 0.56
       }
     ],
     "laggards": [
       {
         "symbol": "XLE",
         "name": "Energy",
-        "change_percent": -11.98,
-        "z_score": -3.9
+        "change_percent": -11.94,
+        "z_score": -3.89
       },
       {
         "symbol": "XLK",
         "name": "Technology",
-        "change_percent": -9.54,
-        "z_score": -2.51
+        "change_percent": -7.04,
+        "z_score": -1.89
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": -2.95,
-        "z_score": -1.51
+        "change_percent": -2.92,
+        "z_score": -1.5
       }
     ],
-    "breadth": 50,
-    "advancing": 5,
+    "breadth": 30,
+    "advancing": 3,
     "total": 10
   },
   "composite": {
-    "score": 32,
+    "score": 26,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "Volatility index",
-        "effect": -14.9,
+        "effect": -15.8,
         "tone": "risk_off"
       },
       {
         "name": "Gold",
-        "effect": -6.3,
+        "effect": -5.8,
         "tone": "risk_off"
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 5.2,
+        "effect": 5.3,
         "tone": "risk_on"
       },
       {
-        "name": "US dollar index",
-        "effect": -2.3,
+        "name": "Sector breadth",
+        "effect": -4.0,
         "tone": "risk_off"
       },
       {
-        "name": "Credit complex",
-        "effect": 0.5,
-        "tone": "risk_on"
+        "name": "US dollar index",
+        "effect": -3.2,
+        "tone": "risk_off"
       }
     ]
   },
@@ -174,10 +174,10 @@
     60.3,
     56.5,
     54.6,
-    68.4,
-    53.3,
+    68.5,
+    53.4,
     54.7,
-    61.9,
+    62.0,
     69.2,
     68.0,
     74.3,
@@ -186,17 +186,17 @@
     70.7,
     61.5,
     70.5,
-    56.2,
+    56.3,
     52.3,
     73.9,
     45.1,
-    32.0
+    26.3
   ],
   "narrative": {
-    "text": "Crude oil dropped 12.8% while gold rose 4.0% and long-term government bond yields eased. Energy and technology sectors led the decline.",
-    "short": "Oil prices fell sharply as investors moved into defensive assets.",
+    "text": "The volatility index rose 38.2% while crude oil dropped 12.8%. Gold gained 3.7% and long-term government bond yields eased.",
+    "short": "Volatility spiked and crude oil fell sharply as investors shifted to defensive assets.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-06T14:09:21.741265+00:00"
+  "generated_at": "2026-11-06T14:40:46.235477+00:00"
 }
