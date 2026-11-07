@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-06T21:39:02.845280+00:00",
+  "as_of": "2026-11-07T00:04:12.637005+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -21,8 +21,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-1.8\u03c3",
-      "change_percent": -13.08,
-      "z_score": -1.8,
+      "change_percent": -13.23,
+      "z_score": -1.82,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -31,21 +31,10 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+4.4%",
-      "change_percent": 4.45,
-      "z_score": 1.18,
+      "delta": "+4.6%",
+      "change_percent": 4.63,
+      "z_score": 1.23,
       "risk_tone": "risk_off",
-      "notable": true
-    },
-    {
-      "category": "RATES",
-      "name": "10-year Treasury yield",
-      "text": "Long-term rates easing",
-      "direction": "down",
-      "delta": "-7bp",
-      "change_percent": -1.42,
-      "z_score": -0.93,
-      "risk_tone": "risk_on",
       "notable": true
     },
     {
@@ -129,7 +118,7 @@
     "total": 10
   },
   "composite": {
-    "score": 30,
+    "score": 24,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
@@ -140,13 +129,8 @@
       },
       {
         "name": "Gold",
-        "effect": -7.1,
+        "effect": -7.4,
         "tone": "risk_off"
-      },
-      {
-        "name": "10-year Treasury yield",
-        "effect": 5.6,
-        "tone": "risk_on"
       },
       {
         "name": "US dollar index",
@@ -157,46 +141,20 @@
         "name": "Sector breadth",
         "effect": -2.0,
         "tone": "risk_off"
+      },
+      {
+        "name": "Credit complex",
+        "effect": -0.4,
+        "tone": "risk_off"
       }
     ]
   },
-  "history": [
-    9.3,
-    3.8,
-    18.5,
-    26.9,
-    26.9,
-    39.5,
-    52.5,
-    61.6,
-    66.3,
-    62.2,
-    60.3,
-    56.5,
-    54.5,
-    68.4,
-    53.3,
-    54.7,
-    61.9,
-    69.2,
-    68.0,
-    74.3,
-    79.8,
-    69.8,
-    70.7,
-    61.5,
-    70.5,
-    56.2,
-    52.3,
-    73.9,
-    45.1,
-    30.2
-  ],
+  "history": [],
   "narrative": {
-    "text": "Uncertainty surged while crude oil fell sharply. Gold rose and long-term government borrowing costs eased. Energy and technology led the decline.",
-    "short": "Volatility spiked and oil crashed as investors fled to gold and defensive stocks.",
+    "text": "Uncertainty rose sharply while crude oil slid. Energy and technology led losses, while gold and the dollar gained.",
+    "short": "Volatility spiked and oil crashed as investors fled to gold and the dollar.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-06T21:39:03.501088+00:00"
+  "generated_at": "2026-11-07T00:04:13.277823+00:00"
 }
