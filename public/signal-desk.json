@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-09T13:08:39.011827+00:00",
+  "as_of": "2026-11-09T13:39:58.409848+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-9.3%",
-      "change_percent": -9.3,
-      "z_score": -1.31,
+      "delta": "-9.1%",
+      "change_percent": -9.1,
+      "z_score": -1.29,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -31,9 +31,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+4.1%",
-      "change_percent": 4.12,
-      "z_score": 1.09,
+      "delta": "+4.2%",
+      "change_percent": 4.17,
+      "z_score": 1.11,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "10-year Treasury yield",
       "text": "Long-term rates easing",
       "direction": "down",
-      "delta": "-3bp",
-      "change_percent": -0.72,
-      "z_score": -0.56,
+      "delta": "-5bp",
+      "change_percent": -1.0,
+      "z_score": -0.71,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "23.0",
-      "change_percent": 8.94,
-      "z_score": 0.54,
+      "delta": "23.4",
+      "change_percent": 10.64,
+      "z_score": 0.66,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+0.1%",
-      "change_percent": 0.09,
-      "z_score": 0.05,
+      "change_percent": 0.1,
+      "z_score": 0.07,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "Gold",
-        "effect": -6.5,
+        "effect": -6.7,
         "tone": "risk_off"
       },
       {
@@ -150,19 +150,19 @@
       },
       {
         "name": "10-year Treasury yield",
-        "effect": 3.4,
+        "effect": 4.3,
         "tone": "risk_on"
       },
       {
         "name": "Volatility index",
-        "effect": -3.2,
+        "effect": -4.0,
         "tone": "risk_off"
       }
     ]
   },
   "history": [
-    3.8,
-    18.2,
+    3.9,
+    18.3,
     31.1,
     31.1,
     43.8,
@@ -170,33 +170,33 @@
     66.0,
     66.2,
     62.1,
-    60.3,
+    60.2,
     56.4,
     54.4,
-    68.4,
-    53.2,
+    68.3,
+    53.1,
     54.5,
     61.8,
     69.1,
-    67.9,
+    67.8,
     74.2,
-    79.8,
+    79.7,
     69.8,
-    70.7,
+    70.6,
     61.4,
     70.4,
-    56.1,
+    56.0,
     52.1,
-    73.8,
+    73.7,
     44.9,
     29.8,
     43.2
   ],
   "narrative": {
-    "text": "Crude oil dropped 9.3% and energy stocks fell 8.4%. Gold rose 4.1% and communications stocks gained 4.5%.",
-    "short": "Oil prices fell sharply while investors moved into gold and defensive stocks.",
+    "text": "Crude oil dropped 9.1% and energy stocks fell 8.4%. Gold rose 4.2% and government bond yields eased.",
+    "short": "Crude oil and energy stocks fell sharply while gold and government bonds rose.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-09T13:08:39.531898+00:00"
+  "generated_at": "2026-11-09T13:39:59.292620+00:00"
 }
