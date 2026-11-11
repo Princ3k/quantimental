@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-11-11T01:13:26.650801+00:00",
+  "generated_at": "2026-11-11T01:28:27.070461+00:00",
   "as_of": "2026-11-10",
-  "scanned": 519,
+  "scanned": 518,
   "universe": 522,
   "unusual_count": 6,
   "rising": 6,
@@ -62,7 +62,7 @@
       "company": "Constellation Energy",
       "sector": "Utilities",
       "headline": "Constellation Energy is up 10.5% today, 2.2x its typical 4.8% daily move.",
-      "context": "The market rose 2.0% today and Utilities rose 0.8%, so most of this was specific to Constellation Energy."
+      "context": "The market rose 2.0% today and Utilities rose 0.9%, so most of this was specific to Constellation Energy."
     },
     {
       "ticker": "BEN",
