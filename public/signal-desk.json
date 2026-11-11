@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-11T19:09:17.266574+00:00",
+  "as_of": "2026-11-11T19:39:48.031709+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -10,8 +10,8 @@
       "text": "Dollar strengthening",
       "direction": "up",
       "delta": "+1.7\u03c3",
-      "change_percent": 1.39,
-      "z_score": 1.74,
+      "change_percent": 1.37,
+      "z_score": 1.71,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -32,8 +32,8 @@
       "text": "Investment-grade credit softening",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.52,
-      "z_score": -0.68,
+      "change_percent": -0.5,
+      "z_score": -0.65,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -43,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-1.9%",
-      "change_percent": -1.9,
-      "z_score": -0.52,
+      "change_percent": -1.88,
+      "z_score": -0.51,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -54,8 +54,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.2%",
-      "change_percent": -0.22,
-      "z_score": -0.51,
+      "change_percent": -0.18,
+      "z_score": -0.44,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-1.1%",
-      "change_percent": -1.06,
-      "z_score": -0.27,
+      "delta": "-1.9%",
+      "change_percent": -1.94,
+      "z_score": -0.38,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -75,9 +75,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "17.4",
-      "change_percent": 4.82,
-      "z_score": 0.26,
+      "delta": "17.7",
+      "change_percent": 6.32,
+      "z_score": 0.37,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -88,40 +88,40 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 3.43,
-        "z_score": 1.52
+        "change_percent": 3.62,
+        "z_score": 1.6
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.87,
-        "z_score": 0.31
+        "change_percent": 0.84,
+        "z_score": 0.29
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 0.23,
-        "z_score": 0.09
+        "change_percent": 0.38,
+        "z_score": 0.16
       }
     ],
     "laggards": [
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": -1.81,
-        "z_score": -0.94
+        "change_percent": -1.73,
+        "z_score": -0.91
       },
       {
         "symbol": "XLF",
         "name": "Financials",
-        "change_percent": -1.21,
-        "z_score": -0.77
+        "change_percent": -1.07,
+        "z_score": -0.7
       },
       {
-        "symbol": "XLP",
-        "name": "Consumer Staples",
-        "change_percent": -1.15,
-        "z_score": -0.75
+        "symbol": "XLY",
+        "name": "Consumer Discretionary",
+        "change_percent": -1.01,
+        "z_score": -0.43
       }
     ],
     "breadth": 30,
@@ -135,7 +135,7 @@
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -10.4,
+        "effect": -10.3,
         "tone": "risk_off"
       },
       {
@@ -150,7 +150,7 @@
       },
       {
         "name": "Credit complex",
-        "effect": -3.6,
+        "effect": -3.3,
         "tone": "risk_off"
       },
       {
@@ -171,7 +171,7 @@
     60.2,
     56.3,
     54.3,
-    68.2,
+    68.3,
     53.0,
     54.4,
     61.7,
@@ -190,13 +190,13 @@
     29.6,
     62.2,
     52.8,
-    28.1
+    27.9
   ],
   "narrative": {
-    "text": "The US dollar strengthened and long-term borrowing costs climbed. Most sectors fell, with only three of ten advancing.",
-    "short": "Dollar strength and rising bond yields pushed investors into risk-off mode.",
+    "text": "The dollar and long-term rates climbed, while investment-grade and high-yield credit fell. Only three of ten sectors advanced, led by communications.",
+    "short": "Dollar and long-term rates rose while credit markets weakened.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-11T19:09:17.801803+00:00"
+  "generated_at": "2026-11-11T19:39:48.509492+00:00"
 }
