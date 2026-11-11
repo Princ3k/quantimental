@@ -23,19 +23,39 @@ unknown rather than guessed.
 
 State is in-process and resets on restart, which is the honest scope: after a
 deploy we genuinely have not observed anything yet.
+
+Observations also expire. Nothing here polls: a source is observed only when
+something asks it, which on a quiet evening may be hours ago. On 2026-11-10
+Yahoo went down at 16:18, recovered within the hour, and `/health` still read
+`yahoo_finance: working=false` at 04:06 the next morning — the last thing we
+saw, reported as though it were the current state, twelve hours after it had
+stopped being true. The sweep had measured 516 tickers through Yahoo in the
+meantime, from another process this one cannot see.
+
+So an observation past FRESH_FOR is no longer a verdict. What was seen is kept
+and dated, because that remains a fact; what is claimed about *now* goes back
+to unknown, for the same reason a source nobody has asked yet is unknown.
 """
 
 from __future__ import annotations
 
 import threading
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 # Statuses the fetchers emit. `disabled` means we chose not to ask, which is
 # not a fault; `empty` means the source answered and had nothing, which is a
 # working source.
 WORKING_STATUSES = frozenset({"ok", "empty"})
+
+# How long an observation speaks for the present.
+#
+# Not a guess about how fast sources fail — a statement about how long ago we
+# last looked. An hour is generous given the dashboard exercises these
+# constantly while anyone is on the site, and short enough that a resolved
+# outage stops being reported as ongoing.
+FRESH_FOR = timedelta(hours=1)
 
 
 @dataclass(frozen=True)
@@ -66,8 +86,9 @@ class SourceHealth:
         """
         Both facts about one source, kept apart.
 
-        `working` is None until something has actually asked the source. A
-        guess would be how the old check went wrong.
+        `working` is None until something has actually asked the source, and
+        None again once what we saw is too old to speak for now. A guess in
+        either direction is how the old check went wrong.
         """
         with self._lock:
             observed = self._seen.get(source)
@@ -79,14 +100,24 @@ class SourceHealth:
                 "last_result": None,
                 "detail": None,
                 "observed_at": None,
+                "age_seconds": None,
+                "stale": False,
             }
+
+        age = datetime.now(timezone.utc) - observed.at
+        stale = age > FRESH_FOR
 
         return {
             "configured": configured,
-            "working": observed.status in WORKING_STATUSES,
+            # Withheld once stale rather than carried forward. The observation
+            # below is still reported: "Yahoo errored, eleven hours ago" is
+            # true and useful, where "Yahoo is down" would not be.
+            "working": None if stale else observed.status in WORKING_STATUSES,
             "last_result": observed.status,
             "detail": observed.detail,
             "observed_at": observed.at.isoformat(),
+            "age_seconds": int(age.total_seconds()),
+            "stale": stale,
         }
 
     def reset(self) -> None:

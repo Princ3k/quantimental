@@ -10,9 +10,11 @@ source is worse than no monitor.
 
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
+
 import pytest
 
-from app.core.source_health import SourceHealth
+from app.core.source_health import FRESH_FOR, Observation, SourceHealth
 from app.services.ingestion.sentiment.sentiment_data_fetcher import _safe_detail
 
 
@@ -129,3 +131,84 @@ class TestDetailRedaction:
 
     def test_long_provider_errors_are_truncated(self):
         assert len(_safe_detail(Exception("x" * 5_000))) <= 200
+
+
+class TestObservationsExpire:
+    """
+    Nothing here polls. A source is observed only when something asks it, so on
+    a quiet evening the last look may be hours old — and an hours-old look is
+    not a statement about now.
+
+    Yahoo went down on 2026-11-10 at 16:18 and recovered within the hour.
+    `/health` still read `yahoo_finance: working=false` at 04:06 the next
+    morning, while the sweep had measured 516 tickers through Yahoo in the
+    meantime from a process this one cannot see.
+    """
+
+    @staticmethod
+    def _age(health: SourceHealth, source: str, delta: timedelta) -> None:
+        """Backdate what was observed, without waiting for real time to pass."""
+        seen = health._seen[source]
+        health._seen[source] = Observation(
+            seen.status, seen.detail, datetime.now(timezone.utc) - delta
+        )
+
+    def test_a_stale_failure_stops_being_reported_as_the_current_state(self, health):
+        health.record("yahoo_finance", "error", "YAHOO! FINANCE IS CURRENTLY DOWN!")
+        self._age(health, "yahoo_finance", FRESH_FOR + timedelta(minutes=1))
+
+        described = health.describe("yahoo_finance", configured=True)
+
+        assert described["working"] is None, "an old look is not a verdict on now"
+        assert described["stale"] is True
+
+    def test_what_was_seen_is_still_reported(self, health):
+        # Withheld as a claim about the present, kept as a fact about the past.
+        # "Yahoo errored, twelve hours ago" is useful; "Yahoo is down" is not.
+        health.record("yahoo_finance", "error", "YAHOO! FINANCE IS CURRENTLY DOWN!")
+        self._age(health, "yahoo_finance", timedelta(hours=12))
+
+        described = health.describe("yahoo_finance", configured=True)
+
+        assert described["last_result"] == "error"
+        assert "DOWN" in described["detail"]
+        assert described["observed_at"] is not None
+        assert described["age_seconds"] == pytest.approx(12 * 3600, abs=5)
+
+    def test_a_stale_success_is_withheld_too(self, health):
+        # Symmetry matters. Carrying a stale "working" forward would be the
+        # same mistake pointing the other way, and the quieter failure: nobody
+        # investigates a green light.
+        health.record("marketaux", "ok")
+        self._age(health, "marketaux", FRESH_FOR * 2)
+
+        assert health.describe("marketaux", configured=True)["working"] is None
+
+    def test_a_fresh_observation_is_unaffected(self, health):
+        health.record("groq", "ok")
+
+        described = health.describe("groq", configured=True)
+
+        assert described["working"] is True
+        assert described["stale"] is False
+        assert described["age_seconds"] < 5
+
+    def test_a_recovery_clears_a_stale_failure(self, health):
+        # The case that actually happened: it came back, and the next thing to
+        # ask it should be what the endpoint reports.
+        health.record("yahoo_finance", "error", "down")
+        self._age(health, "yahoo_finance", timedelta(hours=12))
+        health.record("yahoo_finance", "ok")
+
+        described = health.describe("yahoo_finance", configured=True)
+
+        assert described["working"] is True
+        assert described["stale"] is False
+
+    def test_a_source_never_asked_is_not_called_stale(self, health):
+        # Unknown for a different reason, and there is no observation to age.
+        described = health.describe("twitter", configured=True)
+
+        assert described["working"] is None
+        assert described["stale"] is False
+        assert described["age_seconds"] is None
