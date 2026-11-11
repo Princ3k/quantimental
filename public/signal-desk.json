@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-11T13:39:40.224953+00:00",
+  "as_of": "2026-11-11T14:08:55.578169+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+1.2%",
-      "change_percent": 1.16,
-      "z_score": 1.44,
+      "delta": "+1.5\u03c3",
+      "change_percent": 1.25,
+      "z_score": 1.55,
       "risk_tone": "risk_off",
       "notable": true
     },
@@ -53,9 +53,9 @@
       "name": "Volatility index",
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
-      "delta": "18.4",
-      "change_percent": 10.48,
-      "z_score": 0.67,
+      "delta": "18.3",
+      "change_percent": 10.17,
+      "z_score": 0.65,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -64,9 +64,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-0.8%",
-      "change_percent": -0.82,
-      "z_score": -0.24,
+      "delta": "-1.2%",
+      "change_percent": -1.23,
+      "z_score": -0.29,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -76,8 +76,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-0.7%",
-      "change_percent": -0.67,
-      "z_score": -0.19,
+      "change_percent": -0.69,
+      "z_score": -0.2,
       "risk_tone": "risk_on",
       "notable": false
     }
@@ -129,13 +129,13 @@
     "total": 10
   },
   "composite": {
-    "score": 22,
+    "score": 21,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "US dollar index",
-        "effect": -8.6,
+        "effect": -9.3,
         "tone": "risk_off"
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "name": "Volatility index",
-        "effect": -4.0,
+        "effect": -3.9,
         "tone": "risk_off"
       }
     ]
@@ -190,13 +190,13 @@
     29.7,
     62.2,
     52.8,
-    21.8
+    21.3
   ],
   "narrative": {
-    "text": "Technology stocks dropped 4.3% while long-term borrowing costs rose. Only two of ten sectors gained value this week.",
-    "short": "Tech stocks fell sharply as rising rates and a stronger dollar hit markets.",
+    "text": "The US dollar strengthened 1.2% and 10-year Treasury yields rose 2.1%. Technology stocks dropped 4.3% while only two of ten sectors advanced.",
+    "short": "Dollar surged and long-term rates climbed as tech stocks fell sharply.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-11T13:39:40.896067+00:00"
+  "generated_at": "2026-11-11T14:08:56.155009+00:00"
 }
