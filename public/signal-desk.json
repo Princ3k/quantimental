@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-11T21:08:37.483820+00:00",
+  "as_of": "2026-11-11T21:39:52.290364+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -16,13 +16,24 @@
       "notable": true
     },
     {
+      "category": "RATES",
+      "name": "10-year Treasury yield",
+      "text": "Long-term rates climbing",
+      "direction": "up",
+      "delta": "+10bp",
+      "change_percent": 2.13,
+      "z_score": 0.91,
+      "risk_tone": "risk_off",
+      "notable": true
+    },
+    {
       "category": "CREDIT",
       "name": "Investment-grade credit",
       "text": "Investment-grade credit softening",
       "direction": "down",
       "delta": "-0.5%",
-      "change_percent": -0.53,
-      "z_score": -0.69,
+      "change_percent": -0.52,
+      "z_score": -0.68,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -32,8 +43,8 @@
       "text": "Gold easing back",
       "direction": "down",
       "delta": "-2.0%",
-      "change_percent": -1.97,
-      "z_score": -0.54,
+      "change_percent": -2.02,
+      "z_score": -0.55,
       "risk_tone": "risk_on",
       "notable": false
     },
@@ -43,8 +54,8 @@
       "text": "High-yield credit under pressure",
       "direction": "down",
       "delta": "-0.2%",
-      "change_percent": -0.21,
-      "z_score": -0.51,
+      "change_percent": -0.22,
+      "z_score": -0.52,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -54,8 +65,8 @@
       "text": "Crude sliding",
       "direction": "down",
       "delta": "-2.0%",
-      "change_percent": -2.04,
-      "z_score": -0.39,
+      "change_percent": -1.97,
+      "z_score": -0.38,
       "risk_tone": "neutral",
       "notable": false
     },
@@ -65,8 +76,8 @@
       "text": "Volatility rising \u2014 more uncertainty priced in",
       "direction": "up",
       "delta": "17.5",
-      "change_percent": 5.66,
-      "z_score": 0.32,
+      "change_percent": 5.3,
+      "z_score": 0.3,
       "risk_tone": "risk_off",
       "notable": false
     }
@@ -77,28 +88,28 @@
       {
         "symbol": "XLC",
         "name": "Communications",
-        "change_percent": 3.5,
-        "z_score": 1.54
+        "change_percent": 3.47,
+        "z_score": 1.53
       },
       {
         "symbol": "XLI",
         "name": "Industrials",
-        "change_percent": 0.9,
+        "change_percent": 0.89,
         "z_score": 0.32
       },
       {
         "symbol": "XLU",
         "name": "Utilities",
-        "change_percent": 0.53,
-        "z_score": 0.23
+        "change_percent": 0.48,
+        "z_score": 0.21
       }
     ],
     "laggards": [
       {
         "symbol": "XLB",
         "name": "Materials",
-        "change_percent": -1.67,
-        "z_score": -0.89
+        "change_percent": -1.63,
+        "z_score": -0.87
       },
       {
         "symbol": "XLK",
@@ -118,13 +129,18 @@
     "total": 10
   },
   "composite": {
-    "score": 33,
+    "score": 28,
     "label": "Risk-off",
     "tone": "risk_off",
     "contributions": [
       {
         "name": "US dollar index",
         "effect": -10.4,
+        "tone": "risk_off"
+      },
+      {
+        "name": "10-year Treasury yield",
+        "effect": -5.5,
         "tone": "risk_off"
       },
       {
@@ -139,22 +155,48 @@
       },
       {
         "name": "Gold",
-        "effect": 3.2,
+        "effect": 3.3,
         "tone": "risk_on"
-      },
-      {
-        "name": "Volatility index",
-        "effect": -1.9,
-        "tone": "risk_off"
       }
     ]
   },
-  "history": [],
+  "history": [
+    31.0,
+    31.1,
+    43.8,
+    56.9,
+    66.0,
+    66.1,
+    62.0,
+    60.2,
+    56.3,
+    54.3,
+    68.2,
+    52.9,
+    54.3,
+    61.6,
+    69.0,
+    67.7,
+    74.1,
+    79.7,
+    69.7,
+    70.6,
+    61.4,
+    70.4,
+    55.9,
+    51.9,
+    73.6,
+    44.9,
+    29.6,
+    62.2,
+    52.8,
+    28.0
+  ],
   "narrative": {
-    "text": "The US dollar rose 1.4% while gold, oil, and credit prices fell. Communications and Industrials were the strongest sectors, while Materials and Technology lagged.",
-    "short": "Dollar surged as risk assets sold off and only three sectors gained.",
+    "text": "The US dollar strengthened and long-term government bond yields climbed. Only three of ten sectors advanced, with technology and materials falling.",
+    "short": "Dollar strength and rising government bond yields drove a broad risk-off market.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-11T21:08:38.109427+00:00"
+  "generated_at": "2026-11-11T21:39:53.174712+00:00"
 }
