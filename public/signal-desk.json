@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly more cautious with the last two weeks.",
-  "as_of": "2026-11-10T21:42:21.493238+00:00",
+  "as_of": "2026-11-11T00:52:25.717624+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -9,9 +9,9 @@
       "name": "Crude oil",
       "text": "Crude sliding",
       "direction": "down",
-      "delta": "-10.1%",
-      "change_percent": -10.05,
-      "z_score": -1.4,
+      "delta": "-10.2%",
+      "change_percent": -10.19,
+      "z_score": -1.41,
       "risk_tone": "neutral",
       "notable": true
     },
@@ -20,9 +20,9 @@
       "name": "Gold",
       "text": "Gold bid \u2014 a defensive tilt",
       "direction": "up",
-      "delta": "+2.4%",
-      "change_percent": 2.41,
-      "z_score": 0.63,
+      "delta": "+2.6%",
+      "change_percent": 2.61,
+      "z_score": 0.69,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -53,9 +53,9 @@
       "name": "US dollar index",
       "text": "Dollar strengthening",
       "direction": "up",
-      "delta": "+0.4%",
-      "change_percent": 0.36,
-      "z_score": 0.41,
+      "delta": "+0.3%",
+      "change_percent": 0.35,
+      "z_score": 0.38,
       "risk_tone": "risk_off",
       "notable": false
     },
@@ -134,14 +134,14 @@
     "tone": "neutral",
     "contributions": [
       {
+        "name": "Gold",
+        "effect": -4.1,
+        "tone": "risk_off"
+      },
+      {
         "name": "Sector breadth",
         "effect": 4.0,
         "tone": "risk_on"
-      },
-      {
-        "name": "Gold",
-        "effect": -3.8,
-        "tone": "risk_off"
       },
       {
         "name": "Volatility index",
@@ -150,7 +150,7 @@
       },
       {
         "name": "US dollar index",
-        "effect": -2.5,
+        "effect": -2.3,
         "tone": "risk_off"
       },
       {
@@ -190,13 +190,13 @@
     44.9,
     29.7,
     62.2,
-    52.5
+    52.3
   ],
   "narrative": {
-    "text": "Crude oil dropped 10.1% over five days, making Energy the weakest sector. Communications was the strongest, rising 6.2%, while the dollar and gold both gained value.",
-    "short": "Crude oil prices fell sharply while the dollar strengthened and gold rose.",
+    "text": "Crude oil dropped 10.2% and energy stocks lagged. Communications and consumer discretionary sectors gained the most.",
+    "short": "Oil prices fell sharply while communications stocks led the market higher.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-10T21:42:22.042214+00:00"
+  "generated_at": "2026-11-11T00:52:26.172973+00:00"
 }
