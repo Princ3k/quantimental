@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-11-11T21:17:22.111145+00:00",
+  "generated_at": "2026-11-11T21:20:20.260963+00:00",
   "as_of": "2026-11-11",
-  "scanned": 519,
+  "scanned": 518,
   "universe": 522,
   "unusual_count": 0,
   "rising": 0,
@@ -76,13 +76,13 @@
     },
     {
       "ticker": "DELL",
-      "price": 373.72,
-      "change_percent": 11.77,
+      "price": 373.68,
+      "change_percent": 11.75,
       "typical_percent": 9.94,
       "multiple": 1.2,
       "direction": "up",
       "period_percent": -24.32,
-      "volume": 9080811,
+      "volume": 8946277,
       "company": "Dell Technologies",
       "sector": "Information Technology",
       "context": "The market was flat today and Information Technology rose 3.0%, so most of this was specific to Dell Technologies."
