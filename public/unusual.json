@@ -1,12 +1,12 @@
 {
   "available": true,
-  "generated_at": "2026-11-14T01:25:55.233358+00:00",
+  "generated_at": "2026-11-14T01:44:04.852224+00:00",
   "as_of": "2026-11-13",
   "scanned": 519,
   "universe": 522,
-  "unusual_count": 4,
+  "unusual_count": 2,
   "rising": 0,
-  "falling": 4,
+  "falling": 2,
   "movers": [
     {
       "ticker": "CTVA",
@@ -20,35 +20,7 @@
       "company": "Corteva",
       "sector": "Materials",
       "headline": "Corteva is down 24.3% today, 6.2x its typical 3.9% daily move.",
-      "context": "The market fell 0.8% today and Materials fell 1.3%, so most of this was specific to Corteva."
-    },
-    {
-      "ticker": "GPN",
-      "price": 88.19,
-      "change_percent": -12.01,
-      "typical_percent": 4.27,
-      "multiple": 2.8,
-      "direction": "down",
-      "period_percent": 2.88,
-      "volume": 9858900,
-      "company": "Global Payments",
-      "sector": "Financials",
-      "headline": "Global Payments is down 12.0% today, 2.8x its typical 4.3% daily move.",
-      "context": "The market fell 0.8% today and Financials fell 0.8%, so most of this was specific to Global Payments."
-    },
-    {
-      "ticker": "KDP",
-      "price": 35.42,
-      "change_percent": -7.4,
-      "typical_percent": 3.06,
-      "multiple": 2.4,
-      "direction": "down",
-      "period_percent": 0.34,
-      "volume": 37143600,
-      "company": "Keurig Dr Pepper",
-      "sector": "Consumer Staples",
-      "headline": "Keurig Dr Pepper is down 7.4% today, 2.4x its typical 3.1% daily move.",
-      "context": "The market fell 0.8% today and Consumer Staples was flat, so most of this was specific to Keurig Dr Pepper."
+      "context": "The market was flat today and Materials was flat, so most of this was specific to Corteva."
     },
     {
       "ticker": "BABA",
@@ -62,7 +34,7 @@
       "company": "Alibaba Group",
       "sector": "Consumer Discretionary",
       "headline": "Alibaba Group is down 7.0% today, 2.2x its typical 3.1% daily move.",
-      "context": "The market fell 0.8% today and Consumer Discretionary fell 1.5%, so most of this was specific to Alibaba Group."
+      "context": "The market was flat today and Consumer Discretionary was flat, so most of this was specific to Alibaba Group."
     }
   ],
   "biggest": [
@@ -78,7 +50,7 @@
       "company": "Corteva",
       "sector": "Materials",
       "headline": "Corteva is down 24.3% today, 6.2x its typical 3.9% daily move.",
-      "context": "The market fell 0.8% today and Materials fell 1.3%, so most of this was specific to Corteva."
+      "context": "The market was flat today and Materials was flat, so most of this was specific to Corteva."
     },
     {
       "ticker": "NBIS",
@@ -91,48 +63,20 @@
       "volume": 69538400,
       "company": "Nebius Group",
       "sector": "Information Technology",
-      "context": "The market fell 0.8% today and Information Technology fell 0.7%, so most of this was specific to Nebius Group."
+      "context": "The market was flat today and Information Technology fell 1.1%, so most of this was specific to Nebius Group."
     },
     {
-      "ticker": "GPN",
-      "price": 88.19,
-      "change_percent": -12.01,
-      "typical_percent": 4.27,
-      "multiple": 2.8,
+      "ticker": "AMD",
+      "price": 534.06,
+      "change_percent": -8.75,
+      "typical_percent": 7.62,
+      "multiple": 1.1,
       "direction": "down",
-      "period_percent": 2.88,
-      "volume": 9858900,
-      "company": "Global Payments",
-      "sector": "Financials",
-      "headline": "Global Payments is down 12.0% today, 2.8x its typical 4.3% daily move.",
-      "context": "The market fell 0.8% today and Financials fell 0.8%, so most of this was specific to Global Payments."
-    },
-    {
-      "ticker": "SMCI",
-      "price": 26.99,
-      "change_percent": -11.3,
-      "typical_percent": 7.92,
-      "multiple": 1.4,
-      "direction": "down",
-      "period_percent": -21.61,
-      "volume": 115264000,
-      "company": "Supermicro",
+      "period_percent": 5.8,
+      "volume": 49163200,
+      "company": "Advanced Micro Devices",
       "sector": "Information Technology",
-      "context": "The market fell 0.8% today and Information Technology fell 0.7%, so most of this was specific to Supermicro."
-    },
-    {
-      "ticker": "KDP",
-      "price": 35.42,
-      "change_percent": -7.4,
-      "typical_percent": 3.06,
-      "multiple": 2.4,
-      "direction": "down",
-      "period_percent": 0.34,
-      "volume": 37143600,
-      "company": "Keurig Dr Pepper",
-      "sector": "Consumer Staples",
-      "headline": "Keurig Dr Pepper is down 7.4% today, 2.4x its typical 3.1% daily move.",
-      "context": "The market fell 0.8% today and Consumer Staples was flat, so most of this was specific to Keurig Dr Pepper."
+      "context": "The market was flat today and Information Technology fell 1.1%, so most of this was specific to Advanced Micro Devices."
     },
     {
       "ticker": "BABA",
@@ -146,7 +90,7 @@
       "company": "Alibaba Group",
       "sector": "Consumer Discretionary",
       "headline": "Alibaba Group is down 7.0% today, 2.2x its typical 3.1% daily move.",
-      "context": "The market fell 0.8% today and Consumer Discretionary fell 1.5%, so most of this was specific to Alibaba Group."
+      "context": "The market was flat today and Consumer Discretionary was flat, so most of this was specific to Alibaba Group."
     },
     {
       "ticker": "MRNA",
@@ -159,20 +103,46 @@
       "volume": 7021300,
       "company": "Moderna",
       "sector": "Health Care",
-      "context": "The market fell 0.8% today and Health Care fell 0.8%, so most of this was specific to Moderna."
+      "context": "The market was flat today and Health Care was flat, so most of this was specific to Moderna."
     },
     {
-      "ticker": "FIS",
-      "price": 28.36,
-      "change_percent": -6.12,
-      "typical_percent": 6.6,
-      "multiple": 0.9,
+      "ticker": "CSCO",
+      "price": 95.64,
+      "change_percent": -6.24,
+      "typical_percent": 3.93,
+      "multiple": 1.6,
       "direction": "down",
-      "period_percent": -23.93,
-      "volume": 10122100,
-      "company": "Fidelity National Information Services",
-      "sector": "Financials",
-      "context": "The market fell 0.8% today and Financials fell 0.8%, so most of this was specific to Fidelity National Information Services."
+      "period_percent": -8.49,
+      "volume": 28592200,
+      "company": "Cisco",
+      "sector": "Information Technology",
+      "context": "The market was flat today and Information Technology fell 1.1%, so most of this was specific to Cisco."
+    },
+    {
+      "ticker": "COHR",
+      "price": 218.15,
+      "change_percent": -6.0,
+      "typical_percent": 10.1,
+      "multiple": 0.6,
+      "direction": "down",
+      "period_percent": 3.72,
+      "volume": 9705800,
+      "company": "Coherent Corp.",
+      "sector": "Information Technology",
+      "context": "The market was flat today and Information Technology fell 1.1%, so this move tracked the market rather than anything specific to Coherent Corp."
+    },
+    {
+      "ticker": "RDDT",
+      "price": 99.55,
+      "change_percent": -5.78,
+      "typical_percent": 8.89,
+      "multiple": 0.7,
+      "direction": "down",
+      "period_percent": -23.19,
+      "volume": 5824400,
+      "company": "Reddit",
+      "sector": "Communication Services",
+      "context": "The market was flat today and Communication Services fell 0.7%, so most of this was specific to Reddit."
     }
   ],
   "threshold": {
