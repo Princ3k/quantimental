@@ -338,3 +338,82 @@ class TestTheSessionCountDiscountsEmptyDays:
         archive_mod.record({"AAPL": r(8.0)}, on="2026-10-07", path=path)
 
         assert pu._archive_days() == 1
+
+
+class TestHeadlinesReachTheSnapshot:
+    """
+    The headline layer, and the one property that matters about it.
+
+    Coverage is measured once, after the close; the other seven scans of the
+    day carry it forward. Headlines have to survive the same way or they
+    appear at 21:43 and are gone by 14:13 the next afternoon.
+
+    And they are attached regardless of `vx`, because the stocks the multiple
+    is blind to are the ones a reader most needs them for. NVDA's baseline is
+    the 240/day ceiling, so its maximum possible multiple is 1.00x: on the day
+    its CEO resigned it published `vx 0.7`.
+    """
+
+    @staticmethod
+    def _rows():
+        return [
+            {"t": "NVDA", "v": 169.48, "vx": 0.7},
+            {"t": "AMD", "v": 211.07, "vx": 3.5},
+            {"t": "KO", "v": 12.0, "vx": 1.0},
+        ]
+
+    def test_a_scan_that_did_not_sweep_still_publishes_headlines(
+        self, tmp_path, monkeypatch
+    ):
+        store = tmp_path / "headlines.json"
+        store.write_text(json.dumps({
+            "as_of": "2026-11-13",
+            "headlines": {
+                "NVDA": {
+                    "title": "Jensen Huang resigns as Nvidia CEO",
+                    "publisher": "Reuters",
+                    "at": "2026-11-12T21:04:00+00:00",
+                },
+            },
+        }))
+        monkeypatch.setattr(pu.headline_store, "STORE_PATH", store)
+
+        rows = self._rows()
+        pu._attach_headlines(rows)
+
+        nvda = next(r for r in rows if r["t"] == "NVDA")
+        assert nvda["nw"]["h"] == "Jensen Huang resigns as Nvidia CEO"
+        assert nvda["nw"]["src"] == "Reuters"
+
+    def test_an_unflaggable_stock_is_not_skipped(self, tmp_path, monkeypatch):
+        # The whole point. NVDA cannot reach 3.0x and reads below its own
+        # normal here; gating headlines on the flag would withhold them from
+        # exactly the case the flag cannot see.
+        store = tmp_path / "headlines.json"
+        store.write_text(json.dumps({
+            "as_of": "2026-11-13",
+            "headlines": {
+                "NVDA": {"title": "CEO resigns", "publisher": "Reuters", "at": "x"},
+                "AMD": {"title": "Chip demand rises", "publisher": "CNBC", "at": "y"},
+            },
+        }))
+        monkeypatch.setattr(pu.headline_store, "STORE_PATH", store)
+
+        rows = self._rows()
+        pu._attach_headlines(rows)
+
+        assert next(r for r in rows if r["t"] == "NVDA").get("nw") is not None
+        assert next(r for r in rows if r["t"] == "AMD").get("nw") is not None
+        # Nothing stored for KO, so nothing claimed about KO.
+        assert "nw" not in next(r for r in rows if r["t"] == "KO")
+
+    def test_a_missing_store_leaves_the_snapshot_otherwise_intact(
+        self, tmp_path, monkeypatch
+    ):
+        monkeypatch.setattr(pu.headline_store, "STORE_PATH", tmp_path / "gone.json")
+
+        rows = self._rows()
+        pu._attach_headlines(rows)
+
+        assert all("nw" not in row for row in rows)
+        assert [row["v"] for row in rows] == [169.48, 211.07, 12.0]

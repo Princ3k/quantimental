@@ -155,6 +155,53 @@ def _fetch_news(ticker: str) -> list[dict[str, Any]]:
     return search.news or []
 
 
+def _article_entries(articles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """
+    Dated articles, out of whichever shape Yahoo returned: time, title, source.
+
+    The time is what velocity is computed from and the only field that can
+    disqualify an article — one carrying no usable timestamp is dropped rather
+    than guessed at, since a fabricated time would put an invented number into
+    a record whose only value is that it is real.
+
+    The title and source are along for the ride. They cost nothing: the same
+    response already carries them, and the alternative to reading them here is
+    fetching the identical articles a second time to find out what the coverage
+    was actually about. A missing title is not fatal the way a missing time is
+    — it means this article cannot be quoted, not that it cannot be counted.
+    """
+    entries: list[dict[str, Any]] = []
+    for article in articles:
+        content = article.get("content", article)
+
+        when: Optional[datetime] = None
+        epoch = content.get("providerPublishTime", article.get("providerPublishTime"))
+        if epoch is not None:
+            try:
+                when = datetime.fromtimestamp(int(epoch), tz=timezone.utc)
+            except (TypeError, ValueError, OSError, OverflowError):
+                when = None
+        if when is None:
+            when = _parse_time(content.get("pubDate") or content.get("displayTime") or "")
+        if when is None:
+            continue
+
+        provider = content.get("provider")
+        publisher = ""
+        if isinstance(provider, dict):
+            publisher = provider.get("displayName") or ""
+        publisher = publisher or article.get("publisher") or ""
+
+        entries.append(
+            {
+                "at": when,
+                "title": (content.get("title") or article.get("title") or "").strip(),
+                "publisher": str(publisher).strip(),
+            }
+        )
+    return entries
+
+
 def _article_times(articles: list[dict[str, Any]]) -> list[datetime]:
     """
     Publication times, out of whichever shape Yahoo returned.
@@ -166,20 +213,7 @@ def _article_times(articles: list[dict[str, Any]]) -> list[datetime]:
     a fabricated timestamp would put an invented number into a record whose
     only value is that it is real.
     """
-    times: list[datetime] = []
-    for article in articles:
-        content = article.get("content", article)
-        epoch = content.get("providerPublishTime", article.get("providerPublishTime"))
-        if epoch is not None:
-            try:
-                times.append(datetime.fromtimestamp(int(epoch), tz=timezone.utc))
-                continue
-            except (TypeError, ValueError, OSError, OverflowError):
-                pass
-        parsed = _parse_time(content.get("pubDate") or content.get("displayTime") or "")
-        if parsed:
-            times.append(parsed)
-    return times
+    return [entry["at"] for entry in _article_entries(articles)]
 
 
 def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[str, Any]]:
@@ -206,17 +240,19 @@ def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[st
     if articles is None:
         return None
 
-    times = _article_times(articles)
-    if len(times) < 2:
+    entries = _article_entries(articles)
+    if len(entries) < 2:
         return None
 
-    times.sort(reverse=True)
+    entries.sort(key=lambda entry: entry["at"], reverse=True)
+    times = [entry["at"] for entry in entries]
     # The newest N, which is what the per-ticker endpoint used to hand back by
     # itself. Velocity is a count over the span that count covers, so letting
     # the number of articles vary with whichever endpoint supplied them would
     # change the scale of every reading and quietly break comparability with
     # everything already in the archive.
     times = times[:ARTICLES_RETURNED]
+    entries = entries[:ARTICLES_RETURNED]
     now = datetime.now(timezone.utc)
 
     span_hours = (times[0] - times[-1]).total_seconds() / 3600.0
@@ -229,6 +265,28 @@ def measure_one(ticker: str, pacer: Optional[_Pacer] = None) -> Optional[dict[st
         # A plain count anyone can sanity-check against the stock's news tab.
         "last_24h": sum(1 for t in times if (now - t).total_seconds() < 86_400),
         "newest": times[0].isoformat(),
+        # What the newest coverage actually says. Velocity answers "how much",
+        # and for the most-covered names it answers it badly: a stock already
+        # at the ten-article cap every day cannot register a spike, so the one
+        # story that matters most is the one the multiple is blindest to. A
+        # headline is not a fix for that — it is the part of the answer the
+        # count was never going to supply.
+        #
+        # Quoted, attributed, and never summarised here. Compressing a headline
+        # is how a scandal becomes "news about the CEO", and this file is read
+        # by people deciding whether to care.
+        "headline": next(
+            (
+                {
+                    "title": entry["title"],
+                    "publisher": entry["publisher"],
+                    "at": entry["at"].isoformat(),
+                }
+                for entry in entries
+                if entry["title"]
+            ),
+            None,
+        ),
     }
 
 

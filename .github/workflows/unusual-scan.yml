@@ -156,6 +156,7 @@ jobs:
         if: ${{ !(github.event.schedule == '43 21 * * 1-5' || inputs.sweep_attention) }}
         env:
           ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
+          HEADLINE_STORE_PATH: ${{ github.workspace }}/data-store/headlines-latest.json
         run: python scripts/publish_unusual.py ../public/unusual.json --filings
 
       - name: Scan, and measure attention
@@ -164,6 +165,7 @@ jobs:
           && (steps.data_store.outcome == 'success' || steps.data_store_init.outcome == 'success')
         env:
           ATTENTION_ARCHIVE_PATH: ${{ github.workspace }}/data-store/attention-history.json
+          HEADLINE_STORE_PATH: ${{ github.workspace }}/data-store/headlines-latest.json
         run: python scripts/publish_unusual.py ../public/unusual.json --attention --filings
 
       # The data store was unreachable — usually an expired token. Scan anyway;

@@ -36,7 +36,7 @@ from pathlib import Path
 # Make `app` importable when run from the repository's backend directory.
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from app.services.scan import attention_archive  # noqa: E402
+from app.services.scan import attention_archive, headline_store  # noqa: E402
 from app.services.scan.attention_service import (  # noqa: E402
     SWEEP_COMPLETE_FRACTION,
     measure_attention,
@@ -107,6 +107,21 @@ def main() -> int:
                 if reading.get("multiple") is not None:
                     row["vx"] = reading["multiple"]
 
+        # Headlines are stored before they are attached, so the seven scans
+        # that follow this one have something to carry forward. Storing is
+        # allowed to fail without taking the publish down with it.
+        try:
+            headline_store.save(
+                {
+                    ticker: reading["headline"]
+                    for ticker, reading in attention.items()
+                    if reading.get("headline")
+                },
+                on=result["as_of"],
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.error("Could not write the headline store: %s", exc)
+
         # A sweep that measured nothing must not erase what the last one found.
         # measure_attention omits tickers it could not reach rather than zeroing
         # them, so a row with no `v` here means "we failed to look", never "no
@@ -137,6 +152,8 @@ def main() -> int:
     # typical day against 5.1% of days overall, which is why this is attached
     # to every row rather than computed as a signal of its own: the scan
     # already knows which moves were unusual.
+    _attach_headlines(snapshot_rows)
+
     if with_filings:
         _attach_filings(snapshot_rows, result["as_of"])
 
@@ -183,6 +200,11 @@ def main() -> int:
             "v": "news articles per day",
             "vx": "multiple of this stock's normal coverage (absent until "
                   "there is enough history to say)",
+            "nw": "the newest headline about this company at the last "
+                  "sweep: {h: headline, src: publisher, at: when it was "
+                  "published}. Quoted, not summarised, and not evidence of "
+                  "anything — it is what was being written, not why the "
+                  "stock moved.",
             "f": "the 8-K this company filed for this session, if any: "
                  "{i: item codes, p: what it reported, a: when EDGAR accepted "
                  "it}. A filing on the same day is adjacency, not cause.",
@@ -279,6 +301,44 @@ def _attach_filings(rows: list[dict], as_of: str | None) -> None:
             attached += 1
 
     logger.info("Attached %d filings to the snapshot", attached)
+
+
+def _attach_headlines(rows: list[dict]) -> None:
+    """
+    Give each row the newest headline about it, from the last sweep.
+
+    This runs on every scan, not just the sweeping one. The store is written
+    by the post-close run and read by the seven that follow, which is what
+    stops the headlines appearing at 21:43 and vanishing at 14:13 the next
+    day.
+
+    Deliberately unconditional on `vx`. The stocks whose coverage multiple can
+    never rise — the ten-article cap puts NVDA's ceiling at 1.00x its own
+    baseline, and thirteen other names below 3.0x — are exactly the ones a
+    reader most wants a headline for. Gating this on the flag would withhold
+    it from precisely the cases the flag is blind to.
+    """
+    store = headline_store.load()
+    entries = store.get("headlines", {})
+    if not entries:
+        return
+
+    attached = 0
+    for row in rows:
+        entry = entries.get(row["t"])
+        if not entry or not entry.get("title"):
+            continue
+        row["nw"] = {
+            "h": entry["title"],
+            "src": entry.get("publisher") or None,
+            "at": entry.get("at") or None,
+        }
+        attached += 1
+
+    logger.info(
+        "Attached headlines to %d of %d rows (stored for %s).",
+        attached, len(rows), store.get("as_of"),
+    )
 
 
 def _carry_forward_attention(rows: list[dict], as_of: str | None) -> None:
