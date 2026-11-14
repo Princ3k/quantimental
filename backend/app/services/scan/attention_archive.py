@@ -107,6 +107,26 @@ UNUSUAL_ATTENTION_MULTIPLE = 3.0
 # constant moves again the next time the source does.
 ATTENTION_SOURCE_CHANGED = "2026-10-07"
 
+# The velocity a clamped reading reports, and the day the clamp was lowered.
+#
+# Until 2026-11-14 a span shorter than an hour was treated as an hour, so ten
+# articles arriving faster than that reported exactly 10 / (1/24) = 240.0 a
+# day and could not report more. Those readings are not measurements of
+# coverage; they are the measure hitting its own ceiling, and a baseline built
+# from them says a stock's normal *is* the maximum — which is how NVDA, whose
+# ten newest articles beat the floor on 16 of 28 sessions, ended up with a
+# largest-possible multiple of 1.00x.
+#
+# 62 of 14,282 readings are affected, across 20 tickers. Dropping those and
+# keeping the rest is deliberate: a universal reset would throw away 99.6%
+# of a record that cannot be bought or backfilled, to fix 0.43% of it.
+#
+# An exact 240.0 is the signature. The figure is stored rounded to two
+# decimals, so a genuine measurement landing on it to the cent — rather than
+# being floored to it — is a coincidence worth losing one reading over.
+CLAMPED_VELOCITY = 240.0
+SPAN_FLOOR_CHANGED = "2026-11-14"
+
 
 def _empty() -> dict[str, Any]:
     return {"dates": [], "velocity": {}}
@@ -348,6 +368,17 @@ def record(
     return archive
 
 
+def _was_clamped(day: str, value: float) -> bool:
+    """
+    Whether this reading is the old one-hour floor rather than a measurement.
+
+    Scoped to readings taken before the floor moved. After that date 240.0 is
+    an ordinary value with nothing special about it, and treating it as
+    suspect forever would quietly put a hole in every future baseline.
+    """
+    return day < SPAN_FLOOR_CHANGED and abs(value - CLAMPED_VELOCITY) < 0.005
+
+
 def baseline(archive: dict[str, Any], ticker: str, exclude_last: bool = True) -> Optional[float]:
     """
     This stock's normal coverage, as the median of its history.
@@ -378,7 +409,9 @@ def baseline(archive: dict[str, Any], ticker: str, exclude_last: bool = True) ->
     observed = [
         value
         for day, value in dated[-BASELINE_WINDOW_DAYS:]
-        if value is not None and day >= ATTENTION_SOURCE_CHANGED
+        if value is not None
+        and day >= ATTENTION_SOURCE_CHANGED
+        and not _was_clamped(day, value)
     ]
 
     if len(observed) < MIN_HISTORY_FOR_BASELINE:

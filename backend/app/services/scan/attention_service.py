@@ -72,7 +72,24 @@ SWEEP_COMPLETE_FRACTION = 0.8
 # A span shorter than this is treated as this long. Ten articles inside a few
 # minutes is a wire-service burst republishing one story, and dividing by a
 # near-zero window turns that into an implausible velocity.
-MIN_SPAN_HOURS = 1.0
+#
+# It was 1.0 until 2026-11-14, and at 1.0 it was not a guard against bursts —
+# it was a ceiling on the whole measure. Ten articles over a one-hour floor is
+# 240 a day and nothing can exceed it, so a stock whose ten newest routinely
+# arrive inside an hour reports 240 every day regardless of what happened.
+#
+# NVDA did exactly that on 16 of 28 sessions, which made its *baseline* 240 —
+# the ceiling and the normal became the same number, and its largest possible
+# multiple became 1.00x. On 2026-11-12 its CEO resigned and it read 216: an
+# ordinary Thursday. The measure was not insensitive to the news, it was
+# incapable of registering it.
+#
+# 0.25 moves the ceiling to 960 and leaves the burst guard doing its real job:
+# ten articles inside fifteen minutes is still treated as fifteen minutes.
+# Only 62 of 14,282 readings ever touched the old floor, so lowering it leaves
+# 99.6% of the archive untouched — see CLAMPED_VELOCITY in attention_archive,
+# which drops the ones it did corrupt.
+MIN_SPAN_HOURS = 0.25
 
 # Beyond this, coverage is so sparse that the exact figure is noise. Caps the
 # denominator so a stock with two articles a year does not dominate the low end.
