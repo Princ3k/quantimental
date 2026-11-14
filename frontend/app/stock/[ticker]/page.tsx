@@ -160,6 +160,27 @@ function moveTone(percent: number): string {
   return 'text-ink-3'
 }
 
+/**
+ * How old the headline is, in words.
+ *
+ * Coverage is swept once after the close and carried forward by the seven
+ * scans that follow, so a headline shown at lunchtime was collected the
+ * previous evening. Saying so is the difference between a reader trusting the
+ * line and thinking we are calling stale news current.
+ */
+function headlineAge(publishedAt: string | null | undefined): string {
+  if (!publishedAt) return ''
+  const at = new Date(publishedAt)
+  if (Number.isNaN(at.getTime())) return ''
+
+  const hours = (Date.now() - at.getTime()) / 3_600_000
+  if (hours < 0) return ''
+  if (hours < 1) return ', within the hour'
+  if (hours < 24) return `, ${Math.round(hours)}h ago`
+  const days = Math.round(hours / 24)
+  return days === 1 ? ', yesterday' : `, ${days} days ago`
+}
+
 function filingTiming(acceptedAt: string): string {
   const accepted = new Date(acceptedAt)
   if (Number.isNaN(accepted.getTime())) return ''
@@ -348,6 +369,19 @@ export default async function StockPage({
                 {stock.vx !== undefined &&
                   ` — ${stock.vx.toFixed(1)}× its own normal coverage`}
                 .
+              </p>
+            )}
+
+            {stock.nw?.h && (
+              <p className="text-ink-3 mt-1.5 text-[0.875rem] leading-relaxed">
+                {/* Its own sentence, like the filing, and for the same reason:
+                    joined to the move it would read as the cause. The headline
+                    is what was being written, not why the price did anything.
+                    Quoted verbatim — a paraphrase here would be us saying it. */}
+                The latest story about it was{' '}
+                <span className="text-ink-2">&ldquo;{stock.nw.h}&rdquo;</span>
+                {stock.nw.src && ` — ${stock.nw.src}`}
+                {headlineAge(stock.nw.at)}.
               </p>
             )}
           </>

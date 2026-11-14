@@ -67,6 +67,26 @@ export interface SnapshotStock {
    */
   vx?: number
   /**
+   * The newest headline about this company at the last sweep.
+   *
+   * Here because `vx` cannot see the stories that matter most. Velocity
+   * saturates at 240 articles a day, and the most-covered names sit on that
+   * ceiling every session — NVDA's baseline *is* 240, so its largest possible
+   * multiple is 1.00x. On the day its CEO resigned it published `vx 0.7`.
+   *
+   * Quoted, never summarised, and never presented as the reason for a move.
+   * It is what was being written, shown beside what the price did, with the
+   * reader left to judge — the same separation `f` keeps.
+   */
+  nw?: {
+    /** The headline, verbatim. Trimmed with an ellipsis past 180 characters. */
+    h: string
+    /** The publisher. */
+    src?: string | null
+    /** When it was published (UTC, ISO 8601). */
+    at?: string | null
+  }
+  /**
    * The 8-K this company filed for this session, if it filed one.
    *
    * Present on roughly twenty rows a day. It is a fact about a document, not
