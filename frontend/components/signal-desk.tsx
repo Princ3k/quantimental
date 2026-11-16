@@ -70,11 +70,26 @@ export function SignalDesk({ note }: { note?: string | null }) {
 
 
   const { signals, composite, sectors, history, narrative, context } = data
+  const sessions = data.lookback_days
 
   return (
     <section aria-label="Market overview">
       {/* The sentence leads. Everything below is the evidence for it. */}
       <p className="max-w-2xl text-lg leading-snug text-balance sm:text-xl">{narrative?.text}</p>
+
+      {/* The window, stated, because the sentence above does not state it and
+          cannot be relied on to: it is written by a model from figures that
+          span `lookback_days`, while every other number on this site is a
+          single session. Unlabelled, "all ten sectors advancing" sat beside a
+          snapshot reading "Information Technology fell 0.7% today" and looked
+          like a contradiction. Both were true about different weeks. Derived
+          from the payload rather than written into the prose, so it cannot
+          drift away from the data it describes. */}
+      {narrative?.text && sessions > 0 && (
+        <p className="text-ink-3 mt-2 max-w-2xl text-sm">
+          Measured across the past {sessions} trading sessions, not today.
+        </p>
+      )}
 
       {context && <p className="text-ink-3 mt-2.5 max-w-2xl text-sm">{context}</p>}
 
@@ -106,7 +121,7 @@ export function SignalDesk({ note }: { note?: string | null }) {
           )}
           {sectors.available && sectors.breadth !== null && (
             <p className="text-ink-3 tnum mt-3 text-[0.8125rem] leading-relaxed">
-              {sectors.breadth}% of sectors rising
+              {sectors.breadth}% of sectors rising over {sessions} sessions
               {sectors.leaders[0] && <>, {sectors.leaders[0].name} leading</>}
             </p>
           )}
