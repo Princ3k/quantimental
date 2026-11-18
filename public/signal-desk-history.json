@@ -298,5 +298,11 @@
     "score": 14,
     "label": "Risk-off",
     "tone": "risk_off"
+  },
+  {
+    "date": "2026-11-18",
+    "score": 5,
+    "label": "Risk-off",
+    "tone": "risk_off"
   }
 ]
