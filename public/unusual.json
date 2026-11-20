@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-11-19T22:09:47.277291+00:00",
+  "generated_at": "2026-11-20T02:39:16.599325+00:00",
   "as_of": "2026-11-19",
   "scanned": 518,
   "universe": 522,
@@ -16,11 +16,11 @@
       "multiple": 3.8,
       "direction": "down",
       "period_percent": -14.67,
-      "volume": 4448442,
+      "volume": 4463100,
       "company": "Williams-Sonoma, Inc.",
       "sector": "Consumer Discretionary",
       "headline": "Williams-Sonoma, Inc. is down 15.2% today, 3.8x its typical 4.0% daily move.",
-      "context": "The market fell 1.7% today and Consumer Discretionary fell 2.8%, so most of this was specific to Williams-Sonoma, Inc."
+      "context": "The market fell 1.5% today and Consumer Discretionary fell 1.9%, so most of this was specific to Williams-Sonoma, Inc."
     }
   ],
   "biggest": [
@@ -32,24 +32,50 @@
       "multiple": 3.8,
       "direction": "down",
       "period_percent": -14.67,
-      "volume": 4448442,
+      "volume": 4463100,
       "company": "Williams-Sonoma, Inc.",
       "sector": "Consumer Discretionary",
       "headline": "Williams-Sonoma, Inc. is down 15.2% today, 3.8x its typical 4.0% daily move.",
-      "context": "The market fell 1.7% today and Consumer Discretionary fell 2.8%, so most of this was specific to Williams-Sonoma, Inc."
+      "context": "The market fell 1.5% today and Consumer Discretionary fell 1.9%, so most of this was specific to Williams-Sonoma, Inc."
     },
     {
-      "ticker": "NBIS",
-      "price": 96.92,
-      "change_percent": -9.39,
-      "typical_percent": 16.55,
+      "ticker": "PANW",
+      "price": 339.92,
+      "change_percent": 9.9,
+      "typical_percent": 6.39,
+      "multiple": 1.5,
+      "direction": "up",
+      "period_percent": -2.33,
+      "volume": 17234500,
+      "company": "Palo Alto Networks",
+      "sector": "Information Technology",
+      "context": "The market fell 1.5% today and Information Technology fell 1.3% \u2014 so Palo Alto Networks moved against its sector."
+    },
+    {
+      "ticker": "AAOI",
+      "price": 40.79,
+      "change_percent": -9.8,
+      "typical_percent": 16.39,
       "multiple": 0.6,
       "direction": "down",
-      "period_percent": -19.48,
-      "volume": 37551610,
-      "company": "Nebius Group",
+      "period_percent": -31.18,
+      "volume": 20505900,
+      "company": "Applied Optoelectronics",
       "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6%, so this move tracked the market rather than anything specific to Nebius Group."
+      "context": "The market fell 1.5% today and Information Technology fell 1.3%, so most of this was specific to Applied Optoelectronics."
+    },
+    {
+      "ticker": "CRWD",
+      "price": 237.03,
+      "change_percent": 7.95,
+      "typical_percent": 6.8,
+      "multiple": 1.2,
+      "direction": "up",
+      "period_percent": -1.65,
+      "volume": 12055800,
+      "company": "CrowdStrike",
+      "sector": "Information Technology",
+      "context": "The market fell 1.5% today and Information Technology fell 1.3% \u2014 so CrowdStrike moved against its sector."
     },
     {
       "ticker": "AMD",
@@ -59,62 +85,23 @@
       "multiple": 0.8,
       "direction": "down",
       "period_percent": 20.97,
-      "volume": 70838807,
+      "volume": 71098300,
       "company": "Advanced Micro Devices",
       "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6%, so most of this was specific to Advanced Micro Devices."
+      "context": "The market fell 1.5% today and Information Technology fell 1.3%, so most of this was specific to Advanced Micro Devices."
     },
     {
-      "ticker": "GLBE",
-      "price": 35.1,
-      "change_percent": -7.7,
-      "typical_percent": 5.56,
-      "multiple": 1.4,
-      "direction": "down",
-      "period_percent": -18.99,
-      "volume": 4675706,
-      "company": "Global-E Online",
-      "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6%, so most of this was specific to Global-E Online."
-    },
-    {
-      "ticker": "WIX",
-      "price": 59.25,
-      "change_percent": -6.75,
-      "typical_percent": 7.41,
+      "ticker": "RBLX",
+      "price": 47.33,
+      "change_percent": 7.57,
+      "typical_percent": 8.39,
       "multiple": 0.9,
-      "direction": "down",
-      "period_percent": -22.74,
-      "volume": 939977,
-      "company": "Wix.com",
-      "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6%, so most of this was specific to Wix.com."
-    },
-    {
-      "ticker": "GRAB",
-      "price": 2.93,
-      "change_percent": -6.69,
-      "typical_percent": 5.31,
-      "multiple": 1.3,
-      "direction": "down",
-      "period_percent": -15.8,
-      "volume": 101311233,
-      "company": "Grab Holdings",
-      "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6%, so most of this was specific to Grab Holdings."
-    },
-    {
-      "ticker": "PANW",
-      "price": 361.73,
-      "change_percent": 6.42,
-      "typical_percent": 5.94,
-      "multiple": 1.1,
       "direction": "up",
-      "period_percent": 14.96,
-      "volume": 19109488,
-      "company": "Palo Alto Networks",
-      "sector": "Information Technology",
-      "context": "The market fell 1.7% today and Information Technology fell 1.6% \u2014 so Palo Alto Networks moved against its sector."
+      "period_percent": -4.02,
+      "volume": 8807600,
+      "company": "Roblox",
+      "sector": "Communication Services",
+      "context": "The market fell 1.5% today and Communication Services fell 1.5% \u2014 so Roblox moved against its sector."
     },
     {
       "ticker": "FISV",
@@ -124,10 +111,23 @@
       "multiple": 1.5,
       "direction": "down",
       "period_percent": -9.75,
-      "volume": 9511750,
+      "volume": 9513500,
       "company": "Fiserv",
       "sector": "Financials",
-      "context": "The market fell 1.7% today and Financials fell 1.6%, so most of this was specific to Fiserv."
+      "context": "The market fell 1.5% today and Financials fell 1.4%, so most of this was specific to Fiserv."
+    },
+    {
+      "ticker": "UHS",
+      "price": 174.98,
+      "change_percent": -5.96,
+      "typical_percent": 3.95,
+      "multiple": 1.5,
+      "direction": "down",
+      "period_percent": -11.89,
+      "volume": 750300,
+      "company": "Universal Health Services",
+      "sector": "Health Care",
+      "context": "The market fell 1.5% today and Health Care fell 1.8%, so most of this was specific to Universal Health Services."
     }
   ],
   "threshold": {
