@@ -1,7 +1,7 @@
 {
   "available": true,
   "context": "Roughly calmer with the last two weeks.",
-  "as_of": "2026-11-21T02:08:07.908775+00:00",
+  "as_of": "2026-11-21T02:08:54.680850+00:00",
   "lookback_days": 5,
   "signals": [
     {
@@ -58,17 +58,6 @@
       "z_score": -0.83,
       "risk_tone": "neutral",
       "notable": true
-    },
-    {
-      "category": "CREDIT",
-      "name": "Investment-grade credit",
-      "text": "Investment-grade credit firm",
-      "direction": "up",
-      "delta": "+0.3%",
-      "change_percent": 0.26,
-      "z_score": 0.45,
-      "risk_tone": "risk_on",
-      "notable": false
     },
     {
       "category": "FX",
@@ -129,7 +118,7 @@
     "total": 10
   },
   "composite": {
-    "score": 47,
+    "score": 42,
     "label": "Mixed",
     "tone": "neutral",
     "contributions": [
@@ -154,49 +143,18 @@
         "tone": "risk_off"
       },
       {
-        "name": "US dollar index",
-        "effect": -2.6,
+        "name": "High-yield credit",
+        "effect": -6.8,
         "tone": "risk_off"
       }
     ]
   },
-  "history": [
-    60.6,
-    56.8,
-    55.0,
-    68.6,
-    54.2,
-    55.2,
-    62.3,
-    69.3,
-    68.2,
-    74.1,
-    79.7,
-    70.0,
-    70.9,
-    61.8,
-    70.6,
-    61.5,
-    57.5,
-    78.5,
-    49.7,
-    36.2,
-    62.7,
-    53.4,
-    28.9,
-    45.3,
-    44.1,
-    10.8,
-    15.2,
-    16.6,
-    26.1,
-    46.5
-  ],
+  "history": [],
   "narrative": {
-    "text": "The volatility index spiked while government bond yields eased. Energy and Health Care led the decline, with no sector advancing.",
-    "short": "Volatility surged and all ten sectors fell as oil prices slid.",
+    "text": "Uncertainty spiked sharply as government bond yields eased. Energy and Health Care led losses, while Utilities and Consumer Staples fell less.",
+    "short": "Volatility surged 86% while no sectors advanced.",
     "source": "llm",
     "short_source": "llm"
   },
-  "generated_at": "2026-11-21T02:08:08.438752+00:00"
+  "generated_at": "2026-11-21T02:08:55.230326+00:00"
 }
