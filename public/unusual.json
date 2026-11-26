@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-11-26T03:48:00.915893+00:00",
+  "generated_at": "2026-11-26T22:59:39.889846+00:00",
   "as_of": "2026-11-25",
   "scanned": 519,
   "universe": 522,
@@ -16,7 +16,7 @@
       "multiple": 3.0,
       "direction": "up",
       "period_percent": 7.56,
-      "volume": 39069000,
+      "volume": 39105300,
       "company": "HP Inc.",
       "sector": "Information Technology",
       "headline": "HP Inc. is up 11.5% today, 3.0x its typical 3.8% daily move.",
@@ -46,7 +46,7 @@
       "multiple": 3.0,
       "direction": "up",
       "period_percent": 7.56,
-      "volume": 39069000,
+      "volume": 39105300,
       "company": "HP Inc.",
       "sector": "Information Technology",
       "headline": "HP Inc. is up 11.5% today, 3.0x its typical 3.8% daily move.",
@@ -126,7 +126,7 @@
       "multiple": 0.6,
       "direction": "down",
       "period_percent": -21.57,
-      "volume": 21472400,
+      "volume": 21505500,
       "company": "Lam Research",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Lam Research."
@@ -139,7 +139,7 @@
       "multiple": 0.7,
       "direction": "down",
       "period_percent": -19.08,
-      "volume": 38324600,
+      "volume": 38491500,
       "company": "Oracle Corporation",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Oracle Corporation."
