@@ -334,5 +334,11 @@
     "score": 67,
     "label": "Risk-on",
     "tone": "risk_on"
+  },
+  {
+    "date": "2026-11-26",
+    "score": 89,
+    "label": "Risk-on",
+    "tone": "risk_on"
   }
 ]
