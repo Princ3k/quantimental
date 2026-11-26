@@ -1,8 +1,8 @@
 {
   "available": true,
-  "generated_at": "2026-11-25T23:06:17.596458+00:00",
+  "generated_at": "2026-11-26T03:48:00.915893+00:00",
   "as_of": "2026-11-25",
-  "scanned": 518,
+  "scanned": 519,
   "universe": 522,
   "unusual_count": 2,
   "rising": 2,
@@ -16,7 +16,7 @@
       "multiple": 3.0,
       "direction": "up",
       "period_percent": 7.56,
-      "volume": 39060684,
+      "volume": 39069000,
       "company": "HP Inc.",
       "sector": "Information Technology",
       "headline": "HP Inc. is up 11.5% today, 3.0x its typical 3.8% daily move.",
@@ -30,27 +30,14 @@
       "multiple": 2.0,
       "direction": "up",
       "period_percent": -1.46,
-      "volume": 4465376,
+      "volume": 4465400,
       "company": "Expand Energy",
       "sector": "Energy",
       "headline": "Expand Energy is up 5.8% today, 2.0x its typical 2.8% daily move.",
-      "context": "The market rose 0.9% today and Energy rose 1.1%, so most of this was specific to Expand Energy."
+      "context": "The market rose 0.9% today and Energy rose 1.2%, so most of this was specific to Expand Energy."
     }
   ],
   "biggest": [
-    {
-      "ticker": "SNDK",
-      "price": 73.61,
-      "change_percent": -22.02,
-      "typical_percent": 13.66,
-      "multiple": 1.6,
-      "direction": "down",
-      "period_percent": -29.48,
-      "volume": 121828915,
-      "company": "Sandisk",
-      "sector": "Information Technology",
-      "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Sandisk."
-    },
     {
       "ticker": "HPQ",
       "price": 31.15,
@@ -59,7 +46,7 @@
       "multiple": 3.0,
       "direction": "up",
       "period_percent": 7.56,
-      "volume": 39060684,
+      "volume": 39069000,
       "company": "HP Inc.",
       "sector": "Information Technology",
       "headline": "HP Inc. is up 11.5% today, 3.0x its typical 3.8% daily move.",
@@ -73,7 +60,7 @@
       "multiple": 1.4,
       "direction": "up",
       "period_percent": 8.04,
-      "volume": 3685739,
+      "volume": 3686400,
       "company": "Charter Communications",
       "sector": "Communication Services",
       "context": "The market rose 0.9% today and Communication Services was flat, so most of this was specific to Charter Communications."
@@ -86,7 +73,7 @@
       "multiple": 0.9,
       "direction": "up",
       "period_percent": 8.76,
-      "volume": 2022901,
+      "volume": 2023100,
       "company": "Axon Enterprise",
       "sector": "Industrials",
       "context": "The market rose 0.9% today and Industrials rose 1.0%, so most of this was specific to Axon Enterprise."
@@ -94,12 +81,12 @@
     {
       "ticker": "CDW",
       "price": 174.97,
-      "change_percent": 6.59,
+      "change_percent": 7.03,
       "typical_percent": 4.8,
-      "multiple": 1.4,
+      "multiple": 1.5,
       "direction": "up",
-      "period_percent": 1.09,
-      "volume": 1542291,
+      "period_percent": 1.51,
+      "volume": 1542300,
       "company": "CDW Corporation",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to CDW Corporation."
@@ -112,7 +99,7 @@
       "multiple": 0.7,
       "direction": "up",
       "period_percent": -18.57,
-      "volume": 8602252,
+      "volume": 9202700,
       "company": "Analog Devices",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Analog Devices."
@@ -125,11 +112,11 @@
       "multiple": 2.0,
       "direction": "up",
       "period_percent": -1.46,
-      "volume": 4465376,
+      "volume": 4465400,
       "company": "Expand Energy",
       "sector": "Energy",
       "headline": "Expand Energy is up 5.8% today, 2.0x its typical 2.8% daily move.",
-      "context": "The market rose 0.9% today and Energy rose 1.1%, so most of this was specific to Expand Energy."
+      "context": "The market rose 0.9% today and Energy rose 1.2%, so most of this was specific to Expand Energy."
     },
     {
       "ticker": "LRCX",
@@ -139,10 +126,23 @@
       "multiple": 0.6,
       "direction": "down",
       "period_percent": -21.57,
-      "volume": 20951346,
+      "volume": 21472400,
       "company": "Lam Research",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Lam Research."
+    },
+    {
+      "ticker": "ORCL",
+      "price": 103.88,
+      "change_percent": -5.13,
+      "typical_percent": 7.75,
+      "multiple": 0.7,
+      "direction": "down",
+      "period_percent": -19.08,
+      "volume": 38324600,
+      "company": "Oracle Corporation",
+      "sector": "Information Technology",
+      "context": "The market rose 0.9% today and Information Technology was flat, so most of this was specific to Oracle Corporation."
     }
   ],
   "threshold": {
