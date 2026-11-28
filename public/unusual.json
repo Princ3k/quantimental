@@ -1,6 +1,6 @@
 {
   "available": true,
-  "generated_at": "2026-11-27T22:42:14.501113+00:00",
+  "generated_at": "2026-11-28T03:34:12.591992+00:00",
   "as_of": "2026-11-27",
   "scanned": 519,
   "universe": 522,
@@ -17,7 +17,7 @@
       "multiple": 1.0,
       "direction": "up",
       "period_percent": -3.57,
-      "volume": 7155447,
+      "volume": 7155400,
       "company": "Coherent Corp.",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so most of this was specific to Coherent Corp."
@@ -30,23 +30,10 @@
       "multiple": 0.6,
       "direction": "up",
       "period_percent": -22.61,
-      "volume": 7221465,
+      "volume": 7221500,
       "company": "Applied Optoelectronics",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Applied Optoelectronics."
-    },
-    {
-      "ticker": "SNDK",
-      "price": 85.36,
-      "change_percent": -9.57,
-      "typical_percent": 13.66,
-      "multiple": 0.7,
-      "direction": "down",
-      "period_percent": -18.22,
-      "volume": 97928204,
-      "company": "Sandisk",
-      "sector": "Information Technology",
-      "context": "The market rose 0.9% today and Information Technology rose 3.2% \u2014 so Sandisk moved against its sector."
     },
     {
       "ticker": "LITE",
@@ -56,7 +43,7 @@
       "multiple": 0.6,
       "direction": "up",
       "period_percent": -17.61,
-      "volume": 2582535,
+      "volume": 2582500,
       "company": "Lumentum",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Lumentum."
@@ -69,7 +56,7 @@
       "multiple": 0.7,
       "direction": "up",
       "period_percent": -6.51,
-      "volume": 2551816,
+      "volume": 2551800,
       "company": "Seagate Technology",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Seagate Technology."
@@ -82,7 +69,7 @@
       "multiple": 0.6,
       "direction": "up",
       "period_percent": -18.97,
-      "volume": 26904909,
+      "volume": 26904900,
       "company": "Micron Technology",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Micron Technology."
@@ -95,7 +82,7 @@
       "multiple": 1.2,
       "direction": "up",
       "period_percent": 13.63,
-      "volume": 811012,
+      "volume": 811000,
       "company": "Generac",
       "sector": "Industrials",
       "context": "The market rose 0.9% today and Industrials rose 1.1%, so most of this was specific to Generac."
@@ -108,10 +95,23 @@
       "multiple": 0.6,
       "direction": "up",
       "period_percent": -14.54,
-      "volume": 18352707,
+      "volume": 18352700,
       "company": "Marvell Technology",
       "sector": "Information Technology",
       "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Marvell Technology."
+    },
+    {
+      "ticker": "WDC",
+      "price": 292.11,
+      "change_percent": 7.22,
+      "typical_percent": 9.96,
+      "multiple": 0.7,
+      "direction": "up",
+      "period_percent": -6.14,
+      "volume": 4752800,
+      "company": "Western Digital",
+      "sector": "Information Technology",
+      "context": "The market rose 0.9% today and Information Technology rose 3.2%, so this move tracked the market rather than anything specific to Western Digital."
     }
   ],
   "threshold": {
